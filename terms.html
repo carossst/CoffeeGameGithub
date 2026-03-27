@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Terms of Service for Word Traps (Test Your French).">
+    <title>Terms of Service - Word Traps</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="wt-app">
+        <main class="wt-main">
+            <div class="wt-container">
+                <div class="wt-card">
+                    <nav style="margin-bottom:var(--gap-3)">
+                        <a href="./" class="wt-btn wt-btn--ghost">Home</a>
+                    </nav>
+
+                    <h1 class="wt-h1">Terms of Service</h1>
+
+                    <div class="wt-divider"></div>
+
+                    <p class="wt-muted">
+                        Effective date: 7 February 2026
+                    </p>
+
+                    <h2 class="wt-h2">1. Agreement</h2>
+                    <p>
+                        By using Word Traps, you agree to these Terms. If you do not agree, do not use the game.
+                    </p>
+
+                    <h2 class="wt-h2">2. The service</h2>
+                    <p>
+                        Word Traps is a game published by <strong>Test Your French</strong>.
+                        The game runs in your browser. Most gameplay data is stored locally on your device.
+                    </p>
+
+                    <h2 class="wt-h2">3. Premium access</h2>
+                    <p>
+                        Premium access may be unlocked using an activation code delivered after payment.
+                        Codes are intended for use on your own devices. Keep your code safe.
+                    </p>
+
+                    <h2 class="wt-h2">4. Payments</h2>
+                    <p>
+                        Payments are processed by <strong>Stripe</strong>. We do not store your payment details.
+                        Stripe processes your data under its own terms and privacy policy.
+                    </p>
+
+                    <h2 class="wt-h2">5. Acceptable use</h2>
+                    <p>
+                        You agree not to misuse the game, attempt to disrupt it, reverse engineer it, or use automation
+                        to access it in a way that harms the service or other players.
+                    </p>
+
+                    <h2 class="wt-h2">6. Availability and changes</h2>
+                    <p>
+                        We may update, modify, or discontinue parts of the game at any time. We aim to keep the game
+                        available, but we do not guarantee uninterrupted access.
+                    </p>
+
+                    <h2 class="wt-h2">7. Contact</h2>
+                    <p>
+                        For support or questions about these Terms:
+                        <a id="wt-terms-contact" href="#">Contact us</a>
+                    </p>
+
+
+                    <div class="wt-divider"></div>
+
+                    <p class="wt-muted">
+                        &copy; Test Your French
+
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <footer id="wt-footer-root" class="wt-footer" role="contentinfo"></footer>
+
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./email.js"></script>
+    <script src="./footer.js"></script>
+
+    <script>
+        (() => {
+            "use strict";
+
+            function openSupportEmail() {
+                if (window.WT_Email && typeof window.WT_Email.openSupportEmail === "function") {
+                    window.WT_Email.openSupportEmail();
+                }
+            }
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const a = document.getElementById("wt-terms-contact");
+                if (a) {
+                    a.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        openSupportEmail();
+                    });
+                }
+
+
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

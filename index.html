@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>French Word Game - Word Traps | Test Your French</title>
+
+  <!-- SEO -->
+  <meta name="description"
+    content="A fast French word game about false friends and tricky translations. Spot the traps, earn points, and test your French in seconds.">
+  <meta name="author" content="Test Your French">
+
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://wordtraps.com/">
+
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://wordtraps.com/icons/icon-512x512.png">
+  <meta name="twitter:url" content="https://wordtraps.com/">
+  <meta name="twitter:title" content="French Word Game - Word Traps">
+  <meta name="twitter:description"
+    content="Spot French false friends and tricky translations. 200 words. 3 chances. Play in seconds.">
+
+  <!-- PWA & UI -->
+  <meta name="theme-color" content="#38bdf8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Word Traps">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://wordtraps.com/icons/icon-512x512.png">
+  <meta property="og:url" content="https://wordtraps.com/">
+  <meta property="og:title" content="French Word Game - Word Traps">
+  <meta property="og:description"
+    content="A fast French word game about false friends and tricky translations. Spot the traps and earn points.">
+  <meta property="og:site_name" content="Test Your French">
+
+  <!-- Icons & manifest -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192x192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+
+  <!-- Preconnect pour Stripe (performance) -->
+  <link rel="preconnect" href="https://buy.stripe.com" crossorigin>
+  <link rel="preconnect" href="https://checkout.stripe.com" crossorigin>
+  <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+
+  <!-- Styles -->
+  <link rel="preload" href="./style.css" as="style">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <!-- Fallback sans JavaScript -->
+  <noscript>
+    <div class="wt-noscript">
+      <div class="wt-noscript-content">
+        <div class="wt-noscript-icon">⚠️</div>
+
+        <h2>JavaScript Required</h2>
+        <p>Word Traps requires JavaScript to run. Please enable JavaScript in your browser settings and reload this
+          page.</p>
+      </div>
+    </div>
+  </noscript>
+
+  <!-- Skip link for accessibility -->
+  <a href="#app" class="wt-skip-link">Skip to main content</a>
+  <!-- App shell -->
+  <div class="wt-app">
+    <main class="wt-main">
+      <div class="wt-container">
+        <div id="app" tabindex="-1" aria-live="off" aria-label="Word Traps game content"></div>
+      </div>
+
+    </main>
+
+    <footer class="wt-footer" id="wt-footer-root" role="contentinfo"></footer>
+
+
+    <!-- Modal shell -->
+    <div id="modal" class="wt-backdrop wt-hidden" role="dialog" aria-modal="true" aria-hidden="true"
+      data-action="close-modal">
+      <div id="modal-content" class="wt-modal wt-anim-in" role="document"></div>
+    </div>
+
+  </div>
+
+  <!-- Toast containers -->
+  <div id="toast" class="wt-toast" role="status" aria-live="polite"></div>
+
+  <div id="answer-feedback" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+  <div id="update-toast" class="wt-toast" role="status" aria-live="polite">
+    <div class="wt-row wt-row--spaced wt-row--tight">
+      <span data-wt-update-text data-wt-wording="system.updateAvailable"></span>
+      <button class="wt-btn wt-btn--ghost" data-action="dismiss-update" data-wt-aria-label="system.dismiss"
+        data-wt-wording="system.closeIcon"></button>
+    </div>
+  </div>
+
+
+
+  <!-- Scripts (defer pour performance - spec section 11.1) -->
+  <script defer src="./config.js"></script>
+  <script defer src="./storage.js"></script>
+  <script defer src="./game.js"></script>
+  <script defer src="./ui.js"></script>
+  <script defer src="./pwa.js"></script>
+  <script defer src="./email.js"></script>
+  <script defer src="./footer.js"></script>
+  <script defer src="./main.js"></script>
+
+  <script>
+    (() => {
+      function getByPath(root, path) {
+        const p = String(path || "").trim();
+        if (!p) return null;
+
+        const parts = p.split(".");
+        let cur = root;
+
+        for (const k of parts) {
+          if (!cur || typeof cur !== "object") return null;
+          cur = cur[k];
+        }
+        return (typeof cur === "string") ? cur : null;
+      }
+
+      function applyWordingToDom() {
+        const w = window.WT_WORDING;
+        if (!w || typeof w !== "object") return;
+
+        try {
+          const nodes = document.querySelectorAll("[data-wt-wording]");
+          nodes.forEach((el) => {
+            const key = el ? el.getAttribute("data-wt-wording") : "";
+            const text = getByPath(w, key);
+            if (typeof text === "string") el.textContent = text;
+          });
+        } catch (_) { }
+
+        try {
+          const nodes = document.querySelectorAll("[data-wt-aria-label]");
+          nodes.forEach((el) => {
+            const key = el ? el.getAttribute("data-wt-aria-label") : "";
+            const text = getByPath(w, key);
+            if (typeof text === "string") el.setAttribute("aria-label", text);
+          });
+        } catch (_) { }
+      }
+
+      document.addEventListener("DOMContentLoaded", applyWordingToDom);
+    })();
+  </script>
+</body>
+
+
+</html>

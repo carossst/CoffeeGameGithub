@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#38bdf8">
+    <meta name="description" content="Privacy Policy for Word Traps (Test Your French).">
+    <title>Privacy Policy - Word Traps</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+
+
+<body>
+    <div class="wt-app">
+        <main class="wt-main">
+            <div class="wt-container">
+                <div class="wt-card">
+                    <nav style="margin-bottom:var(--gap-3)">
+                        <a href="./" class="wt-btn wt-btn--ghost">Home</a>
+                    </nav>
+
+                    <h1 class="wt-h1">Privacy Policy</h1>
+
+                    <div class="wt-divider"></div>
+
+                    <p class="wt-muted">
+                        Effective date: 7 February 2026
+                    </p>
+
+                    <h2 class="wt-h2">1. Who we are</h2>
+                    <p>
+                        Word Traps is a game published by <strong>Test Your French</strong>.<br>
+                        Contact for data and privacy questions:
+                        <a id="wt-privacy-contact-1" href="#">Contact us</a>
+                    </p>
+                    <p>
+                        Related: <a href="./terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+
+                    </p>
+                    <h2 class="wt-h2">2. Data stored on your device</h2>
+                    <p>
+                        Word Traps stores game data <strong>only in your browser's localStorage</strong> to make the
+                        game work.
+                        This includes game progress, scores, mistakes, learning statistics, run history,
+                        feature states, and device-local premium activation data.
+                    </p>
+                    <p>
+                        This data:
+                    </p>
+                    <ul>
+                        <li>never leaves your device automatically</li>
+                        <li>is not sent to our servers</li>
+                        <li>can be deleted at any time by clearing your browser storage</li>
+                    </ul>
+                    <p class="wt-muted">
+                        Legal basis: performance of the service (Article 6.1.b GDPR).
+                    </p>
+                    <h2 class="wt-h2">3. Payments</h2>
+                    <p>
+                        Payments are processed by <strong>Stripe</strong>.
+                        When you pay, Stripe collects data such as your email address,
+                        payment details, IP address, and device information.
+                    </p>
+                    <p>
+                        Stripe acts under its own privacy policy:
+                        <a href="https://stripe.com/privacy" target="_blank"
+                            rel="noopener noreferrer">https://stripe.com/privacy</a>
+
+                    </p>
+                    <p class="wt-muted">
+                        Legal basis: performance of a contract (Article 6.1.b GDPR).<br>
+                        Stripe may transfer data outside the EU using Standard Contractual Clauses.
+                    </p>
+
+                    <h2 class="wt-h2">4. Emails and optional signup forms</h2>
+                    <p>
+                        If you contact us (support, waitlist), choose to share gameplay statistics by email,
+                        or enter your email address in an optional signup form shown after purchase,
+                        we receive your email address and any content you send or submit.
+                    </p>
+                    <p>
+                        Sharing statistics and joining optional updates or bonus content lists is voluntary.
+                        Those forms may be provided by a third-party email platform acting under its own terms and
+                        privacy policy.
+                    </p>
+                    <p class="wt-muted">
+                        Legal basis: your consent (Article 6.1.a GDPR).
+                    </p>
+
+                    <h2 class="wt-h2">5. Data retention</h2>
+                    <p>
+                        Game data stored in your browser remains until you delete it.
+                        Emails are kept only as long as necessary to handle your request.
+                    </p>
+
+                    <h2 class="wt-h2">6. Cookies and tracking</h2>
+                    <p>
+                        Word Traps does not use cookies, third-party analytics, or advertising trackers.
+                        Stripe may set cookies during checkout under its own responsibility.
+                    </p>
+                    <p class="wt-muted">
+                        Our hosting provider may process standard server logs (such as IP address and timestamp) for
+                        security and
+                        reliability purposes only.
+                    </p>
+
+
+                    <h2 class="wt-h2">7. Your rights</h2>
+                    <p>
+                        You have the right to request access, correction, or deletion of your personal data,
+                        and to object to processing where applicable.
+                    </p>
+                    <p>
+                        To exercise your rights, contact:
+                        <a id="wt-privacy-contact-2" href="#">Contact us</a>
+
+                    </p>
+                    <p>
+                        You also have the right to lodge a complaint with your local data protection authority
+                        (for example, the CNIL in France).
+                    </p>
+
+
+                    <div class="wt-divider"></div>
+
+                    <p class="wt-muted">
+                        (c) Test Your French
+                    </p>
+
+                </div>
+            </div>
+        </main>
+
+        <footer id="wt-footer-root" class="wt-footer" role="contentinfo"></footer>
+
+    </div>
+    <script src="./config.js"></script>
+    <script src="./email.js"></script>
+    <script src="./footer.js"></script>
+
+    <script>
+        (() => {
+            "use strict";
+
+            function openSupportEmail() {
+                if (window.WT_Email && typeof window.WT_Email.openSupportEmail === "function") {
+                    window.WT_Email.openSupportEmail();
+                }
+            }
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const a1 = document.getElementById("wt-privacy-contact-1");
+                const a2 = document.getElementById("wt-privacy-contact-2");
+
+                [a1, a2].forEach((a) => {
+                    if (!a) return;
+                    a.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        openSupportEmail();
+                    });
+                });
+
+
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

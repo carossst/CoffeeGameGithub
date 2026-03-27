@@ -1,0 +1,12 @@
+WORD TRAPS — PROPRIETARY LICENSE
+
+All rights reserved.
+
+Copyright © 2026 TYF.
+
+This source code, design, structure, content, game mechanics, and related assets
+are the exclusive property of the author.
+
+No reproduction, redistribution, modification, sublicensing, commercial use,
+or public deployment of this project, in whole or in part, is permitted
+without explicit prior written consent from the author.

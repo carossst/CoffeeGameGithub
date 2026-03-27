@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#38bdf8">
+
+    <title>Page not found - Word Traps</title>
+
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="wt-app">
+        <main class="wt-main">
+            <div class="wt-container">
+
+                <div class="wt-card wt-card--hero">
+                    <h1 class="wt-h1" data-wt-wording="notFound.title">
+                        Lost in translation?
+                    </h1>
+
+                    <p class="wt-muted" data-wt-wording="notFound.line1">
+                        This page doesn't exist - or it no longer does.
+
+                    </p>
+
+                    <p class="wt-muted" data-wt-wording="notFound.line2">
+                        The good news: the game is right where you left it.
+                    </p>
+
+                    <div class="wt-actions">
+                        <a href="./index.html" class="wt-btn wt-btn--primary" data-wt-wording="notFound.cta">
+                            Start a new run
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </main>
+
+        <footer id="wt-footer-root" class="wt-footer" role="contentinfo"></footer>
+    </div>
+
+    <!-- Config for wording + brand -->
+    <script src="./config.js"></script>
+    <script src="./email.js"></script>
+    <script src="./footer.js"></script>
+
+    <script>
+        // Minimal wording + brand application (no UI.js dependency)
+        (function () {
+            function apply() {
+                try {
+                    const wording = window.WT_WORDING?.notFound || {};
+
+                    document.querySelectorAll("[data-wt-wording]").forEach((el) => {
+                        const key = el.getAttribute("data-wt-wording").split(".").pop();
+                        if (wording[key]) el.textContent = wording[key];
+                    });
+
+                    const brand = window.WT_WORDING?.brand?.creatorLine;
+
+                    if (brand) {
+                        document
+                            .querySelectorAll('[data-wt-brand="creatorLine"]')
+                            .forEach((el) => el.textContent = brand);
+                    }
+
+
+                } catch (_) { }
+            }
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", apply);
+            } else {
+                apply();
+            }
+        })();
+    </script>
+</body>
+
+</html>

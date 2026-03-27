@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Payment successful. Your Word Traps code is ready.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- PWA & UI (match index.html) -->
+  <meta name="theme-color" content="#38bdf8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Word Traps">
+
+  <!-- Icons & manifest (match index.html) -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192x192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+
+  <title>Premium Access Ready - Word Traps</title>
+
+  <!-- Styles -->
+  <link rel="preload" href="./style.css" as="style">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="wt-app">
+    <main class="wt-main">
+      <div class="wt-container">
+
+        <!-- Header (landing-like branding) -->
+        <div class="wt-card wt-card--hero">
+          <div class="wt-row wt-row--spaced" style="align-items:center; gap:var(--gap-2)">
+            <a class="wt-branding" href="./index.html" id="wt-success-branding" aria-label="">
+              <img id="wt-success-logo" src="" alt="" class="wt-branding-logo" style="display:none" />
+              <span id="wt-success-name" class="wt-branding-name"></span>
+            </a>
+            <div class="wt-badge">THIS DEVICE</div>
+          </div>
+
+          <div style="margin-top:var(--space-10)">
+            <h1 class="wt-h1" data-wt-wording="success.title"></h1>
+            <p class="wt-sub" data-wt-wording="success.subtitle"></p>
+          </div>
+        </div>
+
+        <!-- Premium code -->
+        <div class="wt-card">
+          <div class="wt-row wt-row--spaced">
+            <div class="wt-meta">
+              <strong data-wt-wording="success.codeLabel"></strong>
+            </div>
+            <button class="wt-btn wt-btn--secondary" id="copy-btn" type="button" data-wt-wording="success.copyCta">
+            </button>
+          </div>
+
+          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">WT-XXXX-XXXX</div>
+
+          <div id="copy-status" class="wt-live wt-hidden" role="status" aria-live="polite"
+            style="margin-top:var(--space-10)">
+          </div>
+
+          <div class="wt-divider"></div>
+
+          <p class="wt-muted" style="margin-top:0">
+            <span data-wt-wording="success.txtSaveLine"></span>
+            <span data-wt-wording="success.txtNoRecoverLine"></span>
+          </p>
+          <p class="wt-muted" style="margin-top:var(--space-6)" data-wt-wording="success.clearDataWarning"></p>
+        </div>
+
+        <!-- Cheat Sheet order bump (serverless trust-by-design via ConvertKit) - moved up -->
+        <div class="wt-card" id="cheatsheet-card">
+          <div class="wt-meta"><strong data-wt-wording="success.cheatSheetTitle"></strong></div>
+          <p class="wt-muted" style="margin-top:var(--space-10)" data-wt-wording="success.cheatSheetBody"></p>
+          <div id="cheatsheet-ck" style="margin-top:var(--gap-2)"></div>
+          <p class="wt-muted" style="margin-top:var(--space-10); font-size:var(--fs-xs)">
+            Optional: enter your email to receive this bonus content. The form is handled by our email provider. See our
+            <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+          </p>
+        </div>
+
+        <!-- How to activate -->
+        <div class="wt-card">
+          <div class="wt-meta">
+            <strong data-wt-wording="success.howToActivateTitle"></strong>
+          </div>
+
+          <ol class="wt-list">
+            <li data-wt-wording="success.howToActivateStep1"></li>
+
+            <li>
+              <span data-wt-wording="success.howToActivateStep2Prefix"></span>
+              <strong data-wt-wording="success.howToPlayLabel"></strong>
+              ->
+              <strong data-wt-wording="success.activateWithCodeLabel"></strong>
+            </li>
+
+            <li>
+              <span data-wt-wording="success.howToActivateStep3Prefix"></span>
+              <strong data-wt-wording="success.activateLabel"></strong>.
+            </li>
+          </ol>
+
+
+        </div>
+
+        <!-- What you get -->
+        <div class="wt-card">
+          <div class="wt-meta">
+            <strong data-wt-wording="success.whatYouGetTitle"></strong>
+          </div>
+
+          <ul class="wt-list">
+            <li>
+              <span data-wt-wording="success.benefitFullAccessPrefix"></span>
+              <strong>
+                <span data-wt-poolsize></span>
+                <span data-wt-wording="success.benefitFullAccessStrongSuffix"></span>
+              </strong>
+              <span data-wt-wording="success.benefitFullAccessSuffix"></span>
+            </li>
+
+            <li data-wt-wording="success.benefitUnlimited"></li>
+          </ul>
+
+
+        </div>
+
+        <!-- Actions -->
+        <div class="wt-card">
+          <div class="wt-row wt-row--spaced">
+            <a href="./index.html" class="wt-btn wt-btn--primary" data-wt-wording="success.ctaBackToGame">
+            </a>
+
+            <div class="wt-row wt-row--tight wt-row--end">
+              <button id="download-code" class="wt-btn wt-btn--secondary" type="button"
+                data-wt-wording="success.ctaDownload">
+              </button>
+
+              <button id="copy-again" class="wt-btn wt-btn--secondary" type="button"
+                data-wt-wording="success.copyAgainCta">
+              </button>
+            </div>
+
+
+          </div>
+
+          <p class="wt-muted" data-wt-wording="success.shortcutHint"></p>
+        </div>
+
+
+        <!-- Footer note -->
+        <p class="wt-muted" style="text-align:center; margin-top:var(--gap-3)" data-wt-wording="success.thankYouLine">
+        </p>
+
+        <!-- Support (single source of truth via WT_Email / WT_CONFIG.support) -->
+        <p class="wt-muted" style="text-align:center; margin-top:var(--gap-2); font-size:var(--fs-xs)">
+          <span data-wt-wording="success.supportLabel"></span>
+          <a href="#" id="wt-success-support-link">Contact us</a>
+        </p>
+      </div>
+
+    </main>
+
+    <footer id="wt-footer-root" class="wt-footer" role="contentinfo"></footer>
+
+
+  </div>
+
+  <!-- Scripts: keep config non-defer for inline success logic -->
+  <script src="./config.js"></script>
+  <script src="./email.js"></script>
+  <script src="./footer.js"></script>
+  <script>
+
+    // success.js inline - Word Traps
+    (() => {
+      const cfg = window.WT_CONFIG;
+      if (!cfg || typeof cfg !== "object") return;
+
+      const rawStorageKey = cfg?.storage?.vanityCodeStorageKey;
+
+      if (typeof rawStorageKey !== "string") {
+        throw new Error("success page: missing config.storage.vanityCodeStorageKey");
+      }
+
+      const STORAGE_KEY = rawStorageKey.trim();
+
+      if (!STORAGE_KEY) {
+        throw new Error("success page: empty config.storage.vanityCodeStorageKey");
+      }
+      function rand4() {
+        return Math.random()
+          .toString(36)
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, "")
+          .slice(0, 4)
+          .padEnd(4, "X");
+      }
+
+      function generateCode() {
+        const prefix = String(window.WT_CONFIG?.premiumCodePrefix || "").trim();
+        if (!prefix) return "";
+        return `${prefix}-${rand4()}-${rand4()}`;
+      }
+
+      function getOrCreateCode() {
+        const rawRe = String(window.WT_CONFIG?.premiumCodeRegex || "").trim();
+        if (!rawRe) return "";
+
+        let re = null;
+        try { re = new RegExp(rawRe); } catch (_) { re = null; }
+        if (!re) return "";
+
+        let code = "";
+        try {
+          code = String(window.localStorage.getItem(STORAGE_KEY) || "").trim();
+        } catch (_) {
+          code = "";
+        }
+
+        // If storage is polluted, regenerate (fail-closed + self-heal)
+        if (!code || !re.test(code)) {
+          code = generateCode();
+
+          // Safety: ensure generated code matches config regex (should always be true)
+          if (!re.test(code)) return "";
+
+          try {
+            window.localStorage.setItem(STORAGE_KEY, code);
+          } catch (_) {
+            return "";
+          }
+        }
+
+        return code;
+      }
+
+      // No direct writes to the main app storage blob from success.html.
+
+      function renderCode(code) {
+        const codeEl = document.getElementById("code");
+        if (codeEl) codeEl.textContent = code;
+      }
+
+      let statusHideTimer = 0;
+
+      function showStatus(msg) {
+        const statusEl = document.getElementById("copy-status");
+        if (!statusEl) return;
+
+        // Single source of truth (same contract as ui.js): WT_CONFIG.ui.toast.default.durationMs
+        const dur = Number(window.WT_CONFIG?.ui?.toast?.default?.durationMs);
+
+        // Fail closed: if timing is invalid, do not show a status that would never dismiss.
+        if (!Number.isFinite(dur) || dur < 600 || dur > 4000) return;
+
+        if (statusHideTimer) {
+          window.clearTimeout(statusHideTimer);
+          statusHideTimer = 0;
+        }
+
+        statusEl.textContent = msg;
+        statusEl.classList.remove("wt-hidden");
+
+        statusHideTimer = window.setTimeout(() => {
+          statusEl.classList.add("wt-hidden");
+          statusHideTimer = 0;
+        }, Math.floor(dur));
+      }
+
+      function fallbackCopy(text) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        document.body.appendChild(ta);
+        ta.select();
+
+        let ok = false;
+        try {
+          ok = document.execCommand("copy");
+        } catch (_) {
+          ok = false;
+        }
+
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      async function copyCode() {
+        const codeEl = document.getElementById("code");
+        const code = codeEl ? codeEl.textContent.trim() : "";
+        if (!code) return;
+
+        const copiedText = window.WT_WORDING?.system?.copied;
+        const failedText = window.WT_WORDING?.system?.copyFailed;
+        if (!copiedText || !failedText) return;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(code);
+            showStatus(copiedText);
+            return;
+          }
+        } catch (_) {
+          // Fall through to fallback
+        }
+
+        if (fallbackCopy(code)) {
+          showStatus(copiedText);
+        } else {
+          showStatus(failedText);
+        }
+      }
+
+      function downloadCodeTxt() {
+        const codeEl = document.getElementById("code");
+        const code = codeEl ? codeEl.textContent.trim() : "";
+        if (!code) return;
+
+        const downloadedText = window.WT_WORDING?.system?.downloaded;
+        if (!downloadedText) return;
+
+        const w = window.WT_WORDING?.success;
+        if (!w?.txtTitle || !w?.txtSaveLine || !w?.txtNoRecoverLine) return;
+
+        const lines = [
+          w.txtTitle,
+          "",
+          code,
+          "",
+          w.txtSaveLine,
+          w.txtNoRecoverLine
+        ];
+
+        const content = lines.join("\n");
+
+        try {
+          const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+
+          if (!window.URL || typeof URL.createObjectURL !== "function") {
+            copyCode();
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `word-traps-code-${code}.txt`;
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          window.setTimeout(() => {
+            try { URL.revokeObjectURL(url); } catch (_) { }
+          }, 0);
+
+          showStatus(downloadedText);
+        } catch (_) {
+          copyCode();
+        }
+      }
+
+      function applyPoolSize() {
+        try {
+          const n = Number(window.WT_CONFIG?.game?.poolSize);
+          if (!Number.isFinite(n) || n <= 0) return;
+
+          const nodes = document.querySelectorAll("[data-wt-poolsize]");
+          nodes.forEach((el) => {
+            if (el) el.textContent = String(Math.floor(n));
+          });
+        } catch (_) { }
+      }
+
+      function applyWording() {
+        function getByPath(root, path) {
+          const p = String(path || "").trim();
+          if (!p) return null;
+
+          const parts = p.split(".");
+          let cur = root;
+
+          for (const k of parts) {
+            if (!cur || typeof cur !== "object") return null;
+            cur = cur[k];
+          }
+          return (typeof cur === "string") ? cur : null;
+        }
+
+        try {
+          const w = window.WT_WORDING;
+          if (!w || typeof w !== "object") return;
+
+          const nodes = document.querySelectorAll("[data-wt-wording]");
+          nodes.forEach((el) => {
+            const key = el ? el.getAttribute("data-wt-wording") : "";
+            const text = getByPath(w, key);
+            if (typeof text === "string") el.textContent = text;
+          });
+        } catch (_) { }
+      }
+
+      function applyBrand() {
+        try {
+          const brand = window.WT_WORDING?.brand?.creatorLine;
+          if (!brand) return;
+
+          const nodes = document.querySelectorAll('[data-wt-brand="creatorLine"]');
+          nodes.forEach((el) => {
+            if (el) el.textContent = brand;
+          });
+        } catch (_) { }
+      }
+
+      function applySuccessBranding() {
+        try {
+          const logoUrl = String(window.WT_CONFIG?.identity?.uiLogoUrl || "").trim();
+          const appName = String(window.WT_CONFIG?.identity?.appName || "").trim();
+
+          const img = document.getElementById("wt-success-logo");
+          const name = document.getElementById("wt-success-name");
+          const link = document.getElementById("wt-success-branding");
+
+          if (!img || !name || !link) return;
+
+          if (!appName) {
+            name.textContent = "";
+            link.setAttribute("aria-label", "");
+          } else {
+            name.textContent = appName;
+            link.setAttribute("aria-label", appName);
+          }
+
+          // Fail-closed: no logo => hide the <img> to avoid broken icon.
+          if (!logoUrl) {
+            img.style.display = "none";
+            img.removeAttribute("src");
+            img.setAttribute("alt", "");
+            return;
+          }
+
+          img.src = logoUrl;
+          img.setAttribute("alt", appName || "");
+          img.style.display = "";
+        } catch (_) { }
+      }
+
+
+      function applyCheatSheetOrderBump() {
+        try {
+          const card = document.getElementById("cheatsheet-card");
+          const mount = document.getElementById("cheatsheet-ck");
+          if (!card || !mount) return;
+
+          const ob = window.WT_CONFIG?.marketing?.cheatSheetOrderBump;
+          const enabled = ob && ob.enabled === true;
+
+          const uid = String(ob?.convertKitUid || "").trim();
+          const src = String(ob?.convertKitScriptSrc || "").trim();
+
+          // Fail-closed: hide unless explicitly enabled + fully configured.
+          if (!enabled || !uid || !src || src.indexOf("REPLACE") !== -1) {
+            card.style.display = "none";
+            return;
+          }
+
+          // Avoid duplicate injection
+          if (document.querySelector('script[data-wt-ck="cheatsheet"]')) return;
+
+          const s = document.createElement("script");
+          s.async = true;
+          s.src = src;
+          s.setAttribute("data-uid", uid);
+          s.setAttribute("data-wt-ck", "cheatsheet");
+
+          mount.appendChild(s);
+        } catch (_) { }
+      }
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const code = getOrCreateCode();
+        if (!code) {
+          const codeEl = document.getElementById("code");
+          if (codeEl) codeEl.textContent = "Unable to generate code. Please reload this page.";
+          return;
+        }
+
+        renderCode(code);
+
+        applyPoolSize();
+        applyWording();
+        applyBrand();
+        applySuccessBranding();
+        applyCheatSheetOrderBump();
+
+        const copyBtn = document.getElementById("copy-btn");
+        const copyAgain = document.getElementById("copy-again");
+        const downloadBtn = document.getElementById("download-code");
+
+        if (copyBtn) copyBtn.addEventListener("click", copyCode);
+        if (copyAgain) copyAgain.addEventListener("click", copyCode);
+        if (downloadBtn) downloadBtn.addEventListener("click", downloadCodeTxt);
+
+        const successSupportLink = document.getElementById("wt-success-support-link");
+        if (successSupportLink) {
+          successSupportLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (window.WT_Email && typeof window.WT_Email.openSupportEmail === "function") {
+              window.WT_Email.openSupportEmail();
+            }
+          });
+        }
+
+        // Obfuscated email links (Contact us)
+        if (window.WT_Email && typeof window.WT_Email.initEmailLinks === "function") {
+          window.WT_Email.initEmailLinks();
+        }
+      });
+
+    })();
+  </script>
+
+</body>
+
+</html>
