@@ -7103,7 +7103,7 @@ ${(() => {
     // progressHtml: REMOVED (dead code — computed but never injected into HTML).
     // Seen/poolSize info is now solely in runLensTpl (lens verdict).
 
-    // False friends identified (RUN-only): tag/tags contains "false_friend" AND correctCount > 0
+    // Coffee myths identified (RUN-only): tag/tags contains "Myths and misconceptions" AND correctCount > 0
     if (isRun) {
       const ffTpl = String(end.falseFriendsIdentifiedLine || "").trim();
       if (ffTpl && this.storage && typeof this.storage.getStatsByItem === "function") {
@@ -7121,7 +7121,7 @@ ${(() => {
 
           const it = byId[String(id)] || null;
           const tags = extractTagsFromItem(it);
-          if (!tags.includes("false_friend")) continue;
+          if (!tags.includes("Myths and misconceptions")) continue;
 
           const cc = clampInt(Number(statsByItem[k]?.correctCount), 0, 999999);
           if (cc > 0) count += 1;

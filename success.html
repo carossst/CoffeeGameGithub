@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Payment successful. Your Word Traps code is ready.">
+  <meta name="description" content="Payment successful. Your Brew or False activation code is ready.">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- PWA & UI (match index.html) -->
@@ -12,14 +12,14 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Word Traps">
+  <meta name="apple-mobile-web-app-title" content="Brew or False">
 
   <!-- Icons & manifest (match index.html) -->
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192x192.png">
   <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
 
-  <title>Premium Access Ready - Word Traps</title>
+  <title>Premium Access Ready - Brew or False</title>
 
   <!-- Styles -->
   <link rel="preload" href="./style.css" as="style">
@@ -57,7 +57,7 @@
             </button>
           </div>
 
-          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">WT-XXXX-XXXX</div>
+          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">BOF-XXXX-XXXX</div>
 
           <div id="copy-status" class="wt-live wt-hidden" role="status" aria-live="polite"
             style="margin-top:var(--space-10)">
@@ -70,17 +70,6 @@
             <span data-wt-wording="success.txtNoRecoverLine"></span>
           </p>
           <p class="wt-muted" style="margin-top:var(--space-6)" data-wt-wording="success.clearDataWarning"></p>
-        </div>
-
-        <!-- Cheat Sheet order bump (serverless trust-by-design via ConvertKit) - moved up -->
-        <div class="wt-card" id="cheatsheet-card">
-          <div class="wt-meta"><strong data-wt-wording="success.cheatSheetTitle"></strong></div>
-          <p class="wt-muted" style="margin-top:var(--space-10)" data-wt-wording="success.cheatSheetBody"></p>
-          <div id="cheatsheet-ck" style="margin-top:var(--gap-2)"></div>
-          <p class="wt-muted" style="margin-top:var(--space-10); font-size:var(--fs-xs)">
-            Optional: enter your email to receive this bonus content. The form is handled by our email provider. See our
-            <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-          </p>
         </div>
 
         <!-- How to activate -->
@@ -177,7 +166,7 @@
   <script src="./footer.js"></script>
   <script>
 
-    // success.js inline - Word Traps
+    // success.js inline - Brew or False
     (() => {
       const cfg = window.WT_CONFIG;
       if (!cfg || typeof cfg !== "object") return;
@@ -453,41 +442,8 @@
           img.style.display = "";
         } catch (_) { }
       }
-
-
-      function applyCheatSheetOrderBump() {
-        try {
-          const card = document.getElementById("cheatsheet-card");
-          const mount = document.getElementById("cheatsheet-ck");
-          if (!card || !mount) return;
-
-          const ob = window.WT_CONFIG?.marketing?.cheatSheetOrderBump;
-          const enabled = ob && ob.enabled === true;
-
-          const uid = String(ob?.convertKitUid || "").trim();
-          const src = String(ob?.convertKitScriptSrc || "").trim();
-
-          // Fail-closed: hide unless explicitly enabled + fully configured.
-          if (!enabled || !uid || !src || src.indexOf("REPLACE") !== -1) {
-            card.style.display = "none";
-            return;
-          }
-
-          // Avoid duplicate injection
-          if (document.querySelector('script[data-wt-ck="cheatsheet"]')) return;
-
-          const s = document.createElement("script");
-          s.async = true;
-          s.src = src;
-          s.setAttribute("data-uid", uid);
-          s.setAttribute("data-wt-ck", "cheatsheet");
-
-          mount.appendChild(s);
-        } catch (_) { }
-      }
-
-
       document.addEventListener("DOMContentLoaded", () => {
+
         const code = getOrCreateCode();
         if (!code) {
           const codeEl = document.getElementById("code");
@@ -501,7 +457,6 @@
         applyWording();
         applyBrand();
         applySuccessBranding();
-        applyCheatSheetOrderBump();
 
         const copyBtn = document.getElementById("copy-btn");
         const copyAgain = document.getElementById("copy-again");

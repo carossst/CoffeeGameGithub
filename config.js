@@ -65,7 +65,7 @@
     identity: {
       appName: "Brew or False",
       appUrl: "https://breworfalse.com",
-      parentUrl: "https://www.testyourfrench.com",
+      parentUrl: "",
 
       // UI signature icon (in-card). Single source of truth for in-app branding.
       uiLogoUrl: "./icons/icon512x512-rond.png"
@@ -178,7 +178,7 @@
     houseAd: {
       enabled: true,
       premiumOnly: false,
-      url: "https://dailyfrench.testyourfrench.com/",
+      url: "https://breworfalse.com/",
       showAfterEnd: true,
 
       // Unlock threshold (unique seen items)
@@ -406,7 +406,7 @@
       showModalOneShot: false,
 
       // Obfuscated email (anti-scraping)
-      toEmailObfuscated: "bonjour&#64;testyourfrench&#46;com",
+      toEmailObfuscated: "carolestromboni&#64;gmail&#46;com",
       // IMPORTANT: keep this as a pure prefix (UI/email helpers may append details)
       subjectPrefix: "[Brew or False][Waitlist]"
 
@@ -454,7 +454,7 @@
 
     // Support
     support: {
-      emailObfuscated: "bonjour&#64;testyourfrench&#46;com",
+      emailObfuscated: "carolestromboni&#64;gmail&#46;com",
       subjectPrefix: "[Brew or False][Contact]"
     },
 
@@ -523,7 +523,7 @@
   window.WT_WORDING = {
     brand: {
       creatorLine: "Carole, creator of Brew or False 🇫🇷",
-      creatorLineHtml: "An indie game by Test Your French.<br>Created by <a href=\"https://www.linkedin.com/in/carolestromboni/\" target=\"_blank\" rel=\"noopener\">Carole</a>. 🇫🇷"
+      creatorLineHtml: "An indie game by Studio 2034.<br>Created by <a href=\"https://www.linkedin.com/in/carolestromboni/\" target=\"_blank\" rel=\"noopener\">Carole</a>. 🇫🇷"
     },
 
     system: {
@@ -992,8 +992,8 @@
       // Vars: {seen} {poolSize} {remaining}
       progressLine: "Seen: {seen}/{poolSize}. {remaining} left.",
 
-      // False friends identified (RUN only)
-      // Definition: distinct items with tag === "false_friend" and correctCount > 0
+      // Coffee myths identified (RUN only)
+      // Definition: distinct items with tag/tags containing "Myths and misconceptions" and correctCount > 0
       // Vars: {count}
       falseFriendsIdentifiedLine: "{count} coffee myths spotted so far.",
 
@@ -1161,22 +1161,22 @@
       waitlistBody2: "No spam. No account. Leave anytime.",
       waitlistCta: "Get notified",
       waitlistDisclaimer: "Email only. Unsubscribe anytime.",
-      houseAdCta: "Try Test Your French"
+      houseAdCta: "Try Studio 2034"
     },
 
     houseAd: {
       eyebrow: "After {poolSize} questions",
       title: "You've seen all {poolSize} questions.",
-      bodyLine1: "Brew or False is an indie game by Test Your French.",
+      bodyLine1: "Brew or False is an indie game by Studio 2034.",
       bodyLine2: "We have other games.",
-      ctaPrimary: "Try a new game by Test Your French",
+      ctaPrimary: "Try a new game by Studio 2034",
       ctaRemindLater: "Remind later",
 
       // Landing presence (same meaning, same tone)
       landingTitle: "You've seen all {poolSize} questions.",
-      landingBodyLine1: "Brew or False is an indie game by Test Your French.",
+      landingBodyLine1: "Brew or False is an indie game by Studio 2034.",
       landingBodyLine2: "We have other games.",
-      landingCtaPrimary: "Try Daily French",
+      landingCtaPrimary: "Try Brew or False",
       landingCtaRemindLater: "Remind later"
     },
 
@@ -1214,7 +1214,7 @@ Thanks!`
       previewLabel: "Preview message",
       toastCopied: "Copied.",
       template: `Hey!
-I just played a cool French word game 🇫🇷
+I just played a cool coffee game!
 {funFact}
 Find out 😄
 {url}`,

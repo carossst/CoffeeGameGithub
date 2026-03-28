@@ -48,10 +48,11 @@
     if (!root) return;
 
     const safeMsg = escapeHtmlSafe(message);
+    const appName = escapeHtmlSafe(String(window.WT_CONFIG?.identity?.appName || "Game").trim());
 
     root.innerHTML = `
       <div class="wt-card wt-card--error">
-        <h1 class="wt-h1">Word Traps</h1>
+        <h1 class="wt-h1">${appName}</h1>
         <p class="wt-muted">${safeMsg}</p>
         <button id="wtFatalReloadBtn" class="wt-btn wt-btn--secondary" type="button">Reload</button>
       </div>
@@ -435,7 +436,7 @@
         window.WT_PWA.initPWA(storage, ui);
       }
 
-      Logger.log(`✅ Word Traps v${config.version} started successfully`);
+      Logger.log(`✅ ${config.identity.appName} v${config.version} started successfully`);
     } catch (error) {
       clearTimeout(slowLoadTimer);
       Logger.error("Startup error:", error);
@@ -459,9 +460,11 @@
     if (!version) Logger.warn("WT_CONFIG.version missing/empty");
     if (!env) Logger.warn("WT_CONFIG.environment missing/empty");
 
-    if (version && env) Logger.log(`Initializing Word Traps v${version} (${env})`);
-    else if (version) Logger.log(`Initializing Word Traps v${version}`);
-    else Logger.log("Initializing Word Traps");
+    const appName = String(cfg?.identity?.appName || "Game").trim();
+
+    if (version && env) Logger.log(`Initializing ${appName} v${version} (${env})`);
+    else if (version) Logger.log(`Initializing ${appName} v${version}`);
+    else Logger.log(`Initializing ${appName}`);
 
     if (!validatePrerequisites()) return;
     if (!validateModules()) return;

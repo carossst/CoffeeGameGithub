@@ -1,1610 +1,2221 @@
 {
-  "version": "3.5",
-  "totalItems": 200,
+  "version": "1.0",
+  "totalItems": 201,
   "breakdown": {
-    "falseItems": 106,
-    "trueItems": 94
+    "trueItems": 121,
+    "falseItems": 80
   },
   "items": [
     {
       "id": 1,
-      "termFr": "librairie",
-      "termEn": "library",
+      "termFr": "",
+      "termEn": "Dark roast coffee always contains more caffeine than light roast coffee.",
       "correctAnswer": false,
-      "explanationShort": "librairie (FR) = a bookstore.\nlibrary (EN) = a place where you borrow books.\nFrench sells books; English lends them.",
-      "tags": ["false_friend"]
+      "explanationShort": "Roasting changes the flavor and color of the bean, but most of the caffeine stays intact.\nThat is why a dark roast and a light roast from the same beans carry similar caffeine levels.\nLight roast can match dark roast in caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 2,
-      "termFr": "actuellement",
-      "termEn": "actually",
-      "correctAnswer": false,
-      "explanationShort": "actuellement (FR) = currently, at the present time.\nactually (EN) = in fact, really, contrary to what was expected.\nFrench speaks about time; English corrects a statement.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Robusta contains on average more caffeine than arabica.",
+      "correctAnswer": true,
+      "explanationShort": "Robusta has roughly twice the caffeine of arabica.\nThat difference comes from the plant species itself, not from how it is roasted or brewed.\nRobusta or arabica decides, not the roast.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 3,
-      "termFr": "éventuellement",
-      "termEn": "eventually",
+      "termFr": "",
+      "termEn": "Decaffeinated coffee contains absolutely zero caffeine.",
       "correctAnswer": false,
-      "explanationShort": "éventuellement (FR) = possibly, perhaps.\neventually (EN) = in the end, after some time.\nFrench is uncertainty; English is outcome.",
-      "tags": ["false_friend"]
+      "explanationShort": "Decaf removes most caffeine, but never all of it.\nBecause of that, a typical decaf still contains 5 to 15 mg of caffeine per cup.\nDecaf still has a kick, just smaller.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 4,
-      "termFr": "collège",
-      "termEn": "college",
+      "termFr": "",
+      "termEn": "An espresso has more caffeine than a regular cup of drip coffee.",
       "correctAnswer": false,
-      "explanationShort": "collège (FR) = middle school (ages 11-15).\ncollege (EN) = higher education after high school.\nTeenagers in French, adults in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "Espresso is highly concentrated but tiny, about 1 oz (30 ml) per shot.\nDrip coffee is milder per sip but much larger, around 8 to 12 oz.\nStronger taste does not mean more caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 5,
-      "termFr": "location",
-      "termEn": "location",
+      "termFr": "",
+      "termEn": "Caffeine in a cup depends mostly on how long the coffee is brewed.",
       "correctAnswer": false,
-      "explanationShort": "location (FR) = a rental (flat, car, equipment).\nlocation (EN) = a place or position.\nRenting in French, place in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "Brew time plays a role, but species, dose, and cup size matter more.\nThat is why an espresso and a French press can carry similar caffeine.\nBean type and cup size beat brew time.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 6,
-      "termFr": "stage",
-      "termEn": "stage",
+      "termFr": "",
+      "termEn": "Caffeine sensitivity is the same for everyone.",
       "correctAnswer": false,
-      "explanationShort": "stage (FR) = an internship or training period.\nstage (EN) = a platform for performances, or a phase.\nWork experience in French, theatre in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "Caffeine hits everyone differently, mostly because of genetics.\nIn some people, genetics alone can make caffeine last twice as long in the body.\nOne person's limit is another's warm-up.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 7,
-      "termFr": "chair",
-      "termEn": "chair",
-      "correctAnswer": false,
-      "explanationShort": "chair (FR) = flesh, the soft tissue of the body.\nchair (EN) = a seat or piece of furniture.\nFrench is flesh; English is furniture.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A coffee at 3 PM can still affect sleep at midnight.",
+      "correctAnswer": true,
+      "explanationShort": "In most adults, half the caffeine is still in the body 5 hours after drinking.\nAfter about 10 hours, most of it is finally gone.\nThe clock matters as much as the cup.",
+      "tags": [
+        "Myths and misconceptions",
+        "Hard"
+      ]
     },
     {
       "id": 8,
-      "termFr": "caméra",
-      "termEn": "camera",
+      "termFr": "",
+      "termEn": "Robusta coffee is always lower quality than arabica.",
       "correctAnswer": false,
-      "explanationShort": "caméra (FR) = a device mainly used to record video.\ncamera (EN) = a device used to take photographs or record images.\nFrench usually distinguishes photo ('appareil photo') and video ('caméra'); English often uses 'camera' for both.",
-      "tags": ["false_friend"]
+      "explanationShort": "Arabica is smoother and more complex, while robusta is bolder and higher in caffeine.\nThat is why many blends add robusta, as it holds up well under steam in milk drinks.\nArabica-only is a style choice, not a quality guarantee.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 9,
-      "termFr": "préservatif",
-      "termEn": "preservative",
+      "termFr": "",
+      "termEn": "A light roast has a weaker flavor than a dark roast.",
       "correctAnswer": false,
-      "explanationShort": "préservatif (FR) = a condom.\npreservative (EN) = a chemical added to food to keep it fresh.\nA notorious source of confusion for travellers ordering food in France.",
-      "tags": ["false_friend"]
+      "explanationShort": "Light roasts taste fruity and bright.\nDark roasts taste smoky and bitter.\nThe roast changes taste, not strength.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 10,
-      "termFr": "raisin",
-      "termEn": "raisin",
-      "correctAnswer": false,
-      "explanationShort": "raisin (FR) = a grape.\nraisin (EN) = a dried grape.\nFrench is fresh; English is dried.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Most healthy adults can safely drink up to 400 mg of caffeine per day.",
+      "correctAnswer": true,
+      "explanationShort": "400 mg per day is the safety threshold established for most healthy adults.\nAbove that limit, jitters, headaches, or poor sleep become more likely.\nThat is roughly 5 to 6 espressos.",
+      "tags": [
+        "Myths and misconceptions",
+        "Hard"
+      ]
     },
     {
       "id": 11,
-      "termFr": "tissu",
-      "termEn": "tissue",
-      "correctAnswer": false,
-      "explanationShort": "tissu (FR) = fabric or cloth.\ntissue (EN) = thin disposable paper, or biological body tissue in science.\nBoth from Old French \"tissu\" (woven); the meanings split between textile and paper.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Cold brew and iced coffee use the same beans but a completely different brewing method.",
+      "correctAnswer": true,
+      "explanationShort": "Cold brew steeps grounds in cold water for 12 to 24 hours.\nIced coffee is hot-brewed coffee poured over ice.\nSame beans, two different drinks.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 12,
-      "termFr": "monnaie",
-      "termEn": "money",
+      "termFr": "",
+      "termEn": "Pouring hot-brewed coffee over ice makes it taste as strong as regular hot coffee.",
       "correctAnswer": false,
-      "explanationShort": "monnaie (FR) = coins, change, or currency in circulation.\nmoney (EN) = money in general, including cash or wealth.\nFrench counts the change; English counts the wealth.",
-      "tags": ["false_friend"]
+      "explanationShort": "When hot coffee hits ice, the ice melts immediately and dilutes the drink.\nThe same coffee poured over ice always tastes weaker than the same coffee served hot.\nHot cup, stronger. Iced cup, weaker.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 13,
-      "termFr": "pétrole",
-      "termEn": "petrol",
+      "termFr": "",
+      "termEn": "A cappuccino and a latte are the same drink with a different name.",
       "correctAnswer": false,
-      "explanationShort": "pétrole (FR) = crude oil in its natural state.\npetrol (EN) = gasoline used as fuel in cars.\nFrench names the raw oil; English names the fuel.",
-      "tags": ["false_friend"]
+      "explanationShort": "A cappuccino is equal parts espresso, milk, and foam.\nA latte, by contrast, is mostly steamed milk with very little foam on top.\nCappuccino is frothier, latte is creamier.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 14,
-      "termFr": "grappe",
-      "termEn": "grape",
-      "correctAnswer": false,
-      "explanationShort": "grappe (FR) = a cluster or bunch, especially of fruit on a stem.\ngrape (EN) = a single small fruit used for eating or making wine.\nFrench names the whole bunch hanging together; English names the individual berry.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A flat white usually contains less milk than a latte.",
+      "correctAnswer": true,
+      "explanationShort": "A flat white is served in a smaller cup, typically around 5 oz.\nA latte is much larger, around 8 to 12 oz, so it has more milk.\nFlat white, bold. Latte, creamy.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 15,
-      "termFr": "définitivement",
-      "termEn": "definitely",
-      "correctAnswer": false,
-      "explanationShort": "définitivement (FR) = permanently, for good.\ndefinitely (EN) = certainly, without doubt.\nPermanent in French, certain in English.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A cortado has equal parts espresso and milk.",
+      "correctAnswer": true,
+      "explanationShort": "A cortado uses equal parts espresso and milk.\nThe milk softens the espresso without diluting it.\nHalf espresso, half milk, no foam.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 16,
-      "termFr": "assister",
-      "termEn": "assist",
-      "correctAnswer": false,
-      "explanationShort": "assister (FR) = to attend or be present at an event.\nassist (EN) = to help someone.\nFrom Latin 'assistere' (to stand by); French kept the passive witness sense, English took the active help sense.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Grind size matters more than machine brand for the taste of an espresso.",
+      "correctAnswer": true,
+      "explanationShort": "The grind determines how much contact time water has with the coffee.\nA precise grind extracts more flavor than any machine upgrade alone.\nGrind first, machine second.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 17,
-      "termFr": "attendre",
-      "termEn": "attend",
-      "correctAnswer": false,
-      "explanationShort": "attendre (FR) = to wait.\nattend (EN) = to be present at an event.\nFrom Latin 'attendere' (to stretch toward); French kept the waiting, English kept the showing up.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "In France, a café means a small espresso.",
+      "correctAnswer": true,
+      "explanationShort": "When you sit down at a French cafe, the default order is a tiny espresso.\nIt is served in a small cup, not a large mug.\nNo filter, no mug, just a shot.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 18,
-      "termFr": "demander",
-      "termEn": "demand",
-      "correctAnswer": false,
-      "explanationShort": "demander (FR) = to ask.\ndemand (EN) = to insist on receiving something.\nFrench asks; English insists.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A café gourmand in France is a coffee served with several small desserts.",
+      "correctAnswer": true,
+      "explanationShort": "A café gourmand pairs one coffee with a selection of small desserts on the side.\nIt is often ordered at the end of a meal as a lighter alternative to a full dessert.\nCoffee plus sweets on one plate, not just a cup.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 19,
-      "termFr": "quitter",
-      "termEn": "quit",
-      "correctAnswer": false,
-      "explanationShort": "quitter (FR) = to leave a place or a person.\nquit (EN) = to stop doing something, especially a job or a habit.\nFrench leaves; English stops.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A single espresso is typically 25–35 ml (about 0.8–1.2 oz).",
+      "correctAnswer": true,
+      "explanationShort": "An espresso is roughly the size of a shot glass, about 25 to 35 ml.\nMost people expect more liquid, but that small size is what makes it so concentrated.\nEspresso is tiny by design.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 20,
-      "termFr": "avertir",
-      "termEn": "avert",
-      "correctAnswer": false,
-      "explanationShort": "avertir (FR) = to warn or notify someone in advance.\navert (EN) = to prevent or turn away from danger.\nFrench warns first; English blocks danger.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A good starting ratio for brewed coffee is 55 g per liter, or 2 oz per 32 oz.",
+      "correctAnswer": true,
+      "explanationShort": "55 g per liter, about 2 tablespoons per cup, is the reference point for most brewing methods.\nFrom there, you can adjust up for a stronger cup or down for a lighter one.\nRight ratio, right cup.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 21,
-      "termFr": "blesser",
-      "termEn": "bless",
-      "correctAnswer": false,
-      "explanationShort": "blesser (FR) = to injure or wound someone.\nbless (EN) = to give a holy or divine favour.\nFrench injures; English blesses.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Most coffee brews best at around 200°F (93°C), give or take a few degrees.",
+      "correctAnswer": true,
+      "explanationShort": "Water around 200°F (93°C) extracts the right balance of flavor from the grounds.\nGo hotter and it scorches the coffee, go cooler and it tastes flat and sour.\nJust off the boil is the sweet spot.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 22,
-      "termFr": "charger",
-      "termEn": "charge",
-      "correctAnswer": false,
-      "explanationShort": "charger (FR) = to load something or charge a battery.\ncharge (EN) = to ask for payment or accuse someone.\nSome overlap exists, but French usually means to load.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A burr grinder produces a more consistent grind than a blade grinder.",
+      "correctAnswer": true,
+      "explanationShort": "Blade grinders chop randomly, producing a mix of fine dust and large chunks in the same batch.\nBurr grinders crush at a fixed distance, so every particle comes out a similar size.\nEven grind, better cup.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 23,
-      "termFr": "exiger",
-      "termEn": "exigent",
-      "correctAnswer": false,
-      "explanationShort": "exiger (FR) = to demand something firmly.\nexigent (EN) = very demanding or hard to satisfy.\nFrench demands; English describes someone demanding.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Coffee that tastes sour and bitter at the same time may have an uneven grind.",
+      "correctAnswer": true,
+      "explanationShort": "Uneven grind means some bits over-brew (bitter) and others under-brew (sour).\nA consistent grind lets every particle brew at the same rate.\nSour plus bitter together usually means the grinder.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 24,
-      "termFr": "médecin",
-      "termEn": "medicine",
-      "correctAnswer": false,
-      "explanationShort": "médecin (FR) = a doctor, the person who treats patients.\nmedicine (EN) = a drug or substance used to treat illness.\nSame Latin root 'medicus,' but French named the healer while English named the remedy.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Hard water can cause limescale buildup inside a coffee machine.",
+      "correctAnswer": true,
+      "explanationShort": "Every time hard water heats up, it leaves behind mineral deposits inside the machine.\nOver time, those deposits clog pipes and reduce heating efficiency.\nWhat ruins a kettle ruins a coffee machine.",
+      "tags": [
+        "Coffee at home",
+        "Easy"
+      ]
     },
     {
       "id": 25,
-      "termFr": "lecture",
-      "termEn": "lecture",
+      "termFr": "",
+      "termEn": "A weak cup is always a sign that not enough coffee was used.",
       "correctAnswer": false,
-      "explanationShort": "lecture (FR) = reading.\nlecture (EN) = a talk or spoken presentation.\nFrench reads; English speaks.",
-      "tags": ["false_friend"]
+      "explanationShort": "More grounds make the drink stronger, but they do not fix the real problem.\nPast the right ratio, extra grounds start pulling bitter compounds instead of good flavor.\nMore grounds fixes nothing, right grind does.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 26,
-      "termFr": "journal",
-      "termEn": "journal",
-      "correctAnswer": false,
-      "explanationShort": "journal (FR) = a newspaper or TV news bulletin.\njournal (EN) = a diary or academic publication.\nFrench reports the news; English records it.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Letting the kettle cool a minute before pouring makes coffee taste better than boiling water.",
+      "correctAnswer": true,
+      "explanationShort": "Boiling water is too hot for most coffee and pulls out extra bitterness.\nLetting the kettle cool for a minute brings it closer to the ideal range around 200°F.\nJust off the boil, not at the boil.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 27,
-      "termFr": "cave",
-      "termEn": "cave",
-      "correctAnswer": false,
-      "explanationShort": "cave (FR) = a cellar or basement, often used for wine.\ncave (EN) = a natural underground cavern.\nFrench stores wine; English explores rock caves.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Too-cold water makes coffee taste flat and sour, too-hot water makes it harsh and bitter.",
+      "correctAnswer": true,
+      "explanationShort": "Both extremes damage the cup, but the problem is different each way.\nThe sweet spot is around 200°F (93°C), where extraction is balanced.\nToo cool or too hot, both miss the mark.",
+      "tags": [
+        "Coffee at home",
+        "Hard"
+      ]
     },
     {
       "id": 28,
-      "termFr": "habit",
-      "termEn": "habit",
+      "termFr": "",
+      "termEn": "Leaving coffee to brew longer than recommended makes it stronger and more enjoyable.",
       "correctAnswer": false,
-      "explanationShort": "habit (FR) = a piece of clothing, or clothes in general.\nhabit (EN) = a repeated behaviour or routine.\nFrom Latin 'habitus' which covered both dress and condition; each language picked one meaning.",
-      "tags": ["false_friend"]
+      "explanationShort": "Longer brewing extracts more from the grounds, including the flavors you do not want.\nAfter a few extra minutes, bitterness takes over.\nLonger brew, stronger but not better.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 29,
-      "termFr": "travail",
-      "termEn": "travel",
-      "correctAnswer": false,
-      "explanationShort": "travail (FR) = work or labour.\ntravel (EN) = going on a journey.\nFrench works; English moves.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "If coffee tastes weak, the grind is often too coarse.",
+      "correctAnswer": true,
+      "explanationShort": "A coarser grind lets water pass too quickly, pulling less flavor.\nGoing finer slows the water and extracts more from the grounds.\nWeak cup, try a finer grind.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 30,
-      "termFr": "coin",
-      "termEn": "coin",
-      "correctAnswer": false,
-      "explanationShort": "coin (FR) = a corner or a spot.\ncoin (EN) = a small metal disc used as money.\nFrench 'coin' comes from Latin 'cuneus' (wedge), describing the angular shape of a corner.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Whole beans stay fresh longer after opening than ground coffee does.",
+      "correctAnswer": true,
+      "explanationShort": "Every time you open the bag, coffee is exposed to oxygen.\nOxygen slowly breaks down the aromatic compounds inside the bean.\nFrom first opening, the clock is ticking.",
+      "tags": [
+        "Coffee at home",
+        "Hard"
+      ]
     },
     {
       "id": 31,
-      "termFr": "phrase",
-      "termEn": "phrase",
+      "termFr": "",
+      "termEn": "Ground coffee can keep its flavor as long as whole beans after opening the bag.",
       "correctAnswer": false,
-      "explanationShort": "phrase (FR) = a full sentence.\nphrase (EN) = a group of words, not always a full sentence.\nFrench is complete; English can be shorter.",
-      "tags": ["false_friend"]
+      "explanationShort": "Grinding multiplies the surface area exposed to air.\nThat is why aromas escape much faster from ground coffee than from whole beans.\nGrind fresh, not in advance.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 32,
-      "termFr": "chat",
-      "termEn": "chat",
+      "termFr": "",
+      "termEn": "A large bag of coffee keeps its full flavor for weeks after opening.",
       "correctAnswer": false,
-      "explanationShort": "chat (FR) = a cat.\nchat (EN) = an online written conversation.\nFrench purrs; English messages.",
-      "tags": ["false_friend"]
+      "explanationShort": "Once opened, the bag lets air in every time you reach for it.\nAfter about two weeks, most coffees start tasting flatter and duller as a result.\nBulk buying saves money and costs flavor.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 33,
-      "termFr": "supporter",
-      "termEn": "support",
-      "correctAnswer": false,
-      "explanationShort": "supporter (FR) = to tolerate or endure something unpleasant.\nsupport (EN) = to help, encourage, or hold something up.\nFrench endures; English helps.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A grinder that has not been cleaned in weeks can make fresh coffee taste stale.",
+      "correctAnswer": true,
+      "explanationShort": "Coffee oils build up inside the grinder with each use.\nOver time, those oils turn rancid and contaminate the next batch of grounds.\nClean grinder, fresh taste every time.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 34,
-      "termFr": "résumer",
-      "termEn": "resume",
-      "correctAnswer": false,
-      "explanationShort": "résumer (FR) = to summarize or condense.\nresume (EN) = to continue after a pause.\nFrench shortens; English starts again.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Preheating a coffee cup helps preserve temperature and aroma from the first sip.",
+      "correctAnswer": true,
+      "explanationShort": "A cold cup pulls heat from the coffee the moment it is poured.\nThat temperature drop mutes the aromas before you even take the first sip.\nA cold cup is a flavor trap.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 35,
-      "termFr": "actuel",
-      "termEn": "actual",
-      "correctAnswer": false,
-      "explanationShort": "actuel (FR) = current, present-day.\nactual (EN) = real, true, not imagined.\nFrench is current; English is real.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Coffee that sat 10 minutes before being served smells noticeably weaker than a fresh cup.",
+      "correctAnswer": true,
+      "explanationShort": "The moment brewing stops, aromatic compounds start escaping into the air.\nThey fade fast as the coffee cools.\nAroma peaks in the first 60 seconds.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 36,
-      "termFr": "préjudice",
-      "termEn": "prejudice",
-      "correctAnswer": false,
-      "explanationShort": "préjudice (FR) = harm or damage, especially in legal contexts.\nprejudice (EN) = a biased opinion formed without evidence.\nLatin 'praejudicium' (prior judgment) split into legal harm in French and personal bias in English.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The first sip of an unstirred cup can taste stronger than the last sip.",
+      "correctAnswer": true,
+      "explanationShort": "Denser flavor compounds settle toward the bottom of an unstirred cup.\nStirring once redistributes them evenly, making every sip taste consistent.\nStir once, taste the balance.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 37,
-      "termFr": "assumer",
-      "termEn": "assume",
-      "correctAnswer": false,
-      "explanationShort": "assumer (FR) = to take responsibility for something, to own it.\nassume (EN) = to suppose or take for granted.\nFrench owns it; English guesses it.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Letting coffee cool for a few minutes can bring out more sweetness and acidity.",
+      "correctAnswer": true,
+      "explanationShort": "Temperature affects how taste receptors pick up different flavors.\nAs coffee cools, acidity and sweetness become more noticeable while bitterness softens.\nHot coffee, bitter edge. Cool coffee, more sweet.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 38,
-      "termFr": "prétendre",
-      "termEn": "pretend",
-      "correctAnswer": false,
-      "explanationShort": "prétendre (FR) = to claim or assert something as true.\npretend (EN) = to fake or act as if something is true when it is not.\nFrench claims; English fakes.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A one-way valve on a coffee bag lets gas escape without letting air in.",
+      "correctAnswer": true,
+      "explanationShort": "Freshly roasted beans release CO2 for days and need a way to let it out.\nThe one-way valve lets that gas escape without allowing oxygen back in.\nLess oxygen inside, fresher beans longer.",
+      "tags": [
+        "Grains, roast and coffee basics",
+        "Hard"
+      ]
     },
     {
       "id": 39,
-      "termFr": "adresser",
-      "termEn": "address",
-      "correctAnswer": false,
-      "explanationShort": "adresser (FR) = to send or direct something to someone.\naddress (EN) = to deal with a problem or issue.\nSome overlap exists, but French usually means to send or direct.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Even well-sealed pre-ground coffee goes stale faster than whole beans.",
+      "correctAnswer": true,
+      "explanationShort": "Grinding exposes every tiny particle to air, so aromas start escaping within minutes.\nWhole beans, with far less surface area, hold their flavor much longer.\nGrind fresh, taste fresh.",
+      "tags": [
+        "Grains, roast and coffee basics",
+        "Medium"
+      ]
     },
     {
       "id": 40,
-      "termFr": "délai",
-      "termEn": "delay",
+      "termFr": "",
+      "termEn": "Using freshly roasted coffee always makes better coffee.",
       "correctAnswer": false,
-      "explanationShort": "délai (FR) = a time limit or allowed period.\ndelay (EN) = lateness or postponement.\nFrench gives you time; English makes you late.",
-      "tags": ["false_friend"]
+      "explanationShort": "Right after roasting, beans release CO2 for several days.\nThat gas pushes water away during brewing, which is why a few days of rest improves the cup.\nRest the beans, then brew.",
+      "tags": [
+        "Grains, roast and coffee basics",
+        "Hard"
+      ]
     },
     {
       "id": 41,
-      "termFr": "étiquette",
-      "termEn": "etiquette",
+      "termFr": "",
+      "termEn": "Descaling and cleaning a coffee machine are the same thing.",
       "correctAnswer": false,
-      "explanationShort": "étiquette (FR) = a label or price tag.\netiquette (EN) = rules of polite behaviour.\nFrench sticks on objects; English guides behaviour.",
-      "tags": ["false_friend"]
+      "explanationShort": "Coffee oils and mineral scale are two different problems inside a machine.\nCleaning removes the oils that affect taste, while descaling removes scale that harms the machine.\nOne cleans flavor, the other protects the machine.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Easy"
+      ]
     },
     {
       "id": 42,
-      "termFr": "engager",
-      "termEn": "engage",
-      "correctAnswer": false,
-      "explanationShort": "engager (FR) = to hire someone or commit yourself.\nengage (EN) = to involve, attract attention, or take part.\nFrench hires; English grabs attention.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "On a home espresso machine, changing the grind changes the taste of every shot.",
+      "correctAnswer": true,
+      "explanationShort": "The grind controls how much flavor the water picks up.\nA finer grind produces a richer, more intense shot.\nChange the grind, change the cup.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 43,
-      "termFr": "formation",
-      "termEn": "formation",
-      "correctAnswer": false,
-      "explanationShort": "formation (FR) = training or education.\nformation (EN) = an arrangement or structure of things.\nFrench trains people; English arranges things.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Pressing harder on espresso grounds does not fix a weak or bitter shot.",
+      "correctAnswer": true,
+      "explanationShort": "A weak or bitter espresso usually traces back to the grind or the dose, not the pressure.\nPressing harder on the grounds does not change either of those variables.\nMore pressure is not the answer.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 44,
-      "termFr": "fournir",
-      "termEn": "furnish",
-      "correctAnswer": false,
-      "explanationShort": "fournir (FR) = to supply or provide.\nfurnish (EN) = to equip with furniture.\nFrench provides; English decorates.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Cold brew usually tastes less bitter than hot-brewed coffee.",
+      "correctAnswer": true,
+      "explanationShort": "Cold water extracts fewer of the bitter compounds that hot water pulls out.\nThat is why the long cold steep produces a sweeter, smoother result than hot brewing.\nCold water pulls sweetness, hot water pulls bitterness.",
+      "tags": [
+        "Beverages and drink families",
+        "Hard"
+      ]
     },
     {
       "id": 45,
-      "termFr": "éventuel",
-      "termEn": "eventual",
-      "correctAnswer": false,
-      "explanationShort": "éventuel (FR) = possible, potential, not certain.\neventual (EN) = final, happening at the end, ultimate.\nFrench is uncertainty; English is end result.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A finer grind makes coffee taste stronger and more intense than a coarser grind.",
+      "correctAnswer": true,
+      "explanationShort": "Smaller particles slow the water down, creating more resistance during brewing.\nBecause water spends more time in contact with the grounds, it extracts more flavor.\nFiner grind, more flavor pulled out.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 46,
-      "termFr": "journée",
-      "termEn": "journey",
-      "correctAnswer": false,
-      "explanationShort": "journée (FR) = the span of a full day.\njourney (EN) = a trip from one place to another.\nFrench refers to a day; English refers to travel.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "An espresso served without any crema may indicate a problem with the machine or grind.",
+      "correctAnswer": true,
+      "explanationShort": "Crema forms when pressurized water forces CO2 out of fresh grounds.\nStale beans, low pressure, or a grind that is too coarse all reduce crema.\nNo crema is a signal worth paying attention to.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 47,
-      "termFr": "rester",
-      "termEn": "rest",
+      "termFr": "",
+      "termEn": "Coffee left on a hot plate stays fresh for up to an hour.",
       "correctAnswer": false,
-      "explanationShort": "rester (FR) = to stay or remain somewhere.\nrest (EN) = to relax or stop working.\nFrench stays; English relaxes.",
-      "tags": ["false_friend"]
+      "explanationShort": "Heat does not stop working on coffee once brewing ends.\nAfter 20 to 30 minutes on a hot plate, flavors go flat and bitterness increases.\nThermos or nothing, not a hot plate.",
+      "tags": [
+        "Coffee at home",
+        "Easy"
+      ]
     },
     {
       "id": 48,
-      "termFr": "sympathique",
-      "termEn": "sympathetic",
-      "correctAnswer": false,
-      "explanationShort": "sympathique (FR) = nice, friendly, pleasant.\nsympathetic (EN) = showing compassion or understanding.\nFrench is friendly; English shows compassion.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A machine rinsed with water after each use still builds up oils that turn rancid over time.",
+      "correctAnswer": true,
+      "explanationShort": "Water clears visible residue but cannot dissolve the oils that cling to the machine's interior.\nThose oils turn rancid over time and taint every cup that follows.\nRinse clears water, not oil.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 49,
-      "termFr": "sensible",
-      "termEn": "sensible",
-      "correctAnswer": false,
-      "explanationShort": "sensible (FR) = sensitive, easily affected emotionally.\nsensible (EN) = practical, reasonable, showing good judgment.\nFrom Latin 'sensibilis'; French kept feeling deeply, English shifted to thinking clearly.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Most healthy adults can safely take up to 200 mg of caffeine in one dose.",
+      "correctAnswer": true,
+      "explanationShort": "200 mg per dose is the safety threshold for most healthy adults, roughly one double espresso.\nThat is a safety guideline, not a comfort guarantee.\nOne double espresso, roughly at the safe limit.",
+      "tags": [
+        "Myths and misconceptions",
+        "Hard"
+      ]
     },
     {
       "id": 50,
-      "termFr": "envie",
-      "termEn": "envy",
-      "correctAnswer": false,
-      "explanationShort": "envie (FR) = a desire or craving for something.\nenvy (EN) = jealousy of what others have.\nWanting chocolate is French 'envie'; resenting someone else's chocolate is English 'envy.'",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The right amount of coffee matters more than the brewing method for a strong cup.",
+      "correctAnswer": true,
+      "explanationShort": "Strength is determined primarily by how much coffee you use relative to water.\nEven the best machine cannot compensate for a dose that is too small.\nRight dose first, method second.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 51,
-      "termFr": "déception",
-      "termEn": "deception",
-      "correctAnswer": false,
-      "explanationShort": "déception (FR) = disappointment, when expectations are not met.\ndeception (EN) = trickery, deliberate lying or misleading.\nFrench is about unmet hopes; English is about intentional dishonesty.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Coffee can taste worse if old coffee grounds are left inside the filter.",
+      "correctAnswer": true,
+      "explanationShort": "Old grounds leave stale, rancid oils behind in the filter after each brew.\nWhen new water passes through, those oils dissolve directly into the next cup.\nYesterday's grounds are ruining today's cup.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 52,
-      "termFr": "décevoir",
-      "termEn": "deceive",
-      "correctAnswer": false,
-      "explanationShort": "décevoir (FR) = to disappoint someone.\ndeceive (EN) = to trick or mislead someone.\nFrench hurts feelings; English breaks trust.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A cappuccino usually has more foam than a latte.",
+      "correctAnswer": true,
+      "explanationShort": "A cappuccino is built on equal thirds of espresso, steamed milk, and foam.\nA latte uses much more steamed milk and barely any foam, making it creamier and milder.\nCappuccino for foam, latte for cream.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 53,
-      "termFr": "roman",
-      "termEn": "roman",
-      "correctAnswer": false,
-      "explanationShort": "roman (FR) = a novel, a work of fiction.\nroman (EN) = relating to ancient Rome.\nFrench names the story; English names the empire.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A thin, watery espresso is often a sign the grind is too coarse.",
+      "correctAnswer": true,
+      "explanationShort": "Water needs enough time in contact with the grounds to pull out the full flavor.\nWhen the shot runs too fast, most of the flavor compounds stay behind in the puck.\nRushed water skips the flavor.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 54,
-      "termFr": "bras",
-      "termEn": "brass",
-      "correctAnswer": false,
-      "explanationShort": "bras (FR) = an arm, the body part.\nbrass (EN) = a yellow metal alloy.\nOne moves; the other shines.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A paper filter makes coffee taste cleaner and lighter than a metal filter.",
+      "correctAnswer": true,
+      "explanationShort": "Paper filters absorb the oils that pass freely through a metal filter.\nWithout those oils, the cup tastes cleaner and the finish is lighter on the palate.\nPaper catches what metal lets through.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 55,
-      "termFr": "limonade",
-      "termEn": "lemonade",
-      "correctAnswer": false,
-      "explanationShort": "limonade (FR) = a fizzy lemon soda.\nlemonade (EN) = a still drink made with lemon juice.\nIn France it bubbles; in English it does not.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Coffee stored in a sealed bag in the freezer always picks up freezer odors.",
+      "correctAnswer": true,
+      "explanationShort": "Coffee is highly porous and absorbs moisture and odors from its surroundings.\nEven a few hours in the freezer is enough for it to pick up unwanted smells.\nSealed tight or skip the freezer.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 56,
-      "termFr": "prune",
-      "termEn": "prune",
-      "correctAnswer": false,
-      "explanationShort": "prune (FR) = a fresh plum.\nprune (EN) = a dried plum.\nFrench is fresh; English is dried.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Freezing coffee in an airtight container can preserve it for long-term storage.",
+      "correctAnswer": true,
+      "explanationShort": "Coffee absorbs moisture and odors through any gap in the packaging.\nA truly airtight container blocks both entry points, keeping the aroma intact longer.\nSeal well, open rarely.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 57,
-      "termFr": "pain",
-      "termEn": "pain",
+      "termFr": "",
+      "termEn": "Grinding coffee the night before is better than grinding right before brewing.",
       "correctAnswer": false,
-      "explanationShort": "pain (FR) = bread.\npain (EN) = physical or emotional suffering.\nSame spelling, totally different meaning.",
-      "tags": ["false_friend"]
+      "explanationShort": "Ground coffee has far more surface area exposed to air than whole beans.\nBecause of that, it loses most of its aroma within 15 minutes of grinding.\nNight before grinding means stale grounds by morning.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 58,
-      "termFr": "sale",
-      "termEn": "sale",
-      "correctAnswer": false,
-      "explanationShort": "sale (FR) = dirty, filthy.\nsale (EN) = a discount event, or the act of selling.\nUnrelated roots: French from Frankish (dirty), English from Old Norse (selling).",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A French press left for 8 minutes instead of 4 produces noticeably more bitterness.",
+      "correctAnswer": true,
+      "explanationShort": "Four minutes is the standard steeping time for a French press.\nLeaving it much longer keeps extracting, and the flavors that come out next are harsher.\nToo long steep, more bitterness.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 59,
-      "termFr": "table",
-      "termEn": "table",
-      "correctAnswer": true,
-      "explanationShort": "table (FR) = a piece of furniture used for eating, working, or placing objects.\ntable (EN) = the same: a piece of furniture for eating or working.\nSame word, same everyday meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The fridge helps coffee beans stay fresh by keeping them cool and dry.",
+      "correctAnswer": false,
+      "explanationShort": "The fridge is full of moisture and strong odors that coffee readily absorbs.\nThat absorption damages the flavor instead of protecting it.\nThe fridge steals flavor instead of saving it.",
+      "tags": [
+        "Coffee at home",
+        "Easy"
+      ]
     },
     {
       "id": 60,
-      "termFr": "orange",
-      "termEn": "orange",
-      "correctAnswer": true,
-      "explanationShort": "orange (FR) = the fruit and the colour.\norange (EN) = the same: the fruit and the colour.\nThe word came from Sanskrit through Arabic \"naranj\"; European languages dropped the initial \"n\" by confusing it with the article.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A flat white and a latte use the same milk-to-espresso ratio.",
+      "correctAnswer": false,
+      "explanationShort": "Both drinks use espresso and steamed milk, but the balance is different.\nA flat white uses less milk, making it more coffee-forward, while a latte is creamier and milder.\nSame family, different taste.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 61,
-      "termFr": "chocolat",
-      "termEn": "chocolate",
-      "correctAnswer": true,
-      "explanationShort": "chocolat (FR) = the food made from cacao beans.\nchocolate (EN) = the same: the cacao-based food or flavour.\nFrom Nahuatl 'xocolatl,' brought to Europe by Spanish conquistadors in the 1500s.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Adding water to a bitter espresso removes the bitterness at the source.",
+      "correctAnswer": false,
+      "explanationShort": "Adding water dilutes the drink, but it does not touch the source of the bitterness.\nBitterness usually comes from grind size or brew time, and water changes neither.\nDilution is not a real fix.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 62,
-      "termFr": "fruit",
-      "termEn": "fruit",
-      "correctAnswer": true,
-      "explanationShort": "fruit (FR) = edible produce from a plant.\nfruit (EN) = the same: edible produce from a plant.\nFrom Latin 'fructus,' both languages preserved the botanical meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A macchiato is usually a milk-heavy drink like a latte.",
+      "correctAnswer": false,
+      "explanationShort": "A macchiato is built on espresso as its base, with only a small mark of milk added.\nThat small amount of milk softens the edge slightly without changing the drink's character.\nMostly espresso, barely any milk.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 63,
-      "termFr": "restaurant",
-      "termEn": "restaurant",
-      "correctAnswer": true,
-      "explanationShort": "restaurant (FR) = a place where meals are prepared and served.\nrestaurant (EN) = the same: a place where meals are served to customers.\nFrom French 'restaurer' (to restore strength).",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A French press and a pour-over produce the same mouthfeel.",
+      "correctAnswer": false,
+      "explanationShort": "A French press lets oils and fine particles pass freely into the cup, creating a heavier texture.\nA paper filter traps those same elements, producing a cleaner and lighter result.\nSame beans, different mouthfeel entirely.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 64,
-      "termFr": "zoo",
-      "termEn": "zoo",
-      "correctAnswer": true,
-      "explanationShort": "zoo = a place where animals are kept for public display.\nShort for 'zoological garden,' from Greek 'zoion' (animal).",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A capsule machine and a traditional espresso machine always produce the same cup.",
+      "correctAnswer": false,
+      "explanationShort": "A capsule machine manages pressure and temperature automatically, with nothing left to adjust.\nA traditional machine puts grind, dose, and timing entirely in the user's hands.\nSame name, different control.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 65,
-      "termFr": "appartement",
-      "termEn": "apartment",
-      "correctAnswer": true,
-      "explanationShort": "appartement = a residential unit inside a building.\nFrom Italian 'appartamento,' both languages kept the same housing meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Oat milk froths as well as cow's milk under a steam wand.",
+      "correctAnswer": false,
+      "explanationShort": "Oat milk has less protein than cow's milk, and protein is what holds foam together.\nThat is why oat milk needs more time and technique to build stable microfoam.\nSame drink, different technique.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 66,
-      "termFr": "accident",
-      "termEn": "accident",
-      "correctAnswer": true,
-      "explanationShort": "accident = an unexpected, usually harmful event.\nFrom Latin 'accidere' (to happen), both kept the sense of chance misfortune.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Soy milk never curdles when added to coffee.",
+      "correctAnswer": false,
+      "explanationShort": "Soy milk is sensitive to heat and acidity, and espresso delivers both at once.\nWhen the two meet, the acidity destabilizes the soy protein and causes it to split.\nHot acidic espresso and soy do not always mix.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 67,
-      "termFr": "information",
-      "termEn": "information",
-      "correctAnswer": true,
-      "explanationShort": "information (FR) = facts or knowledge about a subject.\ninformation (EN) = the same: facts or knowledge.\nIn French, \"les informations\" can also mean the TV news.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "All plant-based milks have a neutral flavor that does not change coffee's taste.",
+      "correctAnswer": false,
+      "explanationShort": "Each plant milk has its own flavor profile that it adds to the drink.\nCoconut brings tropical notes, almond adds nuttiness, and oat contributes mild sweetness.\nPlant milk choice changes what the coffee tastes like.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 68,
-      "termFr": "communication",
-      "termEn": "communication",
+      "termFr": "",
+      "termEn": "Ordering a doppio gives you roughly twice the caffeine of a single espresso.",
       "correctAnswer": true,
-      "explanationShort": "communication = the exchange of information through speech, writing, or signals.\nFrom Latin 'communicare' (to share), both preserved the same meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "A doppio is two espresso shots pulled together.\nSince each shot contains roughly 60 to 75 mg of caffeine, a doppio doubles that.\nTwo shots deliver roughly 150 mg, more than most energy drinks.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 69,
-      "termFr": "situation",
-      "termEn": "situation",
-      "correctAnswer": true,
-      "explanationShort": "situation = a set of circumstances or state of affairs.\nFrom Latin 'situs' (position), both languages use it for circumstances.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Plant-based milks like oat or almond always cost extra at coffee shops.",
+      "correctAnswer": false,
+      "explanationShort": "Many coffee shops still charge extra for plant-based milks, but the practice is changing.\nA growing number of shops have dropped the surcharge as demand for oat and almond milk grows.\nSome shops charge extra, some do not.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 70,
-      "termFr": "solution",
-      "termEn": "solution",
-      "correctAnswer": true,
-      "explanationShort": "solution = an answer to a problem, or a liquid mixture in chemistry.\nFrom Latin 'solvere' (to loosen), both kept the same double meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Oat milk has been the dominant plant-based milk in US coffee shops since it launched.",
+      "correctAnswer": false,
+      "explanationShort": "Soy milk was the default plant-based option in US coffee shops for years.\nOat milk only arrived on US shelves around 2018 but quickly overtook soy and almond in popularity.\nSoy came first, oat took over.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 71,
-      "termFr": "nation",
-      "termEn": "nation",
-      "correctAnswer": true,
-      "explanationShort": "nation = a country or its people as a political community.\nFrom Latin 'natio' (birth, people), both use it for political and cultural entities.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Coconut milk froths just as reliably as oat milk under a steam wand.",
+      "correctAnswer": false,
+      "explanationShort": "Coconut milk is high in fat but low in protein, and protein is what creates stable foam.\nOat milk has more body and produces a creamier microfoam under steam.\nSame wand, different foam.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 72,
-      "termFr": "important",
-      "termEn": "important",
-      "correctAnswer": true,
-      "explanationShort": "important = significant, having great value or influence.\nFrom Latin 'importare' (to carry in, to matter), both languages mark what has weight.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Robusta makes up more than half of the world's coffee exports.",
+      "correctAnswer": false,
+      "explanationShort": "Arabica accounts for roughly 60 to 65 percent of global coffee exports.\nRobusta makes up the remaining share, used mainly in instant coffee and commercial espresso blends.\nArabica leads, robusta follows.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 73,
-      "termFr": "possible",
-      "termEn": "possible",
-      "correctAnswer": true,
-      "explanationShort": "possible = something that can happen or be done.\nFrom Latin 'posse' (to be able), both kept the same sense.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Coffee shop prices have nothing to do with world coffee prices.",
+      "correctAnswer": false,
+      "explanationShort": "Coffee shops source their beans through the global commodity market.\nWhen prices rise there, the cost increase flows through roasters and eventually to the counter.\nGlobal price, local cup.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 74,
-      "termFr": "impossible",
-      "termEn": "impossible",
-      "correctAnswer": true,
-      "explanationShort": "impossible = something that cannot happen or be done.\nThe Latin prefix 'im-' negates 'possible' the same way in both languages.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Kenya is known for producing robusta coffee.",
+      "correctAnswer": false,
+      "explanationShort": "Kenya grows almost exclusively arabica at high altitude.\nThat combination produces a coffee prized for bright, fruity notes of berry and citrus.\nKenyan coffee is fruity and bright, not bold.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 75,
-      "termFr": "excellent",
-      "termEn": "excellent",
-      "correctAnswer": true,
-      "explanationShort": "excellent = of the highest quality or standard.\nFrom Latin 'excellere' (to surpass), both preserved the superlative sense.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Coffee ground an hour before brewing tastes just as fresh as coffee ground right before.",
+      "correctAnswer": false,
+      "explanationShort": "Aromatic compounds start escaping the moment coffee is ground.\nThat is why grinding right before brewing keeps more of those aromas in the cup.\nGround fresh, more aroma. Ground ahead, less.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 76,
-      "termFr": "intelligent",
-      "termEn": "intelligent",
+      "termFr": "",
+      "termEn": "An americano contains the same caffeine as its espresso base.",
       "correctAnswer": true,
-      "explanationShort": "intelligent = having strong mental ability.\nFrom Latin 'intelligere' (to understand), both describe cognitive ability.",
-      "tags": ["true_friend"]
+      "explanationShort": "An americano is made by adding hot water to an espresso shot to lengthen the drink.\nThe espresso base stays the same, so the caffeine stays the same regardless of cup size.\nSame espresso, more water, same caffeine.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 77,
-      "termFr": "urgent",
-      "termEn": "urgent",
-      "correctAnswer": true,
-      "explanationShort": "urgent = requiring immediate attention or action.\nFrom Latin 'urgere' (to press), both kept the sense of pressing time.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Limescale in a coffee machine can only affect taste, not the machine itself.",
+      "correctAnswer": false,
+      "explanationShort": "Heavy limescale restricts water flow and forces the heating element to work harder.\nBeyond affecting taste, this kind of damage can void machine warranties.\nScale blocks water, ruins flavor, voids warranties.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 78,
-      "termFr": "taxi",
-      "termEn": "taxi",
+      "termFr": "",
+      "termEn": "Using a water filter on a coffee machine can help reduce limescale buildup.",
       "correctAnswer": true,
-      "explanationShort": "taxi = a hired car with a driver.\nShort for 'taximeter' (fare meter), the word spread internationally with identical meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "A water filter removes the minerals that deposit as limescale over time.\nWith less buildup, the machine needs less descaling and performs better for longer.\nFiltered water, less scale.",
+      "tags": [
+        "Coffee at home",
+        "Easy"
+      ]
     },
     {
       "id": 79,
-      "termFr": "bus",
-      "termEn": "bus",
+      "termFr": "",
+      "termEn": "Two coffees from the same farm can taste completely different depending on their processing.",
       "correctAnswer": true,
-      "explanationShort": "bus = a large vehicle for carrying passengers on a fixed route.\nShortened from Latin 'omnibus' (for everyone), both languages adopted the same abbreviation.",
-      "tags": ["true_friend"]
+      "explanationShort": "Natural processing dries the bean with its fruit still on, adding sweetness and body to the final cup.\nWashed processing removes the fruit first, producing a cleaner, brighter flavor.\nSame farm, different cup.",
+      "tags": [
+        "Beverages and drink families",
+        "Hard"
+      ]
     },
     {
       "id": 80,
-      "termFr": "menu",
-      "termEn": "menu",
-      "correctAnswer": true,
-      "explanationShort": "menu = a list of available dishes in a restaurant.\nFrom French 'menu' (detailed, small), originally meaning a detailed list of options.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Most of the world's coffee is consumed where it is grown.",
+      "correctAnswer": false,
+      "explanationShort": "Coffee is grown almost entirely in tropical countries near the equator.\nYet roughly 70 percent of global consumption happens in Europe, North America, and Asia.\nGrown in one place, drunk in another.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 81,
-      "termFr": "animal",
-      "termEn": "animal",
-      "correctAnswer": true,
-      "explanationShort": "animal = a living creature that is not a plant.\nFrom Latin 'animalis' (having breath), both kept the biological category.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Cheap espresso blends at coffee shops usually contain arabica.",
+      "correctAnswer": false,
+      "explanationShort": "Robusta costs far less than arabica, making it the go-to choice for budget blends.\nIt also produces more crema, which is why it is common in commercial espresso blends.\nCheap blend, likely robusta.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 82,
-      "termFr": "musique",
-      "termEn": "music",
-      "correctAnswer": true,
-      "explanationShort": "musique = the art of organized sound.\nFrom Greek 'mousike' (art of the Muses), both preserved the same artistic meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The United States grows most of the coffee it drinks.",
+      "correctAnswer": false,
+      "explanationShort": "Hawaii is the only US state with significant commercial coffee production.\nEverything else the country drinks is imported from tropical growing regions across the world.\nAmerican coffee is mostly brewed here, not grown here.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 83,
-      "termFr": "culture",
-      "termEn": "culture",
-      "correctAnswer": true,
-      "explanationShort": "culture (FR) = the arts, customs, and beliefs of a society.\nculture (EN) = the same: the arts, customs, and beliefs of a society.\nAlso used in science for growing organisms in a controlled setting — from Latin 'cultura'.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Italy grows most of the coffee it drinks.",
+      "correctAnswer": false,
+      "explanationShort": "Italy is world-famous for its espresso culture and roasting expertise.\nBut coffee only grows in tropical climates near the equator, far from Italy's geography.\nItalian coffee culture runs on imported beans.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 84,
-      "termFr": "minute",
-      "termEn": "minute",
-      "correctAnswer": true,
-      "explanationShort": "minute = a unit of time equal to 60 seconds.\nFrom Latin 'minuta' (small part), international timekeeping aligned the unit.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "China produces most of the coffee it drinks.",
+      "correctAnswer": false,
+      "explanationShort": "China does produce coffee, mainly in the Yunnan province.\nBut domestic production falls far short of the country's growing consumption, so most comes from imports.\nChina drinks far more coffee than it grows.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 85,
-      "termFr": "seconde",
-      "termEn": "second",
+      "termFr": "",
+      "termEn": "Brazil exports far more coffee than it consumes domestically.",
       "correctAnswer": true,
-      "explanationShort": "seconde (FR) = a unit of time or second position.\nsecond (EN) = the same: a unit of time or position after first.\nFrom Latin 'secunda' (following).",
-      "tags": ["true_friend"]
+      "explanationShort": "Brazil is both the world's largest coffee producer and a significant consumer at home.\nEven so, it exports far more than it keeps, supplying coffee markets around the world.\nExports dominate, domestic use is smaller.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 86,
-      "termFr": "public",
-      "termEn": "public",
+      "termFr": "",
+      "termEn": "Most Colombian coffee bags found in US stores contain arabica.",
       "correctAnswer": true,
-      "explanationShort": "public = open to everyone, or relating to the people as a whole.\nFrom Latin 'publicus,' both describe collective access and shared space.",
-      "tags": ["true_friend"]
+      "explanationShort": "Colombia's high altitude and climate are ideal conditions for arabica cultivation.\nThat is why the country grows arabica almost exclusively.\nColombian bag usually means arabica.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 87,
-      "termFr": "total",
-      "termEn": "total",
+      "termFr": "",
+      "termEn": "Finland drinks more coffee per person than any major coffee-producing country.",
       "correctAnswer": true,
-      "explanationShort": "total = the complete amount or sum.\nFrom Latin 'totus' (whole), both use it for a full count.",
-      "tags": ["true_friend"]
+      "explanationShort": "Nordic countries consistently top global rankings for coffee consumption per person.\nFinland, for example, averages around 4 to 5 cups per person per day.\nThe biggest drinkers per cup live far from coffee farms.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 88,
-      "termFr": "normal",
-      "termEn": "normal",
+      "termFr": "",
+      "termEn": "Most instant coffee is made with robusta beans from countries like Vietnam.",
       "correctAnswer": true,
-      "explanationShort": "normal = conforming to what is standard or expected.\nFrom Latin 'norma' (carpenter's square); the measuring tool became the metaphor for what fits the rule.",
-      "tags": ["true_friend"]
+      "explanationShort": "Vietnam is one of the world's largest robusta producers.\nBecause robusta is cheaper and has a stronger, more bitter flavor, it is the standard choice for instant coffee.\nVietnam beans, instant jar.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 89,
-      "termFr": "national",
-      "termEn": "national",
+      "termFr": "",
+      "termEn": "Ethiopia is where coffee plants originate, not where coffee was first brewed.",
       "correctAnswer": true,
-      "explanationShort": "national = relating to or belonging to a nation.\nBuilt on 'nation,' the adjective stayed aligned in both languages.",
-      "tags": ["true_friend"]
+      "explanationShort": "Ethiopia is where wild coffee plants were first discovered, and they still grow there today.\nYemen, however, is where coffee was first cultivated and brewed as a drink.\nEvery cup traces back to one country.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 90,
-      "termFr": "international",
-      "termEn": "international",
+      "termFr": "",
+      "termEn": "Brazil is the world's top coffee grower and one of its biggest coffee-drinking nations.",
       "correctAnswer": true,
-      "explanationShort": "international = involving two or more countries.\nThe prefix 'inter-' (between) worked identically in both languages.",
-      "tags": ["true_friend"]
+      "explanationShort": "Brazil produces more coffee than any other country by volume.\nUnlike most coffee-growing nations, it is also one of the biggest consumers, drinking much of what it grows.\nBrazil sets the scale for world coffee.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 91,
-      "termFr": "valeur",
-      "termEn": "value",
-      "correctAnswer": false,
-      "explanationShort": "valeur (FR) = worth, importance, moral principle.\nvalue (EN) = numerical or economic amount.\nFrench can mean importance; English usually means a quantity.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Robusta coffee from Indonesia ends up in many espresso blends and instant coffees.",
+      "correctAnswer": true,
+      "explanationShort": "Indonesia grows large quantities of robusta, which thrives at lower altitudes and in heat.\nBecause of its availability and low cost, Indonesian robusta is used in many commercial blends and instant coffees.\nIndonesian robusta, in most blends.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 92,
-      "termFr": "photographe",
-      "termEn": "photographer",
+      "termFr": "",
+      "termEn": "Coffee grows in roughly the same climate zone as cocoa and bananas.",
       "correctAnswer": true,
-      "explanationShort": "photographe = a person who takes photographs.\nFrom Greek 'photo' (light) + 'graphe' (writing), both name the same profession.",
-      "tags": ["true_friend"]
+      "explanationShort": "Coffee plants need consistent warmth, humidity, and no frost to thrive.\nThat combination only exists in the band between the two tropics.\nThe best coffee grows where it is hottest.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 93,
-      "termFr": "responsable",
-      "termEn": "responsible",
+      "termFr": "",
+      "termEn": "Most of the world's coffee is produced in tropical countries.",
       "correctAnswer": true,
-      "explanationShort": "responsable (FR) = in charge or accountable.\nresponsible (EN) = the same: accountable or in charge.\nIn French the noun can also mean a manager.",
-      "tags": ["true_friend"]
+      "explanationShort": "The four largest producers, Brazil, Vietnam, Colombia, and Ethiopia, all sit in or near the tropics.\nTogether they supply roughly two thirds of the world's coffee.\nTemperate countries drink it, tropical countries grow it.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 94,
-      "termFr": "danger",
-      "termEn": "danger",
+      "termFr": "",
+      "termEn": "Fairtrade focuses on fairer trading conditions for producers.",
       "correctAnswer": true,
-      "explanationShort": "danger = a risk of harm or threat to safety.\nBoth languages inherited the word from Old French, keeping the sense of threat.",
-      "tags": ["true_friend"]
+      "explanationShort": "Fairtrade focuses on the trading relationship between buyers and farmers.\nIts goal is to guarantee fairer prices and more stability for small producers.\nFairtrade changes who gets paid, not the taste.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 95,
-      "termFr": "produit",
-      "termEn": "product",
-      "correctAnswer": true,
-      "explanationShort": "produit = something manufactured, grown, or created for sale.\nFrom Latin 'producere' (to bring forth), both name what is made.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A certification logo on a coffee bag always means it was grown organically.",
+      "correctAnswer": false,
+      "explanationShort": "Different certification logos cover different things: trade terms, farming practices, or sustainability.\nOnly a label specifically certifying organic farming confirms that no synthetic inputs were used.\nLogo on the bag does not mean organic.",
+      "tags": [
+        "Buying and labels",
+        "Medium"
+      ]
     },
     {
       "id": 96,
-      "termFr": "organisation",
-      "termEn": "organization",
+      "termFr": "",
+      "termEn": "High-altitude coffees often taste brighter and more layered than low-altitude ones.",
       "correctAnswer": true,
-      "explanationShort": "organisation = a structured group of people working together.\nSame meaning in both languages.",
-      "tags": ["true_friend"]
+      "explanationShort": "At high altitude, cooler temperatures slow the growth of the coffee cherry.\nThat slower development gives the bean more time to build density and a more complex flavor.\nGrow it higher, taste it deeper.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 97,
-      "termFr": "administration",
-      "termEn": "administration",
+      "termFr": "",
+      "termEn": "Coffee prices can rise even if people do not drink more coffee.",
       "correctAnswer": true,
-      "explanationShort": "administration = the management or governance of an organization.\nFrom Latin 'administrare' (to serve, manage), both refer to governance.",
-      "tags": ["true_friend"]
+      "explanationShort": "Coffee prices respond to supply, not just demand.\nA smaller harvest reduces available supply, and that alone is enough to push prices up.\nBad harvest, higher price, same demand.",
+      "tags": [
+        "Market and price",
+        "Medium"
+      ]
     },
     {
       "id": 98,
-      "termFr": "libraire",
-      "termEn": "librarian",
+      "termFr": "",
+      "termEn": "Coffee can grow well in any climate if enough water is used.",
       "correctAnswer": false,
-      "explanationShort": "libraire (FR) = a bookseller.\nlibrarian (EN) = a person who works in a library.\nSeller in French; library staff in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "Coffee needs a specific combination of altitude, temperature, and rainfall to develop properly.\nExtra water cannot compensate for the wrong climate or soil conditions.\nClimate decides where coffee grows, not water.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 99,
-      "termFr": "historique",
-      "termEn": "historical",
-      "correctAnswer": false,
-      "explanationShort": "historique (FR) = historic, significant in history.\nhistorical (EN) = related to history in general.\nFrench often means important; English simply relates to history.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A mocha at a coffee shop is espresso with chocolate syrup.",
+      "correctAnswer": true,
+      "explanationShort": "A mocha is built like a latte, with espresso and steamed milk, plus chocolate syrup.\nThe name comes from the Yemeni port of Mocha, once the world's main coffee trading hub.\nEspresso plus chocolate, not a special bean.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 100,
-      "termFr": "économique",
-      "termEn": "economic",
+      "termFr": "",
+      "termEn": "The Ethiopian coffee ceremony is a slow ritual that lasts over an hour.",
       "correctAnswer": true,
-      "explanationShort": "économique = relating to the economy, trade, and production of wealth.\nFrom Greek 'oikonomia' (household management), both kept the resource meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "The Ethiopian coffee ceremony is served in three separate rounds.\nEach round is brewed and served slowly, so the full ceremony naturally lasts over an hour.\nThree rounds make coffee a ritual.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 101,
-      "termFr": "magasin",
-      "termEn": "magazine",
-      "correctAnswer": false,
-      "explanationShort": "magasin (FR) = a shop or store where you buy things.\nmagazine (EN) = a periodical publication with articles and photos.\nBoth come from Arabic 'makhazin' (storehouses); one stores goods, the other stores stories.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Words like fruity or floral on a coffee bag come from a shared tasting standard.",
+      "correctAnswer": true,
+      "explanationShort": "Words like berry, chocolate, and floral on coffee bags are not chosen at random.\nThey trace back to a shared tasting standard used by professionals worldwide to describe aromas and flavors.\nBerry in Brooklyn means berry in Berlin.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 102,
-      "termFr": "veste",
-      "termEn": "vest",
+      "termFr": "",
+      "termEn": "Coffeehouses first became popular in Europe before spreading to the Arab world.",
       "correctAnswer": false,
-      "explanationShort": "veste (FR) = a jacket, a garment with sleeves.\nvest (EN) = a sleeveless undergarment or waistcoat.\nFrench wears a jacket; English wears an undershirt.",
-      "tags": ["false_friend"]
+      "explanationShort": "Coffeehouses first appeared in Yemen and spread through the Ottoman Empire in the 15th century.\nThey only reached Europe two centuries later, in the 17th century.\nArab world first, Europe after.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 103,
-      "termFr": "réclamer",
-      "termEn": "reclaim",
-      "correctAnswer": false,
-      "explanationShort": "réclamer (FR) = to demand or ask for something.\nreclaim (EN) = to take something back or recover it.\nFrench demands; English takes back.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Turkish coffee culture is recognized on the UNESCO Intangible Cultural Heritage list.",
+      "correctAnswer": true,
+      "explanationShort": "Turkish coffee was formally inscribed on the UNESCO Intangible Cultural Heritage list.\nThe recognition covers not just the brewing method but also the hospitality rituals and social role it plays.\nUNESCO listed it as living heritage, still practiced today.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 104,
-      "termFr": "formidable",
-      "termEn": "formidable",
+      "termFr": "",
+      "termEn": "Coffee was first consumed as a brewed beverage in Ethiopia.",
       "correctAnswer": false,
-      "explanationShort": "formidable (FR) = wonderful or fantastic.\nformidable (EN) = impressive, powerful, or intimidating.\nFrench praises; English warns.",
-      "tags": ["false_friend"]
+      "explanationShort": "Coffee plants originate in Ethiopia, but Ethiopians were not the first to brew it.\nIt was in Yemen that coffee was first cultivated and consumed as a beverage.\nPlant from Ethiopia, drink from Yemen.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 105,
-      "termFr": "crier",
-      "termEn": "cry",
-      "correctAnswer": false,
-      "explanationShort": "crier (FR) = to shout loudly.\ncry (EN) = to shed tears.\nFrench shouts; English weeps.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Turkish coffee is served with the grounds still in the cup, unlike espresso.",
+      "correctAnswer": true,
+      "explanationShort": "Turkish coffee is simmered slowly in a small metal pot, then poured directly into the cup.\nBecause it is unfiltered, the grounds settle at the bottom of the cup.\nGrounds in the cup, not filtered out.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 106,
-      "termFr": "portrait",
-      "termEn": "portrait",
-      "correctAnswer": true,
-      "explanationShort": "portrait (FR) = an artistic depiction of a person.\nportrait (EN) = the same: an artistic depiction of a person.\nBoth languages use it the same way.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The Yemeni port of Mocha gave its name only to a chocolate coffee drink.",
+      "correctAnswer": false,
+      "explanationShort": "Mocha was a Yemeni port city and the main coffee export hub from the 16th century onward.\nThe name was later borrowed for the chocolate-coffee drink, but its origin is purely geographic.\nPort city first, chocolate drink after.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 107,
-      "termFr": "garage",
-      "termEn": "garage",
-      "correctAnswer": true,
-      "explanationShort": "garage = a building for parking or repairing vehicles.\nA French word exported worldwide with identical meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Indian coffee is rarely exported outside Asia.",
+      "correctAnswer": false,
+      "explanationShort": "India grows both arabica and robusta in its southern states of Karnataka, Kerala, and Tamil Nadu.\nThat coffee is then exported to Europe and other international markets.\nIndian coffee travels farther than most people think.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 108,
-      "termFr": "touriste",
-      "termEn": "tourist",
-      "correctAnswer": true,
-      "explanationShort": "touriste = a person travelling for pleasure.\nFrom French 'tour' (a journey or circuit), both describe the same traveller.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The chocolate in a mocha adds caffeine on top of the espresso.",
+      "correctAnswer": false,
+      "explanationShort": "A mocha and a latte are built on the same espresso base.\nThe chocolate syrup a mocha adds brings sweetness and flavor, but no additional caffeine.\nMore chocolate, same caffeine.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 109,
-      "termFr": "science",
-      "termEn": "science",
+      "termFr": "",
+      "termEn": "A mocha tastes richer and sweeter than a latte because of the chocolate.",
       "correctAnswer": true,
-      "explanationShort": "science = the systematic study of the natural world through observation and experiment.\nFrom Latin 'scientia' (knowledge), both kept the same meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "A latte is just espresso and steamed milk, with nothing extra added.\nA mocha uses the same base but adds chocolate syrup, making it sweeter and richer.\nSame base, chocolate changes everything.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 110,
-      "termFr": "architecture",
-      "termEn": "architecture",
+      "termFr": "",
+      "termEn": "Nitro cold brew is cold brew coffee infused with nitrogen gas.",
       "correctAnswer": true,
-      "explanationShort": "architecture = the art and practice of designing buildings.\nFrom Greek 'arkhitekton' (master builder), both preserved the construction meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "Nitro cold brew is made by infusing cold brew with nitrogen gas under pressure.\nThe nitrogen creates tiny bubbles that give the drink a creamy, velvety texture without any milk or sugar.\nCold brew plus nitrogen, not cold brew plus milk.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 111,
-      "termFr": "regarder",
-      "termEn": "regard",
+      "termFr": "",
+      "termEn": "Nitro cold brew always contains added sugar or cream.",
       "correctAnswer": false,
-      "explanationShort": "regarder (FR) = to look at or watch.\nregard (EN) = respect or consideration.\nFrench looks; English respects.",
-      "tags": ["false_friend"]
+      "explanationShort": "The creamy texture of nitro cold brew comes entirely from the nitrogen bubbles, not from dairy.\nMost versions are served completely plain, with nothing else added.\nCreamy texture, no cream added.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 112,
-      "termFr": "caution",
-      "termEn": "caution",
-      "correctAnswer": false,
-      "explanationShort": "caution (FR) = a security deposit or bail money.\ncaution (EN) = care taken to avoid danger or mistakes.\nFrench turned it into a financial guarantee; English turned it into a warning.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "An extra espresso shot adds roughly 75 mg of caffeine to any drink.",
+      "correctAnswer": true,
+      "explanationShort": "Each espresso shot carries roughly 60 to 75 mg of caffeine.\nAdding one more shot adds that same amount directly on top of the existing total.\nMore shots, more caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 113,
-      "termFr": "pet",
-      "termEn": "pet",
+      "termFr": "",
+      "termEn": "Adding flavored syrup to coffee increases its caffeine content.",
       "correctAnswer": false,
-      "explanationShort": "pet (FR) = a fart, gas released from the body.\npet (EN) = a domesticated animal kept for companionship.\nFlatulence in French; furry friend in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "Flavored syrups are made of sugar and flavor compounds, with no caffeine of their own.\nAll the caffeine in the drink comes from the espresso or coffee base, not the syrup.\nSweeter drink, same caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 114,
-      "termFr": "patron",
-      "termEn": "patron",
+      "termFr": "",
+      "termEn": "A bag's best-before date tells you more about freshness than the roast date.",
       "correctAnswer": false,
-      "explanationShort": "patron (FR) = the boss or employer who runs the business.\npatron (EN) = a loyal customer or financial supporter.\nFrom Latin 'patronus' (protector); French took the authority side, English took the generosity side.",
-      "tags": ["false_friend"]
+      "explanationShort": "The roasted-on date marks the moment freshness started counting down.\nMost coffee tastes best within 2 to 4 weeks of that date, well before the best-before arrives.\nRoasted on beats best before.",
+      "tags": [
+        "Buying and freshness",
+        "Medium"
+      ]
     },
     {
       "id": 115,
-      "termFr": "pièce",
-      "termEn": "piece",
-      "correctAnswer": false,
-      "explanationShort": "pièce (FR) = a room, coin, or theatrical play.\npiece (EN) = a part of something.\nFrench enters a room; English takes a part.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Ordering half-caf at a coffee shop cuts the caffeine by roughly half.",
+      "correctAnswer": true,
+      "explanationShort": "Half-caf is a blend of equal parts regular and decaf coffee.\nThe result has roughly half the caffeine of a regular cup.\nHalf the name, half the caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 116,
-      "termFr": "massage",
-      "termEn": "massage",
-      "correctAnswer": true,
-      "explanationShort": "massage = therapeutic manipulation of muscles and soft tissue.\nFrom Arabic 'mass' (to touch), the word entered French then spread worldwide.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Adding milk to an espresso reduces its caffeine content.",
+      "correctAnswer": false,
+      "explanationShort": "A latte and a straight espresso are both built on the same shot.\nAdding milk increases the volume and changes the texture, but it does not remove any caffeine.\nOne shot, roughly 75 mg, latte or black.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 117,
-      "termFr": "surprise",
-      "termEn": "surprise",
-      "correctAnswer": true,
-      "explanationShort": "surprise = an unexpected event, or the feeling of astonishment it causes.\nFrom Old French 'surprendre' (to overtake), both kept the element of the unexpected.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Roasters who use blends are cutting corners on quality.",
+      "correctAnswer": false,
+      "explanationShort": "Blending beans from different origins allows roasters to build a specific, consistent flavor profile.\nMany highly regarded espresso roasters use blends deliberately, for their reliability and balance.\nBlend is a choice, not a compromise.",
+      "tags": [
+        "Buying and freshness",
+        "Medium"
+      ]
     },
     {
       "id": 118,
-      "termFr": "concert",
-      "termEn": "concert",
+      "termFr": "",
+      "termEn": "Extra hot on a latte means the milk is steamed beyond the standard temperature.",
       "correctAnswer": true,
-      "explanationShort": "concert = a live musical performance before an audience.\nFrom Italian through French, both name the same musical event.",
-      "tags": ["true_friend"]
+      "explanationShort": "Standard steamed milk is warm and comfortable to hold through the cup.\nExtra hot pushes it past that point, closer to scalding.\nHotter milk, same drink.",
+      "tags": [
+        "Coffee shop experience",
+        "Easy"
+      ]
     },
     {
       "id": 119,
-      "termFr": "effort",
-      "termEn": "effort",
-      "correctAnswer": true,
-      "explanationShort": "effort = physical or mental energy applied to a task.\nFrom Old French 'esforcer' (to force), both kept the sense of trying hard.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A capsule machine gives as much control over espresso as a manual machine.",
+      "correctAnswer": false,
+      "explanationShort": "Capsule machines automate every variable, leaving nothing for the user to adjust.\nA manual machine hands control of grind, dose, and pressure directly to the user.\nSame name, less control.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 120,
-      "termFr": "virus",
-      "termEn": "virus",
-      "correctAnswer": true,
-      "explanationShort": "virus = an infectious agent that causes disease.\nAlso used for harmful computer programs — Latin scientific vocabulary keeps both languages aligned.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "A larger latte always contains more caffeine than a smaller latte.",
+      "correctAnswer": false,
+      "explanationShort": "The caffeine in a latte comes entirely from the espresso shots, not from the cup size.\nA large and a small latte made with the same number of shots carry exactly the same caffeine.\nCup size adds milk, not caffeine.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 121,
-      "termFr": "défaut",
-      "termEn": "default",
-      "correctAnswer": false,
-      "explanationShort": "défaut (FR) = a flaw or imperfection.\ndefault (EN) = the preset option or a failure to pay.\nFrench points to a flaw; English points to a preset.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A pour-over and a drip machine both work by passing hot water through ground coffee.",
+      "correctAnswer": true,
+      "explanationShort": "Both a pour-over and a drip machine work on the same principle: hot water flowing through grounds in a filter.\nThe difference is that a pour-over is controlled by hand, while a drip machine automates the process.\nSame principle, different level of control.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 122,
-      "termFr": "physicien",
-      "termEn": "physician",
+      "termFr": "",
+      "termEn": "A strong coffee always tastes bitter.",
       "correctAnswer": false,
-      "explanationShort": "physicien (FR) = a physicist, a scientist who studies physics.\nphysician (EN) = a medical doctor.\nBoth trace back to Greek 'physis' (nature), but one studies nature's laws and the other heals nature's body.",
-      "tags": ["false_friend"]
+      "explanationShort": "Strength refers to how much dissolved coffee is in the water, not to bitterness.\nA well-made strong coffee can taste bold and rich with no harshness at all.\nStrong is quantity, bitter is a flavor.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 123,
-      "termFr": "propre",
-      "termEn": "proper",
-      "correctAnswer": false,
-      "explanationShort": "propre (FR) = clean, or one's own.\nproper (EN) = correct or appropriate.\nFrench washes things; English approves them.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Almond milk can separate or sink in hot coffee if not mixed properly.",
+      "correctAnswer": true,
+      "explanationShort": "Almond milk is low in both protein and fat, which makes it less stable when it hits hot liquid.\nWithout careful mixing, it can separate quickly and sink to the bottom of the cup.\nAlmond milk needs a careful pour.",
+      "tags": [
+        "Beverages and drink families",
+        "Easy"
+      ]
     },
     {
       "id": 124,
-      "termFr": "injure",
-      "termEn": "injury",
+      "termFr": "",
+      "termEn": "The United States is the world's biggest coffee-consuming country per person.",
       "correctAnswer": false,
-      "explanationShort": "injure (FR) = a verbal insult or offensive word.\ninjury (EN) = a physical wound or bodily harm.\nFrench wounds with words; English wounds the body.",
-      "tags": ["false_friend"]
+      "explanationShort": "The US is one of the world's largest coffee markets by total volume.\nBut per person, Nordic countries like Finland consume far more.\nBig market, not the biggest per cup.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 125,
-      "termFr": "course",
-      "termEn": "course",
-      "correctAnswer": false,
-      "explanationShort": "course (FR) = an errand, a shopping trip, or a race.\ncourse (EN) = a class, a direction, or a part of a meal.\nFrench runs errands; English runs classes.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "China is one of the fastest-growing coffee markets in the world.",
+      "correctAnswer": true,
+      "explanationShort": "China's coffee consumption has grown by over 20 percent per year since 2010.\nWhile tea culture still dominates, younger urban consumers are driving a rapid shift toward coffee.\nBiggest tea country, fastest-growing coffee market.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 126,
-      "termFr": "train",
-      "termEn": "train",
-      "correctAnswer": true,
-      "explanationShort": "train (FR/EN) = a railway vehicle that carries passengers or freight.\nSame word, same meaning in both languages.\nOne track, two languages.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Buying a coffee with a Fairtrade label guarantees it was grown organically.",
+      "correctAnswer": false,
+      "explanationShort": "Fairtrade certification focuses on trading conditions like minimum prices and fair contracts, not farming methods.\nA Fairtrade coffee can still be grown with conventional pesticides unless it also carries an organic label.\nFair price is not the same as organic farming.",
+      "tags": [
+        "Buying and labels",
+        "Medium"
+      ]
     },
     {
       "id": 127,
-      "termFr": "dialogue",
-      "termEn": "dialogue",
+      "termFr": "",
+      "termEn": "The Viennese coffeehouse culture was recognized as UNESCO intangible heritage in 2011.",
       "correctAnswer": true,
-      "explanationShort": "dialogue (FR/EN) = a conversation between two or more people.\nBoth languages kept the same meaning from Greek 'dialogos'.\nSame conversation, same word.",
-      "tags": ["true_friend"]
+      "explanationShort": "Vienna's coffeehouse tradition was added to the UNESCO Intangible Cultural Heritage list in 2011.\nThe listing recognized the coffeehouse as more than a place to drink coffee: a space for lingering, reading, and conversation.\nVienna coffeehouses, heritage since 2011.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 128,
-      "termFr": "costume",
-      "termEn": "costume",
+      "termFr": "",
+      "termEn": "Coffee tastes the same whether brewed with hard or soft water.",
       "correctAnswer": false,
-      "explanationShort": "costume (FR) = a men's business suit, jacket and trousers for formal wear.\ncostume (EN) = fancy dress, a disguise, or a stage outfit.\nBoardroom in French, costume party in English.",
-      "tags": ["false_friend"]
+      "explanationShort": "The mineral content of water directly influences how coffee extracts and what it tastes like.\nHard water tends to make coffee flat or chalky, while very soft water often produces a sour result.\nWrong water, wrong cup, every time.",
+      "tags": [
+        "Coffee at home",
+        "Hard"
+      ]
     },
     {
       "id": 129,
-      "termFr": "artiste",
-      "termEn": "artist",
-      "correctAnswer": true,
-      "explanationShort": "artiste = a person who creates art — painting, music, or other creative work.\nFrom Latin 'ars' (skill), both describe the same creative role.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Mexico is one of the top coffee-producing countries in the world.",
+      "correctAnswer": false,
+      "explanationShort": "Mexico produces arabica in its southern states like Chiapas and Oaxaca.\nWhile it is a real producer, its output ranks well below countries like Brazil, Vietnam, or Colombia.\nMexico grows coffee, just not enough to lead.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 130,
-      "termFr": "avenue",
-      "termEn": "avenue",
+      "termFr": "",
+      "termEn": "How coffee is processed after harvesting can affect its flavor.",
       "correctAnswer": true,
-      "explanationShort": "avenue = a wide urban road, often lined with trees.\nFrom French 'avenir' (to approach), both name broad city streets.",
-      "tags": ["true_friend"]
+      "explanationShort": "After harvesting, the coffee cherry can be removed and dried in different ways: natural, washed, or honey.\nEach method leaves a distinct flavor imprint on the bean before it even reaches the roaster.\nFlavor starts on the farm, not the roaster.",
+      "tags": [
+        "Grains, roast and coffee basics",
+        "Hard"
+      ]
     },
     {
       "id": 131,
-      "termFr": "blanc",
-      "termEn": "blank",
-      "correctAnswer": false,
-      "explanationShort": "blanc (FR) = white, the colour.\nblank (EN) = empty, unmarked, or without content.\nBoth from a Germanic root meaning bright or shining, but one became a colour and the other an absence.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Espresso means pressed out in Italian, not fast coffee.",
+      "correctAnswer": true,
+      "explanationShort": "The word espresso comes from the Italian verb esprimere, meaning to press out.\nIt describes the act of forcing pressurized water through the grounds, not the speed of preparation.\nPressed, not rushed.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 132,
-      "termFr": "joli",
-      "termEn": "jolly",
-      "correctAnswer": false,
-      "explanationShort": "joli (FR) = pretty or attractive in appearance.\njolly (EN) = cheerful, merry, full of good spirits.\nFrench looks pretty; English feels cheerful.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A daily coffee drinker needs more caffeine over time to feel the same effect.",
+      "correctAnswer": true,
+      "explanationShort": "With regular caffeine intake, the body adapts by reducing its sensitivity to the stimulant.\nAfter months of daily drinking, the same cup feels less and less effective.\nDaily drinkers need more to feel the same.",
+      "tags": [
+        "Myths and misconceptions",
+        "Hard"
+      ]
     },
     {
       "id": 133,
-      "termFr": "retirer",
-      "termEn": "retire",
+      "termFr": "",
+      "termEn": "Coffee dehydrates you enough to cancel out the water in the drink.",
       "correctAnswer": false,
-      "explanationShort": "retirer (FR) = to withdraw or remove — especially money from a bank.\nretire (EN) = to stop working permanently at the end of a career.\nFrench withdraws; English stops working.",
-      "tags": ["false_friend"]
+      "explanationShort": "Caffeine has a mild diuretic effect, but the water in coffee outweighs it.\nThat is why moderate coffee consumption still counts toward daily fluid intake.\nThe water in coffee still counts.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 134,
-      "termFr": "prévenir",
-      "termEn": "prevent",
-      "correctAnswer": false,
-      "explanationShort": "prévenir (FR) = to warn or alert someone in advance.\nprevent (EN) = to stop something from happening.\nFrom Latin 'praevenire' (to come before); French warns before the event, English blocks it.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A bag labeled specialty coffee has been formally scored and passed a quality threshold.",
+      "correctAnswer": true,
+      "explanationShort": "Specialty coffee is defined as beans that score 80 or above on a standardized 100-point evaluation.\nThat score covers flavor, aroma, balance, and defect count.\nSpecialty is a score, not just a style.",
+      "tags": [
+        "Buying and freshness",
+        "Hard"
+      ]
     },
     {
       "id": 135,
-      "termFr": "heurter",
-      "termEn": "hurt",
+      "termFr": "",
+      "termEn": "Coffee is the only source of caffeine in a typical American diet.",
       "correctAnswer": false,
-      "explanationShort": "heurter (FR) = to bump into or collide with something.\nhurt (EN) = to feel pain, or to cause someone pain.\nFrench bumps into things; English feels pain.",
-      "tags": ["false_friend"]
+      "explanationShort": "Caffeine also appears in tea, chocolate, soft drinks, and certain medications.\nCoffee may be the dominant source for most adults, but it is far from the only one.\nCoffee leads, but others follow.",
+      "tags": [
+        "Myths and misconceptions",
+        "Easy"
+      ]
     },
     {
       "id": 136,
-      "termFr": "silence",
-      "termEn": "silence",
-      "correctAnswer": true,
-      "explanationShort": "silence = the complete absence of sound.\nFrom Latin 'silentium,' both languages kept the quiet meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Cold foam is just regular steamed milk foam served cold.",
+      "correctAnswer": false,
+      "explanationShort": "Cold foam is made by frothing cold milk without applying any heat.\nBecause it is cold, it sits on top of an iced drink without melting into it quickly.\nNo heat, different foam.",
+      "tags": [
+        "Coffee shop experience",
+        "Medium"
+      ]
     },
     {
       "id": 137,
-      "termFr": "piano",
-      "termEn": "piano",
-      "correctAnswer": true,
-      "explanationShort": "piano = a keyboard instrument with hammers striking strings.\nShort for Italian 'pianoforte' (soft-loud), naming the instrument's dynamic range.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Coffee and alcohol are safe to mix because caffeine cancels out alcohol's effects.",
+      "correctAnswer": false,
+      "explanationShort": "Caffeine masks the feeling of intoxication but does not reduce the alcohol in the body.\nBecause people feel more alert, they often underestimate how much they have drunk.\nCaffeine hides the effect, not the alcohol.",
+      "tags": [
+        "Myths and misconceptions",
+        "Hard"
+      ]
     },
     {
       "id": 138,
-      "termFr": "radio",
-      "termEn": "radio",
+      "termFr": "",
+      "termEn": "A lungo tastes lighter and less intense than a regular espresso.",
       "correctAnswer": true,
-      "explanationShort": "radio = wireless audio broadcasting, or the device that receives it.\nFrom Latin 'radius' (ray), both adopted the same shortened form.",
-      "tags": ["true_friend"]
+      "explanationShort": "A lungo is pulled like an espresso but with more water passing through the grounds.\nThat extra water dilutes the concentration, making the result lighter and less intense.\nMore water, longer shot, lighter result.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 139,
-      "termFr": "téléphone",
-      "termEn": "telephone",
+      "termFr": "",
+      "termEn": "A ristretto tastes more concentrated and sweeter than a regular espresso.",
       "correctAnswer": true,
-      "explanationShort": "téléphone = a device for voice communication over distance.\nFrom Greek 'tele' (far) + 'phone' (voice), both kept the same scientific coinage.",
-      "tags": ["true_friend"]
+      "explanationShort": "A ristretto is cut short, stopping the extraction before a standard espresso would finish.\nLess water passes through, so only the most concentrated and sweet compounds are extracted.\nLess water, shorter shot, stronger result.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 140,
-      "termFr": "document",
-      "termEn": "document",
+      "termFr": "",
+      "termEn": "A classic single espresso is usually made in about 20 to 30 seconds.",
       "correctAnswer": true,
-      "explanationShort": "document = an official or informative written record.\nFrom Latin 'documentum' (lesson, proof), both kept the written record meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "The standard extraction window for espresso is about 20 to 30 seconds.\nA shot that finishes too fast pulls too little flavor, while one that runs too slow pulls bitterness.\nEspresso is fast, not instant.",
+      "tags": [
+        "Beverages and drink families",
+        "Medium"
+      ]
     },
     {
       "id": 141,
-      "termFr": "limon",
-      "termEn": "lemon",
-      "correctAnswer": false,
-      "explanationShort": "limon (FR) = silt, fine sediment deposited by rivers.\nlemon (EN) = a sour yellow citrus fruit.\nRiver mud in French; sour fruit in English.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "If espresso runs much longer than 30 seconds, it can taste more bitter.",
+      "correctAnswer": true,
+      "explanationShort": "A well-pulled espresso finishes in about 20 to 30 seconds.\nWhen extraction runs past that, it starts pulling harsher, more bitter compounds.\nOver 30 seconds and the shot turns harsh.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Medium"
+      ]
     },
     {
       "id": 142,
-      "termFr": "carte",
-      "termEn": "cart",
-      "correctAnswer": false,
-      "explanationShort": "carte (FR) = a map, a card, or a restaurant menu.\ncart (EN) = a wheeled vehicle for carrying goods.\nFrench reads maps; English pushes carts.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Drip coffee brewed much longer than 6 minutes can taste heavier and more bitter.",
+      "correctAnswer": true,
+      "explanationShort": "A standard drip brew takes 4 to 6 minutes to complete.\nWhen water stays in contact with the grounds much longer, it starts extracting harsher, less pleasant flavors.\nPast 6 minutes, drip coffee starts to punish.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 143,
-      "termFr": "supplier",
-      "termEn": "supply",
-      "correctAnswer": false,
-      "explanationShort": "supplier (FR) = to beg or plead desperately for mercy.\nsupply (EN) = to provide goods or resources.\nFrench begs; English provides.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A single frost in Brazil can affect coffee prices in US shops within months.",
+      "correctAnswer": true,
+      "explanationShort": "A single bad growing season can cut a country's coffee harvest by a third or more.\nArabica is vulnerable to frost, drought, and heavy rainfall.\nOne bad frost can change prices worldwide.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 144,
-      "termFr": "éducation",
-      "termEn": "education",
+      "termFr": "",
+      "termEn": "Single origin on a coffee menu means one region, not one farm.",
       "correctAnswer": true,
-      "explanationShort": "éducation = the process of teaching, learning, and personal development.\nFrom Latin 'educare' (to bring up, to rear), both kept the full educational meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "Single origin is a geographic label that points to a country or region, not a specific farm.\nBeans from dozens of farms in the same area can all be labeled single origin.\nOne region, many farms.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 145,
-      "termFr": "apologie",
-      "termEn": "apology",
+      "termFr": "",
+      "termEn": "Coffee was immediately accepted everywhere it spread and was never banned.",
       "correctAnswer": false,
-      "explanationShort": "apologie (FR) = a defense or strong justification of something.\napology (EN) = saying sorry for a mistake.\nBoth come from Greek 'apologia' (a speech in defense), but English shifted toward regret.",
-      "tags": ["false_friend"]
+      "explanationShort": "In the 16th century, coffee was banned in several cities including Mecca and Cairo.\nAuthorities feared that coffeehouses were becoming centers of political debate and social unrest.\nPopular enough to be banned, too popular to stay banned.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 146,
-      "termFr": "village",
-      "termEn": "village",
+      "termFr": "",
+      "termEn": "Coffee reached Europe through Arab world and Ottoman Empire trade routes.",
       "correctAnswer": true,
-      "explanationShort": "village = a small rural settlement, smaller than a town.\nFrom Old French, both name the same type of community.",
-      "tags": ["true_friend"]
+      "explanationShort": "Coffee traveled from Yemen into the Ottoman Empire and then westward through Mediterranean trade routes.\nVenice was one of the first European cities to receive it, in the late 16th century.\nArab world to Ottoman Empire to Europe.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 147,
-      "termFr": "station",
-      "termEn": "station",
-      "correctAnswer": true,
-      "explanationShort": "station = a stopping point for transport or services.\nFrom Latin 'statio' (a standing place), both describe where things halt.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Turkish coffee is only drunk in Turkey.",
+      "correctAnswer": false,
+      "explanationShort": "Turkish coffee is prepared and enjoyed across the Middle East, the Balkans, and many other regions.\nUNESCO recognized it as a tradition shared across multiple cultures, not exclusive to Turkey.\nSame method, many countries.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 148,
-      "termFr": "acte",
-      "termEn": "act",
+      "termFr": "",
+      "termEn": "A bad harvest in Brazil or Vietnam can push up prices at local coffee shops.",
       "correctAnswer": true,
-      "explanationShort": "acte/act = an action, a deed, or a division of a play.\nBoth also have legal uses: \"acte de naissance,\" \"Act of Parliament.\"\nSame meaning in most everyday contexts.",
-      "tags": ["true_friend"]
+      "explanationShort": "Brazil and Vietnam together supply roughly half of the world's coffee.\nWhen either country has a bad harvest, global supply drops and prices climb as a result.\nFarm problems abroad, higher prices at home.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 149,
-      "termFr": "parc",
-      "termEn": "park",
-      "correctAnswer": true,
-      "explanationShort": "parc = a public green space, or an enclosed area like a theme park.\nFrom Old French, both kept the recreational outdoor meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Coffee prices move only when people start drinking more coffee.",
+      "correctAnswer": false,
+      "explanationShort": "Coffee prices respond to supply conditions, not just changes in how much people drink.\nA bad harvest reduces available stock, and that shortage alone pushes prices up.\nDemand holds, supply alone moves the market.",
+      "tags": [
+        "Market and price",
+        "Medium"
+      ]
     },
     {
       "id": 150,
-      "termFr": "océan",
-      "termEn": "ocean",
+      "termFr": "",
+      "termEn": "Ottoman Empire coffeehouses were social spaces where people gathered to talk, share news, and debate.",
       "correctAnswer": true,
-      "explanationShort": "océan = a vast body of saltwater covering much of the Earth.\nNamed after the Greek titan Okeanos, who personified the world-encircling river.",
-      "tags": ["true_friend"]
+      "explanationShort": "Ottoman coffeehouses brought together people from all walks of life under one roof.\nThey gathered there to discuss politics, listen to music, and exchange news and ideas.\nThe coffeehouse was the social media of its time.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 151,
-      "termFr": "assiette",
-      "termEn": "asset",
-      "correctAnswer": false,
-      "explanationShort": "assiette (FR) = a plate, a dish used for eating.\nasset (EN) = a valuable resource or property.\nFrench holds food; English holds value.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Sufi Muslims in 15th-century Yemen drank coffee to stay awake during night prayers.",
+      "correctAnswer": true,
+      "explanationShort": "Sufi communities in 15th-century Yemen used coffee to stay alert during long night prayers.\nPilgrims visiting Mecca encountered the practice there and carried it back to Cairo, Damascus, and Istanbul.\nYemen to Mecca to the world.",
+      "tags": [
+        "Culture and history of coffee",
+        "Hard"
+      ]
     },
     {
       "id": 152,
-      "termFr": "chef",
-      "termEn": "chef",
-      "correctAnswer": false,
-      "explanationShort": "chef (FR) = a leader, boss, or head of a group.\nchef (EN) = a professional cook in a restaurant.\nFrench means a leader; English means a professional cook.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The paper coffee filter was invented before the modern espresso machine.",
+      "correctAnswer": true,
+      "explanationShort": "Melitta Bentz invented and patented the paper coffee filter in Germany in 1908.\nAchille Gaggia's modern espresso machine, which produced crema, did not appear until the 1940s.\nFilter first, crema decades later.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 153,
-      "termFr": "parcours",
-      "termEn": "parkour",
-      "correctAnswer": false,
-      "explanationShort": "parcours (FR) = a route, path, or career journey.\nparkour (EN) = an urban acrobatic sport of jumping over obstacles.\nFrench means a route; English names a sport.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Most coffee farmers work on plots smaller than 25 acres.",
+      "correctAnswer": true,
+      "explanationShort": "About 80 percent of the world's coffee is grown on small family farms, most smaller than 25 acres.\nFor most of these families, coffee is their primary source of income.\nSmall plots, global scale.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 154,
-      "termFr": "fabrique",
-      "termEn": "fabric",
-      "correctAnswer": false,
-      "explanationShort": "fabrique (FR) = a factory or manufacturing workshop.\nfabric (EN) = textile, cloth, or woven material.\nThe place of making vs. what gets made.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Sufi communities in Yemen were among the first to drink coffee.",
+      "correctAnswer": true,
+      "explanationShort": "The earliest records of coffee as a beverage point to Sufi communities in Yemen.\nThey valued it for keeping worshippers awake and focused during long nighttime prayers.\nCoffee started as a spiritual aid, not a morning ritual.",
+      "tags": [
+        "Culture and history of coffee",
+        "Hard"
+      ]
     },
     {
       "id": 155,
-      "termFr": "crayon",
-      "termEn": "crayon",
-      "correctAnswer": false,
-      "explanationShort": "crayon (FR) = a pencil.\ncrayon (EN) = a wax colouring stick.\nFrench writes homework; English colours it.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The term specialty coffee was first used by Erna Knutsen in 1974.",
+      "correctAnswer": true,
+      "explanationShort": "Erna Knutsen first used the term in a 1974 trade article.\nShe used it to describe high-quality beans with traceable origins, laying the foundation for the specialty coffee movement.\nOne woman, one term, one industry shift.",
+      "tags": [
+        "Figures and personalities",
+        "Easy"
+      ]
     },
     {
       "id": 156,
-      "termFr": "ballet",
-      "termEn": "ballet",
+      "termFr": "",
+      "termEn": "Peet's Coffee was founded before Starbucks.",
       "correctAnswer": true,
-      "explanationShort": "ballet = a classical dance form performed to music.\nBorn in the Italian and French courts of the Renaissance, the word and art spread together unchanged.",
-      "tags": ["true_friend"]
+      "explanationShort": "Alfred Peet opened his first shop in Berkeley in 1966, focused on quality beans and fresh roasting.\nHis philosophy directly inspired the founders of Starbucks, who came five years later.\nPeet came first, Starbucks followed.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 157,
-      "termFr": "continent",
-      "termEn": "continent",
-      "correctAnswer": true,
-      "explanationShort": "continent = one of the Earth's major landmasses.\nFrom Latin 'continere' (to hold together), both name the same geographical divisions.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Starbucks was founded in New York City.",
+      "correctAnswer": false,
+      "explanationShort": "Starbucks opened its first store in Seattle's Pike Place Market in 1971.\nThe founders had been inspired by Peet's Coffee in Berkeley and built on that model.\nSeattle first, everywhere else after.",
+      "tags": [
+        "Figures and personalities",
+        "Easy"
+      ]
     },
     {
       "id": 158,
-      "termFr": "résidence",
-      "termEn": "residence",
-      "correctAnswer": true,
-      "explanationShort": "résidence = a place where someone lives, especially a formal or official dwelling.\nFrom Latin 'residere' (to sit back, settle), both kept the dwelling meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The founder of Peet's Coffee also started Starbucks.",
+      "correctAnswer": false,
+      "explanationShort": "Alfred Peet founded Peet's Coffee in Berkeley in 1966.\nStarbucks was started five years later by people Peet had mentored, but Peet was not a founder.\nPeet inspired it, did not found it.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 159,
-      "termFr": "profession",
-      "termEn": "profession",
+      "termFr": "",
+      "termEn": "Starbucks had fewer than 15 stores when it started its global expansion.",
       "correctAnswer": true,
-      "explanationShort": "profession = a skilled occupation requiring specialized training.\nFrom Latin 'professio' (public declaration), both describe a declared career or trade.",
-      "tags": ["true_friend"]
+      "explanationShort": "When Howard Schultz bought Starbucks in 1987, the company had just 11 stores.\nUnder his leadership, it expanded to over 28,000 locations in 80 countries.\n11 stores in 1987, global empire after.",
+      "tags": [
+        "Figures and personalities",
+        "Hard"
+      ]
     },
     {
       "id": 160,
-      "termFr": "émotion",
-      "termEn": "emotion",
+      "termFr": "",
+      "termEn": "Erna Knutsen was one of the first female green coffee brokers in the United States.",
       "correctAnswer": true,
-      "explanationShort": "émotion = a strong feeling such as joy, fear, or sadness.\nFrom Latin 'emovere' (to stir up), both kept the inner experience meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "When Knutsen started in the coffee industry, women were largely excluded from the professional tasting rooms.\nShe pushed through those barriers and eventually built her own green coffee brokerage.\nFirst in the room, then her name on the door.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 161,
-      "termFr": "issue",
-      "termEn": "issue",
-      "correctAnswer": false,
-      "explanationShort": "issue (FR) = an exit or way out.\nissue (EN) = a problem, topic, or matter.\nFrench leaves the room; English starts the discussion.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Today's coffee shop format traces back to Italian espresso bars from the 1980s.",
+      "correctAnswer": true,
+      "explanationShort": "In 1983, Howard Schultz visited Milan and was struck by how espresso bars functioned as community hubs.\nHe brought that concept back to the US and built Starbucks around it.\nItalian inspiration, American institution.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 162,
-      "termFr": "pull",
-      "termEn": "pull",
+      "termFr": "",
+      "termEn": "The first Starbucks store sold espresso drinks from day one.",
       "correctAnswer": false,
-      "explanationShort": "pull (FR) = a sweater or jumper.\npull (EN) = to draw something toward you.\nFrench wears it; English tugs it.",
-      "tags": ["false_friend"]
+      "explanationShort": "The original Starbucks, opened in 1971, sold roasted beans and brewing equipment.\nIt was only after Schultz's 1983 trip to Italy that the espresso bar model was introduced.\nBeans first, lattes came later.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 163,
-      "termFr": "billet",
-      "termEn": "billet",
-      "correctAnswer": false,
-      "explanationShort": "billet (FR) = a ticket or banknote.\nbillet (EN) = temporary lodging assigned to soldiers.\nFrench buys tickets; English houses soldiers.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Third wave coffee shops focus on craft and bean origin.",
+      "correctAnswer": true,
+      "explanationShort": "The third wave refers to a movement that treats coffee like wine, focused on origin, craft, and quality.\nInstant coffee, by contrast, belongs to the first wave, which was about mass-market convenience.\nThird wave is about craft, not convenience.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 164,
-      "termFr": "attirer",
-      "termEn": "attire",
-      "correctAnswer": false,
-      "explanationShort": "attirer (FR) = to attract or draw toward.\nattire (EN) = clothing or dress.\nFrench attracts; English dresses.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Erna Knutsen was born in Norway before moving to the United States.",
+      "correctAnswer": true,
+      "explanationShort": "Erna Knutsen was born in Norway in 1921 and emigrated to the United States as a young woman.\nShe went on to become one of the most influential figures in American specialty coffee.\nNorwegian roots, American coffee revolution.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 165,
-      "termFr": "robe",
-      "termEn": "robe",
+      "termFr": "",
+      "termEn": "Howard Schultz was the original founder of Starbucks.",
       "correctAnswer": false,
-      "explanationShort": "robe (FR) = a dress worn by women.\nrobe (EN) = a gown or bathrobe.\nFrench means a dress; English means a robe or gown.",
-      "tags": ["false_friend"]
+      "explanationShort": "Starbucks was founded in Seattle in 1971 by three partners: Baldwin, Siegl, and Bowker.\nHoward Schultz only entered the picture in 1987 when he bought the company, 16 years later.\nHe built it, but did not start it.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 166,
-      "termFr": "théâtre",
-      "termEn": "theatre",
-      "correctAnswer": true,
-      "explanationShort": "théâtre = a venue for live performances, or the art of dramatic performance.\nFrom Greek 'theatron' (viewing place), both kept the same dramatic meaning.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Peet's Coffee and Starbucks have no historical connection.",
+      "correctAnswer": false,
+      "explanationShort": "The founders of Starbucks learned the craft of quality coffee directly from Alfred Peet.\nIn their early years, they even sourced their first beans from Peet's Coffee.\nTwo brands, one shared origin story.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 167,
-      "termFr": "université",
-      "termEn": "university",
+      "termFr": "",
+      "termEn": "A German woman named Melitta Bentz invented the paper coffee filter in 1908.",
       "correctAnswer": true,
-      "explanationShort": "université = a higher education institution that awards degrees.\nFrom Latin 'universitas' (community of scholars); the first ones appeared in Bologna and Paris around 1150.",
-      "tags": ["true_friend"]
+      "explanationShort": "In 1908, Melitta Bentz punched holes in a tin pot and used blotting paper from her son's notebook as a filter.\nShe patented the invention and founded the Melitta company, which still sells filters today.\nOne woman, one idea, cleaner coffee forever.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 168,
-      "termFr": "page",
-      "termEn": "page",
+      "termFr": "",
+      "termEn": "The Melitta brand is named after its founder.",
       "correctAnswer": true,
-      "explanationShort": "page = a leaf of a book, document, or website.\nFrom Latin 'pagina,' both kept the written surface meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "When Melitta Bentz founded her company in 1908, she named it after herself.\nOver a century later, the Melitta brand is still selling paper filters worldwide.\nHer name outlasted her by a century.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 169,
-      "termFr": "route",
-      "termEn": "route",
+      "termFr": "",
+      "termEn": "The term third wave coffee was coined by a woman named Trish Rothgeb.",
       "correctAnswer": true,
-      "explanationShort": "route = a road or path taken to reach a destination.\nFrom Latin 'rupta via' (broken path, a road cleared through terrain), both describe a travel way.",
-      "tags": ["true_friend"]
+      "explanationShort": "Trish Rothgeb introduced the term in a 2003 article while reflecting on coffee culture in Norway.\nShe used it to describe a movement that approached coffee the way wine lovers approach wine, with attention to origin and craft.\nThird wave, coined by a woman.",
+      "tags": [
+        "Figures and personalities",
+        "Medium"
+      ]
     },
     {
       "id": 170,
-      "termFr": "président",
-      "termEn": "president",
+      "termFr": "",
+      "termEn": "The International Coffee Organization tracks global coffee production and trade data.",
       "correctAnswer": true,
-      "explanationShort": "président = the head of state, company, or organization.\nFrom Latin 'praesidens' (sitting before, presiding), both name the person in charge.",
-      "tags": ["true_friend"]
+      "explanationShort": "The ICO is an intergovernmental body that collects and publishes data on coffee production, exports, and prices.\nGovernments, roasters, and traders rely on its data to understand the global market.\nThe global coffee numbers start with the ICO.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 171,
-      "termFr": "lunettes",
-      "termEn": "lunatic",
+      "termFr": "",
+      "termEn": "Fairtrade International certifies coffee brands for flavor quality.",
       "correctAnswer": false,
-      "explanationShort": "lunettes (FR) = glasses for seeing better.\nlunatic (EN) = a crazy or insane person.\nFrench means glasses; English means a crazy person.",
-      "tags": ["false_friend"]
+      "explanationShort": "Fairtrade certification sets standards for trading conditions and minimum prices paid to farmers.\nIt says nothing about flavor, aroma, or how the coffee will taste in the cup.\nFair trade is about terms, not taste.",
+      "tags": [
+        "Buying and labels",
+        "Medium"
+      ]
     },
     {
       "id": 172,
-      "termFr": "bibliothèque",
-      "termEn": "bibliography",
-      "correctAnswer": false,
-      "explanationShort": "bibliothèque (FR) = a library, a place where you borrow books.\nbibliography (EN) = a list of books or sources cited in a work.\nBuilding in French; list in English.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Most of the world's coffee is grown by smallholder family farmers.",
+      "correctAnswer": true,
+      "explanationShort": "About 4 out of 5 cups of coffee in the world comes from small family farms.\nFor most of these households, coffee is the primary and sometimes only source of income.\nFamily farms, not factories.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 173,
-      "termFr": "forfait",
-      "termEn": "forfeit",
-      "correctAnswer": false,
-      "explanationShort": "forfait (FR) = a flat-rate package like a phone plan or ski pass.\nforfeit (EN) = to lose something as a penalty.\nFrench sells packages; English takes them away.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Melitta Bentz invented the paper filter wanting a cleaner, less bitter cup.",
+      "correctAnswer": true,
+      "explanationShort": "Melitta Bentz was frustrated by the bitter, gritty coffee produced by metal filters of the time.\nShe experimented with blotting paper, which trapped the grounds and produced a cleaner cup.\nOne woman, blotting paper, cleaner coffee.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 174,
-      "termFr": "rapport",
-      "termEn": "rapport",
-      "correctAnswer": false,
-      "explanationShort": "rapport (FR) = a written report or official account.\nrapport (EN) = a relationship of trust or harmony.\nFrench writes reports; English builds connections.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The espresso machine was invented in Italy.",
+      "correctAnswer": true,
+      "explanationShort": "The first espresso machine patent was filed by Angelo Moriondo in Italy in 1884.\nBezzera and Gaggia later refined the design into the pressurized, crema-producing machine we know today.\nItalian invention, Italian tradition.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 175,
-      "termFr": "buffet",
-      "termEn": "buffet",
-      "correctAnswer": true,
-      "explanationShort": "buffet (FR) = a self-service meal where people serve themselves.\nbuffet (EN) = the same: a self-service meal.\nThe word can also mean a sideboard or dining-room cabinet in both languages.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Achille Gaggia invented the very first espresso machine.",
+      "correctAnswer": false,
+      "explanationShort": "The first espresso machine patent dates to 1884, decades before Gaggia entered the picture.\nWhat Gaggia contributed in the 1940s was the high-pressure piston that produces the crema we associate with espresso today.\nMoriondo first, Gaggia later and crucial.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 176,
-      "termFr": "guitare",
-      "termEn": "guitar",
+      "termFr": "",
+      "termEn": "No crema on an espresso usually means stale beans or a machine issue.",
       "correctAnswer": true,
-      "explanationShort": "guitare = a stringed instrument played by plucking or strumming.\nThe word travelled from Arabic 'qitara' through Spanish and French to English, unchanged in meaning.",
-      "tags": ["true_friend"]
+      "explanationShort": "Crema forms when high pressure forces CO2 out of fresh grounds into the liquid.\nStale beans produce less CO2, and low pressure cannot force it out, so either problem kills the crema.\nNo crema is a signal worth paying attention to.",
+      "tags": [
+        "Culture and history of coffee",
+        "Hard"
+      ]
     },
     {
       "id": 177,
-      "termFr": "migration",
-      "termEn": "migration",
-      "correctAnswer": true,
-      "explanationShort": "migration = the movement of people, animals, or data from one place to another.\nFrom Latin 'migrare' (to move), both describe the same displacement.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "The word barista is originally English.",
+      "correctAnswer": false,
+      "explanationShort": "Barista comes from the Italian word for a person who works behind a bar.\nAs espresso culture spread from Italy to the rest of the world, the word came with it.\nItalian word, global job.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 178,
-      "termFr": "cinéma",
-      "termEn": "cinema",
+      "termFr": "",
+      "termEn": "The SCA Flavor Wheel was updated in 2016 with World Coffee Research.",
       "correctAnswer": true,
-      "explanationShort": "cinéma = a movie theatre, or the film industry as a whole.\nShort for 'cinématographe,' invented by the Lumière brothers in Lyon in 1895.",
-      "tags": ["true_friend"]
+      "explanationShort": "The original Flavor Wheel was published in 1995 as a common language for tasting.\nIn 2016, it was revised with World Coffee Research to add more precise descriptors.\nEvery tasting note traces back to this wheel.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 179,
-      "termFr": "catastrophe",
-      "termEn": "catastrophe",
-      "correctAnswer": true,
-      "explanationShort": "catastrophe = a sudden, large-scale disaster with severe consequences.\nIn Greek drama, 'katastrophe' was the final turning point of a play — the meaning shifted from endings to disasters.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Espresso culture originated in France.",
+      "correctAnswer": false,
+      "explanationShort": "The espresso machine was invented and first patented in Italy in 1884.\nFrance has a rich café culture, but the espresso machine and method both came from Italy.\nItaly invented it, the world adopted it.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 180,
-      "termFr": "tunnel",
-      "termEn": "tunnel",
+      "termFr": "",
+      "termEn": "The Ethiopian coffee ceremony is considered a symbol of hospitality and community.",
       "correctAnswer": true,
-      "explanationShort": "tunnel = an underground or underwater passage.\nFrom Old French 'tonnelle' (barrel vault), both describe the same enclosed corridor.",
-      "tags": ["true_friend"]
+      "explanationShort": "The Ethiopian coffee ceremony is a slow, deliberate ritual performed as a gesture of hospitality.\nIt reinforces community bonds and is recognized by UNESCO as a living cultural practice.\nCoffee as a gift, not just a drink.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 181,
-      "termFr": "brillant",
-      "termEn": "brilliant",
+      "termFr": "",
+      "termEn": "World War II soldiers were among the first mass consumers of instant coffee.",
       "correctAnswer": true,
-      "explanationShort": "brillant = extremely intelligent, or shining with bright light.\nFrom Italian 'brillare' (to sparkle), both kept the dual meaning of shine and intellect.",
-      "tags": ["true_friend"]
+      "explanationShort": "Instant coffee was invented around 1910 but remained a niche product for decades.\nWWII military rations included it as standard issue, exposing millions of soldiers to it at once.\nWar made instant coffee a habit.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 182,
-      "termFr": "esprit",
-      "termEn": "spirit",
+      "termFr": "",
+      "termEn": "A moka pot produces espresso.",
       "correctAnswer": false,
-      "explanationShort": "esprit (FR) = mind, intellect, or attitude.\nspirit (EN) = a ghost, strong attitude, or alcohol.\nFrench thinks; English haunts or drinks.",
-      "tags": ["false_friend"]
+      "explanationShort": "A moka pot builds steam pressure to push water through the grounds, but far less than an espresso machine.\nThe result is strong and concentrated, but without the crema that defines true espresso.\nStrong coffee, not espresso.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 183,
-      "termFr": "gentil",
-      "termEn": "gentle",
-      "correctAnswer": false,
-      "explanationShort": "gentil (FR) = kind, nice, friendly.\ngentle (EN) = soft, mild, not rough.\nFrench is kind; English is gentle.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The word coffee is thought to derive from the Arabic word qahwa.",
+      "correctAnswer": true,
+      "explanationShort": "The Arabic word qahwa traveled through Turkish as kahve before entering European languages.\nBoth the English word coffee and the French café trace back to that same Arabic root.\nArabic root, global word.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 184,
-      "termFr": "slip",
-      "termEn": "slip",
-      "correctAnswer": false,
-      "explanationShort": "slip (FR) = briefs or underwear.\nslip (EN) = to slide or make a mistake.\nFrench puts it on; English loses balance.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "The Coffee Taster's Flavor Wheel was first published by the SCA in 1995.",
+      "correctAnswer": true,
+      "explanationShort": "The Flavor Wheel was first published in 1995 to give the specialty coffee industry a shared vocabulary.\nEvery time a barista or a bag uses words like fruity or chocolatey, those choices trace back to this tool.\nPublished 1995, used worldwide today.",
+      "tags": [
+        "Culture and history of coffee",
+        "Medium"
+      ]
     },
     {
       "id": 185,
-      "termFr": "caractère",
-      "termEn": "character",
-      "correctAnswer": false,
-      "explanationShort": "caractère (FR) = personality or temperament.\ncharacter (EN) = a fictional person or someone's qualities.\nFrench describes temperament; English can enter the story.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Decaffeinated coffee has been commercially available for over a century.",
+      "correctAnswer": true,
+      "explanationShort": "The first commercial decaffeinated coffee was developed in Germany around 1903.\nBy the 1920s and 1930s, it was already widely available, well before World War II.\nDecaf predates most people's grandparents.",
+      "tags": [
+        "Culture and history of coffee",
+        "Easy"
+      ]
     },
     {
       "id": 186,
-      "termFr": "volcan",
-      "termEn": "volcano",
+      "termFr": "",
+      "termEn": "Seeing Guatemala on a coffee bag usually signals a high-quality arabica.",
       "correctAnswer": true,
-      "explanationShort": "volcan = a mountain with an opening through which lava and gases erupt.\nNamed after Vulcanus, the Roman god of fire and metalworking.",
-      "tags": ["true_friend"]
+      "explanationShort": "Guatemala grows arabica at high altitude across several distinct growing regions.\nThat combination of elevation and climate makes it one of Central America's top specialty coffee producers.\nHigh altitude, high quality, Guatemala.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 187,
-      "termFr": "horizon",
-      "termEn": "horizon",
-      "correctAnswer": true,
-      "explanationShort": "horizon = the line where earth and sky appear to meet.\nFrom Greek 'horizein' (to limit), both describe the same visual boundary.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Climate change is not expected to impact coffee production.",
+      "correctAnswer": false,
+      "explanationShort": "Rising temperatures and erratic rainfall are already shrinking the land suitable for coffee cultivation.\nSome projections suggest that up to half of current arabica-growing areas could be lost by 2050.\nHalf of arabica land could be gone by 2050.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 188,
-      "termFr": "décembre",
-      "termEn": "december",
+      "termFr": "",
+      "termEn": "Hawaiian coffee ranks among the world's most expensive.",
       "correctAnswer": true,
-      "explanationShort": "décembre = the twelfth and final month of the year.\nFrom Latin 'decem' (ten) — it was the tenth month in the old Roman calendar before January and February were added.",
-      "tags": ["true_friend"]
+      "explanationShort": "Hawaii is the only major coffee-growing region with US labor and land costs.\nThat makes Kona coffee 3 to 5 times more expensive than comparable specialty coffees grown elsewhere.\nSame plant, much higher price tag.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 189,
-      "termFr": "guide",
-      "termEn": "guide",
-      "correctAnswer": true,
-      "explanationShort": "guide = a person who leads others, or a book with useful information about a topic.\nFrom Old French, both describe someone or something that shows the way.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "Costa Rica produces mainly robusta coffee.",
+      "correctAnswer": false,
+      "explanationShort": "Costa Rica passed a law banning robusta to protect its arabica reputation.\nThe country is now known exclusively for clean, bright arabica grown at high altitude.\nArabica only, by law.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 190,
-      "termFr": "collection",
-      "termEn": "collection",
+      "termFr": "",
+      "termEn": "Coffee is more popular globally than 30 years ago.",
       "correctAnswer": true,
-      "explanationShort": "collection = a group of gathered objects.\nIn fashion, it also refers to a designer's seasonal range of clothing — a usage shared by both languages.",
-      "tags": ["true_friend"]
+      "explanationShort": "Global coffee consumption has grown steadily since the 1990s.\nMuch of that growth comes from emerging markets in Asia, where coffee culture is expanding rapidly.\nTea countries are becoming coffee countries.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Medium"
+      ]
     },
     {
       "id": 191,
-      "termFr": "liège",
-      "termEn": "liege",
+      "termFr": "",
+      "termEn": "Buying organic coffee guarantees farmers were paid a fair price for their beans.",
       "correctAnswer": false,
-      "explanationShort": "liège (FR) = cork, the bark used for bottle stoppers.\nliege (EN) = a feudal lord or sovereign.\nFrench seals bottles; English rules vassals.",
-      "tags": ["false_friend"]
+      "explanationShort": "Organic certification focuses on how the coffee is grown, without synthetic pesticides or fertilizers.\nIt says nothing about the price the farmer received, which is what Fairtrade addresses.\nOrganic covers farming, fair trade covers payment.",
+      "tags": [
+        "Buying and labels",
+        "Medium"
+      ]
     },
     {
       "id": 192,
-      "termFr": "bride",
-      "termEn": "bride",
-      "correctAnswer": false,
-      "explanationShort": "bride (FR) = a bridle, the straps used to control a horse.\nbride (EN) = a woman getting married.\nReins vs. rings — no shared root despite identical spelling.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Morning coffee prices are shaped by the same global markets that trade oil and gold.",
+      "correctAnswer": true,
+      "explanationShort": "Coffee is traded on commodity exchanges, the same markets that handle oil, gold, and wheat.\nA drought in Brazil or frost in Colombia can move prices on those exchanges within hours.\nGlobal market, local cup.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Hard"
+      ]
     },
     {
       "id": 193,
-      "termFr": "surnom",
-      "termEn": "surname",
-      "correctAnswer": false,
-      "explanationShort": "surnom (FR) = a nickname, an informal name from friends or family.\nsurname (EN) = a family name or last name.\nCasual vs. official, despite the shared 'sur-' (over/above) prefix.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A 12 oz drip coffee usually contains more caffeine than a single espresso shot.",
+      "correctAnswer": true,
+      "explanationShort": "A single espresso shot carries roughly 75 mg of caffeine in just 1 oz.\nA 12-ounce drip coffee, while milder per sip, typically delivers 120 to 180 mg in total.\nBig cup, more caffeine, almost every time.",
+      "tags": [
+        "Coffee at home",
+        "Medium"
+      ]
     },
     {
       "id": 194,
-      "termFr": "bague",
-      "termEn": "bag",
-      "correctAnswer": false,
-      "explanationShort": "bague (FR) = a ring worn on a finger.\nbag (EN) = a container used to carry items.\nFrench wears rings; English carries bags.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "Cold brew concentrate is typically stronger and higher in caffeine than drip coffee.",
+      "correctAnswer": true,
+      "explanationShort": "Cold brew is made by steeping coffee at a high ratio for 12 to 24 hours.\nThat long extraction pulls more caffeine into the liquid than a standard hot brew.\nConcentrated cold brew hits harder before dilution.",
+      "tags": [
+        "Beverages and drink families",
+        "Hard"
+      ]
     },
     {
       "id": 195,
-      "termFr": "dot",
-      "termEn": "dot",
-      "correctAnswer": false,
-      "explanationShort": "dot (FR) = a dowry brought to marriage.\ndot (EN) = a small round point.\nFrench means a dowry; English means a small point.",
-      "tags": ["false_friend"]
+      "termFr": "",
+      "termEn": "A coffee bag's roast date tells you more about freshness than the expiration date.",
+      "correctAnswer": true,
+      "explanationShort": "An expiration date tells you when the product is considered unsafe, not when it stopped tasting good.\nThe roast date tells you exactly when freshness started counting down.\nRoast date is the only date that matters.",
+      "tags": [
+        "Buying and freshness",
+        "Medium"
+      ]
     },
     {
       "id": 196,
-      "termFr": "festival",
-      "termEn": "festival",
+      "termFr": "",
+      "termEn": "Milk residue left on a steam wand for a few hours can affect the flavor of the next drink.",
       "correctAnswer": true,
-      "explanationShort": "festival = a large public event centred on music, film, or culture.\nFrom Latin 'festivalis,' both name the same joyful public gatherings.",
-      "tags": ["true_friend"]
+      "explanationShort": "Milk residue dries onto the steam wand within seconds of use and can harbor bacteria.\nPurging clears the inside, wiping cleans the outside.\nOne quick wipe now saves a stubborn clog later.",
+      "tags": [
+        "Troubleshooting and maintenance",
+        "Easy"
+      ]
     },
     {
       "id": 197,
-      "termFr": "promotion",
-      "termEn": "promotion",
+      "termFr": "",
+      "termEn": "Ordering an extra shot on a two-shot drink adds 50 percent more caffeine.",
       "correctAnswer": true,
-      "explanationShort": "promotion = a career advancement or marketing campaign.\nIn French universities, it can also mean a graduating class.",
-      "tags": ["true_friend"]
+      "explanationShort": "Most standard espresso drinks are made with two shots.\nAdding one more shot to a two-shot drink increases the caffeine by 50 percent, not 100.\nExtra shot means more caffeine, not necessarily twice as much.",
+      "tags": [
+        "Myths and misconceptions",
+        "Medium"
+      ]
     },
     {
       "id": 198,
-      "termFr": "ambulance",
-      "termEn": "ambulance",
+      "termFr": "",
+      "termEn": "Specialty coffee costs more partly because farmers get a higher price for their beans.",
       "correctAnswer": true,
-      "explanationShort": "ambulance = an emergency vehicle that transports patients to hospital.\nFrom French 'hôpital ambulant' (mobile hospital), the word was born on Napoleonic battlefields.",
-      "tags": ["true_friend"]
+      "explanationShort": "Specialty roasters pay above the commodity price to source high-quality beans directly from farms.\nThat extra cost moves through roasting, packaging, and retail before landing in the cup price.\nQuality costs more at every step.",
+      "tags": [
+        "Buying and labels",
+        "Medium"
+      ]
     },
     {
       "id": 199,
-      "termFr": "latitude",
-      "termEn": "latitude",
+      "termFr": "",
+      "termEn": "Ready-to-drink canned coffee is one of the fastest-growing segments of the US market.",
       "correctAnswer": true,
-      "explanationShort": "latitude = a geographic coordinate showing how far north or south a place is.\nSame meaning in both languages.",
-      "tags": ["true_friend"]
+      "explanationShort": "Younger consumers have driven a sharp rise in demand for canned and bottled coffee.\nAs a result, ready-to-drink coffee now fills a growing section of grocery shelves across the US.\nThe coffee aisle now looks like the soda aisle.",
+      "tags": [
+        "Market, geography and coffee context",
+        "Easy"
+      ]
     },
     {
       "id": 200,
-      "termFr": "saxophone",
-      "termEn": "saxophone",
-      "correctAnswer": true,
-      "explanationShort": "saxophone = a woodwind instrument with a brass body.\nNamed after Belgian inventor Adolphe Sax, who patented it in Paris in 1846.",
-      "tags": ["true_friend"]
+      "termFr": "",
+      "termEn": "An extra hot latte has a stronger espresso flavor than a regular latte.",
+      "correctAnswer": false,
+      "explanationShort": "Ordering extra hot only changes the milk temperature, not the amount of espresso in the drink.\nIn fact, overheated milk can taste slightly burnt, which masks the espresso flavor instead of strengthening it.\nHotter milk, same espresso, different taste.",
+      "tags": [
+        "Coffee shop",
+        "Medium"
+      ]
+    },
+    {
+      "id": 201,
+      "termFr": "",
+      "termEn": "A skinny latte has less caffeine than a regular latte.",
+      "correctAnswer": false,
+      "explanationShort": "Skinny refers to the type of milk used, low-fat or non-fat.\nBecause the number of shots stays the same, the caffeine content is identical to a regular latte.\nLess fat, same caffeine.",
+      "tags": [
+        "Coffee shop",
+        "Medium"
+      ]
     }
   ]
 }
