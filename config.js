@@ -537,6 +537,7 @@
       updateAvailable: "Update available.",
       dismiss: "Dismiss",
       closeIcon: "✕",
+      updateNow: "Update",
 
       offlinePayment: "Payment requires an internet connection.",
       copied: "Copied",
