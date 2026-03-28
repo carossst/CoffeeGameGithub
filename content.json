@@ -504,9 +504,9 @@
     {
       "id": 46,
       "termFr": "",
-      "termEn": "An espresso served without any crema may indicate a problem with the machine or grind.",
+      "termEn": "Espresso crema can taste bitter even when the shot underneath is balanced.",
       "correctAnswer": true,
-      "explanationShort": "Crema forms when pressurized water forces CO2 out of fresh grounds.\nStale beans, low pressure, or a grind that is too coarse all reduce crema.\nNo crema is a signal worth paying attention to.",
+      "explanationShort": "Crema is made of concentrated oils and gases released during extraction.\nThat layer often tastes harsher and more bitter than the liquid espresso below it.\nBeautiful crema, not always the best sip alone.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -757,8 +757,8 @@
     {
       "id": 69,
       "termFr": "",
-      "termEn": "Plant-based milks like oat or almond always cost extra at coffee shops.",
-      "correctAnswer": false,
+      "termEn": "Plant-based milks like oat or almond often cost extra at coffee shops.",
+      "correctAnswer": true,
       "explanationShort": "Many coffee shops still charge extra for plant-based milks, but the practice is changing.\nA growing number of shops have dropped the surcharge as demand for oat and almond milk grows.\nSome shops charge extra, some do not.",
       "tags": [
         "Beverages and drink families",
@@ -801,8 +801,8 @@
     {
       "id": 73,
       "termFr": "",
-      "termEn": "Coffee shop prices have nothing to do with world coffee prices.",
-      "correctAnswer": false,
+      "termEn": "Coffee shop prices can be affected by changes in world coffee prices.",
+      "correctAnswer": true,
       "explanationShort": "Coffee shops source their beans through the global commodity market.\nWhen prices rise there, the cost increase flows through roasters and eventually to the counter.\nGlobal price, local cup.",
       "tags": [
         "Coffee market and origins",
@@ -1043,8 +1043,8 @@
     {
       "id": 95,
       "termFr": "",
-      "termEn": "A certification logo on a coffee bag always means it was grown organically.",
-      "correctAnswer": false,
+      "termEn": "A certification logo on a coffee bag does not necessarily mean it was grown organically.",
+      "correctAnswer": true,
       "explanationShort": "Different certification logos cover different things: trade terms, farming practices, or sustainability.\nOnly a label specifically certifying organic farming confirms that no synthetic inputs were used.\nLogo on the bag does not mean organic.",
       "tags": [
         "Buying coffee",
@@ -1318,8 +1318,8 @@
     {
       "id": 120,
       "termFr": "",
-      "termEn": "A larger latte always contains more caffeine than a smaller latte.",
-      "correctAnswer": false,
+      "termEn": "A larger latte does not necessarily contain more caffeine than a smaller one.",
+      "correctAnswer": true,
       "explanationShort": "The caffeine in a latte comes entirely from the espresso shots, not from the cup size.\nA large and a small latte made with the same number of shots carry exactly the same caffeine.\nCup size adds milk, not caffeine.",
       "tags": [
         "Myths and misconceptions",
@@ -1340,8 +1340,8 @@
     {
       "id": 122,
       "termFr": "",
-      "termEn": "A strong coffee always tastes bitter.",
-      "correctAnswer": false,
+      "termEn": "A strong coffee does not necessarily taste bitter.",
+      "correctAnswer": true,
       "explanationShort": "Strength refers to how much dissolved coffee is in the water, not to bitterness.\nA well-made strong coffee can taste bold and rich with no harshness at all.\nStrong is quantity, bitter is a flavor.",
       "tags": [
         "Myths and misconceptions",
@@ -1725,9 +1725,9 @@
     {
       "id": 157,
       "termFr": "",
-      "termEn": "Starbucks was founded in New York City.",
-      "correctAnswer": false,
-      "explanationShort": "Starbucks opened its first store in Seattle's Pike Place Market in 1971.\nThe founders had been inspired by Peet's Coffee in Berkeley and built on that model.\nSeattle first, everywhere else after.",
+      "termEn": "Starbucks originally sold roasted beans and brewing equipment, not espresso drinks.",
+      "correctAnswer": true,
+      "explanationShort": "When Starbucks opened in Seattle in 1971, it was a bean and equipment store, not a cafe.\nEspresso drinks only became central later, after Howard Schultz brought back the Italian coffee bar model.\nBeans first, lattes later.",
       "tags": [
         "Figures and personalities",
         "Easy"
@@ -1736,9 +1736,9 @@
     {
       "id": 158,
       "termFr": "",
-      "termEn": "The founder of Peet's Coffee also started Starbucks.",
-      "correctAnswer": false,
-      "explanationShort": "Alfred Peet founded Peet's Coffee in Berkeley in 1966.\nStarbucks was started five years later by people Peet had mentored, but Peet was not a founder.\nPeet inspired it, did not found it.",
+      "termEn": "Howard Schultz did not found Starbucks, but he turned it into a global chain.",
+      "correctAnswer": true,
+      "explanationShort": "Starbucks was founded in 1971 by three partners in Seattle.\nHoward Schultz joined later, bought the company in 1987, and led its worldwide expansion.\nNot the founder, but the builder.",
       "tags": [
         "Figures and personalities",
         "Medium"
@@ -1901,9 +1901,9 @@
     {
       "id": 173,
       "termFr": "",
-      "termEn": "Melitta Bentz invented the paper filter wanting a cleaner, less bitter cup.",
+      "termEn": "Melitta Bentz first tested her paper filter using blotting paper from her son's notebook.",
       "correctAnswer": true,
-      "explanationShort": "Melitta Bentz was frustrated by the bitter, gritty coffee produced by metal filters of the time.\nShe experimented with blotting paper, which trapped the grounds and produced a cleaner cup.\nOne woman, blotting paper, cleaner coffee.",
+      "explanationShort": "In 1908, Melitta Bentz punched holes in a tin pot and lined it with blotting paper from her son's school notebook.\nThat simple experiment led to the modern paper coffee filter.\nSchool paper, global invention.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -2055,7 +2055,7 @@
     {
       "id": 187,
       "termFr": "",
-      "termEn": "Climate change is not expected to impact coffee production.",
+      "termEn": "Shifts in temperature and rainfall are not expected to impact coffee production.",
       "correctAnswer": false,
       "explanationShort": "Rising temperatures and erratic rainfall are already shrinking the land suitable for coffee cultivation.\nSome projections suggest that up to half of current arabica-growing areas could be lost by 2050.\nHalf of arabica land could be gone by 2050.",
       "tags": [

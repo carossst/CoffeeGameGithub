@@ -650,7 +650,7 @@
 
       framingLines: [
         "This isn't about streaks.",
-        "It's about whether you're actually improving.",
+        "It's about what you actually know.",
         "Explore 200 coffee questions.",
       ],
 
