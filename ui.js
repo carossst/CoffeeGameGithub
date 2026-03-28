@@ -1041,6 +1041,7 @@ void function () {
 
     const goalLine1 = String(extra?.goalLine1 || "").trim();
     const goalLine2 = String(extra?.goalLine2 || "").trim();
+    const defaultTapHint = (!isBonus && !isPractice) ? String(wording?.ui?.startOverlayTapAnywhere || "").trim() : "";
     const practiceTapHint = isPractice ? String(wording?.practice?.startOverlayTapAnywhere || "").trim() : "";
 
     overlay.innerHTML = `
@@ -1053,7 +1054,7 @@ void function () {
                 ${goalLine1 ? `<span class="wt-muted">${escapeHtml(goalLine1)}</span><br>` : ``}
                 ${goalLine2 ? `<span class="wt-muted">${escapeHtml(goalLine2)}</span><br>` : ``}
              ${msg.split("\n").filter(Boolean).map(l => `<span>${escapeHtml(l)}</span>`).join("<br>")}
-                ${practiceTapHint ? `<br><span>${escapeHtml(practiceTapHint)}</span>` : ``}
+                ${(practiceTapHint || defaultTapHint) ? `<br><span>${escapeHtml(practiceTapHint || defaultTapHint)}</span>` : ``}
               `
       }
         </span>

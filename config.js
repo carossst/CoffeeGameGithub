@@ -704,6 +704,7 @@
       // Start-of-run overlay (education)
       // Ligne unique, lien mental avec le HUD
       startRunChancesOverlay: "Up to {maxChances} mistakes.",
+      startOverlayTapAnywhere: "Tap anywhere to start",
 
       // Chance state overlays (no \"-1\" text)
       lastChanceOverlay: "One mistake left. Choose carefully.",

@@ -1615,9 +1615,9 @@
     {
       "id": 147,
       "termFr": "",
-      "termEn": "Turkish coffee is only drunk in Turkey.",
+      "termEn": "Turkish coffee is only made and drunk in Turkey.",
       "correctAnswer": false,
-      "explanationShort": "Turkish coffee is prepared and enjoyed across the Middle East, the Balkans, and many other regions.\nUNESCO recognized it as a tradition shared across multiple cultures, not exclusive to Turkey.\nSame method, many countries.",
+      "explanationShort": "Turkish coffee is finely ground coffee simmered in a small pot and served unfiltered, grounds and all.\nThe method is used across the Middle East, the Balkans, and many other countries.\nSame method, many countries.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
