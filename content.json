@@ -2,8 +2,8 @@
   "version": "1.0",
   "totalItems": 200,
   "breakdown": {
-    "trueItems": 121,
-    "falseItems": 80
+    "trueItems": 123,
+    "falseItems": 77
   },
   "items": [
     {
@@ -1637,11 +1637,22 @@
     {
       "id": 149,
       "termFr": "",
-      "termEn": "Coffee prices move only when people start drinking more coffee.",
-      "correctAnswer": false,
-      "explanationShort": "Coffee prices respond to supply conditions, not just changes in how much people drink.\nA bad harvest reduces available stock, and that shortage alone pushes prices up.\nDemand holds, supply alone moves the market.",
+      "termEn": "Ottoman Empire coffeehouses were social spaces where people gathered to talk, share news, and debate.",
+      "correctAnswer": true,
+      "explanationShort": "Ottoman coffeehouses brought together people from all walks of life under one roof.\nThey gathered there to discuss politics, listen to music, and exchange news and ideas.\nThe coffeehouse was the social media of its time.",
       "tags": [
-        "Coffee market and origins",
+        "Culture and history of coffee",
+        "Medium"
+      ]
+    },
+    {
+      "id": 150,
+      "termFr": "",
+      "termEn": "A skinny latte has less caffeine than a regular latte.",
+      "correctAnswer": false,
+      "explanationShort": "Skinny refers to the type of milk used, low-fat or non-fat.\nBecause the number of shots stays the same, the caffeine content is identical to a regular latte.\nLess fat, same caffeine.",
+      "tags": [
+        "Coffee shop",
         "Medium"
       ]
     },
@@ -1791,9 +1802,9 @@
     {
       "id": 164,
       "termFr": "",
-      "termEn": "Erna Knutsen was born in Norway before moving to the United States.",
+      "termEn": "Erna Knutsen, who coined the term specialty coffee, was born in Norway.",
       "correctAnswer": true,
-      "explanationShort": "Erna Knutsen was born in Norway in 1921 and emigrated to the United States as a young woman.\nShe went on to become one of the most influential figures in American specialty coffee.\nNorwegian roots, American coffee revolution.",
+      "explanationShort": "Knutsen was born in Norway in 1921 and emigrated to the United States.\nShe coined the term specialty coffee and became one of the most influential figures in the industry.\nNorwegian roots, American coffee revolution.",
       "tags": [
         "Figures and personalities",
         "Medium"
@@ -2190,17 +2201,6 @@
       "termEn": "An extra hot latte has a stronger espresso flavor than a regular latte.",
       "correctAnswer": false,
       "explanationShort": "Ordering extra hot only changes the milk temperature, not the amount of espresso in the drink.\nIn fact, overheated milk can taste slightly burnt, which masks the espresso flavor instead of strengthening it.\nHotter milk, same espresso, different taste.",
-      "tags": [
-        "Coffee shop",
-        "Medium"
-      ]
-    },
-    {
-      "id": 150,
-      "termFr": "",
-      "termEn": "A skinny latte has less caffeine than a regular latte.",
-      "correctAnswer": false,
-      "explanationShort": "Skinny refers to the type of milk used, low-fat or non-fat.\nBecause the number of shots stays the same, the caffeine content is identical to a regular latte.\nLess fat, same caffeine.",
       "tags": [
         "Coffee shop",
         "Medium"
