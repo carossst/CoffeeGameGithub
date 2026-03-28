@@ -1,5 +1,5 @@
-// footer.js — Word Traps shared footer injection (uses email.js)
-// Responsibility: inject Word Traps footer markup into #wt-footer-root when needed.
+// footer.js — shared footer injection (uses email.js)
+// Responsibility: inject footer markup into #wt-footer-root when needed.
 // Branding, version, labels and parent link are hydrated here. Contact is handled by email.js.
 (() => {
     "use strict";

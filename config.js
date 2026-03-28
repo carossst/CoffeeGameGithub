@@ -609,7 +609,7 @@
     },
     landing: {
       title: "Brew or False",
-      tagline: "Think you know coffee? Prove it.",
+      tagline: "",
       subtitle: "Think you know coffee? Prove it.\n200 true or false questions for coffee fans.",
       microFun: "No signup · Quick games · Free to try",
       microTrust: "Coffee shop drinks, home brewing, beans, and myths.",
@@ -737,7 +737,7 @@
       endDeckSizeLine: "Rapid Fire pool: {count} questions.",
       endDeckSizeLineOne: "Rapid Fire pool: 1 question.",
       endPoolProgressTemplate: "{cleared} out of {shown} correct this round.",
-      endDeckExhaustedToast: "All words available played.",
+      endDeckExhaustedToast: "All available questions played.",
 
       // BONUS new best label (END)
       newBest: "NEW BEST SCORE.",
@@ -855,10 +855,10 @@
       // Repeat guidance by tier (selected via WT_CONFIG.routing.practiceRepeatTiers)
       // Fail-closed: missing tier key => no note
       endRepeatNoteByTier: {
-        last: "One trap left. Clear it now.",
-        light: "Only a few traps left to clear.",
-        firm: "A few traps still need another pass.",
-        direct: "Stay in Mistakes mode. These are the ones that need the work."
+        last: "One question left. Clear it now.",
+        light: "Only a few questions left to clear.",
+        firm: "A few questions still need another pass.",
+        direct: "Stay in Mistakes mode. These are the questions that need the work."
       },
 
       scoreLine: "{total} questions reviewed.",
@@ -867,7 +867,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes mode focuses on your active mistakes.\nUp to 10 words per game.\nFix a word and it leaves the list.\nMake a mistake again, and it comes back.",
+      startRunChancesOverlayPractice: "Mistakes mode focuses on your active mistakes.\nUp to 10 questions per game.\nFix a question and it leaves the list.\nMake a mistake again, and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -875,7 +875,7 @@
       // Optional CTA override (END PRACTICE) based on remaining tier
       // Fail-closed: missing tier key => keep ctaPracticeAgain
       ctaRepeatByTier: {
-        last: "Clear the last trap",
+        last: "Clear the last question",
         light: "Fix your mistakes one more time",
         firm: "Play mistakes mode again",
         direct: "Stay in mistakes mode"
@@ -957,7 +957,7 @@
       // RUN END — identity + lens + CTA by verdict tier
       // Keys must match UI mapping: none/start/building/strong/elite/legendary
       identityByVerdict: {
-        none: "A few traps are still catching you.",
+        none: "A few questions are still catching you.",
         start: "",
         building: "",
         strong: "",
@@ -966,12 +966,12 @@
       },
 
       lensByVerdict: {
-        none: "You have {backlog} traps to revisit. Fix your mistakes.",
+        none: "You have {backlog} questions to revisit. Fix your mistakes.",
         start: "Good start. Try to reach 6+ in your next game.",
-        building: "{seen}/{poolSize} words seen. The pattern is becoming clearer.",
-        strong: "{seen}/{poolSize} words covered. You're reading these faster now.",
-        elite: "{seen}/{poolSize} words covered. More of this is becoming automatic.",
-        legendary: "{seen}/{poolSize} mastered. These traps rarely fool you now.",
+        building: "{seen}/{poolSize} questions seen. The pattern is becoming clearer.",
+        strong: "{seen}/{poolSize} questions covered. You're reading these faster now.",
+        elite: "{seen}/{poolSize} questions covered. More of this is becoming automatic.",
+        legendary: "{seen}/{poolSize} mastered. These questions rarely fool you now.",
       },
 
 
@@ -980,7 +980,7 @@
         start: "Play again: aim for 6+",
         building: "Play again: aim for 10+",
         strong: "Play again: push your score higher",
-        elite: "Play again: master the remaining traps",
+        elite: "Play again: master the remaining questions",
         legendary: "Play again"
       },
 
@@ -995,7 +995,7 @@
       // Coffee myths identified (RUN only)
       // Definition: distinct items with tag/tags containing "Myths and misconceptions" and correctCount > 0
       // Vars: {count}
-      falseFriendsIdentifiedLine: "{count} coffee myths spotted so far.",
+      falseFriendsIdentifiedLine: "Topic highlight: {count} spotted so far.",
 
 
       // END secondary content toggles
@@ -1247,7 +1247,7 @@ Find out 😄
 
       // Lightweight prompt (shown at milestones)
       promptTitle: "Help improve Brew or False",
-      promptBodyTemplate: "You have reached {thresholdPct}% of the pool (unique words). Share anonymous stats to help improve the game. You can review everything before sending.",
+      promptBodyTemplate: "You have reached {thresholdPct}% of the pool (unique questions). Share anonymous stats to help improve the game. You can review everything before sending.",
       promptBodyLastFree: "That was your last free game. Share anonymous stats to help improve the game. You can review everything before sending.",
       promptBodyPowerUser: "You're clearly a power player. Share anonymous stats to help improve the game. You can review everything before sending.",
       promptCtaPrimary: "Preview & share",

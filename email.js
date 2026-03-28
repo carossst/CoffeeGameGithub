@@ -1,4 +1,4 @@
-// email.js v2.0 - Word Traps
+// email.js v2.0 - mail helpers
 // Obfuscation mailto helper — fail-closed, config-driven.
 //
 // Responsibilities:

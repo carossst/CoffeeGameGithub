@@ -1,4 +1,4 @@
-// ui.js v2.0 - Word Traps
+// ui.js v2.0 - Quiz UI
 // UI-only: rendering, accessibility, interactions (V2 RUN)
 
 void function () {
@@ -4570,8 +4570,8 @@ void function () {
     const scoreFP = clampInt(lastRun.scoreFP, 0, 99999);
 
     // Curiosity-gap share: "Can you guess?" framing (nudge psychology).
-    // Priority: pick a false friend (trap) for maximum surprise.
-    // Fallback: pick a true friend if no traps were in the run.
+    // Priority: pick a surprising question for maximum curiosity.
+    // Fallback: pick another seen question if needed.
     // Source of truth: lastRun.mistakeIds + lastRun.runItemIds (stored in _finishRun()).
     let funFact = "";
     try {
@@ -6253,7 +6253,7 @@ void function () {
           const phaseBadge = (mistakes > 0) ? phaseBadgeCorrection : phaseBadgeConsolidation;
           title = (completeLabelTpl ? fillTemplate(completeLabelTpl, { poolSize: poolSizeSafe }) : "");
 
-          const masteryLine = `${mastered}/${poolSizeSafe} traps mastered`;
+          const masteryLine = `${mastered}/${poolSizeSafe} questions mastered`;
           const mistakesLine =
             (mistakes > 0 && practiceAvailable && mistakesLabel && mistakesTpl)
               ? `${mistakesLabel}: ${fillTemplate(mistakesTpl, { mistakes })}`
@@ -6906,8 +6906,16 @@ ${(() => {
             const en = String(t.termEn || "").trim();
             if (!en) continue;
 
+            const answerLabel = (t.correctAnswer === true)
+              ? String(ui.trueLabel || "").trim()
+              : (t.correctAnswer === false)
+                ? String(ui.falseLabel || "").trim()
+                : "";
+
             const expl = String(t.explanationShort || "").trim();
-            const pairHtml = `<span class="wt-mistake-pair">${escapeHtml(en)}</span>`;
+            const pairHtml = answerLabel
+              ? `<span class="wt-mistake-pair">${escapeHtml(en)} <strong>(${escapeHtml(answerLabel)})</strong></span>`
+              : `<span class="wt-mistake-pair">${escapeHtml(en)}</span>`;
             const explHtml = expl ? `<span class="wt-mistake-expl">${formatExplanationForDisplay(expl, cfg, en)}</span>` : "";
 
             items.push(`<div class="wt-mistake-item">${pairHtml}${explHtml}</div>`);
@@ -7103,7 +7111,7 @@ ${(() => {
     // progressHtml: REMOVED (dead code — computed but never injected into HTML).
     // Seen/poolSize info is now solely in runLensTpl (lens verdict).
 
-    // Coffee myths identified (RUN-only): tag/tags contains "Myths and misconceptions" AND correctCount > 0
+    // Category recap (RUN-only): counts solved items matching the configured theme tag
     if (isRun) {
       const ffTpl = String(end.falseFriendsIdentifiedLine || "").trim();
       if (ffTpl && this.storage && typeof this.storage.getStatsByItem === "function") {
@@ -7929,7 +7937,7 @@ ${questionPrompt ? `
 
     <div class="wt-feedback ${feedbackClass}" style="padding:10px; border-radius:var(--r-btn);">
       <strong class="wt-feedback-title">
-                    ${escapeHtml(titleLine)}: ${escapeHtml(termEn)}
+                    ${escapeHtml(titleLine)}
       </strong>
       ${youChoseLine ? `
         <div class="wt-muted" style="margin-top:4px">

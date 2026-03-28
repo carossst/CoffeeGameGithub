@@ -1,4 +1,4 @@
-// main.js v2.0 - Word Traps
+// main.js v2.0 - App bootstrap
 
 (() => {
   "use strict";

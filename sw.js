@@ -1,5 +1,5 @@
 /* global self, caches */
-/* sw.js - Service Worker v2.1 for Word Traps */
+/* sw.js - Service Worker v2.1 */
 /* Spec section 8: PWA / Offline / Service Worker */
 /**
  * Single source of truth for version:

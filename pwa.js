@@ -1,4 +1,4 @@
-// pwa.js v2.0 - Word Traps
+// pwa.js v2.0 - PWA helpers
 // Install prompt logic (A2HS) - KISS
 // UI owns when to show; copy is in WT_WORDING.installPrompt.*
 

@@ -1,4 +1,4 @@
-/* Word Traps - storage (V2 RUN) */
+/* storage.js - local persistence (V2 RUN) */
 
 (() => {
   "use strict";

@@ -1,4 +1,4 @@
-// game.js v2.0 - Word Traps
+// game.js v2.0 - Quiz engine
 // RUN engine + selection 
 // Zéro accès DOM, zéro localStorage
 
