@@ -1351,7 +1351,15 @@ void function () {
 
           // First-run framing must open only from the LANDING screen itself.
           // If the click already comes from the first-run modal CTA, we must start the run.
-          if (!startedFromModal && self.state === STATES.LANDING && self._canShowFirstRunFraming()) {
+          // Mobile-first safeguard: on touch devices, start directly instead of routing through
+          // an extra modal step that can feel broken or be missed.
+          const bypassFirstRunFraming = !!(
+            window.matchMedia && (
+              window.matchMedia("(pointer: coarse)").matches ||
+              window.matchMedia("(max-width: 768px)").matches
+            )
+          );
+          if (!startedFromModal && self.state === STATES.LANDING && self._canShowFirstRunFraming() && !bypassFirstRunFraming) {
             self._openFirstRunFraming();
             break;
           }
