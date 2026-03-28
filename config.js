@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "2.1",
+    version: "2.2",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
