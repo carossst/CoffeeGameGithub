@@ -1678,10 +1678,10 @@ void function () {
 
       const appActionHandler = (e) => {
         const t = e && e.target ? e.target : null;
-        if (!t) return;
+        if (!t) return false;
 
         // KISS: if user toggles the Share <details> near the bottom of the viewport,
-        // keep the summary visible to avoid the "opens upward" feel caused by layout jump.
+        // keep the summary visible to avoid the "opens upward" feel caused by layout jump.
         const shareSummary = (t.closest && t.closest("summary.wt-share-toggle")) ? t.closest("summary.wt-share-toggle") : null;
         if (shareSummary) {
           // Let native <details>/<summary> toggle happen (no preventDefault).
@@ -1690,23 +1690,24 @@ void function () {
               shareSummary.scrollIntoView({ block: "nearest", inline: "nearest" });
             } catch (_) { /* ignore */ }
           }, 0);
-          return;
+          return false;
         }
 
         // If a modal is open and the click is inside it, let modal handler own it
         if (self.modalEl && !self.modalEl.classList.contains("wt-hidden")) {
           try {
-            if (self.modalEl.contains(t)) return;
+            if (self.modalEl.contains(t)) return false;
           } catch (_) { /* ignore */ }
         }
 
         const btn = (t.closest && t.closest("[data-action]")) ? t.closest("[data-action]") : null;
-        if (!btn) return;
+        if (!btn) return false;
 
         const action = String(btn.getAttribute("data-action") || "").trim();
-        if (!action) return;
+        if (!action) return false;
         e.preventDefault();
         dispatchAction(action);
+        return true;
       };
 
       this.appEl.addEventListener(pointerEvt, appActionHandler);
@@ -1725,8 +1726,8 @@ void function () {
         // Patch original to track timestamp
         this.appEl.removeEventListener(pointerEvt, appActionHandler);
         this.appEl.addEventListener(pointerEvt, (e) => {
-          lastHandledTs = e.timeStamp || Date.now();
-          appActionHandler(e);
+          const handled = appActionHandler(e);
+          if (handled) lastHandledTs = e.timeStamp || Date.now();
         });
         this.appEl.addEventListener("click", dedupHandler);
       }
