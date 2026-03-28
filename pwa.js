@@ -85,9 +85,6 @@
 
     // iOS: no native prompt
     if (isIOS()) {
-      if (storage && typeof storage.markInstallPromptShown === "function") {
-        storage.markInstallPromptShown();
-      }
       return { ok: false, reason: "IOS_NO_NATIVE_PROMPT" };
     }
 
@@ -97,11 +94,6 @@
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
       deferredPrompt = null;
-
-      // Anti-spam: treat prompt as "shown" whether accepted or dismissed
-      if (storage && typeof storage.markInstallPromptShown === "function") {
-        storage.markInstallPromptShown();
-      }
 
       if (choice && choice.outcome === "accepted") {
         return { ok: true };

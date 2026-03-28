@@ -1610,6 +1610,15 @@ void function () {
           self.promptInstall();
           break;
 
+        case "install-app-now":
+          self.closeModal();
+          self.promptInstall();
+          break;
+
+        case "dismiss-install-prompt":
+          self.closeModal();
+          break;
+
         case "dismiss-update":
           self.dismissUpdateToast();
           break;
@@ -5213,15 +5222,69 @@ void function () {
   };
 
 
+  UI.prototype.openInstallPromptModal = function () {
+    const ip = this.wording?.installPrompt || {};
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent || "");
+    const title = String(ip.title || "").trim();
+    const body = String((isIOS ? ip.bodyIOS : ip.body) || "").trim();
+    const ctaPrimary = String((isIOS ? ip.ctaPrimaryIOS : ip.ctaPrimary) || "").trim();
+    const ctaSecondary = String(ip.ctaSecondary || this.wording?.system?.close || "").trim();
+    const primaryAction = isIOS ? "dismiss-install-prompt" : "install-app-now";
+
+    if (!title || !body || !ctaPrimary) return false;
+
+    const html = `
+      <p>${escapeHtml(body)}</p>
+      <div class="wt-actions" style="margin-top:14px">
+        <button class="wt-btn wt-btn--primary" data-action="${primaryAction}">${escapeHtml(ctaPrimary)}</button>
+        <button class="wt-btn wt-btn--ghost" data-action="close-modal">${escapeHtml(ctaSecondary)}</button>
+      </div>
+    `;
+
+    this.openModal(html, title);
+
+    try {
+      if (this.storage && typeof this.storage.markInstallPromptShown === "function") {
+        this.storage.markInstallPromptShown();
+      }
+    } catch (_) { /* silent */ }
+
+    return true;
+  };
+
+  UI.prototype._maybePromptInstallOnEnd = function () {
+    const cfg = this.config || {};
+    const storage = this.storage;
+    const pwa = window.WT_PWA || null;
+
+    if (!storage || !pwa || typeof pwa.canPrompt !== "function") return false;
+
+    const counters = (typeof storage.getCounters === "function") ? (storage.getCounters() || {}) : {};
+    const shown = Number(counters.installPromptShown || 0);
+    if (Number.isFinite(shown) && shown > 0) return false;
+
+    const modalOpen = !!(this.modalEl && !this.modalEl.classList.contains("wt-hidden"));
+    if (modalOpen) return false;
+
+    if (pwa.canPrompt(cfg, storage) !== true) return false;
+
+    return this.openInstallPromptModal() === true;
+  };
+
   // ============================================
   // Install prompt (minimal)
   // ============================================
   UI.prototype.promptInstall = function () {
-    // pwa.js owns the native prompt + storage counter (single source of truth)
+    const pwa = window.WT_PWA || null;
+    if (!pwa || typeof pwa.promptInstall !== "function") return;
 
-    if (window.WT_PWA && typeof window.WT_PWA.promptInstall === "function") {
-      window.WT_PWA.promptInstall(this.storage);
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent || "");
+    if (isIOS) {
+      this.openInstallPromptModal();
+      return;
     }
+
+    pwa.promptInstall(this.storage);
   };
 
 
@@ -5233,7 +5296,11 @@ void function () {
     // If an update is ready, user intent = apply it now.
     if (window.__WT_SW_UPDATE_READY__ === true) {
       try { window.__WT_SW_UPDATE_READY__ = false; } catch (_) { }
-      location.reload();
+      if (typeof window.__WT_APPLY_SW_UPDATE__ === "function") {
+        window.__WT_APPLY_SW_UPDATE__();
+      } else {
+        location.reload();
+      }
       return;
     }
 
@@ -5964,6 +6031,13 @@ void function () {
 
         // Free limit reached must be intentional:
         // gate on CTA click via startRun()/startRun(true), never auto-open on END.
+
+        // Install prompt: END-only, one-shot, only when the platform prompt is actually available.
+        try {
+          if (typeof this._maybePromptInstallOnEnd === "function" && this._maybePromptInstallOnEnd() === true) {
+            return;
+          }
+        } catch (_) { /* silent */ }
 
         // Waitlist: optional one-shot auto-modal on END (no dark patterns: only once per device)
         const cfg = this.config || {};

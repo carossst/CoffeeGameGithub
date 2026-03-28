@@ -193,5 +193,10 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-// No message-based skipWaiting: SW activates via install skipWaiting().
+self.addEventListener("message", (event) => {
+  const data = event && event.data ? event.data : null;
+  if (!data || data.type !== "SKIP_WAITING") return;
+
+  self.skipWaiting();
+});
 

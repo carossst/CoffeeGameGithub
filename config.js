@@ -1248,9 +1248,11 @@ Find out 😄
 
 
     installPrompt: {
-      title: "Install Brew or False",
-      body: "Play instantly. Available offline after your first load. No browser tabs. On iPhone: Share > Add to Home Screen.",
+      title: "Keep the game handy",
+      body: "Add Brew or False to your home screen and come back in one tap.",
+      bodyIOS: "On iPhone, tap Share, then Add to Home Screen to keep Brew or False one tap away.",
       ctaPrimary: "Add to home screen",
+      ctaPrimaryIOS: "Got it",
       ctaSecondary: "Later"
     },
 
