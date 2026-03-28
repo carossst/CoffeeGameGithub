@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "totalItems": 201,
+  "totalItems": 200,
   "breakdown": {
     "trueItems": 121,
     "falseItems": 80
@@ -152,9 +152,9 @@
     {
       "id": 14,
       "termFr": "",
-      "termEn": "A flat white usually contains less milk than a latte.",
+      "termEn": "A flat white usually contains less milk and less foam than a latte.",
       "correctAnswer": true,
-      "explanationShort": "A flat white is served in a smaller cup, typically around 5 oz.\nA latte is much larger, around 8 to 12 oz, so it has more milk.\nFlat white, bold. Latte, creamy.",
+      "explanationShort": "A flat white is served in a smaller cup, typically around 5 oz, with no foam on top.\nA latte is much larger, around 8 to 12 oz, with more milk and a thin layer of foam.\nFlat white, bold. Latte, creamy.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -658,11 +658,11 @@
     {
       "id": 60,
       "termFr": "",
-      "termEn": "A flat white and a latte use the same milk-to-espresso ratio.",
-      "correctAnswer": false,
-      "explanationShort": "Both drinks use espresso and steamed milk, but the balance is different.\nA flat white uses less milk, making it more coffee-forward, while a latte is creamier and milder.\nSame family, different taste.",
+      "termEn": "The flat white was invented in Australia.",
+      "correctAnswer": true,
+      "explanationShort": "The flat white was born in Australia and New Zealand in the 1980s.\nIt was designed smaller and more coffee-forward than the latte.\nAustralian invention, global drink.",
       "tags": [
-        "Beverages and drink families",
+        "Culture and history of coffee",
         "Medium"
       ]
     },
@@ -704,9 +704,9 @@
       "termFr": "",
       "termEn": "A capsule machine and a traditional espresso machine always produce the same cup.",
       "correctAnswer": false,
-      "explanationShort": "A capsule machine manages pressure and temperature automatically, with nothing left to adjust.\nA traditional machine puts grind, dose, and timing entirely in the user's hands.\nSame name, different control.",
+      "explanationShort": "A capsule espresso is calibrated to taste the same every time.\nA traditional machine can produce a brighter, richer, or more intense cup depending on how it is dialed in.\nSame name, different flavor ceiling.",
       "tags": [
-        "Beverages and drink families",
+        "Coffee at home",
         "Medium"
       ]
     },
@@ -794,7 +794,7 @@
       "correctAnswer": false,
       "explanationShort": "Arabica accounts for roughly 60 to 65 percent of global coffee exports.\nRobusta makes up the remaining share, used mainly in instant coffee and commercial espresso blends.\nArabica leads, robusta follows.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -805,7 +805,7 @@
       "correctAnswer": false,
       "explanationShort": "Coffee shops source their beans through the global commodity market.\nWhen prices rise there, the cost increase flows through roasters and eventually to the counter.\nGlobal price, local cup.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -816,7 +816,7 @@
       "correctAnswer": false,
       "explanationShort": "Kenya grows almost exclusively arabica at high altitude.\nThat combination produces a coffee prized for bright, fruity notes of berry and citrus.\nKenyan coffee is fruity and bright, not bold.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -882,7 +882,7 @@
       "correctAnswer": false,
       "explanationShort": "Coffee is grown almost entirely in tropical countries near the equator.\nYet roughly 70 percent of global consumption happens in Europe, North America, and Asia.\nGrown in one place, drunk in another.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -893,7 +893,7 @@
       "correctAnswer": false,
       "explanationShort": "Robusta costs far less than arabica, making it the go-to choice for budget blends.\nIt also produces more crema, which is why it is common in commercial espresso blends.\nCheap blend, likely robusta.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -904,7 +904,7 @@
       "correctAnswer": false,
       "explanationShort": "Hawaii is the only US state with significant commercial coffee production.\nEverything else the country drinks is imported from tropical growing regions across the world.\nAmerican coffee is mostly brewed here, not grown here.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -915,7 +915,7 @@
       "correctAnswer": false,
       "explanationShort": "Italy is world-famous for its espresso culture and roasting expertise.\nBut coffee only grows in tropical climates near the equator, far from Italy's geography.\nItalian coffee culture runs on imported beans.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -926,7 +926,7 @@
       "correctAnswer": false,
       "explanationShort": "China does produce coffee, mainly in the Yunnan province.\nBut domestic production falls far short of the country's growing consumption, so most comes from imports.\nChina drinks far more coffee than it grows.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -937,7 +937,7 @@
       "correctAnswer": true,
       "explanationShort": "Brazil is both the world's largest coffee producer and a significant consumer at home.\nEven so, it exports far more than it keeps, supplying coffee markets around the world.\nExports dominate, domestic use is smaller.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -948,7 +948,7 @@
       "correctAnswer": true,
       "explanationShort": "Colombia's high altitude and climate are ideal conditions for arabica cultivation.\nThat is why the country grows arabica almost exclusively.\nColombian bag usually means arabica.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -959,7 +959,7 @@
       "correctAnswer": true,
       "explanationShort": "Nordic countries consistently top global rankings for coffee consumption per person.\nFinland, for example, averages around 4 to 5 cups per person per day.\nThe biggest drinkers per cup live far from coffee farms.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -970,18 +970,18 @@
       "correctAnswer": true,
       "explanationShort": "Vietnam is one of the world's largest robusta producers.\nBecause robusta is cheaper and has a stronger, more bitter flavor, it is the standard choice for instant coffee.\nVietnam beans, instant jar.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
     {
       "id": 89,
       "termFr": "",
-      "termEn": "Ethiopia is where coffee plants originate, not where coffee was first brewed.",
+      "termEn": "Wild coffee plants still grow naturally in Ethiopia today.",
       "correctAnswer": true,
-      "explanationShort": "Ethiopia is where wild coffee plants were first discovered, and they still grow there today.\nYemen, however, is where coffee was first cultivated and brewed as a drink.\nEvery cup traces back to one country.",
+      "explanationShort": "Ethiopia is the only place where coffee grows wild without being planted by humans.\nAll cultivated coffee varieties in the world trace back to those Ethiopian plants.\nEvery cup starts in Ethiopia.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -992,7 +992,7 @@
       "correctAnswer": true,
       "explanationShort": "Brazil produces more coffee than any other country by volume.\nUnlike most coffee-growing nations, it is also one of the biggest consumers, drinking much of what it grows.\nBrazil sets the scale for world coffee.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1003,7 +1003,7 @@
       "correctAnswer": true,
       "explanationShort": "Indonesia grows large quantities of robusta, which thrives at lower altitudes and in heat.\nBecause of its availability and low cost, Indonesian robusta is used in many commercial blends and instant coffees.\nIndonesian robusta, in most blends.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1014,7 +1014,7 @@
       "correctAnswer": true,
       "explanationShort": "Coffee plants need consistent warmth, humidity, and no frost to thrive.\nThat combination only exists in the band between the two tropics.\nThe best coffee grows where it is hottest.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -1025,7 +1025,7 @@
       "correctAnswer": true,
       "explanationShort": "The four largest producers, Brazil, Vietnam, Colombia, and Ethiopia, all sit in or near the tropics.\nTogether they supply roughly two thirds of the world's coffee.\nTemperate countries drink it, tropical countries grow it.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -1036,7 +1036,7 @@
       "correctAnswer": true,
       "explanationShort": "Fairtrade focuses on the trading relationship between buyers and farmers.\nIts goal is to guarantee fairer prices and more stability for small producers.\nFairtrade changes who gets paid, not the taste.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -1047,7 +1047,7 @@
       "correctAnswer": false,
       "explanationShort": "Different certification logos cover different things: trade terms, farming practices, or sustainability.\nOnly a label specifically certifying organic farming confirms that no synthetic inputs were used.\nLogo on the bag does not mean organic.",
       "tags": [
-        "Buying and labels",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -1058,7 +1058,7 @@
       "correctAnswer": true,
       "explanationShort": "At high altitude, cooler temperatures slow the growth of the coffee cherry.\nThat slower development gives the bean more time to build density and a more complex flavor.\nGrow it higher, taste it deeper.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -1069,7 +1069,7 @@
       "correctAnswer": true,
       "explanationShort": "Coffee prices respond to supply, not just demand.\nA smaller harvest reduces available supply, and that alone is enough to push prices up.\nBad harvest, higher price, same demand.",
       "tags": [
-        "Market and price",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1080,7 +1080,7 @@
       "correctAnswer": false,
       "explanationShort": "Coffee needs a specific combination of altitude, temperature, and rainfall to develop properly.\nExtra water cannot compensate for the wrong climate or soil conditions.\nClimate decides where coffee grows, not water.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1179,16 +1179,16 @@
       "correctAnswer": false,
       "explanationShort": "India grows both arabica and robusta in its southern states of Karnataka, Kerala, and Tamil Nadu.\nThat coffee is then exported to Europe and other international markets.\nIndian coffee travels farther than most people think.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
     {
       "id": 108,
       "termFr": "",
-      "termEn": "The chocolate in a mocha adds caffeine on top of the espresso.",
-      "correctAnswer": false,
-      "explanationShort": "A mocha and a latte are built on the same espresso base.\nThe chocolate syrup a mocha adds brings sweetness and flavor, but no additional caffeine.\nMore chocolate, same caffeine.",
+      "termEn": "A long black is made by pouring espresso over water, not water over espresso.",
+      "correctAnswer": true,
+      "explanationShort": "The long black was born in Australia as a stronger, crema-preserving alternative to the americano.\nHot water goes in the cup first, then the espresso is poured on top to keep the crema intact.\nAmericano and long black, same ingredients, different pour.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -1252,11 +1252,11 @@
     {
       "id": 114,
       "termFr": "",
-      "termEn": "A bag's best-before date tells you more about freshness than the roast date.",
-      "correctAnswer": false,
-      "explanationShort": "The roasted-on date marks the moment freshness started counting down.\nMost coffee tastes best within 2 to 4 weeks of that date, well before the best-before arrives.\nRoasted on beats best before.",
+      "termEn": "Coffee tastes best in the weeks after the roast date.",
+      "correctAnswer": true,
+      "explanationShort": "After roasting, beans release CO2 for a few days and need time to settle.\nAfter that short rest, flavor peaks, then aromas start escaping past a few weeks.\nFresh weeks, not fresh months.",
       "tags": [
-        "Buying and freshness",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -1289,7 +1289,7 @@
       "correctAnswer": false,
       "explanationShort": "Blending beans from different origins allows roasters to build a specific, consistent flavor profile.\nMany highly regarded espresso roasters use blends deliberately, for their reliability and balance.\nBlend is a choice, not a compromise.",
       "tags": [
-        "Buying and freshness",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -1300,7 +1300,7 @@
       "correctAnswer": true,
       "explanationShort": "Standard steamed milk is warm and comfortable to hold through the cup.\nExtra hot pushes it past that point, closer to scalding.\nHotter milk, same drink.",
       "tags": [
-        "Coffee shop experience",
+        "Coffee shop",
         "Easy"
       ]
     },
@@ -1366,7 +1366,7 @@
       "correctAnswer": false,
       "explanationShort": "The US is one of the world's largest coffee markets by total volume.\nBut per person, Nordic countries like Finland consume far more.\nBig market, not the biggest per cup.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1377,7 +1377,7 @@
       "correctAnswer": true,
       "explanationShort": "China's coffee consumption has grown by over 20 percent per year since 2010.\nWhile tea culture still dominates, younger urban consumers are driving a rapid shift toward coffee.\nBiggest tea country, fastest-growing coffee market.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1388,7 +1388,7 @@
       "correctAnswer": false,
       "explanationShort": "Fairtrade certification focuses on trading conditions like minimum prices and fair contracts, not farming methods.\nA Fairtrade coffee can still be grown with conventional pesticides unless it also carries an organic label.\nFair price is not the same as organic farming.",
       "tags": [
-        "Buying and labels",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -1421,7 +1421,7 @@
       "correctAnswer": false,
       "explanationShort": "Mexico produces arabica in its southern states like Chiapas and Oaxaca.\nWhile it is a real producer, its output ranks well below countries like Brazil, Vietnam, or Colombia.\nMexico grows coffee, just not enough to lead.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1476,7 +1476,7 @@
       "correctAnswer": true,
       "explanationShort": "Specialty coffee is defined as beans that score 80 or above on a standardized 100-point evaluation.\nThat score covers flavor, aroma, balance, and defect count.\nSpecialty is a score, not just a style.",
       "tags": [
-        "Buying and freshness",
+        "Buying coffee",
         "Hard"
       ]
     },
@@ -1498,7 +1498,7 @@
       "correctAnswer": false,
       "explanationShort": "Cold foam is made by frothing cold milk without applying any heat.\nBecause it is cold, it sits on top of an iced drink without melting into it quickly.\nNo heat, different foam.",
       "tags": [
-        "Coffee shop experience",
+        "Coffee shop",
         "Medium"
       ]
     },
@@ -1575,7 +1575,7 @@
       "correctAnswer": true,
       "explanationShort": "A single bad growing season can cut a country's coffee harvest by a third or more.\nArabica is vulnerable to frost, drought, and heavy rainfall.\nOne bad frost can change prices worldwide.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -1586,7 +1586,7 @@
       "correctAnswer": true,
       "explanationShort": "Single origin is a geographic label that points to a country or region, not a specific farm.\nBeans from dozens of farms in the same area can all be labeled single origin.\nOne region, many farms.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1630,7 +1630,7 @@
       "correctAnswer": true,
       "explanationShort": "Brazil and Vietnam together supply roughly half of the world's coffee.\nWhen either country has a bad harvest, global supply drops and prices climb as a result.\nFarm problems abroad, higher prices at home.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -1641,18 +1641,7 @@
       "correctAnswer": false,
       "explanationShort": "Coffee prices respond to supply conditions, not just changes in how much people drink.\nA bad harvest reduces available stock, and that shortage alone pushes prices up.\nDemand holds, supply alone moves the market.",
       "tags": [
-        "Market and price",
-        "Medium"
-      ]
-    },
-    {
-      "id": 150,
-      "termFr": "",
-      "termEn": "Ottoman Empire coffeehouses were social spaces where people gathered to talk, share news, and debate.",
-      "correctAnswer": true,
-      "explanationShort": "Ottoman coffeehouses brought together people from all walks of life under one roof.\nThey gathered there to discuss politics, listen to music, and exchange news and ideas.\nThe coffeehouse was the social media of its time.",
-      "tags": [
-        "Culture and history of coffee",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1685,7 +1674,7 @@
       "correctAnswer": true,
       "explanationShort": "About 80 percent of the world's coffee is grown on small family farms, most smaller than 25 acres.\nFor most of these families, coffee is their primary source of income.\nSmall plots, global scale.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -1824,12 +1813,12 @@
     {
       "id": 166,
       "termFr": "",
-      "termEn": "Peet's Coffee and Starbucks have no historical connection.",
-      "correctAnswer": false,
-      "explanationShort": "The founders of Starbucks learned the craft of quality coffee directly from Alfred Peet.\nIn their early years, they even sourced their first beans from Peet's Coffee.\nTwo brands, one shared origin story.",
+      "termEn": "An espresso tonic is made by mixing espresso with tonic water.",
+      "correctAnswer": true,
+      "explanationShort": "The drink was first created in Oslo in 2007 and popularized by a Swedish roaster before spreading worldwide.\nEspresso is poured over chilled tonic water and ice, creating a fizzy, bitter-sweet coffee drink.\nNo alcohol, all the fizz.",
       "tags": [
-        "Figures and personalities",
-        "Medium"
+        "Beverages and drink families",
+        "Easy"
       ]
     },
     {
@@ -1872,7 +1861,7 @@
       "correctAnswer": true,
       "explanationShort": "The ICO is an intergovernmental body that collects and publishes data on coffee production, exports, and prices.\nGovernments, roasters, and traders rely on its data to understand the global market.\nThe global coffee numbers start with the ICO.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -1883,7 +1872,7 @@
       "correctAnswer": false,
       "explanationShort": "Fairtrade certification sets standards for trading conditions and minimum prices paid to farmers.\nIt says nothing about flavor, aroma, or how the coffee will taste in the cup.\nFair trade is about terms, not taste.",
       "tags": [
-        "Buying and labels",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -1894,7 +1883,7 @@
       "correctAnswer": true,
       "explanationShort": "About 4 out of 5 cups of coffee in the world comes from small family farms.\nFor most of these households, coffee is the primary and sometimes only source of income.\nFamily farms, not factories.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -2048,7 +2037,7 @@
       "correctAnswer": true,
       "explanationShort": "Guatemala grows arabica at high altitude across several distinct growing regions.\nThat combination of elevation and climate makes it one of Central America's top specialty coffee producers.\nHigh altitude, high quality, Guatemala.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -2059,7 +2048,7 @@
       "correctAnswer": false,
       "explanationShort": "Rising temperatures and erratic rainfall are already shrinking the land suitable for coffee cultivation.\nSome projections suggest that up to half of current arabica-growing areas could be lost by 2050.\nHalf of arabica land could be gone by 2050.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -2070,7 +2059,7 @@
       "correctAnswer": true,
       "explanationShort": "Hawaii is the only major coffee-growing region with US labor and land costs.\nThat makes Kona coffee 3 to 5 times more expensive than comparable specialty coffees grown elsewhere.\nSame plant, much higher price tag.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -2081,7 +2070,7 @@
       "correctAnswer": false,
       "explanationShort": "Costa Rica passed a law banning robusta to protect its arabica reputation.\nThe country is now known exclusively for clean, bright arabica grown at high altitude.\nArabica only, by law.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -2092,7 +2081,7 @@
       "correctAnswer": true,
       "explanationShort": "Global coffee consumption has grown steadily since the 1990s.\nMuch of that growth comes from emerging markets in Asia, where coffee culture is expanding rapidly.\nTea countries are becoming coffee countries.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Medium"
       ]
     },
@@ -2103,7 +2092,7 @@
       "correctAnswer": false,
       "explanationShort": "Organic certification focuses on how the coffee is grown, without synthetic pesticides or fertilizers.\nIt says nothing about the price the farmer received, which is what Fairtrade addresses.\nOrganic covers farming, fair trade covers payment.",
       "tags": [
-        "Buying and labels",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -2114,7 +2103,7 @@
       "correctAnswer": true,
       "explanationShort": "Coffee is traded on commodity exchanges, the same markets that handle oil, gold, and wheat.\nA drought in Brazil or frost in Colombia can move prices on those exchanges within hours.\nGlobal market, local cup.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Hard"
       ]
     },
@@ -2147,7 +2136,7 @@
       "correctAnswer": true,
       "explanationShort": "An expiration date tells you when the product is considered unsafe, not when it stopped tasting good.\nThe roast date tells you exactly when freshness started counting down.\nRoast date is the only date that matters.",
       "tags": [
-        "Buying and freshness",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -2180,7 +2169,7 @@
       "correctAnswer": true,
       "explanationShort": "Specialty roasters pay above the commodity price to source high-quality beans directly from farms.\nThat extra cost moves through roasting, packaging, and retail before landing in the cup price.\nQuality costs more at every step.",
       "tags": [
-        "Buying and labels",
+        "Buying coffee",
         "Medium"
       ]
     },
@@ -2191,7 +2180,7 @@
       "correctAnswer": true,
       "explanationShort": "Younger consumers have driven a sharp rise in demand for canned and bottled coffee.\nAs a result, ready-to-drink coffee now fills a growing section of grocery shelves across the US.\nThe coffee aisle now looks like the soda aisle.",
       "tags": [
-        "Market, geography and coffee context",
+        "Coffee market and origins",
         "Easy"
       ]
     },
@@ -2207,7 +2196,7 @@
       ]
     },
     {
-      "id": 201,
+      "id": 150,
       "termFr": "",
       "termEn": "A skinny latte has less caffeine than a regular latte.",
       "correctAnswer": false,

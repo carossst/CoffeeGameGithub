@@ -7139,32 +7139,44 @@ ${(() => {
     // progressHtml: REMOVED (dead code — computed but never injected into HTML).
     // Seen/poolSize info is now solely in runLensTpl (lens verdict).
 
-    // Category recap (RUN-only): counts solved items matching the configured theme tag
+    // Category recap (RUN-only): surface the most-missed content tag for this game.
     if (isRun) {
-      const ffTpl = String(end.falseFriendsIdentifiedLine || "").trim();
-      if (ffTpl && this.storage && typeof this.storage.getStatsByItem === "function") {
-        let statsByItem = {};
-        try { statsByItem = this.storage.getStatsByItem() || {}; } catch (_) { statsByItem = {}; }
+      const copyByTag = (end && typeof end.endTagHighlights === "object") ? end.endTagHighlights : null;
+      const runMistakeIds = Array.isArray(this._runtime?.runMistakeIds) ? this._runtime.runMistakeIds : [];
+      const byId = (this._runtime && this._runtime.contentById && typeof this._runtime.contentById === "object")
+        ? this._runtime.contentById
+        : {};
 
-        const byId = (this._runtime && this._runtime.contentById && typeof this._runtime.contentById === "object")
-          ? this._runtime.contentById
-          : {};
+      if (copyByTag && runMistakeIds.length > 0) {
+        const ignored = new Set(["Easy", "Medium", "Hard"]);
+        const counts = Object.create(null);
 
-        let count = 0;
-        for (const k in statsByItem) {
-          const id = Number(k);
-          if (!Number.isFinite(id)) continue;
-
-          const it = byId[String(id)] || null;
-          const tags = extractTagsFromItem(it);
-          if (!tags.includes("Myths and misconceptions")) continue;
-
-          const cc = clampInt(Number(statsByItem[k]?.correctCount), 0, 999999);
-          if (cc > 0) count += 1;
+        for (const rawId of runMistakeIds) {
+          const item = byId[String(rawId)] || byId[rawId] || null;
+          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
+          for (const tag of tags) {
+            counts[tag] = clampInt(Number(counts[tag] || 0) + 1, 0, 9999);
+          }
         }
 
-        const msg = fillTemplate(ffTpl, { count: String(clampInt(count, 0, 99999)) });
-        if (msg) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(msg)}</p>`);
+        let bestTag = "";
+        let bestCount = 0;
+        let tie = false;
+        for (const tag in counts) {
+          const n = clampInt(Number(counts[tag] || 0), 0, 9999);
+          if (n > bestCount) {
+            bestTag = tag;
+            bestCount = n;
+            tie = false;
+          } else if (n > 0 && n === bestCount) {
+            tie = true;
+          }
+        }
+
+        if (!tie && bestCount >= 2) {
+          const line = String(copyByTag[bestTag] || "").trim();
+          if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
+        }
       }
     }
 
