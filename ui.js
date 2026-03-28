@@ -6253,7 +6253,7 @@ void function () {
           const phaseBadge = (mistakes > 0) ? phaseBadgeCorrection : phaseBadgeConsolidation;
           title = (completeLabelTpl ? fillTemplate(completeLabelTpl, { poolSize: poolSizeSafe }) : "");
 
-          const masteryLine = `${mastered}/${poolSizeSafe} questions mastered`;
+          const masteryLine = `${mastered}/${poolSizeSafe} questions answered correctly`;
           const mistakesLine =
             (mistakes > 0 && practiceAvailable && mistakesLabel && mistakesTpl)
               ? `${mistakesLabel}: ${fillTemplate(mistakesTpl, { mistakes })}`

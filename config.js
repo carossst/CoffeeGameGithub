@@ -634,7 +634,7 @@
       statsSeenCompleteLabel: "Coffee quiz progress",
       statsMistakesLabel: "Mistakes",
       statsMistakesSummaryTemplate: "{mistakes}",
-      statsMasterySummaryTemplate: "{mastered}/{poolSize} questions mastered",
+      statsMasterySummaryTemplate: "{mastered}/{poolSize} questions answered correctly",
 
       postPaywallTitle: "Free games completed. Ready for more?",
       postPaywallBody: "Unlock unlimited games anytime and keep your progress on this device.",
@@ -667,8 +667,8 @@
         title: "Halfway milestone.",
         bodyLines: [
           "Halfway there: 100/200 questions explored.",
-          "You are now seeing the real coffee patterns.",
-          "Keep going. This is where mastery starts."
+          "You are getting better at separating coffee facts from fiction.",
+          "Keep going. This is where it starts to click."
         ],
         cta: "Next"
       }
@@ -968,10 +968,10 @@
       lensByVerdict: {
         none: "You have {backlog} questions to revisit. Fix your mistakes.",
         start: "Good start. Try to reach 6+ in your next game.",
-        building: "{seen}/{poolSize} questions seen. The pattern is becoming clearer.",
+        building: "{seen}/{poolSize} questions seen. You are getting a better feel for what is true and what is false.",
         strong: "{seen}/{poolSize} questions covered. You're reading these faster now.",
         elite: "{seen}/{poolSize} questions covered. More of this is becoming automatic.",
-        legendary: "{seen}/{poolSize} mastered. These questions rarely fool you now.",
+        legendary: "{seen}/{poolSize} answered correctly. You are reading these with confidence now.",
       },
 
 
@@ -995,7 +995,7 @@
       // Coffee myths identified (RUN only)
       // Definition: distinct items with tag/tags containing "Myths and misconceptions" and correctCount > 0
       // Vars: {count}
-      falseFriendsIdentifiedLine: "Topic highlight: {count} spotted so far.",
+      falseFriendsIdentifiedLine: "Topic highlight: {count} correct so far.",
 
 
       // END secondary content toggles
@@ -1038,7 +1038,7 @@
       headline: "Think you know coffee? Prove it.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "You've started spotting the patterns. Finish the set.",
+      headlineLastFree: "You've started separating coffee facts from fiction. Finish the set.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
@@ -1074,8 +1074,8 @@
       // If all are empty, nothing is rendered.
       socialProofTitle: "What players say",
       socialProofQuotes: [
-        { quote: "Great for self-learning. The explanations after each answer make it even better.", author: "Babé, Educational Coordinator" },
-        { quote: "I kept confusing librairie and library. After a few rounds, it just clicked.", author: "Tom, preparing for life in France" }
+        { quote: "Fast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Maya, home brewer" },
+        { quote: "The true or false format makes it easy to keep playing, and the mistakes mode is what made the facts stick.", author: "Jon, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)
@@ -1150,7 +1150,7 @@
       body: "Now make it stick. Practice your mistakes, explore Rapid Fire Mode, or replay full games.",
 
       // Mastered (pool exhausted + 0 active mistakes)
-      masteredTitle: "Bravo ! You've mastered all 200 questions.",
+      masteredTitle: "Bravo ! You answered all 200 questions correctly.",
       masteredLine1: "Zero active mistakes. Every question answered correctly.",
       masteredLine2: "Now test your focus under pressure. Then come back in a few weeks and see if it still holds.",
       masteredCtaBonus: "Challenge yourself in Rapid Fire Mode",
