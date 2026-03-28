@@ -1,8 +1,8 @@
 {
-  "name": "Test Your French: Word Traps",
-  "short_name": "Word Traps",
+  "name": "Brew or False",
+  "short_name": "Brew or False",
   "id": "./",
-  "description": "A fast French word game: word traps. Random order. How many can you spot?",
+  "description": "A fast coffee true or false quiz about brewing, beans, drinks, myths, and coffee culture.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

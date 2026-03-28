@@ -57,7 +57,7 @@
             </button>
           </div>
 
-          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">BOF-XXXX-XXXX</div>
+          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">BF-0000-0000</div>
 
           <div id="copy-status" class="wt-live wt-hidden" role="status" aria-live="polite"
             style="margin-top:var(--space-10)">
@@ -183,12 +183,7 @@
         throw new Error("success page: empty config.storage.vanityCodeStorageKey");
       }
       function rand4() {
-        return Math.random()
-          .toString(36)
-          .toUpperCase()
-          .replace(/[^A-Z0-9]/g, "")
-          .slice(0, 4)
-          .padEnd(4, "X");
+        return String(Math.floor(Math.random() * 10000)).padStart(4, "0");
       }
 
       function generateCode() {

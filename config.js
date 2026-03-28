@@ -143,8 +143,8 @@
     },
 
     // Premium code flow (TYF-like)
-    premiumCodePrefix: "BOF",
-    premiumCodeRegex: "^BOF-[A-Z0-9]{4}-[A-Z0-9]{4}$",
+    premiumCodePrefix: "BF",
+    premiumCodeRegex: "^BF-[0-9]{4}-[0-9]{4}$",
     acceptCodeOncePerDevice: true,
 
     // Pricing (Stripe)
@@ -152,8 +152,8 @@
     earlyPriceCents: 499,
     standardPriceCents: 699,
     earlyPriceWindowMs: 20 * 60 * 1000, // 20 minutes
-    stripeEarlyPaymentUrl: "https://buy.stripe.com/coffee-quiz-early",
-    stripeStandardPaymentUrl: "https://buy.stripe.com/coffee-quiz-standard",
+    stripeEarlyPaymentUrl: "https://buy.stripe.com/fZu6oJ2Y86pegsjfNt2VG01",
+    stripeStandardPaymentUrl: "https://buy.stripe.com/6oUfZj8is00QfofgRx2VG00",
     successRedirectUrl: "./success.html",
 
     // Marketing (opt-in only; Stripe receipt email is NOT marketing consent)
@@ -603,8 +603,8 @@
       txtSaveLine: "Tip: keep this code somewhere safe.",
       txtNoRecoverLine: "It can't be recovered from a server.",
 
-      cheatSheetTitle: "Cheat Sheet (PDF)",
-      cheatSheetBody: "If you added the Cheat Sheet to your order, enter your email below to receive the download link.",
+      cheatSheetTitle: "",
+      cheatSheetBody: "",
 
     },
     landing: {
@@ -1129,7 +1129,7 @@
       activateLine1: "Already have an activation code? Activate it here.",
       activateLine2: "No account needed. Your code stays on this device.",
       activationCodeLabel: "Activation code",
-      activationCodePlaceholder: "BOF-XXXX-XXXX",
+      activationCodePlaceholder: "BF-0000-0000",
       enterCode: "Enter a code.",
       codeRejected: "Code rejected.",
       activateCta: "Activate",
