@@ -1779,10 +1779,17 @@ void function () {
         } catch (_) { /* silent */ }
       });
 
-      // Browser Back => always go to Home (LANDING) for in-app history entries
+      // Browser Back => prefer returning to Home (LANDING) for in-app history entries.
+      // Robustness: some mobile/PWA contexts emit popstate with a null/partial state,
+      // so we also fall back to the internal hashes we control (#home / #app).
       window.addEventListener("popstate", (e) => {
         const st = e && e.state ? e.state : null;
-        if (!st || st.wt !== true) return;
+        const hash = String(window.location.hash || "").trim();
+        const hasInternalState = !!(st && st.wt === true);
+        const hasInternalHash = (hash === "#home" || hash === "#app");
+
+        // If the browser navigated outside our internal history model, let it proceed.
+        if (!hasInternalState && !hasInternalHash) return;
 
         self.closeModal();
 
@@ -1790,7 +1797,18 @@ void function () {
           cleanupPlayingExit(self, { keepChanceOverlayVisible: false });
         }
 
-        if (self.state !== STATES.LANDING) self.setState(STATES.LANDING);
+        if (self.state !== STATES.LANDING) {
+          self.setState(STATES.LANDING);
+          return;
+        }
+
+        // Keep URL/state coherent even when popstate arrived with a degraded state payload.
+        if (hash !== "#home") {
+          try {
+            const baseUrl = location.pathname + location.search;
+            history.replaceState({ wt: true, screen: STATES.LANDING }, "", baseUrl + "#home");
+          } catch (_) { /* silent */ }
+        }
       });
 
       // Secret Bonus: resize/rotation => recalibrate fall lane (never fail the item)
@@ -7942,7 +7960,7 @@ ${questionPrompt ? `
         : "";
 
       return renderShell(`
-  <div class="wt-card" role="status" aria-live="polite" data-action="continue" style="cursor:pointer">
+  <div class="wt-card" role="status" aria-live="polite">
     ${questionHtml}
 
     <div class="wt-feedback ${feedbackClass}" style="padding:10px; border-radius:var(--r-btn);">
