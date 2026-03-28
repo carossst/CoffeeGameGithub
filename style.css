@@ -250,7 +250,7 @@
 
   /* Branding */
   --wt-title-size: 31px;
-  --wt-logo-scale: 0.90;
+  --wt-logo-scale: 1.18;
 
   /* Calmer “premium” glow (less corporate, less neon) */
   --hero-glow: 0.16;
@@ -259,7 +259,7 @@
 @media (min-width: 481px) {
   :root {
     --wt-title-size: 36px;
-    --wt-logo-scale: 1.42;
+    --wt-logo-scale: 1.56;
   }
 }
 
@@ -2466,8 +2466,8 @@ body.wt-state--playing .wt-footer {
 }
 
 .wt-container[data-wt-bonus="fall"] .wt-branding-logo {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   padding: var(--space-2);
 }
 

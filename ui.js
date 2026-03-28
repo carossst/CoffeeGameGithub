@@ -1677,7 +1677,7 @@ void function () {
     }
 
 
-    const pointerEvt = ("PointerEvent" in window) ? "pointerup" : "click";
+    const pointerEvt = (("PointerEvent" in window) && window.matchMedia && window.matchMedia("(pointer: coarse)").matches) ? "pointerdown" : (("PointerEvent" in window) ? "pointerup" : "click");
 
     // Main app event delegation (LANDING / PLAYING / END / PAYWALL)
     // Without this, buttons like data-action="start-run" never fire.
@@ -1720,15 +1720,15 @@ void function () {
 
       this.appEl.addEventListener(pointerEvt, appActionHandler);
 
-      // Mobile safety: also listen on "click" when primary is "pointerup".
-      // Some iOS Safari + PWA combos silently swallow pointerup on buttons.
+      // Mobile safety: also listen on "click" when primary is a pointer event.
+      // Some mobile Safari/PWA combos behave unreliably on button release events.
       // The dedup guard (same timestamp check) prevents double-fire.
       if (pointerEvt !== "click") {
         let lastHandledTs = 0;
         const origHandler = appActionHandler;
         const dedupHandler = (e) => {
           const now = e.timeStamp || Date.now();
-          if (now - lastHandledTs < 400) return; // already handled by pointerup
+          if (now - lastHandledTs < 400) return; // already handled by pointer event
           origHandler(e);
         };
         // Patch original to track timestamp
