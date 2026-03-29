@@ -395,15 +395,8 @@
       enabled: true,
 
       // Unlock threshold (unique seen items)
-      minUniqueSeenToShow: 120,
+      minUniqueSeenToShow: 100,
 
-      // UI routing:
-      // - END: can appear when pool is exhausted (first reveal)
-      // - LANDING: appears after it has been revealed once (persisted flag)
-      placement: "end-and-landing-after-seen-once",
-
-      afterPoolExhaustedOnly: false,
-      showModalOneShot: false,
 
       // Obfuscated email (anti-scraping)
       toEmailObfuscated: "carolestromboni&#64;gmail&#46;com",
@@ -419,8 +412,8 @@
       houseAdEnabled: true,
 
       // Milestones (% of unique pool coverage)
-      // UI must not hardcode 50% / 100%.
-      milestoneThresholds: [0.5, 1.0]
+      // UI must not hardcode 25% / 50% / 75% / 100%.
+      milestoneThresholds: [0.25, 0.5, 0.75, 1.0]
     },
 
 
@@ -571,10 +564,10 @@
 
     success: {
       title: "Payment successful",
-      subtitle: "Your activation code is ready. Save it, then activate it in the game.",
+      subtitle: "Your device unlock code is ready. Use it in the game to turn on full access here in a few seconds.",
 
-      codeLabel: "Your activation code",
-      clearDataWarning: "If you clear site data or switch device/browser, you will need this code again.",
+      codeLabel: "Your device unlock code",
+      clearDataWarning: "This unlock is saved on this device. Keep the code if you may clear browser data or switch device later.",
 
       howToActivateTitle: "How to activate",
       howToActivateStep1: "Return to the game.",
@@ -584,25 +577,25 @@
       howToActivateStep3Prefix: "Paste your code and tap",
       activateLabel: "Activate",
 
-      whatYouGetTitle: "What you get",
+      whatYouGetTitle: "What unlocks now",
       benefitFullAccessPrefix: "Full access to all",
       benefitFullAccessStrongSuffix: " coffee questions",
       benefitFullAccessSuffix: " in this game.",
-      benefitUnlimited: "Unlimited play after code activation.",
+      benefitUnlimited: "Unlimited play on this device after activation.",
 
-      ctaBackToGame: "Back to game",
+      ctaBackToGame: "Open the game",
       ctaDownload: "Download code (.txt)",
-      shortcutHint: "Shortcut: How to play - Activate with a code.",
+      shortcutHint: "In the game: How to play -> Activate with a code.",
 
       thankYouLine: "Thank you for supporting an independent game 🇫🇷",
       supportLabel: "Need help?",
 
       copyCta: "Copy code",
       copyAgainCta: "Copy code again",
-      tipNoRecover: "Tip: keep this code somewhere safe. It can't be recovered from a server.",
-      txtTitle: "Your Brew or False activation code",
-      txtSaveLine: "Tip: keep this code somewhere safe.",
-      txtNoRecoverLine: "It can't be recovered from a server.",
+      tipNoRecover: "Tip: keep this code somewhere safe as a backup for this device unlock.",
+      txtTitle: "Your Brew or False device unlock code",
+      txtSaveLine: "Tip: keep this code somewhere safe if you want a backup.",
+      txtNoRecoverLine: "You only need it again if you clear browser data or move to another device.",
 
       cheatSheetTitle: "",
       cheatSheetBody: "",
@@ -611,14 +604,14 @@
     landing: {
       title: "Brew or False",
       tagline: "",
-      subtitle: "Think you know coffee? Prove it.\n200 true or false questions for coffee fans.",
-      microFun: "No signup · Quick games · Free to try",
-      microTrust: "Coffee shop drinks, home brewing, beans, and myths.",
+      subtitle: "A fast true-or-false coffee game.\n200 questions about drinks, brewing, beans, and myths.",
+      microFun: "Quick games · No signup · Free to try",
+      microTrust: "Learn fast, replay often, and fix your mistakes as you go.",
 
       runsLabel: "",
       runsFreeMode: "",
 
-      ctaPlay: "Start the quiz",
+      ctaPlay: "Start playing",
       ctaPlayAfterFirstRun: "Play again",
       ctaHow: "How to play",
       // Required for LANDING stat to render
@@ -628,8 +621,8 @@
       statsSeenSummaryTemplate: "Seen: {seen}/{poolSize} questions",
       statsPaceSummaryTemplate: "About {runsLeft} more game{pluralS} to see all {poolSize} questions.",
       statsPhaseBadgeDiscovery: "Phase 1/3: Discovery",
-      statsPhaseBadgeCorrection: "Phase 2/3: Integrating",
-      statsPhaseBadgeConsolidation: "Phase 3/3: Consolidating",
+      statsPhaseBadgeCorrection: "Phase 2/3: Progress",
+      statsPhaseBadgeConsolidation: "Phase 3/3: Mastery",
 
       // After completion (fail-closed: required for the post-200 line)
       statsSeenCompleteLabel: "Coffee quiz progress",
@@ -637,13 +630,13 @@
       statsMistakesSummaryTemplate: "{mistakes}",
       statsMasterySummaryTemplate: "{mastered}/{poolSize} questions answered correctly",
 
-      postPaywallTitle: "Free games completed. Ready for more?",
-      postPaywallBody: "Unlock unlimited games anytime and keep your progress on this device.",
+      postPaywallTitle: "Free games completed. Want the full version?",
+      postPaywallBody: "Unlock unlimited games, keep your progress on this device, and open every mode.",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
       postPaywallCta: "Unlock full access",
 
       postPaywallSbTitle: "Before you decide...",
-      postPaywallSbBody: "You still have Rapid Fire mode to try. Tap 🎯."
+      postPaywallSbBody: "You still have Rapid Fire Mode to try. Tap the lightning icon to test it."
     },
     firstRun: {
       titleRun2: "Quick reminder",
@@ -664,12 +657,32 @@
     },
 
     milestones: {
-      halfway: {
-        title: "Halfway milestone.",
+      quarter: {
+        title: "First quarter complete.",
         bodyLines: [
-          "Halfway there: 100/200 questions explored.",
+          "You've seen 50/200 questions.",
+          "Coffee facts and traps are starting to separate.",
+          "Keep going. Prove what you really know."
+        ],
+        cta: "Next"
+      },
+
+      halfway: {
+        title: "Halfway there.",
+        bodyLines: [
+          "You've seen 100/200 questions.",
           "You are getting better at separating coffee facts from fiction.",
-          "Keep going. This is where it starts to click."
+          "Keep going. This is where it starts to show."
+        ],
+        cta: "Next"
+      },
+
+      threeQuarters: {
+        title: "Three quarters complete.",
+        bodyLines: [
+          "You've seen 150/200 questions.",
+          "More answers are starting to feel obvious.",
+          "Keep going. You're close to proving it."
         ],
         cta: "Next"
       }
@@ -729,10 +742,10 @@
 
 
     secretBonus: {
-      chestAria: "Rapid Fire mode",
+      chestAria: "Rapid Fire Mode",
       chestHint: "",
-      noSeenWordsToast: "Rapid Fire is empty for now. Play a normal game to build your deck.",
-      badge: "RAPID FIRE BONUS",
+      noSeenWordsToast: "Rapid Fire is empty for now. Play the main game to build your deck.",
+      badge: "RAPID FIRE",
 
       // END screen (BONUS)
       endTitle: "",
@@ -768,20 +781,20 @@
       // END BONUS — personalized recommendation (accuracy × deck size)
       // Keys: "{accuracyTier}_{deckTier}" — must cover all combinations
       endRecoByTier: {
-        perfect_small: "Play normal games to grow your Rapid Fire deck.",
+        perfect_small: "Play main-game runs to grow your Rapid Fire deck.",
         perfect_medium: "Replay to keep that edge.",
         perfect_large: "Your Rapid Fire deck is deep: push further.",
 
-        high_small: "A few more normal games will expand your deck.",
+        high_small: "A few more main-game runs will expand your deck.",
         high_medium: "Try again to lock in the ones you missed.",
         high_large: "Stay in Rapid Fire: you're close to flawless.",
 
-        medium_small: "Build your deck first: play normal games to strengthen your base.",
+        medium_small: "Build your deck first: play main-game runs to strengthen your base.",
         medium_medium: "Try another Rapid Fire game to sharpen your reflexes.",
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
-        low_small: "Normal games will help build the muscle memory you need here.",
-        low_medium: "Take a normal game to rebuild confidence before coming back.",
+        low_small: "Main-game runs will help build the muscle memory you need here.",
+        low_medium: "Take a main-game run to rebuild confidence before coming back.",
         low_large: "Try again: speed comes with practice."
       },
 
@@ -794,19 +807,19 @@
       },
 
       // CTA override: when accuracy is low AND deck is small, primary = go to RUN
-      ctaLowSmallOverride: "Play a normal game",
+      ctaLowSmallOverride: "Play the main game",
 
       // Start overlay (same component as FREE runs)
-      startOverlayLine1: "Rapid Fire mode. Faster pace.",
-      startOverlayLine2: "Only questions you've already seen in normal games.",
-      startOverlayLine3: "Keep playing normal games to expand your Rapid Fire deck.",
+      startOverlayLine1: "Rapid Fire Mode. Faster pace.",
+      startOverlayLine2: "Only questions you've already seen in the main game.",
+      startOverlayLine3: "Play more main-game runs to grow your Rapid Fire deck.",
 
       // Teaser premium (filled by ui.js): {remaining}, {limit}
       startOverlayFreeRunsLimitLine: "",
 
       // Block modal when free limit reached
       freeLimitReachedTitle: "That was intense.",
-      freeLimitReachedBody: "You've used your {limit} free Rapid Fire games.\n\nFull access unlocks unlimited Rapid Fire games. Same speed. No limits.",
+      freeLimitReachedBody: "You've used your {limit} free Rapid Fire games.\n\nFull access unlocks unlimited Rapid Fire Mode. Same pace. No limits.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
       startOverlayTapAnywhere: "Tap anywhere to start",
@@ -817,34 +830,34 @@
       questionPrompt: "True or false?",
       dangerLineLabel: "TIMEOUT LINE",
       dangerLineAria: "Timeout line. If the card reaches this line, the item is lost.",
-      seenOnlyLine: "{count} questions in your Rapid Fire deck. Only questions you've already seen in regular games.",
+      seenOnlyLine: "{count} questions in your Rapid Fire deck. Only questions you've already seen in the main game.",
 
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
       modalTitle: "Rapid Fire Mode",
-      modalBody: "You unlocked Rapid Fire mode. It is faster and more demanding, using only questions you've already seen. It tests speed and precision.",
-      modalCta: "Play Rapid Fire mode"
+      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the main game.",
+      modalCta: "Play Rapid Fire Mode"
     },
 
 
     practice: {
-      title: "Mistakes mode",
+      title: "Mistakes Mode",
       on: "On",
       off: "Off",
 
       premiumOnly: "Full access only",
-      descLocked: "Replay only the coffee questions that still trip you up.",
-      valueLine: "Focus on the questions that still trip you up.",
+      descLocked: "Replay only the coffee questions that still need work.",
+      valueLine: "Focus on the questions that still need work.",
       descUnlocked: "Only questions you previously got wrong.",
 
       freeLimitReachedTitle: "End of Free Games.",
-      freeLimitReachedBody: "You've used your {limit} free mistakes games.\n\nFull access unlocks unlimited Mistakes mode. Keep fixing your mistakes without limits.",
+      freeLimitReachedBody: "You've used your {limit} free mistakes games.\n\nFull access unlocks unlimited Mistakes Mode. Keep fixing your mistakes without limits.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
       // END screen (PRACTICE)
       endTitle: "",
-      endLine: "Good work. You tightened the weak spots.",
+      endLine: "Good progress. You cleaned up a few weak spots.",
       // Tier-aware override (keyed on practiceRepeatTierKey). Fallback: endLine.
       endLineByTier: {
         last: "Nice recovery.",
@@ -869,7 +882,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes mode focuses on your active mistakes.\nUp to 10 questions per game.\nFix a question and it leaves the list.\nMake a mistake again, and it comes back.",
+      startRunChancesOverlayPractice: "Mistakes Mode focuses on your active mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -879,8 +892,8 @@
       ctaRepeatByTier: {
         last: "Clear the last question",
         light: "Fix your mistakes one more time",
-        firm: "Play mistakes mode again",
-        direct: "Stay in mistakes mode"
+        firm: "Play Mistakes Mode again",
+        direct: "Stay in Mistakes Mode"
       },
 
 
@@ -938,15 +951,15 @@
 
 
       // Pool complete (one-shot celebration when 200/200 reached)
-      poolCompleteTitle: "Bravo ! All 200 questions complete.",
-      poolCompleteLine1: "You made it through the full set. Now you know whether your coffee knowledge really holds up.",
-      poolCompleteLine2: "Come back in a few weeks and see what still sticks.",
+      poolCompleteTitle: "All 200 questions complete.",
+      poolCompleteLine1: "You made it through the full set. Now replay, fix mistakes, and make the answers stick.",
+      poolCompleteLine2: "Come back later and see what you still remember.",
       poolCompleteScoreLine: "This game: {score} {fpShort}",
       poolCompleteCtaPrimary: "Replay in a new order",
       poolCompleteCtaPractice: "Fix your mistakes",
 
-      freeLimitReachedTitle: "Nice game.",
-      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks unlimited normal games. Keep training without limits.",
+      freeLimitReachedTitle: "Nice run.",
+      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks unlimited normal games, practice mode, and Rapid Fire Mode.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
@@ -960,20 +973,20 @@
       // Keys must match UI mapping: none/start/building/strong/elite/legendary
       identityByVerdict: {
         none: "A few questions are still catching you.",
-        start: "",
-        building: "",
-        strong: "",
-        elite: "",
-        legendary: ""
+        start: "You're getting your bearings.",
+        building: "You're building momentum.",
+        strong: "You're reading these faster now.",
+        elite: "You're getting sharp.",
+        legendary: "You're in control."
       },
 
       lensByVerdict: {
-        none: "You have {backlog} questions to revisit. Fix your mistakes.",
-        start: "Good start. Try to reach 6+ in your next game.",
-        building: "{seen}/{poolSize} questions seen. You are getting a better feel for what is true and what is false.",
-        strong: "{seen}/{poolSize} questions covered. You're reading these faster now.",
-        elite: "{seen}/{poolSize} questions covered. More of this is becoming automatic.",
-        legendary: "{seen}/{poolSize} answered correctly. You are reading these with confidence now.",
+        none: "You have {backlog} questions to revisit. Fix your mistakes and try again.",
+        start: "Good start. Aim a little higher next run.",
+        building: "{seen}/{poolSize} questions seen. The patterns are starting to click.",
+        strong: "{seen}/{poolSize} questions seen. More of these answers are becoming automatic.",
+        elite: "{seen}/{poolSize} questions seen. You're close to real mastery now.",
+        legendary: "{seen}/{poolSize} questions seen. Keep replaying and lock it in.",
       },
 
 
@@ -988,11 +1001,11 @@
 
       // Explicit best sequence surfacing (RUN only)
       // Definition: longest sequence of consecutive correct answers within the run
-      bestStreakLine: "Best sequence: {bestStreak} correct answers in a row.",
+      bestStreakLine: "Best streak: {bestStreak} correct in a row.",
 
       // RUN progress surfacing (RUN only)
       // Vars: {seen} {poolSize} {remaining}
-      progressLine: "Seen: {seen}/{poolSize}. {remaining} left.",
+      progressLine: "Seen: {seen}/{poolSize}. {remaining} to go.",
 
       // Coffee myths identified (RUN only)
       // Definition: distinct items with tag/tags containing "Myths and misconceptions" and correctCount > 0
@@ -1023,64 +1036,64 @@
 
       // Best score surfacing (rendered by ui.js using {best})
       personalBestLine: "Best score: {best} {fpLong}",
-      nearBestLine: "{delta} {fpLong} away from your best.",
+      nearBestLine: "{delta} {fpLong} away from your best score.",
       // Free runs hint (RUN-only; shown only when remaining > 0)
       freeRunLeft: "{remaining} free game{pluralS} left.",
 
       // RUN END - mistakes recap (free + premium)
-      mistakesTitle: "You missed these questions",
+      mistakesTitle: "Questions to revisit",
       mistakesNone: "No mistakes.",
       mistakesToggle: "{count} mistakes",
 
       newBest: "NEW PERSONAL BEST",
       houseAdSummaryLabel: "Keep going with another game",
-      playAgain: "Build your knowledge. Play again.",
+      playAgain: "Play again",
 
       practiceCta: "Fix your mistakes",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
 
       // RUN routing: when score reaches the "strong" tier, END can promote BONUS as primary CTA.
-      bonusCtaPrimary: "Enter Rapid Fire Mode",
+      bonusCtaPrimary: "Try Rapid Fire Mode",
 
       // Post-completion routing (pool exhausted + mistakes)
       // Vars: {backlog}
       practiceCtaCountPremium: "Fix your {backlog} remaining mistakes",
-      shareTitle: "Share"
+      shareTitle: "Share your result"
     },
 
     paywall: {
       // Default headline
-      headline: "Think you know coffee? Prove it.",
+      headline: "Keep going with the full coffee set.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "You've started separating coffee facts from fiction. Finish the set.",
+      headlineLastFree: "That was your last free run. Keep going with full access.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
-      progressLine1: "You've already seen {seen} questions. {remaining} more to master.",
+      progressLine1: "You've already seen {seen} questions. {remaining} more are waiting.",
       progressLine2: "",
 
       // Section headers (anti “mur de mots”)
-      valueTitle: "Unlock full access",
-      trustTitle: "No surprises",
+      valueTitle: "What you get",
+      trustTitle: "Simple unlock",
 
       valueBullets: [
-        "200 hand-picked coffee questions with explanations after each answer",
-        "Fix your mistakes in a dedicated practice mode",
-        "Train your speed in Rapid Fire Mode",
-        "Unlimited games, reshuffled every time"
+        "The full set of 200 coffee questions",
+        "Explanations after every answer",
+        "Practice mode for your mistakes",
+        "Rapid Fire Mode and unlimited replays"
       ],
 
       // Shared bridge copy (LANDING post-paywall + END runs exhausted)
       bridgeTitle: "Keep building your coffee knowledge.",
-      bridgeBody: "Practice your mistakes, train your focus, and master all 200 coffee questions.",
+      bridgeBody: "Unlock the full set, fix your mistakes, and keep replaying at your own pace.",
 
       trustLine: "One-time unlock",
       trustBullets: [
-        "Lifetime access, no recurring fees",
+        "Pay once, no subscription",
+        "No account or signup needed",
+        "Full access stays on this device",
         "Works offline after first load",
-        "No subscription",
-        "No signup needed, ever",
         "Secure payment through Stripe"
       ],
 
@@ -1095,19 +1108,19 @@
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)
       // Vars: {saveAmount} {earlyPrice} {standardPrice}
-      savingsLineTemplate: "Save {saveAmount} today. Early price.",
+      savingsLineTemplate: "Save {saveAmount} with the early price.",
       // Micro reassurance under CTA (optional, no fallback)
-      checkoutNote: "Secure checkout via Stripe. Takes about 30 seconds.",
+      checkoutNote: "Secure checkout with Stripe. Usually about 30 seconds.",
 
       // Primary CTA changes with price phase (EARLY vs STANDARD)
-      ctaEarly: "Unlock all 200 questions for $4.99",
-      ctaStandard: "Unlock all 200 questions for $6.99",
+      ctaEarly: "Unlock full access for $4.99",
+      ctaStandard: "Unlock full access for $6.99",
 
       // Backward compat (still used in a few places)
       cta: "Get unlimited games",
 
-      alreadyHaveCode: "Already have a code? Activate it here.",
-      deviceNote: "Full access stays unlocked on this device. No account needed.",
+      alreadyHaveCode: "Already have a device unlock code? Use it here.",
+      deviceNote: "One-time unlock for this device. No account needed.",
 
       // PW2: EARLY visual badge (copy visible)
       earlyBadgeLabel: "Early bird",
@@ -1119,7 +1132,7 @@
       timerLabel: "Price increases in:",
 
       postEarlyLine1: "The early price has ended.",
-      postEarlyLine2: "{standardPrice}. One-time purchase. Yours forever."
+      postEarlyLine2: "{standardPrice}. One-time unlock for this device."
     },
 
 
@@ -1141,9 +1154,9 @@
       premiumTitle: "Full access",
       alreadyPremium: "Full access is already enabled on this device.",
       activateTitle: "Activate with a code",
-      activateLine1: "Already have an activation code? Activate it here.",
-      activateLine2: "No account needed. Your code stays on this device.",
-      activationCodeLabel: "Activation code",
+      activateLine1: "Already have a device unlock code? Activate it here.",
+      activateLine2: "No account needed. This unlock stays on this device.",
+      activationCodeLabel: "Device unlock code",
       activationCodePlaceholder: "BF-0000-0000",
       enterCode: "Enter a code.",
       codeRejected: "Code rejected.",
@@ -1153,9 +1166,9 @@
       codeOk: "Full access enabled on this device.",
 
 
-      autoActivateTitle: "Activation code ready",
-      autoActivateLine1: "Your activation code is already saved on this device.",
-      autoActivateLine2: "Unlock full access now?",
+      autoActivateTitle: "Unlock code ready",
+      autoActivateLine1: "Your device unlock code is already saved here.",
+      autoActivateLine2: "Enable full access on this device now?",
       autoActivateCta: "Unlock now",
       autoActivateLater: "Not now"
     },
@@ -1237,10 +1250,10 @@ Find out 😄
       teaserTrap: "Looks obvious... until it isn't.",
       teaserTrue: "Sometimes the obvious answer is right.",
       funFactTemplatesTrap: [
-        `Can you guess? "{termEn}" 🤔`
+        `"{termEn}" True or false? 🤔`
       ],
       funFactTemplatesTrue: [
-        `Can you guess? "{termEn}" 🤔`
+        `"{termEn}" True or false? 🤔`
       ],
 
 
@@ -1251,7 +1264,7 @@ Find out 😄
     installPrompt: {
       title: "Keep the game handy",
       body: "Add Brew or False to your home screen and come back in one tap.",
-      bodyIOS: "On iPhone, tap Share, then Add to Home Screen to keep Brew or False one tap away.",
+      bodyIOS: "This will not install automatically on iPhone. Tap Share, then Add to Home Screen.",
       ctaPrimary: "Add to home screen",
       ctaPrimaryIOS: "Got it",
       ctaSecondary: "Later"

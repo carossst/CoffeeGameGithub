@@ -218,9 +218,17 @@
         postCompletionShown: false,
         postCompletionAt: 0,
 
+        // Milestone: first quarter through the pool (one-shot).
+        quarterMilestoneShown: false,
+        quarterMilestoneShownAt: 0,
+
         // Milestone: halfway through the pool (one-shot).
         halfwayMilestoneShown: false,
         halfwayMilestoneShownAt: 0,
+
+        // Milestone: three quarters through the pool (one-shot).
+        threeQuartersMilestoneShown: false,
+        threeQuartersMilestoneShownAt: 0,
 
         // One-shot: celebrate "seen all 200" once, then never again (even if user reaches 400+).
         poolCompleteCelebrated: false,
@@ -1136,6 +1144,24 @@
   };
 
   // One-shot: halfway milestone (pool midpoint)
+  StorageManager.prototype.hasQuarterMilestoneShown = function () {
+    return !!(this.data?.postCompletion?.quarterMilestoneShown);
+  };
+
+  StorageManager.prototype.markQuarterMilestoneShown = function () {
+    if (!this.data) return;
+
+    if (!this.data.postCompletion || typeof this.data.postCompletion !== "object") {
+      this.data.postCompletion = deepCopy(this.defaultData.postCompletion);
+    }
+
+    if (this.data.postCompletion.quarterMilestoneShown === true) return;
+
+    this.data.postCompletion.quarterMilestoneShown = true;
+    this.data.postCompletion.quarterMilestoneShownAt = now();
+    this._save();
+  };
+
   StorageManager.prototype.hasHalfwayMilestoneShown = function () {
     return !!(this.data?.postCompletion?.halfwayMilestoneShown);
   };
@@ -1151,6 +1177,24 @@
 
     this.data.postCompletion.halfwayMilestoneShown = true;
     this.data.postCompletion.halfwayMilestoneShownAt = now();
+    this._save();
+  };
+
+  StorageManager.prototype.hasThreeQuartersMilestoneShown = function () {
+    return !!(this.data?.postCompletion?.threeQuartersMilestoneShown);
+  };
+
+  StorageManager.prototype.markThreeQuartersMilestoneShown = function () {
+    if (!this.data) return;
+
+    if (!this.data.postCompletion || typeof this.data.postCompletion !== "object") {
+      this.data.postCompletion = deepCopy(this.defaultData.postCompletion);
+    }
+
+    if (this.data.postCompletion.threeQuartersMilestoneShown === true) return;
+
+    this.data.postCompletion.threeQuartersMilestoneShown = true;
+    this.data.postCompletion.threeQuartersMilestoneShownAt = now();
     this._save();
   };
 
@@ -1532,8 +1576,9 @@
     if (haCfg.enabled !== true) return false;
     if (!String(haCfg.url || "").trim()) return false;
 
-    // Unlock based on unique seen threshold (not pool exhausted).
+    // Unlock based on unique seen threshold, but only after the full pool is exhausted.
     if (this.hasReachedHouseAdThreshold() !== true) return false;
+    if (typeof this.hasSeenAllWordTraps !== "function" || this.hasSeenAllWordTraps() !== true) return false;
 
     // Never show during a run.
     if (ctx && ctx.inRun === true) return false;

@@ -1752,6 +1752,43 @@ void function () {
 
     }
 
+    if (!this._wtBoundUpdateToastActions) {
+      this._wtBoundUpdateToastActions = true;
+
+      const updateToast = document.getElementById("update-toast");
+      if (updateToast) {
+        updateToast.addEventListener(pointerEvt, (e) => {
+          const t = e && e.target ? e.target : null;
+          if (!t) return;
+
+          const btn = (t.closest && t.closest("[data-action]")) ? t.closest("[data-action]") : null;
+          if (!btn) return;
+
+          const action = String(btn.getAttribute("data-action") || "").trim();
+          if (!action) return;
+
+          e.preventDefault();
+          dispatchAction(action, e);
+        });
+
+        if (pointerEvt !== "click") {
+          updateToast.addEventListener("click", (e) => {
+            const t = e && e.target ? e.target : null;
+            if (!t) return;
+
+            const btn = (t.closest && t.closest("[data-action]")) ? t.closest("[data-action]") : null;
+            if (!btn) return;
+
+            const action = String(btn.getAttribute("data-action") || "").trim();
+            if (!action) return;
+
+            e.preventDefault();
+            dispatchAction(action, e);
+          });
+        }
+      }
+    }
+
     // Prevent duplicate bindings if UI init runs more than once
     if (this._wtBoundSecretChestEvents) return;
     this._wtBoundSecretChestEvents = true;
@@ -4422,8 +4459,7 @@ void function () {
     this._runtime.answerLocked = false;
 
     // BONUS returns to END (no separate BONUS_END state)
-    // Post-completion reveal: once the user has seen all word traps,
-    // persist the "seen once" flag so it can appear on LANDING too.
+    // Persist post-completion milestone state when the full pool is exhausted.
     try {
       const exhausted =
         !!(this.storage && typeof this.storage.hasSeenAllWordTraps === "function" && this.storage.hasSeenAllWordTraps() === true);
@@ -4856,24 +4892,30 @@ void function () {
 
 
   // ============================================
-  // Milestone: halfway (one-shot modal on END entry)
+  // Milestone modal (one-shot on END entry)
   // ============================================
-  UI.prototype.openHalfwayMilestoneModal = function () {
+  UI.prototype.openMilestoneModal = function (milestoneKey) {
     const w = this.wording || {};
     const ms = w.milestones || {};
-    const hw = ms.halfway || {};
+    const block = (milestoneKey && typeof ms === "object") ? (ms[milestoneKey] || {}) : {};
 
-    const title = String(hw.title || "").trim();
-    const lines = Array.isArray(hw.bodyLines) ? hw.bodyLines : [];
-    const cta = String(hw.cta || "").trim();
+    const title = String(block.title || "").trim();
+    const lines = Array.isArray(block.bodyLines) ? block.bodyLines : [];
+    const cta = String(block.cta || "").trim();
 
     // Fail-closed: if required copy is missing, do nothing.
     if (!title || !cta) return;
 
     // Mark one-shot only if we can actually show the modal.
     try {
-      if (this.storage && typeof this.storage.markHalfwayMilestoneShown === "function") {
-        this.storage.markHalfwayMilestoneShown();
+      const markByKey = {
+        quarter: "markQuarterMilestoneShown",
+        halfway: "markHalfwayMilestoneShown",
+        threeQuarters: "markThreeQuartersMilestoneShown"
+      };
+      const fnName = markByKey[String(milestoneKey || "").trim()] || "";
+      if (fnName && this.storage && typeof this.storage[fnName] === "function") {
+        this.storage[fnName]();
       }
     } catch (_) { /* silent */ }
 
@@ -5997,7 +6039,8 @@ void function () {
           return;
         }
 
-        // Halfway milestone: END-only, RUN-only, not when pool is exhausted
+        // Discovery milestones: END-only, RUN-only, not when pool is exhausted.
+        // Show at most one modal per END entry, prioritizing the highest reached threshold.
         try {
           const modalOpen1 = !!(this.modalEl && !this.modalEl.classList.contains("wt-hidden"));
 
@@ -6008,10 +6051,6 @@ void function () {
               ? this.config.postCompletion.milestoneThresholds
               : null;
 
-            const halfwayPctRaw = thresholds && thresholds.length ? Number(thresholds[0]) : NaN;
-            const halfwayPct = (Number.isFinite(halfwayPctRaw) && halfwayPctRaw > 0 && halfwayPctRaw < 1) ? halfwayPctRaw : null;
-
-            const threshold = (poolSize > 0 && halfwayPct != null) ? Math.floor(poolSize * halfwayPct) : 0;
             const uniqueSeen =
               (this.storage && typeof this.storage.getUniqueSeenCount === "function")
                 ? clampInt(this.storage.getUniqueSeenCount(), 0, 999999)
@@ -6019,12 +6058,25 @@ void function () {
 
             const exhausted =
               !!(this.storage && typeof this.storage.isPoolExhausted === "function" && this.storage.isPoolExhausted() === true);
-            const already =
-              !!(this.storage && typeof this.storage.hasHalfwayMilestoneShown === "function" && this.storage.hasHalfwayMilestoneShown() === true);
+            if (!exhausted && poolSize > 0 && Array.isArray(thresholds)) {
+              const milestoneChecks = [
+                { key: "threeQuarters", index: 2, hasFn: "hasThreeQuartersMilestoneShown" },
+                { key: "halfway", index: 1, hasFn: "hasHalfwayMilestoneShown" },
+                { key: "quarter", index: 0, hasFn: "hasQuarterMilestoneShown" }
+              ];
 
-            if (threshold > 0 && uniqueSeen >= threshold && !exhausted && !already) {
-              this.openHalfwayMilestoneModal();
-              return;
+              for (const item of milestoneChecks) {
+                const rawPct = Number(thresholds[item.index]);
+                const pct = (Number.isFinite(rawPct) && rawPct > 0 && rawPct < 1) ? rawPct : null;
+                const threshold = (pct != null) ? Math.floor(poolSize * pct) : 0;
+                const already =
+                  !!(item.hasFn && this.storage && typeof this.storage[item.hasFn] === "function" && this.storage[item.hasFn]() === true);
+
+                if (threshold > 0 && uniqueSeen >= threshold && !already) {
+                  this.openMilestoneModal(item.key);
+                  return;
+                }
+              }
             }
           }
         } catch (_) { /* silent */ }
@@ -6039,28 +6091,7 @@ void function () {
           }
         } catch (_) { /* silent */ }
 
-        // Waitlist: optional one-shot auto-modal on END (no dark patterns: only once per device)
-        const cfg = this.config || {};
-        const wlCfg = cfg.waitlist || {};
-        const placement = String(wlCfg.placement || "").trim();
-
-        const eligiblePlacement = (placement === "end-and-landing-after-seen-once");
-        const oneShot = (wlCfg.showModalOneShot === true);
-        const afterExhaustedOnly = (wlCfg.afterPoolExhaustedOnly === true);
-
-        const waitlistEligible =
-          !afterExhaustedOnly ||
-          !!(this.storage && typeof this.storage.hasSeenAllWordTraps === "function" && this.storage.hasSeenAllWordTraps() === true);
-        const status =
-          (this.storage && typeof this.storage.getWaitlistStatus === "function")
-            ? String(this.storage.getWaitlistStatus() || "").trim()
-            : "";
-
-        const modalOpen = !!(this.modalEl && !this.modalEl.classList.contains("wt-hidden"));
-
-        if (eligiblePlacement && oneShot && waitlistEligible && !modalOpen && status === "not_seen") {
-          this.openWaitlistModal();
-        }
+        // Waitlist is now a stable LANDING block, not an END auto-modal.
       } catch (_) { /* silent */ }
     }, delayMs);
   };
@@ -6103,8 +6134,9 @@ void function () {
     // postBlock: computed after canShowChest (see below)
     let postBlock = "";
 
-    // Post-completion (House Ad / Waitlist) can appear on LANDING only AFTER it was seen once on END.
-    // Source of truth: StorageManager persistence (no UI fallback).
+    // Landing-only secondary offers:
+    // - Waitlist from its unique-seen threshold until joined
+    // - House ad only after the full pool is exhausted
     let postCompletionHtml = "";
     try {
       const exhausted =
@@ -6112,44 +6144,62 @@ void function () {
 
       const pcCfg = cfg?.postCompletion || {};
       const pcW = w?.postCompletion || {};
+      const wlCfg = cfg?.waitlist || {};
+      const wlW = w?.waitlist || {};
+      const haW = w?.houseAd || {};
 
-      const enabled = (pcCfg?.enabled === true);
-      const canWaitlist = (pcCfg?.waitlistEnabled === true);
-      const canOpenFull = (pcCfg?.houseAdEnabled === true);
+      const waitlistEligible =
+        !!(wlCfg.enabled === true && this.storage && typeof this.storage.shouldShowWaitlistNow === "function" && this.storage.shouldShowWaitlistNow({ inRun: false }) === true);
+      const houseAdEligible =
+        !!(pcCfg?.houseAdEnabled === true && this.storage && typeof this.storage.shouldShowHouseAdNow === "function" && this.storage.shouldShowHouseAdNow({ inRun: false }) === true);
 
-      if (exhausted && enabled) {
+      if (waitlistEligible || houseAdEligible) {
         const pcPoolSize = clampInt(cfg?.game?.poolSize, 1, 9999);
-        const pcTitle = fillTemplate(String(pcW.title || "").trim(), { poolSize: pcPoolSize });
-        const pcBody = fillTemplate(String(pcW.body || "").trim(), { poolSize: pcPoolSize });
-        const wlTitle = String(pcW.waitlistTitle || "").trim();
-        const wlB1 = String(pcW.waitlistBody1 || "").trim();
-        const wlB2 = String(pcW.waitlistBody2 || "").trim();
-        const wlCta = String(pcW.waitlistCta || "").trim();
-        const wlDisc = String(pcW.waitlistDisclaimer || "").trim();
-        const ctaFull = String(pcW.houseAdCta || "").trim();
+
+        const title = exhausted && pcCfg?.enabled === true
+          ? fillTemplate(String(pcW.title || "").trim(), { poolSize: pcPoolSize })
+          : String(wlW.title || "").trim();
+
+        const body1 = exhausted && pcCfg?.enabled === true
+          ? fillTemplate(String(pcW.body || "").trim(), { poolSize: pcPoolSize })
+          : String(wlW.bodyLine1 || "").trim();
+
+        const body2 = exhausted
+          ? String(pcW.waitlistBody1 || wlW.bodyLine1 || "").trim()
+          : String(wlW.bodyLine2 || "").trim();
+
+        const body3 = exhausted
+          ? String(pcW.waitlistBody2 || wlW.bodyLine2 || "").trim()
+          : "";
+
+        const waitlistCta = exhausted
+          ? String(pcW.waitlistCta || wlW.ctaLabel || "").trim()
+          : String(wlW.ctaLabel || "").trim();
+
+        const waitlistDisclaimer = exhausted
+          ? String(pcW.waitlistDisclaimer || wlW.disclaimer || "").trim()
+          : String(wlW.disclaimer || "").trim();
+
+        const houseAdCta = String(pcW.houseAdCta || haW.ctaPrimary || "").trim();
 
         postCompletionHtml = `
           <div class="wt-divider"></div>
-          ${pcTitle ? `<strong class="wt-meta">${escapeHtml(pcTitle)}</strong>` : ``}
-          ${pcBody ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(pcBody)}</p>` : ``}
-
-          ${(!canOpenFull && canWaitlist) ? `
-            ${wlTitle ? `<strong class="wt-meta">${escapeHtml(wlTitle)}</strong>` : ``}
-            ${wlB1 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(wlB1)}</p>` : ``}
-            ${wlB2 ? `<p class="wt-muted" style="margin-top:4px">${escapeHtml(wlB2)}</p>` : ``}
-          ` : ``}
+          ${title ? `<strong class="wt-meta">${escapeHtml(title)}</strong>` : ``}
+          ${body1 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(body1)}</p>` : ``}
+          ${waitlistEligible && body2 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(body2)}</p>` : ``}
+          ${waitlistEligible && body3 ? `<p class="wt-muted" style="margin-top:4px">${escapeHtml(body3)}</p>` : ``}
 
           <div class="wt-actions" style="margin-top:12px">
-            ${canWaitlist && wlCta ? `
-              <button class="wt-btn wt-btn--secondary" data-action="open-waitlist">${escapeHtml(wlCta)}</button>
+            ${waitlistEligible && waitlistCta ? `
+              <button class="wt-btn ${houseAdEligible ? `wt-btn--secondary` : `wt-btn--primary`}" data-action="open-waitlist">${escapeHtml(waitlistCta)}</button>
             ` : ``}
 
-            ${canOpenFull && ctaFull ? `
-              <button class="wt-btn wt-btn--primary" data-action="open-house-ad">${escapeHtml(ctaFull)}</button>
+            ${houseAdEligible && houseAdCta ? `
+              <button class="wt-btn ${waitlistEligible ? `wt-btn--ghost` : `wt-btn--primary`}" data-action="open-house-ad">${escapeHtml(houseAdCta)}</button>
             ` : ``}
           </div>
 
-          ${wlDisc ? `<p class="wt-muted" style="margin-top:10px">${escapeHtml(wlDisc)}</p>` : ``}
+          ${waitlistEligible && waitlistDisclaimer ? `<p class="wt-muted" style="margin-top:10px">${escapeHtml(waitlistDisclaimer)}</p>` : ``}
         `;
       }
     } catch (_) { postCompletionHtml = ""; }
@@ -6513,7 +6563,7 @@ void function () {
           class="wt-btn-icon${chestTeaseClass}"
           aria-label="${escapeHtml(chestAria)}"
           title="${escapeHtml(chestAria)}"
-        >🎯</button>
+        >⚡</button>
       ` : ``}
     </div>
   </div>
@@ -7201,7 +7251,7 @@ ${(() => {
           class="wt-btn-icon${chestTeaseClass}"
           aria-label="${escapeHtml(chestAria)}"
           title="${escapeHtml(chestAria)}"
-        >🎯</button>
+        >⚡</button>
       ` : ``}
     </div>
   </div>
@@ -7299,79 +7349,8 @@ ${(() => {
         `
         : "";
 
-    // HouseAd / Waitlist — move into accordion to avoid END scroll fatigue
-    const moreAccordionHtml = (() => {
-      const unlocked =
-        !!(this.storage && typeof this.storage.hasReachedHouseAdThreshold === "function" && this.storage.hasReachedHouseAdThreshold() === true);
-
-      if (!unlocked) return ``;
-
-      const ha = w.houseAd || {};
-      const wl = w.waitlist || {};
-      const haCfg = cfg.houseAd || {};
-      const wlCfg = cfg.waitlist || {};
-
-      const canOpenFull =
-        (haCfg.enabled === true) &&
-        !!String(haCfg.url || "").trim() &&
-        !!(this.storage && typeof this.storage.shouldShowHouseAdNow === "function" && this.storage.shouldShowHouseAdNow({ inRun: false }) === true);
-
-      const canWaitlist = (wlCfg.enabled === true);
-
-      if (!canOpenFull && !canWaitlist) return ``;
-
-      const b1 = String(ha.bodyLine1 || "").trim();
-      const b2 = String(ha.bodyLine2 || "").trim();
-      const ctaFull = String(ha.ctaPrimary || "").trim();
-      const haTitle = fillTemplate(String(ha.title || "").trim(), vars);
-
-      const wlTitle = String(wl.endTitle || wl.title || "").trim();
-      const wlB1 = String(wl.endBodyLine1 || wl.bodyLine1 || "").trim();
-      const wlB2 = String(wl.endBodyLine2 || wl.bodyLine2 || "").trim();
-
-      const wlCta = String(wl.ctaLabel || "").trim();
-      const wlDisc = String(wl.disclaimer || "").trim();
-
-      const label = canOpenFull
-        ? haTitle
-        : (wlTitle || "");
-
-      if (!label) return ``;
-
-      return `
-        <details class="wt-accordion" style="margin-top:10px">
-          <summary class="wt-accordion-toggle">${escapeHtml(label)}</summary>
-          <div class="wt-accordion-content">
-            ${canOpenFull ? `
-              ${b1 ? `<p class="wt-muted">${escapeHtml(b1)}</p>` : ``}
-              ${b2 ? `<p class="wt-muted">${escapeHtml(b2)}</p>` : ``}
-            ` : ``}
-
-            ${(!canOpenFull && canWaitlist) ? `
-              ${wlB1 ? `<p class="wt-muted">${escapeHtml(wlB1)}</p>` : ``}
-              ${wlB2 ? `<p class="wt-muted">${escapeHtml(wlB2)}</p>` : ``}
-            ` : ``}
-
-            <div class="wt-actions">
-              ${canWaitlist && wlCta ? `
-                <button class="wt-btn wt-btn--secondary" data-action="open-waitlist">${escapeHtml(wlCta)}</button>
-              ` : ``}
-
-              ${canOpenFull && ctaFull ? `
-                <a class="wt-btn wt-btn--primary"
-   href="${escapeHtml(String((this.config?.houseAd?.url) || '').trim())}"
-   target="_blank"
-   rel="noopener">
-  ${escapeHtml(ctaFull)}
-</a>
-              ` : ``}
-            </div>
-
-            ${wlDisc ? `<p class="wt-muted">${escapeHtml(wlDisc)}</p>` : ``}
-          </div>
-        </details>
-      `;
-    })();
+    // END stays focused on score, replay, and practice.
+    const moreAccordionHtml = "";
 
     const shareHtml = shareEnabled ? `
       ${(() => {
