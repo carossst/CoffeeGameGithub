@@ -123,7 +123,7 @@
       "correctAnswer": true,
       "explanationShort": "Cold brew steeps grounds in cold water for 12 to 24 hours.\nIced coffee is hot-brewed coffee poured over ice.\nSame beans, two different drinks.",
       "tags": [
-        "Beverages and drink families",
+        "Culture and history of coffee",
         "Easy"
       ]
     },
@@ -134,7 +134,7 @@
       "correctAnswer": false,
       "explanationShort": "When hot coffee hits ice, the ice melts immediately and dilutes the drink.\nThe same coffee poured over ice always tastes weaker than the same coffee served hot.\nHot cup, stronger. Iced cup, weaker.",
       "tags": [
-        "Beverages and drink families",
+        "Culture and history of coffee",
         "Easy"
       ]
     },
@@ -757,11 +757,11 @@
     {
       "id": 69,
       "termFr": "",
-      "termEn": "Plant-based milks like oat or almond often cost extra at coffee shops.",
+      "termEn": "Specialty coffee helped make lighter roasts more popular again.",
       "correctAnswer": true,
-      "explanationShort": "Many coffee shops still charge extra for plant-based milks, but the practice is changing.\nA growing number of shops have dropped the surcharge as demand for oat and almond milk grows.\nSome shops charge extra, some do not.",
+      "explanationShort": "Specialty coffee put more focus on origin, processing, and distinct flavor notes.\nThat helped bring lighter roasts back into favor, since they preserve more acidity and character than darker roasts.\nSpecialty coffee pushed lighter roasts back into the spotlight.",
       "tags": [
-        "Beverages and drink families",
+        "Culture and history of coffee",
         "Easy"
       ]
     },
@@ -1164,9 +1164,9 @@
     {
       "id": 106,
       "termFr": "",
-      "termEn": "The Yemeni port of Mocha gave its name only to a chocolate coffee drink.",
-      "correctAnswer": false,
-      "explanationShort": "Mocha was a Yemeni port city and the main coffee export hub from the 16th century onward.\nThe name was later borrowed for the chocolate-coffee drink, but its origin is purely geographic.\nPort city first, chocolate drink after.",
+      "termEn": "Mocha was originally the name of a Yemeni port before it became the name of a chocolate coffee drink.",
+      "correctAnswer": true,
+      "explanationShort": "Mocha was first the name of a port city in Yemen, long associated with the coffee trade.\nOnly later did the word mocha become the name of a chocolate coffee drink.\nPlace name first, drink name later.",
       "tags": [
         "Culture and history of coffee",
         "Medium"

@@ -1619,8 +1619,8 @@ void function () {
           self.closeModal();
           break;
 
-        case "dismiss-update":
-          self.dismissUpdateToast();
+        case "apply-update":
+          self.applyUpdateToast();
           break;
 
         case "dismiss-house-ad": // legacy alias
@@ -2252,7 +2252,7 @@ void function () {
     // Entering PAYWALL: ensure clean single ticker
     if (next === STATES.PAYWALL && prev !== STATES.PAYWALL) {
       if (this.storage && typeof this.storage.markPaywallShown === "function") {
-        this.storage.markPaywallShown(); // Storage owns startedAt persistence
+        this.storage.markPaywallShown(prev); // Storage owns startedAt persistence
       }
       this._stopPaywallTicker();
       this._startPaywallTicker(); // UI-only: re-render to show ticking mm:ss (PAYWALL/LANDING)
@@ -2411,7 +2411,7 @@ void function () {
     this.modalContentEl.innerHTML = `
   <div class="wt-modal-header">
     <div class="wt-row wt-row--spaced">
-      <h2 class="wt-h2">${t}</h2>
+      <h2 id="wt-modal-title" class="wt-h2">${t}</h2>
       <button class="wt-btn wt-btn--ghost" data-action="close-modal" aria-label="${closeLabel}">&times;</button>
     </div>
   </div>
@@ -5331,7 +5331,7 @@ void function () {
 
 
 
-  UI.prototype.dismissUpdateToast = function () {
+  UI.prototype.applyUpdateToast = function () {
     const node = el("update-toast");
     if (!node) return;
 
@@ -6679,13 +6679,13 @@ ${(() => {
 
     ${welcomeBackHtml}
 
-    ${((!premium && landing.microFun) ? `<p class="wt-sub wt-muted" style="margin-top:10px">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
+    ${((!premium && !isPostPaywallVariant && landing.microFun) ? `<p class="wt-sub wt-muted" style="margin-top:10px">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
 
     ${postBlock}
 
     ${postCompletionHtml}
 
-    ${microTrust ? `<p class="wt-sub wt-muted" style="margin-top:12px">${escapeHtml(microTrust)}</p>` : ``}
+    ${(!isPostPaywallVariant && microTrust) ? `<p class="wt-sub wt-muted" style="margin-top:12px">${escapeHtml(microTrust)}</p>` : ``}
 
 </div>
 `;
@@ -7509,14 +7509,14 @@ ${(() => {
             const shouldPromotePractice = (ppMin != null && canPractice && vars.backlog >= ppMin);
 
             const bonusEnabled = (cfg?.secretBonus?.enabled === true);
-            const strongOrMore =
-              (runVerdictKey === "strong" || runVerdictKey === "elite" || runVerdictKey === "legendary");
+            const eliteOrMore =
+              (runVerdictKey === "elite" || runVerdictKey === "legendary");
 
             const bonusPrimaryLabel = String(end.bonusCtaPrimary || "").trim();
 
-            // Option C: promote BONUS only if strong+ AND backlog is below the Practice-push threshold.
+            // Option C: promote BONUS only if elite+ AND backlog is below the Practice-push threshold.
             const bonusBacklogOk = (ppMin != null) ? (vars.backlog < ppMin) : true;
-            const shouldPromoteBonus = (!!bonusEnabled && strongOrMore && bonusBacklogOk && !!bonusPrimaryLabel);
+            const shouldPromoteBonus = (!!bonusEnabled && eliteOrMore && bonusBacklogOk && !!bonusPrimaryLabel);
 
             if (shouldPromotePractice) {
               primaryAction = "start-practice";

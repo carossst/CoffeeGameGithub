@@ -1118,9 +1118,9 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   background: rgb(var(--surface));
   border: 1px solid rgb(var(--border));
   border-radius: var(--r-btn);
-  padding: clamp(var(--gap-2), 2vh, var(--space-14)) var(--gap-2);
+  padding: clamp(14px, 2.4vh, 18px) var(--gap-2);
   min-height: 48px;
-  font-size: clamp(var(--fs-md), 2.5vw, var(--fs-lg));
+  font-size: clamp(17px, 4.2vw, 19px);
   font-weight: 700;
   color: rgb(var(--text-strong));
   box-shadow: var(--shadow-1);
@@ -1469,10 +1469,24 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 
 /* PLAYING: question prompt (assertion / progress) */
 .wt-question-prompt {
-  margin: 0 0 8px;
+  margin: 0 0 12px;
   text-align: center;
-  font-size: var(--fs-md);
+  font-size: clamp(18px, 4.5vw, 20px);
+  line-height: 1.35;
   font-weight: 700;
+}
+
+@media (max-height: 740px) {
+  .wt-question-prompt {
+    margin-bottom: 8px;
+    font-size: clamp(16px, 4.2vw, 18px);
+    line-height: 1.3;
+  }
+
+  .wt-choice {
+    padding: clamp(12px, 2vh, 14px) var(--gap-2);
+    font-size: clamp(16px, 4vw, 18px);
+  }
 }
 
 /* ============================================

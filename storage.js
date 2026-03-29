@@ -172,6 +172,10 @@
         shareClicked: 0,
         installPromptShown: 0,
         paywallShown: 0,
+        paywallShownFromLanding: 0,
+        paywallShownFromEnd: 0,
+        paywallShownFromPlaying: 0,
+        paywallShownFromOther: 0,
         checkoutStarted: 0,
         codeRedeemed: 0,
         houseAdShown: 0,
@@ -265,6 +269,7 @@
         statsSharingSnoozeUntilRunCompletes: 0,
 
         // Checkout / premium analytics
+        paywallLastSource: "",
         checkoutStartedAt: 0,
         checkoutPriceKey: "",
         premiumUnlockedAt: 0
@@ -347,6 +352,10 @@
       this.data.analytics.checkoutStartedAt = 0;
     } else {
       this.data.analytics.checkoutStartedAt = Math.floor(Number(this.data.analytics.checkoutStartedAt));
+    }
+
+    if (typeof this.data.analytics.paywallLastSource !== "string") {
+      this.data.analytics.paywallLastSource = "";
     }
 
     if (typeof this.data.analytics.checkoutPriceKey !== "string") {
@@ -1773,9 +1782,24 @@
     this._save();
   };
 
-  StorageManager.prototype.markPaywallShown = function () {
+  StorageManager.prototype.markPaywallShown = function (source) {
     if (!this.data) return;
     this.data.counters.paywallShown = clampNonNegativeInt(this.data.counters.paywallShown) + 1;
+
+    const src = String(source || "").trim().toUpperCase();
+    if (src === "LANDING") {
+      this.data.counters.paywallShownFromLanding = clampNonNegativeInt(this.data.counters.paywallShownFromLanding) + 1;
+      this.data.analytics.paywallLastSource = "landing";
+    } else if (src === "END") {
+      this.data.counters.paywallShownFromEnd = clampNonNegativeInt(this.data.counters.paywallShownFromEnd) + 1;
+      this.data.analytics.paywallLastSource = "end";
+    } else if (src === "PLAYING") {
+      this.data.counters.paywallShownFromPlaying = clampNonNegativeInt(this.data.counters.paywallShownFromPlaying) + 1;
+      this.data.analytics.paywallLastSource = "playing";
+    } else {
+      this.data.counters.paywallShownFromOther = clampNonNegativeInt(this.data.counters.paywallShownFromOther) + 1;
+      this.data.analytics.paywallLastSource = "other";
+    }
 
     // Early price window starts once, at the first PAYWALL view (persisted).
     const ep = this.data.earlyPrice || {};
@@ -2020,11 +2044,21 @@
       totalMistakes: totalMistakes,
       device: device,
 
+      milestones: {
+        quarterShown: !!(this.data.analytics?.quarterMilestoneShownAt),
+        halfwayShown: !!(this.data.analytics?.halfwayMilestoneShownAt),
+        threeQuartersShown: !!(this.data.analytics?.threeQuartersMilestoneShownAt)
+      },
+
       // Funnel (aggregated, local-only)
       funnel: {
         landingViewed: clampNonNegativeInt(this.data.counters?.landingViewed),
         landingPlayClicked: clampNonNegativeInt(this.data.counters?.landingPlayClicked),
         paywallShown: clampNonNegativeInt(this.data.counters?.paywallShown),
+        paywallShownFromLanding: clampNonNegativeInt(this.data.counters?.paywallShownFromLanding),
+        paywallShownFromEnd: clampNonNegativeInt(this.data.counters?.paywallShownFromEnd),
+        paywallShownFromPlaying: clampNonNegativeInt(this.data.counters?.paywallShownFromPlaying),
+        paywallShownFromOther: clampNonNegativeInt(this.data.counters?.paywallShownFromOther),
         checkoutStarted: clampNonNegativeInt(this.data.counters?.checkoutStarted),
         runStarts: clampNonNegativeInt(this.data.counters?.runStarts),
         runCompletes: clampNonNegativeInt(this.data.counters?.runCompletes),

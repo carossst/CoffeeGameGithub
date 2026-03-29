@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "2.2",
+    version: "2.3",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -603,7 +603,7 @@
     },
     landing: {
       title: "Brew or False",
-      tagline: "",
+      tagline: "Think you know coffee? Prove it.",
       subtitle: "A fast true-or-false coffee game.\n200 questions about drinks, brewing, beans, and myths.",
       microFun: "Quick games · No signup · Free to try",
       microTrust: "Learn fast, replay often, and fix your mistakes as you go.",
@@ -630,13 +630,13 @@
       statsMistakesSummaryTemplate: "{mistakes}",
       statsMasterySummaryTemplate: "{mastered}/{poolSize} questions answered correctly",
 
-      postPaywallTitle: "Free games completed. Want the full version?",
-      postPaywallBody: "Unlock unlimited games, keep your progress on this device, and open every mode.",
+      postPaywallTitle: "Free games completed.",
+      postPaywallBody: "Unlock unlimited play and every mode on this device.",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
       postPaywallCta: "Unlock full access",
 
       postPaywallSbTitle: "Before you decide...",
-      postPaywallSbBody: "You still have Rapid Fire Mode to try. Tap the lightning icon to test it."
+      postPaywallSbBody: "You can still try Rapid Fire Mode from the lightning icon."
     },
     firstRun: {
       titleRun2: "Quick reminder",
@@ -713,7 +713,7 @@
       startRunTypeFree: "Your first free game",
       startRunTypeLastFree: "Last free game. Make it count",
       startRunTypeUnlimited: "",
-      startRunTypePractice: "Mistakes mode",
+      startRunTypePractice: "Mistakes Mode",
 
       // Start-of-run overlay (education)
       // Ligne unique, lien mental avec le HUD
@@ -873,7 +873,7 @@
         last: "One question left. Clear it now.",
         light: "Only a few questions left to clear.",
         firm: "A few questions still need another pass.",
-        direct: "Stay in Mistakes mode. These are the questions that need the work."
+        direct: "Stay in Mistakes Mode. These are the questions that need the work."
       },
 
       scoreLine: "{total} questions reviewed.",
@@ -972,7 +972,7 @@
       // RUN END — identity + lens + CTA by verdict tier
       // Keys must match UI mapping: none/start/building/strong/elite/legendary
       identityByVerdict: {
-        none: "A few questions are still catching you.",
+        none: "A few coffee questions are still slipping past you.",
         start: "You're getting your bearings.",
         building: "You're building momentum.",
         strong: "You're reading these faster now.",
@@ -981,7 +981,7 @@
       },
 
       lensByVerdict: {
-        none: "You have {backlog} questions to revisit. Fix your mistakes and try again.",
+        none: "You have {backlog} questions to revisit. One more game will already feel better.",
         start: "Good start. Aim a little higher next run.",
         building: "{seen}/{poolSize} questions seen. The patterns are starting to click.",
         strong: "{seen}/{poolSize} questions seen. More of these answers are becoming automatic.",
