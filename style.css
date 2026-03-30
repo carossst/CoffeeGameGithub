@@ -640,7 +640,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 .wt-landing-header__brand {
   min-width: 0;
   flex: 1 1 auto;
-  padding-right: calc(44px + var(--gap-2));
+  padding-right: calc(56px + var(--gap-2));
 
   display: flex;
   align-items: center;
@@ -664,7 +664,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 
 @media (max-width: 360px) {
   .wt-landing-header__brand {
-    padding-right: calc(88px + var(--gap-2));
+    padding-right: calc(76px + var(--gap-2));
   }
 
   .wt-landing-top-right {

@@ -564,7 +564,7 @@
 
     success: {
       title: "Payment successful",
-      subtitle: "Your device unlock code is ready. Use it in the game to turn on full access here in a few seconds.",
+      subtitle: "Your device unlock code is ready. Use it in the game to enable full access here in a few seconds.",
 
       codeLabel: "Your device unlock code",
       clearDataWarning: "This unlock is saved on this device. Keep the code if you may clear browser data or switch device later.",
@@ -577,7 +577,7 @@
       howToActivateStep3Prefix: "Paste your code and tap",
       activateLabel: "Activate",
 
-      whatYouGetTitle: "What unlocks now",
+      whatYouGetTitle: "What full access includes",
       benefitFullAccessPrefix: "Full access to all",
       benefitFullAccessStrongSuffix: " coffee questions",
       benefitFullAccessSuffix: " in this game.",
@@ -619,7 +619,7 @@
 
       // Before completion (goal gradient) 
       statsSeenSummaryTemplate: "Seen: {seen}/{poolSize} questions",
-      statsPaceSummaryTemplate: "About {runsLeft} more game{pluralS} to see all {poolSize} questions.",
+      statsPaceSummaryTemplate: "About {runsLeft} more game{pluralS} to complete the full set.",
       statsPhaseBadgeDiscovery: "Phase 1/3: Discovery",
       statsPhaseBadgeCorrection: "Phase 2/3: Progress",
       statsPhaseBadgeConsolidation: "Phase 3/3: Mastery",
@@ -631,21 +631,21 @@
       statsMasterySummaryTemplate: "{mastered}/{poolSize} questions answered correctly",
 
       postPaywallTitle: "Free games completed.",
-      postPaywallBody: "Unlock unlimited play and every mode on this device.",
+      postPaywallBody: "Unlock all 200 questions, unlimited play, Mistakes Mode, and Rapid Fire Mode on this device.",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
       postPaywallCta: "Unlock full access",
 
       postPaywallSbTitle: "Before you decide...",
-      postPaywallSbBody: "You can still try Rapid Fire Mode from the lightning icon."
+      postPaywallSbBody: "Rapid Fire Mode is also available from the lightning icon."
     },
     firstRun: {
       titleRun2: "Quick reminder",
       titleRun3: "Last tip before you play",
 
       framingLines: [
-        "This isn't about streaks.",
-        "It's about what you actually know.",
-        "Explore 200 coffee questions.",
+        "You don't need to know everything yet.",
+        "Read carefully and trust your instincts.",
+        "Discover 200 coffee questions.",
       ],
 
       trustLines: [
@@ -882,7 +882,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes Mode focuses on your active mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
+      startRunChancesOverlayPractice: "Mistakes Mode focuses on your mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -959,7 +959,7 @@
       poolCompleteCtaPractice: "Fix your mistakes",
 
       freeLimitReachedTitle: "Nice run.",
-      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks unlimited main-game play, Mistakes Mode, and Rapid Fire Mode.",
+      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks all 200 questions, unlimited main-game play, Mistakes Mode, and Rapid Fire Mode.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
@@ -1066,11 +1066,11 @@
       headline: "Keep going with the full coffee set.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "That was your last free game. Keep going with full access.",
+      headlineLastFree: "That was your last free game. Unlock all 200 questions and keep going.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
-      progressLine1: "You've already seen {seen} questions. {remaining} more are waiting.",
+      progressLine1: "You've already seen {seen} questions. {remaining} more are still waiting in the full set.",
       progressLine2: "",
 
       // Section headers (anti “mur de mots”)
@@ -1086,7 +1086,7 @@
 
       // Shared bridge copy (LANDING post-paywall + END runs exhausted)
       bridgeTitle: "Keep building your coffee knowledge.",
-      bridgeBody: "Unlock the full set, fix your mistakes, and keep replaying at your own pace.",
+      bridgeBody: "Unlock all 200 questions, fix your mistakes, and keep replaying with every mode open.",
 
       trustLine: "One-time unlock",
       trustBullets: [
@@ -1117,7 +1117,7 @@
       ctaStandard: "Unlock full access for $6.99",
 
       // Backward compat (still used in a few places)
-      cta: "Get unlimited games",
+      cta: "Get full access",
 
       alreadyHaveCode: "Already have a device unlock code? Use it here.",
       deviceNote: "One-time unlock for this device. No account needed.",
@@ -1146,7 +1146,7 @@
       modesBullets: [
         "Main Game: a full game across the question pool. Build your best score.",
         "Rapid Fire Mode: faster and more demanding. Uses only questions you've already seen.",
-        "Mistakes Mode: replay your active mistakes (up to 10 questions)."
+        "Mistakes Mode: replay your mistakes (up to 10 questions)."
       ],
 
       ruleTitle: "Rule",
@@ -1179,7 +1179,7 @@
 
       // Mastered (pool exhausted + 0 active mistakes)
       masteredTitle: "Bravo ! You answered all 200 questions correctly.",
-      masteredLine1: "Zero active mistakes. Every question answered correctly.",
+      masteredLine1: "Zero mistakes left. Every question answered correctly.",
       masteredLine2: "Now test your focus under pressure. Then come back in a few weeks and see if it still holds.",
       masteredCtaBonus: "Challenge yourself in Rapid Fire Mode",
       masteredCtaReplay: "Replay in a new order",
