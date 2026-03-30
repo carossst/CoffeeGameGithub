@@ -90,6 +90,13 @@ Important values:
 - `WT_CONFIG.limits.freeRuns`: number of free main-game runs
 - `WT_CONFIG.game.poolSize`: total question pool size
 
+## End Screen Notes
+
+- `RUN END` stays intentionally compact: score, verdict, progress lens, CTA, and recap when useful
+- secondary `RUN END` signals are intentionally limited to learning/business context such as tag insight, premium best-score context, and free games left
+- `best streak` is treated as an in-game momentum signal, not a core end-screen signal
+- record celebration stays attached to the main score block instead of repeating again in secondary end copy
+
 ## PWA Notes
 
 - the app registers a service worker from [main.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/main.js)

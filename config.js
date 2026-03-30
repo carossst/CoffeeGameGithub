@@ -644,7 +644,7 @@
 
       framingLines: [
         "You don't need to know everything yet.",
-        "Read carefully and trust your instincts.",
+        "Read carefully and trust what you know.",
         "Discover 200 coffee questions.",
       ],
 
@@ -744,7 +744,7 @@
     secretBonus: {
       chestAria: "Rapid Fire Mode",
       chestHint: "",
-      noSeenWordsToast: "Rapid Fire is empty for now. Play the main game to build your deck.",
+      noSeenWordsToast: "Rapid Fire is empty for now. Play the main game to discover more questions first.",
       badge: "RAPID FIRE",
 
       // END screen (BONUS)
@@ -761,16 +761,16 @@
       // Contract: arrays MUST contain exactly 2 sentences each. No fallback in UI.
       endByTier: {
         perfect: [
-          "Flawless under pressure.",
+          "You proved it under pressure.",
           "You answered those questions instantly."
         ],
         high: [
-          "You stayed in control.",
-          "Your coffee instincts were doing the work."
+          "You stayed sharp under pressure.",
+          "Your coffee knowledge held up well."
         ],
         medium: [
           "You adjusted quickly.",
-          "This mode asks for instinct, not hesitation."
+          "This mode rewards quick coffee knowledge."
         ],
         low: [
           "The pace got ahead of you.",
@@ -810,7 +810,7 @@
       ctaLowSmallOverride: "Play the main game",
 
       // Start overlay (same component as FREE runs)
-      startOverlayLine1: "Rapid Fire Mode. Faster pace.",
+      startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",
       startOverlayLine2: "Only questions you've already seen in the main game.",
       startOverlayLine3: "Play more main-game runs to grow your Rapid Fire deck.",
 
@@ -835,7 +835,7 @@
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
       modalTitle: "Rapid Fire Mode",
-      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the main game.",
+      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the main game. Test your coffee knowledge under pressure.",
       modalCta: "Play Rapid Fire Mode"
     },
 
@@ -846,9 +846,9 @@
       off: "Off",
 
       premiumOnly: "Full access only",
-      descLocked: "Replay only the coffee questions that still need work.",
+      descLocked: "Replay the coffee questions that still need work.",
       valueLine: "Focus on the questions that still need work.",
-      descUnlocked: "Only questions you previously got wrong.",
+      descUnlocked: "Only the questions you previously got wrong.",
 
       freeLimitReachedTitle: "End of Free Games.",
       freeLimitReachedBody: "You've used your {limit} free mistakes games.\n\nFull access unlocks unlimited Mistakes Mode. Keep fixing your mistakes without limits.",
@@ -857,13 +857,13 @@
 
       // END screen (PRACTICE)
       endTitle: "",
-      endLine: "Good progress. You cleaned up a few weak spots.",
+      endLine: "Good progress. More of what you know is starting to hold.",
       // Tier-aware override (keyed on practiceRepeatTierKey). Fallback: endLine.
       endLineByTier: {
-        last: "Nice recovery.",
-        light: "Nice recovery.",
-        firm: "Good progress.",
-        direct: "You tightened some weak spots."
+        last: "Nice recovery. One last mistake to clear.",
+        light: "Nice recovery. More of what you know is starting to hold.",
+        firm: "Good progress. More of the right answers are starting to stick.",
+        direct: "Better. A few questions still need another pass."
       },
       endStatsLine: "Mistakes fixed: {fixed}. Mistakes remaining: {remaining}.",
 
@@ -882,7 +882,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes Mode focuses on your mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
+      startRunChancesOverlayPractice: "Mistakes Mode helps you clean up your mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -1180,7 +1180,7 @@
       // Mastered (pool exhausted + 0 active mistakes)
       masteredTitle: "Bravo ! You answered all 200 questions correctly.",
       masteredLine1: "Zero mistakes left. Every question answered correctly.",
-      masteredLine2: "Now test your focus under pressure. Then come back in a few weeks and see if it still holds.",
+      masteredLine2: "Now put your coffee knowledge under pressure. Then come back in a few weeks and see if it still holds.",
       masteredCtaBonus: "Challenge yourself in Rapid Fire Mode",
       masteredCtaReplay: "Replay in a new order",
 

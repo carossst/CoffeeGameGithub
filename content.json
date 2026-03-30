@@ -123,7 +123,7 @@
       "correctAnswer": true,
       "explanationShort": "Cold brew steeps grounds in cold water for 12 to 24 hours.\nIced coffee is hot-brewed coffee poured over ice.\nSame beans, two different drinks.",
       "tags": [
-        "Culture and history of coffee",
+        "Beverages and drink families",
         "Easy"
       ]
     },
@@ -134,7 +134,7 @@
       "correctAnswer": false,
       "explanationShort": "When hot coffee hits ice, the ice melts immediately and dilutes the drink.\nThe same coffee poured over ice always tastes weaker than the same coffee served hot.\nHot cup, stronger. Iced cup, weaker.",
       "tags": [
-        "Culture and history of coffee",
+        "Beverages and drink families",
         "Easy"
       ]
     },
@@ -486,7 +486,7 @@
       "correctAnswer": true,
       "explanationShort": "Cold water extracts fewer of the bitter compounds that hot water pulls out.\nThat is why the long cold steep produces a sweeter, smoother result than hot brewing.\nCold water pulls sweetness, hot water pulls bitterness.",
       "tags": [
-        "Beverages and drink families",
+        "Grains, roast and coffee basics",
         "Hard"
       ]
     },
@@ -603,9 +603,9 @@
     {
       "id": 55,
       "termFr": "",
-      "termEn": "Coffee stored in a sealed bag in the freezer always picks up freezer odors.",
+      "termEn": "Coffee stored in the freezer can pick up odors if it is not truly airtight.",
       "correctAnswer": true,
-      "explanationShort": "Coffee is highly porous and absorbs moisture and odors from its surroundings.\nEven a few hours in the freezer is enough for it to pick up unwanted smells.\nSealed tight or skip the freezer.",
+      "explanationShort": "Coffee easily absorbs odors and moisture from its surroundings.\nThat is why freezer storage only works when the container is truly airtight.\nNo airtight seal, no flavor protection.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -614,9 +614,9 @@
     {
       "id": 56,
       "termFr": "",
-      "termEn": "Freezing coffee in an airtight container can preserve it for long-term storage.",
+      "termEn": "Freezing coffee can help preserve it for long-term storage if it is truly airtight.",
       "correctAnswer": true,
-      "explanationShort": "Coffee absorbs moisture and odors through any gap in the packaging.\nA truly airtight container blocks both entry points, keeping the aroma intact longer.\nSeal well, open rarely.",
+      "explanationShort": "Freezing can slow staling, but only if the coffee is sealed away from moisture and odors.\nWith a truly airtight container, the freezer can help preserve flavor longer.\nFreeze only if the seal is airtight.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -658,9 +658,9 @@
     {
       "id": 60,
       "termFr": "",
-      "termEn": "The flat white was invented in Australia.",
+      "termEn": "The flat white first became popular in Australia and New Zealand.",
       "correctAnswer": true,
-      "explanationShort": "The flat white was born in Australia and New Zealand in the 1980s.\nIt was designed smaller and more coffee-forward than the latte.\nAustralian invention, global drink.",
+      "explanationShort": "The flat white emerged in Australia and New Zealand in the 1980s.\nBoth countries are closely tied to its rise and still debate the exact origin.\nAustralasia made it famous.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -768,9 +768,9 @@
     {
       "id": 70,
       "termFr": "",
-      "termEn": "Oat milk has been the dominant plant-based milk in US coffee shops since it launched.",
-      "correctAnswer": false,
-      "explanationShort": "Soy milk was the default plant-based option in US coffee shops for years.\nOat milk only arrived on US shelves around 2018 but quickly overtook soy and almond in popularity.\nSoy came first, oat took over.",
+      "termEn": "Soy milk was the main plant-based milk in US coffee shops before oat milk became popular.",
+      "correctAnswer": true,
+      "explanationShort": "Soy milk was the default plant-based option in many US coffee shops for years.\nOat milk arrived later and then grew quickly in popularity.\nSoy came first, oat came later.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -847,7 +847,7 @@
       "termFr": "",
       "termEn": "Limescale in a coffee machine can only affect taste, not the machine itself.",
       "correctAnswer": false,
-      "explanationShort": "Heavy limescale restricts water flow and forces the heating element to work harder.\nBeyond affecting taste, this kind of damage can void machine warranties.\nScale blocks water, ruins flavor, voids warranties.",
+      "explanationShort": "Heavy limescale restricts water flow and makes the machine work harder.\nOver time, that can damage performance as well as affect taste.\nScale hurts the machine, not just the cup.",
       "tags": [
         "Troubleshooting and maintenance",
         "Medium"
@@ -871,7 +871,7 @@
       "correctAnswer": true,
       "explanationShort": "Natural processing dries the bean with its fruit still on, adding sweetness and body to the final cup.\nWashed processing removes the fruit first, producing a cleaner, brighter flavor.\nSame farm, different cup.",
       "tags": [
-        "Beverages and drink families",
+        "Grains, roast and coffee basics",
         "Hard"
       ]
     },
@@ -1373,9 +1373,9 @@
     {
       "id": 125,
       "termFr": "",
-      "termEn": "China is one of the fastest-growing coffee markets in the world.",
+      "termEn": "Coffee consumption in China has grown rapidly in recent years.",
       "correctAnswer": true,
-      "explanationShort": "China's coffee consumption has grown by over 20 percent per year since 2010.\nWhile tea culture still dominates, younger urban consumers are driving a rapid shift toward coffee.\nBiggest tea country, fastest-growing coffee market.",
+      "explanationShort": "China still has a strong tea culture, but coffee consumption has risen quickly, especially in large cities.\nYounger urban consumers have helped drive that growth.\nTea still leads, but coffee is rising fast.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -1417,9 +1417,9 @@
     {
       "id": 129,
       "termFr": "",
-      "termEn": "Mexico is one of the top coffee-producing countries in the world.",
-      "correctAnswer": false,
-      "explanationShort": "Mexico produces arabica in its southern states like Chiapas and Oaxaca.\nWhile it is a real producer, its output ranks well below countries like Brazil, Vietnam, or Colombia.\nMexico grows coffee, just not enough to lead.",
+      "termEn": "Mexico produces coffee, but far less than countries like Brazil, Vietnam, or Colombia.",
+      "correctAnswer": true,
+      "explanationShort": "Mexico is a real coffee producer, especially in states like Chiapas and Oaxaca.\nBut its output is much lower than the biggest producing countries.\nMexico grows coffee, just not at world-leading scale.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -1571,9 +1571,9 @@
     {
       "id": 143,
       "termFr": "",
-      "termEn": "A single frost in Brazil can affect coffee prices in US shops within months.",
+      "termEn": "A bad coffee harvest in Brazil can push up coffee prices far beyond Brazil.",
       "correctAnswer": true,
-      "explanationShort": "A single bad growing season can cut a country's coffee harvest by a third or more.\nArabica is vulnerable to frost, drought, and heavy rainfall.\nOne bad frost can change prices worldwide.",
+      "explanationShort": "Brazil is the world's largest coffee producer, so a weaker harvest can tighten global supply.\nWhen supply drops, prices can rise well beyond the producing country itself.\nBad harvest in Brazil, higher prices far away.",
       "tags": [
         "Coffee market and origins",
         "Hard"
@@ -1582,9 +1582,9 @@
     {
       "id": 144,
       "termFr": "",
-      "termEn": "Single origin on a coffee menu means one region, not one farm.",
+      "termEn": "Single origin coffee can come from one farm, one region, or one country.",
       "correctAnswer": true,
-      "explanationShort": "Single origin is a geographic label that points to a country or region, not a specific farm.\nBeans from dozens of farms in the same area can all be labeled single origin.\nOne region, many farms.",
+      "explanationShort": "Single origin means the coffee comes from one geographic origin, not from a blend of multiple origins.\nThat origin can be as specific as a farm or as broad as a country.\nOne origin, different levels of precision.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -1718,7 +1718,7 @@
       "correctAnswer": true,
       "explanationShort": "Alfred Peet opened his first shop in Berkeley in 1966, focused on quality beans and fresh roasting.\nHis philosophy directly inspired the founders of Starbucks, who came five years later.\nPeet came first, Starbucks followed.",
       "tags": [
-        "Figures and personalities",
+        "Culture and history of coffee",
         "Medium"
       ]
     },
@@ -1791,11 +1791,11 @@
     {
       "id": 163,
       "termFr": "",
-      "termEn": "Third wave coffee shops focus on craft and bean origin.",
+      "termEn": "Third wave coffee culture focuses on craft, origin, and flavor quality.",
       "correctAnswer": true,
-      "explanationShort": "The third wave refers to a movement that treats coffee like wine, focused on origin, craft, and quality.\nInstant coffee, by contrast, belongs to the first wave, which was about mass-market convenience.\nThird wave is about craft, not convenience.",
+      "explanationShort": "Third wave coffee treats coffee more like wine, with attention to origin, processing, and preparation.\nThe focus shifts from convenience to craft and flavor.\nCraft first, convenience second.",
       "tags": [
-        "Figures and personalities",
+        "Culture and history of coffee",
         "Medium"
       ]
     },
@@ -1938,7 +1938,7 @@
       "correctAnswer": true,
       "explanationShort": "Crema forms when high pressure forces CO2 out of fresh grounds into the liquid.\nStale beans produce less CO2, and low pressure cannot force it out, so either problem kills the crema.\nNo crema is a signal worth paying attention to.",
       "tags": [
-        "Culture and history of coffee",
+        "Troubleshooting and maintenance",
         "Hard"
       ]
     },
@@ -1960,7 +1960,7 @@
       "correctAnswer": true,
       "explanationShort": "The original Flavor Wheel was published in 1995 as a common language for tasting.\nIn 2016, it was revised with World Coffee Research to add more precise descriptors.\nEvery tasting note traces back to this wheel.",
       "tags": [
-        "Culture and history of coffee",
+        "Beverages and drink families",
         "Medium"
       ]
     },
@@ -2004,7 +2004,7 @@
       "correctAnswer": false,
       "explanationShort": "A moka pot builds steam pressure to push water through the grounds, but far less than an espresso machine.\nThe result is strong and concentrated, but without the crema that defines true espresso.\nStrong coffee, not espresso.",
       "tags": [
-        "Culture and history of coffee",
+        "Beverages and drink families",
         "Medium"
       ]
     },
@@ -2057,7 +2057,7 @@
       "termFr": "",
       "termEn": "Shifts in temperature and rainfall are not expected to impact coffee production.",
       "correctAnswer": false,
-      "explanationShort": "Rising temperatures and erratic rainfall are already shrinking the land suitable for coffee cultivation.\nSome projections suggest that up to half of current arabica-growing areas could be lost by 2050.\nHalf of arabica land could be gone by 2050.",
+      "explanationShort": "Coffee depends on stable temperature and rainfall patterns to grow well.\nWhen those conditions shift, yields and quality can both suffer.\nClimate changes the cup long before it changes the map.",
       "tags": [
         "Coffee market and origins",
         "Hard"
@@ -2088,9 +2088,9 @@
     {
       "id": 190,
       "termFr": "",
-      "termEn": "Coffee is more popular globally than 30 years ago.",
+      "termEn": "Global coffee consumption is higher today than it was in the 1990s.",
       "correctAnswer": true,
-      "explanationShort": "Global coffee consumption has grown steadily since the 1990s.\nMuch of that growth comes from emerging markets in Asia, where coffee culture is expanding rapidly.\nTea countries are becoming coffee countries.",
+      "explanationShort": "Coffee consumption has grown steadily over the past few decades.\nMuch of that growth has come from expanding coffee markets outside the traditional coffee-drinking countries.\nMore countries, more coffee, more cups.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -2112,7 +2112,7 @@
       "termFr": "",
       "termEn": "Morning coffee prices are shaped by the same global markets that trade oil and gold.",
       "correctAnswer": true,
-      "explanationShort": "Coffee is traded on commodity exchanges, the same markets that handle oil, gold, and wheat.\nA drought in Brazil or frost in Colombia can move prices on those exchanges within hours.\nGlobal market, local cup.",
+      "explanationShort": "Coffee is traded on global commodity markets, just like other major raw materials.\nA drought in Brazil or frost in Colombia can move coffee prices far beyond the farm.\nGlobal market, local cup.",
       "tags": [
         "Coffee market and origins",
         "Hard"
@@ -2154,9 +2154,9 @@
     {
       "id": 196,
       "termFr": "",
-      "termEn": "Milk residue left on a steam wand for a few hours can affect the flavor of the next drink.",
+      "termEn": "Milk residue left on a steam wand for a few hours can affect the next drink.",
       "correctAnswer": true,
-      "explanationShort": "Milk residue dries onto the steam wand within seconds of use and can harbor bacteria.\nPurging clears the inside, wiping cleans the outside.\nOne quick wipe now saves a stubborn clog later.",
+      "explanationShort": "Milk residue dries quickly on the steam wand and can contaminate the next drink.\nIt affects both cleanliness and flavor if it is not wiped off right away.\nWipe now, cleaner drink later.",
       "tags": [
         "Troubleshooting and maintenance",
         "Easy"
@@ -2187,9 +2187,9 @@
     {
       "id": 199,
       "termFr": "",
-      "termEn": "Ready-to-drink canned coffee is one of the fastest-growing segments of the US market.",
+      "termEn": "Ready-to-drink coffee has become a major category in the US coffee market.",
       "correctAnswer": true,
-      "explanationShort": "Younger consumers have driven a sharp rise in demand for canned and bottled coffee.\nAs a result, ready-to-drink coffee now fills a growing section of grocery shelves across the US.\nThe coffee aisle now looks like the soda aisle.",
+      "explanationShort": "Canned and bottled coffee now occupy a growing share of shelf space in US stores.\nThe category has expanded well beyond a niche convenience product.\nCoffee now competes on the grab-and-go shelf too.",
       "tags": [
         "Coffee market and origins",
         "Easy"

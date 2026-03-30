@@ -7304,19 +7304,6 @@ ${(() => {
       }
     }
 
-    // Best streak (RUN-only): keep it in the same "scoreboard" block
-    const rawMin = Number(cfg?.routing?.bestStreakLineMin);
-    const bestStreakLineMin = (Number.isFinite(rawMin) && rawMin >= 1) ? Math.floor(rawMin) : null;
-
-    if (bestStreakLineMin != null && isRun && bestStreakNum >= bestStreakLineMin && bestStreakLine) {
-      microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(bestStreakLine)}</p>`);
-    }
-
-    // Record moment: if active, surface the celebration line explicitly.
-    if (recordActive && newBestLine) {
-      microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(newBestLine)}</p>`);
-    }
-
     // Personal best (RUN + premium only)
     if (pbLine) {
       microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbLine)}</p>`);

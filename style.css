@@ -1812,6 +1812,31 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 /* Very small screens: keep HUD readable without forcing wrap too often */
+@media (max-width: 480px) {
+  .wt-hud {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .wt-hud__left {
+    gap: 6px;
+  }
+
+  .wt-pill--score,
+  .wt-pill--chances {
+    font-size: var(--fs-xs);
+    padding: 5px var(--space-8);
+    padding-right: 32px;
+    box-shadow: var(--shadow-1);
+    letter-spacing: 0.1px;
+  }
+
+  .wt-pill__delta {
+    right: 10px;
+    font-size: var(--fs-xs);
+  }
+}
+
 @media (max-width: 360px) {
 
   .wt-pill--score,
