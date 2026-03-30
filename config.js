@@ -959,7 +959,7 @@
       poolCompleteCtaPractice: "Fix your mistakes",
 
       freeLimitReachedTitle: "Nice run.",
-      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks unlimited normal games, practice mode, and Rapid Fire Mode.",
+      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks unlimited main-game play, Mistakes Mode, and Rapid Fire Mode.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
@@ -1066,7 +1066,7 @@
       headline: "Keep going with the full coffee set.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "That was your last free run. Keep going with full access.",
+      headlineLastFree: "That was your last free game. Keep going with full access.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
@@ -1080,7 +1080,7 @@
       valueBullets: [
         "The full set of 200 coffee questions",
         "Explanations after every answer",
-        "Practice mode for your mistakes",
+        "Mistakes Mode for your mistakes",
         "Rapid Fire Mode and unlimited replays"
       ],
 
@@ -1103,7 +1103,7 @@
       socialProofTitle: "What players say",
       socialProofQuotes: [
         { quote: "Fast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Maya, home brewer" },
-        { quote: "The true or false format makes it easy to keep playing, and the mistakes mode is what made the facts stick.", author: "Jon, cafe regular" }
+        { quote: "The true or false format makes it easy to keep playing, and Mistakes Mode is what made the facts stick.", author: "Jon, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)
@@ -1144,7 +1144,7 @@
 
       modesTitle: "Game modes",
       modesBullets: [
-        "Normal Mode: a full game across the question pool. Build your best score.",
+        "Main Game: a full game across the question pool. Build your best score.",
         "Rapid Fire Mode: faster and more demanding. Uses only questions you've already seen.",
         "Mistakes Mode: replay your active mistakes (up to 10 questions)."
       ],
