@@ -1058,7 +1058,7 @@
       // Post-completion routing (pool exhausted + mistakes)
       // Vars: {backlog}
       practiceCtaCountPremium: "Fix your {backlog} remaining mistakes",
-      shareTitle: "Share your result"
+      shareTitle: "Challenge a friend"
     },
 
     paywall: {

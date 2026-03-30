@@ -6546,7 +6546,6 @@ void function () {
   <div class="wt-landing-header">
     <div class="wt-landing-header__brand">
       ${renderBrandingRow(cfg, true)}
-      ${tagline ? `<p class="wt-meta wt-landing-header__tagline">${escapeHtml(tagline)}</p>` : ``}
     </div>
    <div class="wt-landing-top-right">
       ${chestHintTextLanding ? `<div class="wt-chest-hint-inline">${escapeHtml(chestHintTextLanding)}</div>` : ``}
@@ -6577,6 +6576,7 @@ ${landingHeaderRowHtml}
 
    ${landingUrgencyHtml}
 
+        ${tagline ? `<p class="wt-meta wt-tagline">${escapeHtml(tagline)}</p>` : ``}
 
         <p class="wt-sub wt-landing-subtitle">${subtitleHtml}</p>
   ${(() => {
