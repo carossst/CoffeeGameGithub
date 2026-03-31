@@ -1311,6 +1311,8 @@ void function () {
 
     if (!this.appEl) return;
 
+    const pointerEvt = ("PointerEvent" in window) ? "pointerup" : "click";
+
 
     function dispatchAction(action, event) {
       switch (action) {
@@ -1663,7 +1665,7 @@ void function () {
     if (this.modalEl && !this._wtBoundModalActions) {
       this._wtBoundModalActions = true;
 
-      this.modalEl.addEventListener("click", (e) => {
+      const modalActionHandler = (e) => {
         const t = e.target;
         if (!t) return;
 
@@ -1683,11 +1685,28 @@ void function () {
 
         e.preventDefault();
         dispatchAction(action, e);
-      });
+      };
+
+      if (pointerEvt !== "click") {
+        let lastHandledTs = 0;
+        const dedupHandler = (e) => {
+          const now = e.timeStamp || Date.now();
+          if (now - lastHandledTs < 400) return;
+          modalActionHandler(e);
+        };
+
+        this.modalEl.addEventListener(pointerEvt, (e) => {
+          const before = e.timeStamp || Date.now();
+          modalActionHandler(e);
+          const t = e && e.target ? e.target : null;
+          const btn = (t && t.closest) ? t.closest("button[data-action], a[data-action]") : null;
+          if (t === self.modalEl || btn) lastHandledTs = before;
+        });
+        this.modalEl.addEventListener("click", dedupHandler);
+      } else {
+        this.modalEl.addEventListener("click", modalActionHandler);
+      }
     }
-
-
-    const pointerEvt = (("PointerEvent" in window) && window.matchMedia && window.matchMedia("(pointer: coarse)").matches) ? "pointerdown" : (("PointerEvent" in window) ? "pointerup" : "click");
 
     // Main app event delegation (LANDING / PLAYING / END / PAYWALL)
     // Without this, buttons like data-action="start-run" never fire.
@@ -7297,7 +7316,7 @@ ${(() => {
           }
         }
 
-        if (!tie && bestCount >= 2) {
+        if (!tie && bestCount >= 1) {
           const line = String(copyByTag[bestTag] || "").trim();
           if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
         }
@@ -7412,13 +7431,32 @@ ${(() => {
 
   ${microLinesHtml}
 
+  <div class="wt-end-copy">
   ${(() => {
         if (isPractice) {
           const statsLine = practiceStatsLineTpl ? fillTemplate(practiceStatsLineTpl, vars) : "";
           const repeatLine = practiceRepeatNoteTpl ? fillTemplate(practiceRepeatNoteTpl, vars) : "";
+          const practiceStatsHtml = (() => {
+            if (!statsLine) return ``;
+
+            const parts = String(statsLine)
+              .split(/(?<=\.)\s+(?=Mistakes remaining:)/)
+              .map((s) => String(s || "").trim())
+              .filter(Boolean);
+
+            if (parts.length < 2) {
+              return `<p class="wt-muted">${escapeHtml(statsLine)}</p>`;
+            }
+
+            return `
+              <div class="wt-muted wt-end-practice-stats">
+                ${parts.map((part) => `<p>${escapeHtml(part)}</p>`).join("")}
+              </div>
+            `;
+          })();
           return [
             endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
-            statsLine ? `<p class="wt-muted">${escapeHtml(statsLine)}</p>` : ``,
+            practiceStatsHtml,
             repeatLine ? `<p class="wt-muted">${escapeHtml(repeatLine)}</p>` : ``
           ].join("");
         }
@@ -7435,6 +7473,7 @@ ${(() => {
   ${(isBonus && bonusDeckSizeLine) ? `<p class="wt-muted">${escapeHtml(bonusDeckSizeLine)}</p>` : ``}
   ${(isBonus && bonusPoolProgressLine) ? `<p class="wt-muted">${escapeHtml(bonusPoolProgressLine)}</p>` : ``}
   ${(isBonus && bonusDecisionLine) ? `<p class="wt-meta">${escapeHtml(bonusDecisionLine)}</p>` : ``}
+  </div>
 
   ${``}
 

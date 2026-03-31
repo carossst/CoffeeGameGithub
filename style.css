@@ -299,7 +299,7 @@ body {
     rgb(var(--bg));
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: auto;
 }
 
 a {
@@ -2001,6 +2001,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   width: min(560px, 92vw);
   max-height: 86vh;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 
   background: rgb(var(--surface));
@@ -2929,6 +2930,27 @@ arcade" feel; deviation from --fs-* scale is expected. */
   margin-top: 4px;
 }
 
+.wt-end-copy {
+  margin-top: 8px;
+}
+
+.wt-end-copy p,
+.wt-end-copy .wt-end-practice-stats {
+  margin: 0;
+}
+
+.wt-end-copy > * + * {
+  margin-top: 4px;
+}
+
+.wt-end-practice-stats p {
+  margin: 0;
+}
+
+.wt-end-practice-stats p + p {
+  margin-top: 2px;
+}
+
 @media (min-width: 481px) {
   .wt-end-table {
     margin-top: var(--space-14);
@@ -2941,6 +2963,14 @@ arcade" feel; deviation from --fs-* scale is expected. */
 }
 
 @media (max-width: 480px) {
+  .wt-end-copy {
+    margin-top: 6px;
+  }
+
+  .wt-end-copy > * + * {
+    margin-top: 3px;
+  }
+
   .wt-end-lens {
     margin-top: 2px;
   }
