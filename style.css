@@ -2518,6 +2518,35 @@ body.wt-state--playing .wt-footer {
 
 .wt-bonus-subtitle {
   margin: -10px 0 12px;
+  text-align: center;
+}
+
+.wt-bonus-branding {
+  display: flex;
+  justify-content: center;
+}
+
+.wt-bonus-branding__top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-1);
+  flex-wrap: wrap;
+}
+
+.wt-bonus-branding__top .wt-branding {
+  padding-bottom: 0;
+}
+
+.wt-bonus-badge {
+  margin: 0;
+}
+
+@media (max-width: 360px) {
+  .wt-bonus-branding__top {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
 }
 
 .wt-container[data-wt-bonus="fall"] .wt-card {

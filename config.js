@@ -178,7 +178,7 @@
     houseAd: {
       enabled: true,
       premiumOnly: false,
-      url: "https://breworfalse.com/",
+      url: "https://wordtraps.com/",
       showAfterEnd: true,
 
       // Unlock threshold (unique seen items)
@@ -787,14 +787,14 @@
 
         high_small: "A few more main-game games will expand your pool.",
         high_medium: "Try again to lock in the ones you missed.",
-        high_large: "Stay in Rapid Fire: you're close to flawless.",
+        high_large: "Stay in Rapid Fire: that was a strong game.",
 
         medium_small: "Build your pool first: play more main-game games to strengthen your base.",
         medium_medium: "Try another Rapid Fire game to get faster under pressure.",
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
         low_small: "More main-game games will help build the memory you need here.",
-        low_medium: "Take a main-game game to rebuild confidence before coming back.",
+        low_medium: "Play the main game to rebuild confidence.",
         low_large: "Try again: speed comes with practice."
       },
 
@@ -807,7 +807,7 @@
       },
 
       // CTA override: when accuracy is low AND deck is small, primary = go to RUN
-      ctaLowSmallOverride: "Play the main game",
+      ctaLowSmallOverride: "Back to the main game",
 
       // Start overlay (same component as FREE runs)
       startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",

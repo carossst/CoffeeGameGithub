@@ -5536,7 +5536,13 @@ void function () {
     }
 
     if (Number.isFinite(Number(res.itemId))) {
-      this._runtime.runItemIds.push(Number(res.itemId));
+      const id = Number(res.itemId);
+      this._runtime.runItemIds.push(id);
+
+      if (res.isCorrect !== true) {
+        if (!Array.isArray(this._runtime.runMistakeIds)) this._runtime.runMistakeIds = [];
+        if (this._runtime.runMistakeIds.indexOf(id) === -1) this._runtime.runMistakeIds.push(id);
+      }
     }
 
     // BONUS feedback policy already handled in UI.prototype.answer, but here we enforce the same "none/minimal".
@@ -7585,10 +7591,15 @@ ${(() => {
               secondaryLabel = String(end.playAgain || "").trim();
             }
           } else if (isBonus) {
-            // CTA override: low accuracy + small deck → primary = go to RUN
+            // CTA override: low accuracy + small pool → primary = go to RUN
             const lowSmallOverride = String(bonusW?.ctaLowSmallOverride || "").trim();
             const lowSmallAction = String(cfg?.secretBonus?.ctaLowSmallAction || "").trim();
-            const isLowSmall = (bonusLevel === "low" && bonusDeckTier === "small" && lowSmallOverride && lowSmallAction);
+            const isLowSmall = (
+              bonusLevel === "low" &&
+              bonusDeckTier === "small" &&
+              lowSmallOverride &&
+              lowSmallAction
+            );
 
             if (isLowSmall) {
               primaryAction = lowSmallAction;
@@ -7877,13 +7888,6 @@ ${(() => {
 	            <span>${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}</span>${mistakeDeltaHtml}<span style="margin-left:4px">${mistakesVisual}</span>
 	          </div>
 	        ` : ``}
-
-	        ${(modeNow === "BONUS" && bonusBadge) ? `
-	          <div class="wt-pill" aria-label="${escapeHtml(bonusBadge)}">
-	            ${hudLogoUrl ? `<img src="${escapeHtml(hudLogoUrl)}" alt="" class="wt-pill__logo" />` : ``}
-	            <span>${escapeHtml(bonusBadge)}</span>
-	          </div>
-	        ` : ``}
 	      </div>
 
 	       ${(modeNow !== "PRACTICE") ? `
@@ -7940,7 +7944,16 @@ ${(() => {
 
     if (modeNow === "BONUS") {
       brandingHtml = `
-        ${renderBrandingRow(cfg, true, false)}
+        <div class="wt-bonus-branding">
+          <div class="wt-bonus-branding__top">
+            ${renderBrandingRow(cfg, true, false)}
+            ${bonusBadge ? `
+              <span class="wt-tag wt-bonus-badge" aria-label="${escapeHtml(bonusBadge)}">
+                ${escapeHtml(bonusBadge)}
+              </span>
+            ` : ``}
+          </div>
+        </div>
               ${bonusSubtitle ? `
           <p class="wt-muted wt-bonus-subtitle">
             ${escapeHtml(bonusSubtitle)}
