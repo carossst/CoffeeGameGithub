@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "2.3",
+    version: "2.4",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -527,10 +527,10 @@
       loadingTitle: "Loading Brew or False...",
       loadingHint: "Preparing your coffee quiz",
       loadingSlowHint: "Still loading... Check your connection if this takes too long.",
-      updateAvailable: "Update available.",
+      updateAvailable: "Update ready. Reload to apply it.",
       dismiss: "Dismiss",
       closeIcon: "✕",
-      updateNow: "Update",
+      updateNow: "Reload",
 
       offlinePayment: "Payment requires an internet connection.",
       copied: "Copied",
