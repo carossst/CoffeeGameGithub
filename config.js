@@ -882,7 +882,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes Mode helps you clean up your mistakes.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
+      startRunChancesOverlayPractice: "Mistakes Mode helps you lock in what you missed.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -1049,7 +1049,7 @@
       houseAdSummaryLabel: "Keep going with another game",
       playAgain: "Play again",
 
-      practiceCta: "Fix your mistakes",
+      practiceCta: "Fix what you missed",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
 
       // RUN routing: when score reaches the "strong" tier, END can promote BONUS as primary CTA.
@@ -1057,7 +1057,7 @@
 
       // Post-completion routing (pool exhausted + mistakes)
       // Vars: {backlog}
-      practiceCtaCountPremium: "Fix your {backlog} remaining mistakes",
+      practiceCtaCountPremium: "Fix what you missed",
       shareTitle: "Challenge a friend"
     },
 

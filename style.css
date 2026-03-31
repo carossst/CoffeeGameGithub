@@ -2925,6 +2925,10 @@ arcade" feel; deviation from --fs-* scale is expected. */
   font-variant-numeric: tabular-nums;
 }
 
+.wt-end-lens {
+  margin-top: 4px;
+}
+
 @media (min-width: 481px) {
   .wt-end-table {
     margin-top: var(--space-14);
@@ -2933,6 +2937,51 @@ arcade" feel; deviation from --fs-* scale is expected. */
 
   .wt-end-table__row+.wt-end-table__row {
     padding-top: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .wt-end-lens {
+    margin-top: 2px;
+  }
+
+  .wt-end-score {
+    margin-top: var(--space-6);
+  }
+
+  .wt-end-score__label {
+    margin-top: 2px;
+  }
+
+  .wt-end-table {
+    margin-top: var(--space-8);
+    row-gap: 0;
+  }
+
+  .wt-end-table__row+.wt-end-table__row {
+    padding-top: var(--space-1);
+  }
+
+  .wt-actions--stack {
+    gap: var(--gap-1);
+    margin-top: var(--gap-2);
+  }
+
+  .wt-accordion {
+    margin-top: var(--space-8);
+  }
+
+  .wt-accordion-toggle {
+    padding: var(--space-8) var(--gap-2);
+  }
+
+  .wt-accordion-content {
+    margin-top: var(--space-8);
+    padding: var(--gap-1) var(--gap-2);
+  }
+
+  .wt-divider {
+    margin: var(--space-12) 0;
   }
 }
 

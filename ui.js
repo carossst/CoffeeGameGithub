@@ -7586,8 +7586,8 @@ ${(() => {
             : ``;
 
         const runLensHtml =
-          (isRun && runLensTpl)
-            ? `<p class="wt-muted">${escapeHtml(fillTemplate(runLensTpl, vars))}</p>`
+          (isRun && runLensTpl && !poolCompleteCelebration && clampInt(seen, 0, poolSize) < poolSize)
+            ? `<p class="wt-muted wt-end-lens">${escapeHtml(fillTemplate(runLensTpl, vars))}</p>`
             : ``;
 
         return `
