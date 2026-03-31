@@ -1013,16 +1013,16 @@
       falseFriendsIdentifiedLine: "",
 
       endTagHighlights: {
-        "Myths and misconceptions": "Coffee myths were the trickiest part of this game.",
-        "Beverages and drink families": "Coffee drinks caused the most hesitation this time.",
-        "Coffee at home": "Home coffee habits were the weakest area in this game.",
-        "Grains, roast and coffee basics": "Coffee basics felt less certain in this game.",
-        "Troubleshooting and maintenance": "Troubleshooting gave you the most trouble this game.",
-        "Coffee market and origins": "Coffee market and origin questions were the toughest part this time.",
-        "Buying coffee": "Buying coffee felt less certain in this game.",
-        "Culture and history of coffee": "Coffee history was the toughest area in this game.",
-        "Coffee shop": "Coffee shop questions were the toughest part this time.",
-        "Figures and personalities": "Coffee people and names were the trickiest part of this game."
+        "Myths and misconceptions": "The coffee myths category was the trickiest this game.",
+        "Beverages and drink families": "The coffee drinks category caused the most hesitation this game.",
+        "Coffee at home": "The home coffee category felt the least certain this game.",
+        "Grains, roast and coffee basics": "The coffee basics category felt the least certain this game.",
+        "Troubleshooting and maintenance": "The coffee troubleshooting category caused the most trouble this game.",
+        "Coffee market and origins": "The coffee origins category was the toughest this game.",
+        "Buying coffee": "The coffee buying category felt the least certain this game.",
+        "Culture and history of coffee": "The coffee history category was the toughest this game.",
+        "Coffee shop": "The coffee shop category was the toughest this game.",
+        "Figures and personalities": "The coffee people and names category was the trickiest this game."
       },
 
 
