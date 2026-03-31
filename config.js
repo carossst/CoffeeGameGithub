@@ -781,26 +781,26 @@
       // END BONUS — personalized recommendation (accuracy × deck size)
       // Keys: "{accuracyTier}_{deckTier}" — must cover all combinations
       endRecoByTier: {
-        perfect_small: "Play main-game runs to grow your Rapid Fire deck.",
+        perfect_small: "Play main-game games to grow your Rapid Fire pool.",
         perfect_medium: "Replay to keep that edge.",
-        perfect_large: "Your Rapid Fire deck is deep: push further.",
+        perfect_large: "Your Rapid Fire pool is deep: keep going.",
 
-        high_small: "A few more main-game runs will expand your deck.",
+        high_small: "A few more main-game games will expand your pool.",
         high_medium: "Try again to lock in the ones you missed.",
         high_large: "Stay in Rapid Fire: you're close to flawless.",
 
-        medium_small: "Build your deck first: play main-game runs to strengthen your base.",
-        medium_medium: "Try another Rapid Fire game to sharpen your reflexes.",
+        medium_small: "Build your pool first: play more main-game games to strengthen your base.",
+        medium_medium: "Try another Rapid Fire game to get faster under pressure.",
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
-        low_small: "Main-game runs will help build the muscle memory you need here.",
-        low_medium: "Take a main-game run to rebuild confidence before coming back.",
+        low_small: "More main-game games will help build the memory you need here.",
+        low_medium: "Take a main-game game to rebuild confidence before coming back.",
         low_large: "Try again: speed comes with practice."
       },
 
       // BONUS END — emotionally congruent CTA label by accuracy tier
       ctaByTier: {
-        perfect: "Push your focus further",
+        perfect: "Keep proving it",
         high: "Stay in Rapid Fire",
         medium: "Try Rapid Fire again",
         low: "Try Rapid Fire again"
@@ -812,7 +812,7 @@
       // Start overlay (same component as FREE runs)
       startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",
       startOverlayLine2: "Only questions you've already seen in the main game.",
-      startOverlayLine3: "Play more main-game runs to grow your Rapid Fire deck.",
+      startOverlayLine3: "Play more main-game games to grow your Rapid Fire pool.",
 
       // Teaser premium (filled by ui.js): {remaining}, {limit}
       startOverlayFreeRunsLimitLine: "",
@@ -830,7 +830,7 @@
       questionPrompt: "True or false?",
       dangerLineLabel: "TIMEOUT LINE",
       dangerLineAria: "Timeout line. If the card reaches this line, the item is lost.",
-      seenOnlyLine: "{count} questions in your Rapid Fire deck. Only questions you've already seen in the main game.",
+      seenOnlyLine: "{count} questions in your Rapid Fire pool. Only questions you've already seen in the main game.",
 
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
@@ -1144,9 +1144,9 @@
 
       modesTitle: "Game modes",
       modesBullets: [
-        "Main Game: a full game across the question pool. Build your best score.",
+        "Main Game: discover the full set and build your best score.",
         "Rapid Fire Mode: faster and more demanding. Uses only questions you've already seen.",
-        "Mistakes Mode: replay your mistakes (up to 10 questions)."
+        "Mistakes Mode: replay what you missed (up to 10 questions)."
       ],
 
       ruleTitle: "Rule",
