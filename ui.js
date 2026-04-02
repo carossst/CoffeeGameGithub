@@ -4660,6 +4660,7 @@ void function () {
     if (String(lastRun.mode || "RUN").trim() !== "RUN") return "";
 
     const scoreFP = clampInt(lastRun.scoreFP, 0, 99999);
+    const bestScoreFP = clampInt(lastRun.bestScoreFP, 0, 99999);
 
     // Curiosity-gap share: "Can you guess?" framing (nudge psychology).
     // Priority: pick a surprising question for maximum curiosity.
@@ -4729,6 +4730,7 @@ void function () {
       .replaceAll("{poolSize}", String(poolSize))
       .replaceAll("{maxChances}", String(maxChances))
       .replaceAll("{score}", String(scoreFP))
+      .replaceAll("{bestScore}", String(bestScoreFP))
       .replaceAll("{funFact}", funFact);
 
     this._runtime = this._runtime || {};
@@ -7410,6 +7412,18 @@ ${(() => {
       })()}
     ` : ``;
 
+    const shouldPromoteShare =
+      isRun && (
+        newBest ||
+        !!pbLine ||
+        runVerdictKey === "elite" ||
+        runVerdictKey === "legendary" ||
+        poolCompleteCelebration
+      );
+
+    const shareBeforeRecapHtml = shouldPromoteShare ? shareHtml : "";
+    const shareAfterRecapHtml = shouldPromoteShare ? "" : shareHtml;
+
     return `
 <div class="wt-card">
   ${endHeaderRowHtml}
@@ -7651,9 +7665,11 @@ ${(() => {
 
   ${paywallBridgeHtml}
 
+  ${shareBeforeRecapHtml}
+
   ${mistakesRecapHtml}
 
-  ${shareHtml}
+  ${shareAfterRecapHtml}
 
   ${moreAccordionHtml}
 </div>

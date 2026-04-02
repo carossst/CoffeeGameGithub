@@ -368,8 +368,8 @@
       // Evaluated top-down: first match wins. Key must match WT_WORDING keys.
       endTiers: [
         { key: "perfect", minAccuracy: 1.0 },
-        { key: "high", minAccuracy: 0.75 },
-        { key: "medium", minAccuracy: 0.40 },
+        { key: "high", minAccuracy: 0.85 },
+        { key: "medium", minAccuracy: 0.55 },
         { key: "low", minAccuracy: 0 }
       ],
 
@@ -794,7 +794,7 @@
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
         low_small: "More main-game games will help build the memory you need here.",
-        low_medium: "Play the main game to rebuild confidence.",
+        low_medium: "Try another Rapid Fire game to rebuild confidence.",
         low_large: "Try again: speed comes with practice."
       },
 
@@ -1242,9 +1242,11 @@ Thanks!`
       previewLabel: "Preview message",
       toastCopied: "Copied.",
       template: `Hey!
-I just played a cool coffee game!
+I've been playing this coffee game.
+This made me think of you.
+Best score yet: {bestScore}
 {funFact}
-Find out 😄
+Think you'd get it right?
 {url}`,
 
       teaserTrap: "Looks obvious... until it isn't.",
