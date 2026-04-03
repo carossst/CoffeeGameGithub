@@ -141,9 +141,9 @@
     {
       "id": 13,
       "termFr": "",
-      "termEn": "A cappuccino and a latte are the same drink with a different name.",
-      "correctAnswer": false,
-      "explanationShort": "A cappuccino is equal parts espresso, milk, and foam.\nA latte, by contrast, is mostly steamed milk with very little foam on top.\nCappuccino is frothier, latte is creamier.",
+      "termEn": "A cappuccino usually contains less milk than a latte.",
+      "correctAnswer": true,
+      "explanationShort": "A cappuccino uses less milk and more foam than a latte.\nA latte is built with much more steamed milk, which makes it larger and softer in taste.\nLess milk in the cappuccino, more in the latte.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -262,9 +262,9 @@
     {
       "id": 24,
       "termFr": "",
-      "termEn": "Hard water can cause limescale buildup inside a coffee machine.",
+      "termEn": "Using filtered water in a coffee machine can help reduce limescale buildup.",
       "correctAnswer": true,
-      "explanationShort": "Every time hard water heats up, it leaves behind mineral deposits inside the machine.\nOver time, those deposits clog pipes and reduce heating efficiency.\nWhat ruins a kettle ruins a coffee machine.",
+      "explanationShort": "Filtered water usually contains fewer of the minerals that form limescale when heated.\nThat can slow buildup inside the machine and reduce maintenance problems over time.\nLess mineral load, less scale.",
       "tags": [
         "Coffee at home",
         "Easy"
@@ -449,9 +449,9 @@
     {
       "id": 41,
       "termFr": "",
-      "termEn": "Descaling and cleaning a coffee machine are the same thing.",
-      "correctAnswer": false,
-      "explanationShort": "Coffee oils and mineral scale are two different problems inside a machine.\nCleaning removes the oils that affect taste, while descaling removes scale that harms the machine.\nOne cleans flavor, the other protects the machine.",
+      "termEn": "A coffee machine can taste cleaner after washing even if it still needs descaling.",
+      "correctAnswer": true,
+      "explanationShort": "Washing removes coffee oils and residue that affect taste, but it does not remove mineral scale inside the machine.\nThat is why a machine can taste cleaner and still suffer from limescale problems.\nClean taste does not mean scale is gone.",
       "tags": [
         "Troubleshooting and maintenance",
         "Easy"
@@ -691,9 +691,9 @@
     {
       "id": 63,
       "termFr": "",
-      "termEn": "A French press and a pour-over produce the same mouthfeel.",
+      "termEn": "A French press and pour-over coffee produce the same mouthfeel.",
       "correctAnswer": false,
-      "explanationShort": "A French press lets oils and fine particles pass freely into the cup, creating a heavier texture.\nA paper filter traps those same elements, producing a cleaner and lighter result.\nSame beans, different mouthfeel entirely.",
+      "explanationShort": "A French press lets oils and fine particles pass freely into the cup, creating a heavier texture.\nPour-over coffee usually uses a paper filter, which produces a cleaner and lighter result.\nSame beans, different mouthfeel entirely.",
       "tags": [
         "Coffee at home",
         "Medium"

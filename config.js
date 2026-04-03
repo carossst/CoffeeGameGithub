@@ -182,7 +182,7 @@
       showAfterEnd: true,
 
       // Unlock threshold (unique seen items)
-      minUniqueSeenToShow: 100,
+      minUniqueSeenToShow: 75,
 
       // "Remind later" hide window (mechanics). Storage reads houseAd.hideMs.
       hideMs: 24 * 60 * 60 * 1000, // 24h
@@ -744,7 +744,7 @@
     secretBonus: {
       chestAria: "Rapid Fire Mode",
       chestHint: "",
-      noSeenWordsToast: "Rapid Fire is empty for now. Play the main game to discover more questions first.",
+      noSeenWordsToast: "Rapid Fire is empty for now. Play more games to discover more questions first.",
       badge: "RAPID FIRE",
 
       // END screen (BONUS)
@@ -781,19 +781,19 @@
       // END BONUS — personalized recommendation (accuracy × deck size)
       // Keys: "{accuracyTier}_{deckTier}" — must cover all combinations
       endRecoByTier: {
-        perfect_small: "Play main-game games to grow your Rapid Fire pool.",
+        perfect_small: "Play more games to grow your Rapid Fire pool.",
         perfect_medium: "Replay to keep that edge.",
         perfect_large: "Your Rapid Fire pool is deep: keep going.",
 
-        high_small: "A few more main-game games will expand your pool.",
+        high_small: "A few more games will expand your pool.",
         high_medium: "Try again to lock in the ones you missed.",
         high_large: "Stay in Rapid Fire: that was a strong game.",
 
-        medium_small: "Build your pool first: play more main-game games to strengthen your base.",
+        medium_small: "Build your pool first: play more games to strengthen your base.",
         medium_medium: "Try another Rapid Fire game to get faster under pressure.",
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
-        low_small: "More main-game games will help build the memory you need here.",
+        low_small: "More games will help build the memory you need here.",
         low_medium: "Try another Rapid Fire game to rebuild confidence.",
         low_large: "Try again: speed comes with practice."
       },
@@ -807,12 +807,12 @@
       },
 
       // CTA override: when accuracy is low AND deck is small, primary = go to RUN
-      ctaLowSmallOverride: "Back to the main game",
+      ctaLowSmallOverride: "Back to the game",
 
       // Start overlay (same component as FREE runs)
       startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",
-      startOverlayLine2: "Only questions you've already seen in the main game.",
-      startOverlayLine3: "Play more main-game games to grow your Rapid Fire pool.",
+      startOverlayLine2: "Only questions you've already seen in the game.",
+      startOverlayLine3: "Play more games to grow your Rapid Fire pool.",
 
       // Teaser premium (filled by ui.js): {remaining}, {limit}
       startOverlayFreeRunsLimitLine: "",
@@ -830,12 +830,12 @@
       questionPrompt: "True or false?",
       dangerLineLabel: "TIMEOUT LINE",
       dangerLineAria: "Timeout line. If the card reaches this line, the item is lost.",
-      seenOnlyLine: "{count} questions in your Rapid Fire pool. Only questions you've already seen in the main game.",
+      seenOnlyLine: "{count} questions in your Rapid Fire pool. Only questions you've already seen in the game.",
 
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
       modalTitle: "Rapid Fire Mode",
-      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the main game. Test your coffee knowledge under pressure.",
+      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the game. Test your coffee knowledge under pressure.",
       modalCta: "Play Rapid Fire Mode"
     },
 
@@ -959,7 +959,7 @@
       poolCompleteCtaPractice: "Fix your mistakes",
 
       freeLimitReachedTitle: "Nice run.",
-      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks all 200 questions, unlimited main-game play, Mistakes Mode, and Rapid Fire Mode.",
+      freeLimitReachedBody: "You've used your {limit} free games.\n\nFull access unlocks all 200 questions, unlimited play, Mistakes Mode, and Rapid Fire Mode.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
@@ -1144,7 +1144,7 @@
 
       modesTitle: "Game modes",
       modesBullets: [
-        "Main Game: discover the full set and build your best score.",
+        "The game: discover the full set and build your best score.",
         "Rapid Fire Mode: faster and more demanding. Uses only questions you've already seen.",
         "Mistakes Mode: replay what you missed (up to 10 questions)."
       ],
