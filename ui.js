@@ -7963,11 +7963,6 @@ ${(() => {
         <div class="wt-bonus-branding">
           <div class="wt-bonus-branding__top">
             ${renderBrandingRow(cfg, true, false)}
-            ${bonusBadge ? `
-              <span class="wt-tag wt-bonus-badge" aria-label="${escapeHtml(bonusBadge)}">
-                ${escapeHtml(bonusBadge)}
-              </span>
-            ` : ``}
           </div>
         </div>
               ${bonusSubtitle ? `

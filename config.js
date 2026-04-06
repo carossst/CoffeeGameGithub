@@ -826,7 +826,7 @@
 
       // Minimal entry (autoporteur)
       title: "Brew or False",
-      subtitle: "Rapid Fire Mode",
+      subtitle: "Rapid Fire",
       questionPrompt: "True or false?",
       dangerLineLabel: "TIMEOUT LINE",
       dangerLineAria: "Timeout line. If the card reaches this line, the item is lost.",

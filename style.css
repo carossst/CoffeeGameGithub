@@ -2502,7 +2502,8 @@ body.wt-state--playing .wt-footer {
 }
 
 .wt-container[data-wt-bonus="fall"] .wt-branding-name {
-  display: none;
+  display: inline;
+  font-size: clamp(18px, 4vw, 22px);
 }
 
 .wt-container[data-wt-bonus="fall"] .wt-branding-logo {
