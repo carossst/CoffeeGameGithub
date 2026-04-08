@@ -73,6 +73,7 @@
 
     this.initialized = false;
     this.data = null;
+    this._lastSavedData = null;
 
     // One-shot per session: persistence failure signal to UI
     this._saveFailedOnce = false;
@@ -310,6 +311,7 @@
 
 
     this.data = loaded;
+    this._lastSavedData = deepCopy(this.data);
 
     // Harden required blocks (V2 shapes)
     if (!this.data.runs) this.data.runs = deepCopy(this.defaultData.runs);
@@ -526,6 +528,11 @@
         // One-shot UI signal: persistence is currently broken (quota/private mode/etc).
         try { console.warn("[WT Storage] Save failed (quota?):", err?.name || err); } catch (_) { }
 
+        // Keep runtime state aligned with the last known persisted snapshot.
+        if (this._lastSavedData && typeof this._lastSavedData === "object") {
+          try { this.data = deepCopy(this._lastSavedData); } catch (_) { /* silent */ }
+        }
+
         if (this._saveFailedOnce !== true) {
           this._saveFailedOnce = true;
           try { window.dispatchEvent(new CustomEvent(EVT_SAVE_FAILED)); } catch (_) { /* silent */ }
@@ -534,6 +541,8 @@
         return;
       }
 
+      this._lastSavedData = deepCopy(this.data);
+      this._saveFailedOnce = false;
 
       this._emit();
     } catch (_) {
@@ -557,6 +566,7 @@
         this.data.updatedAt = now();
         this.data.analytics.firstSeenAt = now();
         this.data.analytics.lastSeenAt = now();
+        this._lastSavedData = deepCopy(this.data);
         this._emit();
         return;
       }
@@ -567,6 +577,7 @@
 
       // Mise à jour locale uniquement (ne jamais _save() ici)
       this.data = updatedData;
+      this._lastSavedData = deepCopy(updatedData);
 
       // Notifie l'UI de CET onglet
       this._emit();

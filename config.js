@@ -110,7 +110,7 @@
     routing: {
       // If backlog >= this threshold, END (after RUN) promotes PRACTICE as primary CTA.
       // Backlog model: number of items with wrongCount > 0.
-      practicePrimaryMinWrong: 9,
+      practicePrimaryMinWrong: 7,
 
       // PRACTICE repeat guidance tiers (based on remaining backlog after PRACTICE).
       // UI picks the FIRST matching tier in the array (top-down).
@@ -182,7 +182,7 @@
       showAfterEnd: true,
 
       // Unlock threshold (unique seen items)
-      minUniqueSeenToShow: 75,
+      minUniqueSeenToShow: 100,
 
       // "Remind later" hide window (mechanics). Storage reads houseAd.hideMs.
       hideMs: 24 * 60 * 60 * 1000, // 24h
@@ -379,13 +379,6 @@
         { key: "medium", minSeen: 16 },
         { key: "small", minSeen: 0 }
       ],
-
-      // CTA override action when accuracy=low + deck=small (technical routing)
-      ctaLowSmallAction: "start-run"
-
-
-
-
 
     },
 
@@ -781,19 +774,19 @@
       // END BONUS — personalized recommendation (accuracy × deck size)
       // Keys: "{accuracyTier}_{deckTier}" — must cover all combinations
       endRecoByTier: {
-        perfect_small: "Play more games to grow your Rapid Fire pool.",
+        perfect_small: "Expand your deck to unlock more Rapid Fire questions.",
         perfect_medium: "Replay to keep that edge.",
         perfect_large: "Your Rapid Fire pool is deep: keep going.",
 
-        high_small: "A few more games will expand your pool.",
+        high_small: "Expand your deck to unlock more Rapid Fire questions.",
         high_medium: "Try again to lock in the ones you missed.",
         high_large: "Stay in Rapid Fire: that was a strong game.",
 
-        medium_small: "Build your pool first: play more games to strengthen your base.",
+        medium_small: "Expand your deck first. More seen questions will make Rapid Fire stronger.",
         medium_medium: "Try another Rapid Fire game to get faster under pressure.",
         medium_large: "Keep going. Speed and accuracy will come with repetition.",
 
-        low_small: "More games will help build the memory you need here.",
+        low_small: "Expand your deck first. More seen questions will make Rapid Fire stronger.",
         low_medium: "Try another Rapid Fire game to rebuild confidence.",
         low_large: "Try again: speed comes with practice."
       },
@@ -806,8 +799,7 @@
         low: "Try Rapid Fire again"
       },
 
-      // CTA override: when accuracy is low AND deck is small, primary = go to RUN
-      ctaLowSmallOverride: "Back to the game",
+      ctaExpandDeck: "Expand your deck",
 
       // Start overlay (same component as FREE runs)
       startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",
@@ -988,6 +980,8 @@
         elite: "{seen}/{poolSize} questions seen. You're close to real mastery now.",
         legendary: "{seen}/{poolSize} questions seen. Keep replaying and lock it in.",
       },
+
+      lensBonusPrimary: "You're ready for Rapid Fire Mode.",
 
 
       ctaByVerdict: {

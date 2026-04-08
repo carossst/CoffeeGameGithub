@@ -26,6 +26,11 @@ const CACHE_NAME = SW_VERSION ? `${CACHE_PREFIX}-cache-${SW_VERSION}` : "";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
+  "./404.html",
+  "./success.html",
+  "./privacy.html",
+  "./terms.html",
+  "./press.html",
   "./style.css",
   "./config.js",
   "./storage.js",
@@ -115,6 +120,27 @@ function isContentJson(pathname) {
   return pathname.endsWith("/content.json") || pathname.endsWith("content.json");
 }
 
+function getOfflineDocumentFallback(pathname) {
+  const p = String(pathname || "").trim();
+  switch (p) {
+    case "/":
+    case "/index.html":
+      return "./index.html";
+    case "/success.html":
+      return "./success.html";
+    case "/privacy.html":
+      return "./privacy.html";
+    case "/terms.html":
+      return "./terms.html";
+    case "/press.html":
+      return "./press.html";
+    case "/404.html":
+      return "./404.html";
+    default:
+      return "";
+  }
+}
+
 self.addEventListener("fetch", (event) => {
   if (!CACHE_NAME) return;
 
@@ -182,8 +208,14 @@ self.addEventListener("fetch", (event) => {
         return res;
       } catch (_) {
         if (req.mode === "navigate") {
+          const fallbackUrl = getOfflineDocumentFallback(url.pathname);
+          if (fallbackUrl) {
+            const doc = await caches.match(fallbackUrl);
+            if (doc) return doc;
+          }
+
           const shell = await caches.match("./index.html");
-          if (shell) return shell;
+          if (shell && (url.pathname === "/" || url.pathname === "/index.html")) return shell;
 
           return new Response("Offline", { status: 503 });
         }
@@ -199,4 +231,3 @@ self.addEventListener("message", (event) => {
 
   self.skipWaiting();
 });
-
