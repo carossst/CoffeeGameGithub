@@ -6,7 +6,7 @@ Static coffee quiz game and installable PWA.
 
 ## Product Summary
 
-- `200` coffee questions from [content.json](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/content.json)
+- `200` coffee questions from [content.json](./content.json)
 - Main game with `3` mistakes allowed
 - `2` free games, then premium upsell
 - `Mistakes Mode` to replay active mistakes
@@ -16,17 +16,17 @@ Static coffee quiz game and installable PWA.
 
 ## Main Files
 
-- [index.html](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/index.html): main app shell
-- [config.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/config.js): single source of truth for product config, wording, routing, limits, and identity
-- [content.json](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/content.json): question bank
-- [ui.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/ui.js): rendering, screen routing, CTA logic, modals
-- [game.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/game.js): game mechanics
-- [storage.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/storage.js): local storage, counters, progression, analytics payload
-- [main.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/main.js): bootstrap, content loading, service worker registration
-- [style.css](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/style.css): full UI styling
-- [sw.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/sw.js): service worker
-- [manifest.json](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/manifest.json): PWA manifest
-- [success.html](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/success.html): post-checkout success / unlock page
+- [index.html](./index.html): main app shell
+- [config.js](./config.js): single source of truth for product config, wording, routing, limits, and identity
+- [content.json](./content.json): question bank
+- [ui.js](./ui.js): rendering, screen routing, CTA logic, modals
+- [game.js](./game.js): game mechanics
+- [storage.js](./storage.js): local storage, counters, progression, analytics payload
+- [main.js](./main.js): bootstrap, content loading, service worker registration
+- [style.css](./style.css): full UI styling
+- [sw.js](./sw.js): service worker
+- [manifest.json](./manifest.json): PWA manifest
+- [success.html](./success.html): post-checkout success / unlock page
 
 ## Run Locally
 
@@ -35,7 +35,7 @@ This project is static. No bundler or dependency install is required.
 Serve the folder with any local HTTP server, for example:
 
 ```bash
-cd "/Users/carole/Documents/ApplicationsHTML/Coffee game/CoffeeGameGithub"
+cd .
 python3 -m http.server 8080
 ```
 
@@ -49,7 +49,7 @@ Avoid opening `index.html` directly with `file://` if you want fetch, service wo
 
 ## Content Editing
 
-Questions live in [content.json](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/content.json).
+Questions live in [content.json](./content.json).
 
 Each item uses this shape:
 
@@ -73,7 +73,7 @@ Guidelines:
 
 ## Product Configuration
 
-Most product behavior lives in [config.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/config.js):
+Most product behavior lives in [config.js](./config.js):
 
 - app identity and URLs
 - limits and monetization
@@ -99,14 +99,14 @@ Important values:
 
 ## PWA Notes
 
-- the app registers a service worker from [main.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/main.js)
+- the app registers a service worker from [main.js](./main.js)
 - static assets are versioned through `WT_CONFIG.version`
 - if you want users to receive fresh cached assets, bump `WT_CONFIG.version`
 - offline support is strongest for the main app shell after first load
 
 ## Storage And Analytics
 
-All user progress is stored locally in the browser by [storage.js](/Users/carole/Documents/ApplicationsHTML/Coffee%20game/CoffeeGameGithub/storage.js).
+All user progress is stored locally in the browser by [storage.js](./storage.js).
 
 This includes:
 

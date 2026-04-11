@@ -50,6 +50,8 @@ const ASSETS_TO_CACHE = [
 ];
 
 // Critical assets: if any of these fail to pre-cache, do NOT force-activate immediately.
+// Intentionally excludes non-blocking helpers such as pwa.js and email.js:
+// the core game must still boot even if install or mail flows are unavailable on first load.
 const CRITICAL_ASSETS = [
   "./",
   "./index.html",

@@ -518,6 +518,7 @@
       versionPrefix: "",
 
       loadingTitle: "Loading Brew or False...",
+      loadingIcon: "☕",
       loadingHint: "Preparing your coffee quiz",
       loadingSlowHint: "Still loading... Check your connection if this takes too long.",
       updateAvailable: "Update ready. Reload to apply it.",
@@ -566,7 +567,7 @@
       howToActivateStep1: "Return to the game.",
       howToActivateStep2Prefix: "Tap",
       howToPlayLabel: "How to play",
-      activateWithCodeLabel: "Activate with a code",
+      activateWithCodeLabel: "Use a device unlock code",
       howToActivateStep3Prefix: "Paste your code and tap",
       activateLabel: "Activate",
 
@@ -578,7 +579,7 @@
 
       ctaBackToGame: "Open the game",
       ctaDownload: "Download code (.txt)",
-      shortcutHint: "In the game: How to play -> Activate with a code.",
+      shortcutHint: "In the game: How to play -> Use a device unlock code.",
 
       thankYouLine: "Thank you for supporting an independent game 🇫🇷",
       supportLabel: "Need help?",
@@ -1147,8 +1148,8 @@
       ruleSentence: "Each correct answer adds +1 point. A wrong answer adds one mistake.",
       premiumTitle: "Full access",
       alreadyPremium: "Full access is already enabled on this device.",
-      activateTitle: "Activate with a code",
-      activateLine1: "Already have a device unlock code? Activate it here.",
+      activateTitle: "Use a device unlock code",
+      activateLine1: "Already have a device unlock code? Use it here.",
       activateLine2: "No account needed. This unlock stays on this device.",
       activationCodeLabel: "Device unlock code",
       activationCodePlaceholder: "BF-0000-0000",
