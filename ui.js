@@ -6976,6 +6976,23 @@ ${(() => {
 
     vars.backlog = clampInt(backlog, 0, 99999);
 
+    let canPractice = isRun && !!(cfg.mistakesOnly && cfg.mistakesOnly.enabled);
+    if (canPractice) {
+      const minWrong = clampInt(Number(cfg?.mistakesOnly?.minWrongItemsToShowToggle), 1, 9999);
+      const hasEnoughMistakes = clampInt(vars.backlog, 0, 99999) >= minWrong;
+
+      let practiceRunsAvailable = true;
+      if (!premium && this.storage && typeof this.storage.getPracticeRunsRemaining === "function") {
+        try {
+          practiceRunsAvailable = Number(this.storage.getPracticeRunsRemaining()) > 0;
+        } catch (_) {
+          practiceRunsAvailable = false;
+        }
+      }
+
+      canPractice = hasEnoughMistakes && practiceRunsAvailable;
+    }
+
     const runPracticePrimaryMinRaw = Number(cfg?.routing?.practicePrimaryMinWrong);
     const runPracticePrimaryMin =
       (Number.isFinite(runPracticePrimaryMinRaw) && runPracticePrimaryMinRaw >= 1)
@@ -7137,23 +7154,6 @@ ${(() => {
     }
 
     const shareEnabled = isRun && !!(cfg.share && cfg.share.enabled);
-
-    let canPractice = isRun && !!(cfg.mistakesOnly && cfg.mistakesOnly.enabled);
-    if (canPractice) {
-      const minWrong = clampInt(Number(cfg?.mistakesOnly?.minWrongItemsToShowToggle), 1, 9999);
-      const hasEnoughMistakes = clampInt(vars.backlog, 0, 99999) >= minWrong;
-
-      let practiceRunsAvailable = true;
-      if (!premium && this.storage && typeof this.storage.getPracticeRunsRemaining === "function") {
-        try {
-          practiceRunsAvailable = Number(this.storage.getPracticeRunsRemaining()) > 0;
-        } catch (_) {
-          practiceRunsAvailable = false;
-        }
-      }
-
-      canPractice = hasEnoughMistakes && practiceRunsAvailable;
-    }
 
     const runsExhausted = (isRun && !premium && Number.isFinite(remaining) && remaining <= 0);
 
