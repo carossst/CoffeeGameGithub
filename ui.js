@@ -1257,7 +1257,7 @@ void function () {
       // Pool reshuffle toast guard (UI-only, once per RUN)
       poolReshuffleToastShown: false,
 
-      // Secret chest (END screen): tap x3 window + one-shot poetic hint
+      // Secret chest (END/LANDING): tap window + one-shot hint
       secretChest: {
         tapCount: 0,
         lastTapAt: 0
@@ -3185,6 +3185,7 @@ void function () {
 
   UI.prototype.startRun = function (mistakesOnly) {
     const cfg = this.config || {};
+    const moCfg = cfg.mistakesOnly || {};
     const premium = (this.storage && typeof this.storage.isPremium === "function") ? this.storage.isPremium() : false;
 
     // Hook for live stats refresh during run (deck rebuild)
@@ -3207,6 +3208,12 @@ void function () {
     } catch (_) { practiceBacklogAtStart = null; }
 
     if (mistakesOnly === true && practiceBacklogAtStart === 0) {
+      return;
+    }
+
+    if (mistakesOnly === true && moCfg.premiumOnly === true && !premium) {
+      if (this._nav) this._nav.paywallFromState = this.state;
+      this.setState(STATES.PAYWALL);
       return;
     }
 
@@ -6721,6 +6728,450 @@ ${(() => {
   };
 
 
+  function buildEndModeCopy(ctx) {
+    const {
+      isRun, isPractice, isBonus,
+      cfg, bonusW, practiceW, end,
+      scoreFP, totalPresented, seen,
+      lastRun, vars, storage, runtime
+    } = ctx;
+
+    let endLineTpl = "";
+    let bonusLevel = "";
+    let bonusIdentityTpl = "";
+    let bonusLensTpl = "";
+    let practiceRepeatTierKey = "";
+    let practiceStatsLineTpl = "";
+    let practiceRepeatNoteTpl = "";
+    let runVerdictKey = "";
+    let runIdentityTpl = "";
+    let runLensTpl = "";
+    let runPoolCompleteLine2Tpl = "";
+    let bonusDeckTier = "";
+    let bonusRecoLine = "";
+
+    if (isBonus) {
+      const total = clampInt(totalPresented, 0, 99999);
+
+      if (total > 0) {
+        const accuracy = scoreFP / total;
+        const tiers = Array.isArray(cfg?.secretBonus?.endTiers) ? cfg.secretBonus.endTiers : [];
+        for (const t of tiers) {
+          const key = String(t?.key || "").trim();
+          const min = Number(t?.minAccuracy);
+          if (!key || !Number.isFinite(min)) continue;
+          if (accuracy >= min) {
+            bonusLevel = key;
+            break;
+          }
+        }
+      }
+
+      const deckTiers = Array.isArray(cfg?.secretBonus?.endDeckTiers) ? cfg.secretBonus.endDeckTiers : [];
+      const seenCount = (seen != null && Number.isFinite(seen)) ? seen : 0;
+      for (const dt of deckTiers) {
+        const key = String(dt?.key || "").trim();
+        const min = Number(dt?.minSeen);
+        if (!key || !Number.isFinite(min)) continue;
+        if (seenCount >= min) {
+          bonusDeckTier = key;
+          break;
+        }
+      }
+
+      const byTier = bonusW && typeof bonusW === "object" ? bonusW.endByTier : null;
+      const lines = (bonusLevel && Array.isArray(byTier?.[bonusLevel])) ? byTier[bonusLevel] : null;
+      endLineTpl =
+        (lines && lines.length === 2)
+          ? `${String(lines[0] || "").trim()} ${String(lines[1] || "").trim()}`.trim()
+          : "";
+
+      if (bonusLevel && bonusDeckTier) {
+        const recoKey = `${bonusLevel}_${bonusDeckTier}`;
+        bonusRecoLine = String(bonusW?.endRecoByTier?.[recoKey] || "").trim();
+      }
+    } else if (isPractice) {
+      let practiceEndLineTpl = String(practiceW.endLine || "").trim();
+      const practiceEndStatsTpl = String(practiceW.endStatsLine || "").trim();
+      const rawMistakeCount = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds.length : 0;
+      const total = clampInt(totalPresented, 0, 99999);
+      const mistakeCount = clampInt(rawMistakeCount, 0, total);
+
+      let remainingBacklog = null;
+      try {
+        if (storage && typeof storage.getActiveMistakesCount === "function") {
+          remainingBacklog = clampInt(storage.getActiveMistakesCount(), 0, 99999);
+        }
+      } catch (_) { remainingBacklog = null; }
+
+      let backlogAtStart = clampInt(runtime?.practiceBacklogAtStart, 0, 99999);
+      if (!backlogAtStart && remainingBacklog != null) {
+        backlogAtStart = remainingBacklog + mistakeCount;
+      }
+      const fixedCount = (remainingBacklog == null)
+        ? 0
+        : clampInt(backlogAtStart - remainingBacklog, 0, backlogAtStart);
+
+      vars.fixed = fixedCount;
+      if (remainingBacklog != null) vars.remaining = remainingBacklog;
+
+      let repeatNote = "";
+      try {
+        const tiers = Array.isArray(cfg?.routing?.practiceRepeatTiers) ? cfg.routing.practiceRepeatTiers : null;
+
+        if (tiers && remainingBacklog != null && remainingBacklog >= 1) {
+          for (const t of tiers) {
+            const key = String(t?.key || "").trim();
+            const rawMin = Number(t?.minRemaining);
+            const min = (Number.isFinite(rawMin) && rawMin >= 1) ? Math.floor(rawMin) : null;
+            if (!key || min == null) continue;
+            if (remainingBacklog < min) continue;
+            if (key === "last" && remainingBacklog !== 1) continue;
+            if (key === "light" && fixedCount < remainingBacklog) continue;
+            practiceRepeatTierKey = key;
+            break;
+          }
+        }
+
+        const tpl = practiceRepeatTierKey
+          ? String(practiceW?.endRepeatNoteByTier?.[practiceRepeatTierKey] || "").trim()
+          : "";
+        if (tpl) repeatNote = tpl;
+      } catch (_) {
+        repeatNote = "";
+        practiceRepeatTierKey = "";
+      }
+
+      if (practiceRepeatTierKey) {
+        const tierLine = String(practiceW?.endLineByTier?.[practiceRepeatTierKey] || "").trim();
+        if (tierLine) practiceEndLineTpl = tierLine;
+      }
+
+      endLineTpl = practiceEndLineTpl;
+      practiceStatsLineTpl = (practiceEndStatsTpl && remainingBacklog != null) ? practiceEndStatsTpl : "";
+      practiceRepeatNoteTpl = repeatNote;
+    } else {
+      if (isRun && !!lastRun.poolCompleteCelebration) {
+        endLineTpl = String(end.poolCompleteLine1 || "").trim();
+        runPoolCompleteLine2Tpl = String(end.poolCompleteLine2 || "").trim();
+      } else {
+        endLineTpl = String(end.endLine || "").trim();
+      }
+
+      runVerdictKey = getRunVerdictKeyFromScore(cfg, scoreFP);
+      runIdentityTpl = String(end?.identityByVerdict?.[runVerdictKey] || "").trim();
+      runLensTpl = String(end?.lensByVerdict?.[runVerdictKey] || "").trim();
+    }
+
+    return {
+      endLineTpl,
+      bonusLevel,
+      bonusIdentityTpl,
+      bonusLensTpl,
+      practiceRepeatTierKey,
+      practiceStatsLineTpl,
+      practiceRepeatNoteTpl,
+      runVerdictKey,
+      runIdentityTpl,
+      runLensTpl,
+      runPoolCompleteLine2Tpl,
+      bonusDeckTier,
+      bonusRecoLine
+    };
+  }
+
+  function buildEndMistakesRecap(ctx) {
+    const { isRun, isPractice, isBonus, lastRun, maxChances, bonusW, practiceW, end, runtime, ui, cfg } = ctx;
+    if (!isRun && !isPractice && !isBonus) return "";
+
+    const rawIds = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds : [];
+    const ids = isRun ? rawIds.slice(0, maxChances) : rawIds.slice();
+    const recapW = isBonus ? (bonusW || {}) : (isPractice ? (practiceW || {}) : (end || {}));
+
+    const noneMsg = String(recapW.mistakesNone || end.mistakesNone || "").trim();
+    const toggleTpl = String(recapW.mistakesToggle || end.mistakesToggle || "").trim();
+    const title = String(recapW.mistakesTitle || end.mistakesTitle || "").trim();
+
+    if (!ids.length) {
+      return noneMsg ? `<p class="wt-muted">${escapeHtml(noneMsg)}</p>` : "";
+    }
+
+    const labelRaw = toggleTpl ? fillTemplate(toggleTpl, { count: String(ids.length) }) : title;
+    const label = String(labelRaw || "").replace(/\(\s*\)/g, "").replace(/\s+/g, " ").trim();
+    if (!label) return "";
+
+    const byId = (runtime && runtime.contentById && typeof runtime.contentById === "object")
+      ? runtime.contentById
+      : {};
+
+    const items = [];
+    for (const rawId of ids) {
+      const id = Number(rawId);
+      if (!Number.isFinite(id)) continue;
+
+      const it = byId[String(id)] || null;
+      const t = extractTermsFromItem(it);
+      const en = String(t.termEn || "").trim();
+      if (!en) continue;
+
+      const answerLabel = (t.correctAnswer === true)
+        ? String(ui.trueLabel || "").trim()
+        : (t.correctAnswer === false)
+          ? String(ui.falseLabel || "").trim()
+          : "";
+
+      const expl = String(t.explanationShort || "").trim();
+      const pairHtml = answerLabel
+        ? `<span class="wt-mistake-pair">${escapeHtml(en)} <strong>(${escapeHtml(answerLabel)})</strong></span>`
+        : `<span class="wt-mistake-pair">${escapeHtml(en)}</span>`;
+      const explHtml = expl ? `<span class="wt-mistake-expl">${formatExplanationForDisplay(expl, cfg, en)}</span>` : "";
+      items.push(`<div class="wt-mistake-item">${pairHtml}${explHtml}</div>`);
+    }
+
+    const openAttr = (ctx.vars && Number(ctx.vars.backlog) > 0) ? " open" : "";
+    return `
+  <details class="wt-accordion"${openAttr} style="margin-top:10px">
+    <summary class="wt-accordion-toggle">${escapeHtml(label)}</summary>
+    <div class="wt-accordion-content">${items.join("")}</div>
+  </details>
+`;
+  }
+
+  function buildEndMicroLines(ctx) {
+    const {
+      isRun, premium, end, runtime, pbLine, bestStreakLine, poolCompleteCelebration,
+      runIdentityTpl, vars, pbPremiumHint, freeRunMessage
+    } = ctx;
+
+    const microLines = [];
+
+    if (isRun) {
+      const copyByTag = (end && typeof end.endTagHighlights === "object") ? end.endTagHighlights : null;
+      const runMistakeIds = Array.isArray(runtime?.runMistakeIds) ? runtime.runMistakeIds : [];
+      const byId = (runtime && runtime.contentById && typeof runtime.contentById === "object")
+        ? runtime.contentById
+        : {};
+
+      if (copyByTag && runMistakeIds.length > 0) {
+        const ignored = new Set(["Easy", "Medium", "Hard"]);
+        const counts = Object.create(null);
+
+        for (const rawId of runMistakeIds) {
+          const item = byId[String(rawId)] || byId[rawId] || null;
+          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
+          for (const tag of tags) {
+            counts[tag] = clampInt(Number(counts[tag] || 0) + 1, 0, 9999);
+          }
+        }
+
+        let bestTag = "";
+        let bestCount = 0;
+        let tie = false;
+        for (const tag in counts) {
+          const n = clampInt(Number(counts[tag] || 0), 0, 9999);
+          if (n > bestCount) {
+            bestTag = tag;
+            bestCount = n;
+            tie = false;
+          } else if (n > 0 && n === bestCount) {
+            tie = true;
+          }
+        }
+
+        if (!tie && bestCount >= 1) {
+          const line = String(copyByTag[bestTag] || "").trim();
+          if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
+        }
+      }
+    }
+
+    if (pbLine) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbLine)}</p>`);
+    if (bestStreakLine) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(bestStreakLine)}</p>`);
+    if (isRun && !poolCompleteCelebration && runIdentityTpl) {
+      microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>`);
+    }
+    if (pbPremiumHint) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbPremiumHint)}</p>`);
+    if (isRun && !premium && freeRunMessage) microLines.push(String(freeRunMessage || ""));
+
+    return microLines.length
+      ? `
+    <div class="wt-end-table">
+      ${microLines.map((line) => `<div class="wt-end-table__row">${line}</div>`).join("")}
+    </div>
+  `
+      : "";
+  }
+
+  function buildEndShareBlock(ctx) {
+    const { shareEnabled, w, shareTitle, getShareText } = ctx;
+    if (!shareEnabled) return "";
+
+    const share = w.share || {};
+    const title = String(shareTitle || "").trim();
+    const ctaLabel = String(share.ctaLabel || "").trim();
+    const emailLabel = String(share.emailLabel || "").trim();
+    const emailSubject = String(share.emailSubject || "").trim();
+    const shareAria = String(w.system?.shareAria || "").trim();
+    const text = String(getShareText ? getShareText() : "").trim();
+
+    const canCopy = !!(ctaLabel && text);
+    const canEmail = !!(emailLabel && emailSubject && text);
+
+    if (!title && !text) return "";
+    if (!canCopy && !canEmail && !text) return "";
+
+    return `
+      <details class="wt-accordion" style="margin-top:10px">
+        <summary class="wt-accordion-toggle" aria-label="${escapeHtml(shareAria)}">
+          ${escapeHtml(title)}
+        </summary>
+
+        <div class="wt-accordion-content">
+          ${text ? `<p class="wt-muted" style="white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;">${escapeHtml(text)}</p>` : ``}
+
+          ${(canCopy || canEmail) ? `
+            <div class="wt-actions">
+              ${canCopy ? `
+                <button type="button" class="wt-btn wt-btn--secondary" data-action="copy-share">
+                  ${escapeHtml(ctaLabel)}
+                </button>
+              ` : ``}
+
+              ${canEmail ? `
+                <button type="button" class="wt-btn wt-btn--secondary" data-action="send-share-email">
+                  ${escapeHtml(emailLabel)}
+                </button>
+              ` : ``}
+            </div>
+          ` : ``}
+        </div>
+      </details>
+    `;
+  }
+
+  function buildEndActionsHtml(ctx) {
+    const {
+      storage, w, vars, premium, end, postW, isRun, isPractice, isBonus,
+      runShouldPromotePractice, practiceCta, runsExhausted, upgradeCta, runPlayAgain,
+      runShouldPromoteBonus, runBonusPrimaryLabel, canPractice, practiceAgain, bonusW,
+      bonusDeckTier, bonusAgain, poolCompleteCelebration, seen, poolSize, runLensBonusPrimaryTpl,
+      runLensTpl
+    } = ctx;
+
+    const exhausted =
+      !!(storage && typeof storage.isPoolExhausted === "function" && storage.isPoolExhausted() === true);
+    const mastered =
+      !!(storage && typeof storage.isMastered === "function" && storage.isMastered() === true);
+    const hasActiveMistakes = (clampInt(vars.backlog, 0, 99999) > 0);
+
+    const masteredTitle = String(postW.masteredTitle || "").trim();
+    const masteredL1 = String(postW.masteredLine1 || "").trim();
+    const masteredL2 = String(postW.masteredLine2 || "").trim();
+    const masteredHtml =
+      (mastered && (masteredTitle || masteredL1 || masteredL2))
+        ? `
+        <div style="margin-top:6px">
+          ${masteredTitle ? `<p class="wt-meta"><strong>${escapeHtml(masteredTitle)}</strong></p>` : ``}
+          ${masteredL1 ? `<p class="wt-muted">${escapeHtml(masteredL1)}</p>` : ``}
+          ${masteredL2 ? `<p class="wt-muted">${escapeHtml(masteredL2)}</p>` : ``}
+        </div>
+      `
+        : ``;
+
+    let primaryAction = "";
+    let primaryLabel = "";
+    let secondaryAction = "";
+    let secondaryLabel = "";
+
+    if (mastered) {
+      primaryAction = "start-secret-bonus";
+      primaryLabel = String(postW.masteredCtaBonus || "").trim();
+      secondaryAction = "start-run";
+      secondaryLabel = String(postW.masteredCtaReplay || "").trim();
+    } else if (exhausted && hasActiveMistakes) {
+      primaryAction = "start-practice";
+      const tpl = premium ? String(end.practiceCtaCountPremium || "").trim() : String(end.practiceCta || "").trim();
+      primaryLabel = tpl ? fillTemplate(tpl, { backlog: String(vars.backlog) }) : "";
+      secondaryAction = "start-run";
+      secondaryLabel = String(end.playAgain || "").trim();
+    } else if (isRun) {
+      if (runShouldPromotePractice) {
+        primaryAction = "start-practice";
+        primaryLabel = String(practiceCta || "").trim();
+        secondaryAction = runsExhausted ? "open-paywall" : "start-run";
+        secondaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
+      } else if (runShouldPromoteBonus) {
+        primaryAction = "start-secret-bonus";
+        primaryLabel = runBonusPrimaryLabel;
+        secondaryAction = runsExhausted ? "open-paywall" : "start-run";
+        secondaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
+      } else {
+        primaryAction = runsExhausted ? "open-paywall" : "start-run";
+        primaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
+        if (canPractice) {
+          secondaryAction = "start-practice";
+          secondaryLabel = String(practiceCta || "").trim();
+        }
+      }
+    } else if (isPractice) {
+      const remaining = Number(vars.remaining);
+      const isZero = (Number.isFinite(remaining) && remaining <= 0);
+      if (isZero) {
+        primaryAction = "start-run";
+        primaryLabel = String(end.playAgain || "").trim();
+      } else {
+        primaryAction = "start-practice";
+        primaryLabel = String(practiceAgain || "").trim();
+        secondaryAction = "start-run";
+        secondaryLabel = String(end.playAgain || "").trim();
+      }
+    } else if (isBonus) {
+      const expandDeckLabel = String(bonusW?.ctaExpandDeck || "").trim();
+      const shouldExpandDeck = (bonusDeckTier === "small") && !!expandDeckLabel;
+      if (shouldExpandDeck) {
+        primaryAction = "start-run";
+        primaryLabel = expandDeckLabel;
+        secondaryAction = "start-secret-bonus";
+        secondaryLabel = String(bonusAgain || "").trim();
+      } else {
+        primaryAction = "start-secret-bonus";
+        primaryLabel = String(bonusAgain || "").trim();
+        secondaryAction = "start-run";
+        secondaryLabel = String(end.playAgain || "").trim();
+      }
+    }
+
+    if (!primaryLabel || !primaryAction) return masteredHtml || ``;
+
+    const secondaryBtn =
+      (secondaryLabel && secondaryAction)
+        ? `
+        <button class="wt-btn wt-btn--secondary" data-action="${escapeHtml(secondaryAction)}" style="width:100%">
+          ${escapeHtml(secondaryLabel)}
+        </button>
+      `
+        : ``;
+
+    const runLensHtml =
+      (isRun && !poolCompleteCelebration && clampInt(seen, 0, poolSize) < poolSize)
+        ? (() => {
+          const lensText = runShouldPromoteBonus && runLensBonusPrimaryTpl
+            ? runLensBonusPrimaryTpl
+            : (runLensTpl ? fillTemplate(runLensTpl, vars) : "");
+          return lensText ? `<p class="wt-muted wt-end-lens">${escapeHtml(lensText)}</p>` : ``;
+        })()
+        : ``;
+
+    return `
+  ${masteredHtml}
+  ${runLensHtml}
+  <button class="wt-btn wt-btn--primary" data-action="${escapeHtml(primaryAction)}" style="width:100%">
+    ${escapeHtml(primaryLabel)}
+  </button>
+  ${secondaryBtn}
+`;
+  }
+
 
   UI.prototype._renderEnd = function () {
     const w = this.wording || {};
@@ -6813,158 +7264,27 @@ ${(() => {
       });
     })();
 
-    let endLineTpl = "";
-
-    let bonusLevel = "";
-    let bonusIdentityTpl = "";
-    let bonusLensTpl = "";
-
-    let practiceRepeatTierKey = "";
-    let practiceStatsLineTpl = "";
-    let practiceRepeatNoteTpl = "";
-    let runVerdictKey = "";
-    let runIdentityTpl = "";
-    let runLensTpl = "";
-    let runPoolCompleteLine2Tpl = "";
-    // BONUS END — endByTier (2 sentences) + personalized reco (accuracy × deck). No hardcoded fallback.
-    let bonusDeckTier = "";
-    let bonusRecoLine = "";
-
-    if (isBonus) {
-      const total = clampInt(totalPresented, 0, 99999);
-
-      // Accuracy tier (config-driven, top-down first match)
-      if (total > 0) {
-        const accuracy = scoreFP / total;
-        const tiers = Array.isArray(cfg?.secretBonus?.endTiers) ? cfg.secretBonus.endTiers : [];
-        for (const t of tiers) {
-          const key = String(t?.key || "").trim();
-          const min = Number(t?.minAccuracy);
-          if (!key || !Number.isFinite(min)) continue;
-          if (accuracy >= min) { bonusLevel = key; break; }
-        }
-      }
-
-      // Deck-size tier (config-driven, top-down first match)
-      const deckTiers = Array.isArray(cfg?.secretBonus?.endDeckTiers) ? cfg.secretBonus.endDeckTiers : [];
-      const seenCount = (seen != null && Number.isFinite(seen)) ? seen : 0;
-      for (const dt of deckTiers) {
-        const key = String(dt?.key || "").trim();
-        const min = Number(dt?.minSeen);
-        if (!key || !Number.isFinite(min)) continue;
-        if (seenCount >= min) { bonusDeckTier = key; break; }
-      }
-
-      // Cognitive mirror (endByTier)
-      const byTier = bonusW && typeof bonusW === "object" ? bonusW.endByTier : null;
-      const lines = (bonusLevel && Array.isArray(byTier?.[bonusLevel])) ? byTier[bonusLevel] : null;
-      const byTierLine =
-        (lines && lines.length === 2)
-          ? `${String(lines[0] || "").trim()} ${String(lines[1] || "").trim()}`.trim()
-          : "";
-
-      endLineTpl = byTierLine;
-
-      // Personalized reco (accuracy × deck cross-reference)
-      if (bonusLevel && bonusDeckTier) {
-        const recoKey = `${bonusLevel}_${bonusDeckTier}`;
-        bonusRecoLine = String(bonusW?.endRecoByTier?.[recoKey] || "").trim();
-      }
-
-      bonusIdentityTpl = "";
-      bonusLensTpl = "";
-
-    } else if (isPractice) {
-      let practiceEndLineTpl = String(practiceW.endLine || "").trim();
-      const practiceEndStatsTpl = String(practiceW.endStatsLine || "").trim();
-
-      // PRACTICE stats (END):
-      // - fixed = reviewed - mistakes in this practice run
-      // - remaining = current backlog after the run (wrongCount>0 && correctCount==0)
-      const rawMistakeCount = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds.length : 0;
-      const total = clampInt(totalPresented, 0, 99999);
-      const mistakeCount = clampInt(rawMistakeCount, 0, total);
-
-      let remainingBacklog = null;
-      try {
-        if (this.storage && typeof this.storage.getActiveMistakesCount === "function") {
-          remainingBacklog = clampInt(this.storage.getActiveMistakesCount(), 0, 99999);
-        }
-      } catch (_) { remainingBacklog = null; }
-
-      let backlogAtStart = clampInt(this._runtime?.practiceBacklogAtStart, 0, 99999);
-      if (!backlogAtStart && remainingBacklog != null) {
-        backlogAtStart = remainingBacklog + mistakeCount;
-      }
-      const fixedCount = (remainingBacklog == null)
-        ? 0
-        : clampInt(backlogAtStart - remainingBacklog, 0, backlogAtStart);
-
-      vars.fixed = fixedCount;
-      if (remainingBacklog != null) vars.remaining = remainingBacklog;
-
-      // Optional coaching note by tier (fail-closed on config + remaining + wording)
-      let repeatNote = "";
-      practiceRepeatTierKey = "";
-      try {
-        const tiers = Array.isArray(cfg?.routing?.practiceRepeatTiers) ? cfg.routing.practiceRepeatTiers : null;
-
-        if (tiers && remainingBacklog != null && remainingBacklog >= 1) {
-          for (const t of tiers) {
-            const key = String(t?.key || "").trim();
-            const rawMin = Number(t?.minRemaining);
-            const min = (Number.isFinite(rawMin) && rawMin >= 1) ? Math.floor(rawMin) : null;
-            if (!key || min == null) continue;
-
-            if (remainingBacklog >= min) {
-
-              // "last" must be literal: only when exactly 1 mistake remains.
-              if (key === "last" && remainingBacklog !== 1) {
-                continue;
-              }
-
-              // Guard for optimistic "light" tier:
-              // only allow when the player actually reduced the backlog enough
-              if (key === "light" && fixedCount < remainingBacklog) {
-                continue;
-              }
-
-              practiceRepeatTierKey = key;
-              break;
-            }
-          }
-        }
-
-        const tpl = practiceRepeatTierKey
-          ? String(practiceW?.endRepeatNoteByTier?.[practiceRepeatTierKey] || "").trim()
-          : "";
-
-        if (tpl) repeatNote = tpl;
-      } catch (_) {
-        repeatNote = "";
-        practiceRepeatTierKey = "";
-      }
-      // Override endLine if a tier-specific version exists
-      if (practiceRepeatTierKey) {
-        const tierLine = String(practiceW?.endLineByTier?.[practiceRepeatTierKey] || "").trim();
-        if (tierLine) practiceEndLineTpl = tierLine;
-      }
-      endLineTpl = practiceEndLineTpl;
-      practiceStatsLineTpl = (practiceEndStatsTpl && remainingBacklog != null) ? practiceEndStatsTpl : "";
-      practiceRepeatNoteTpl = repeatNote;
-    } else {
-      if (isRun && !!lastRun.poolCompleteCelebration) {
-        endLineTpl = String(end.poolCompleteLine1 || "").trim();
-        runPoolCompleteLine2Tpl = String(end.poolCompleteLine2 || "").trim();
-      } else {
-        endLineTpl = String(end.endLine || "").trim();
-      }
-
-      runVerdictKey = getRunVerdictKeyFromScore(cfg, scoreFP);
-
-      runIdentityTpl = String(end?.identityByVerdict?.[runVerdictKey] || "").trim();
-      runLensTpl = String(end?.lensByVerdict?.[runVerdictKey] || "").trim();
-    }
+    const modeCopy = buildEndModeCopy({
+      isRun, isPractice, isBonus,
+      cfg, bonusW, practiceW, end,
+      scoreFP, totalPresented, seen,
+      lastRun, vars, storage: this.storage, runtime: this._runtime
+    });
+    const {
+      endLineTpl,
+      bonusLevel,
+      bonusIdentityTpl,
+      bonusLensTpl,
+      practiceRepeatTierKey,
+      practiceStatsLineTpl,
+      practiceRepeatNoteTpl,
+      runVerdictKey,
+      runIdentityTpl,
+      runLensTpl,
+      runPoolCompleteLine2Tpl,
+      bonusDeckTier,
+      bonusRecoLine
+    } = modeCopy;
 
     // Backlog (active mistakes): source of truth = StorageManager.getActiveMistakesCount()
     let backlog = 0;
@@ -7035,7 +7355,14 @@ ${(() => {
     const displayScoreLine = scoreLine;
 
     const bestStreakTpl = String(end.bestStreakLine || "").trim();
-    const bestStreakLine = (isRun && bestStreakTpl) ? fillTemplate(bestStreakTpl, vars) : "";
+    const bestStreakMinRaw = Number(cfg?.routing?.bestStreakLineMin);
+    const bestStreakMin = (Number.isFinite(bestStreakMinRaw) && bestStreakMinRaw >= 1)
+      ? Math.floor(bestStreakMinRaw)
+      : 1;
+    const bestStreakLine =
+      (isRun && bestStreakTpl && bestStreakNum >= bestStreakMin)
+        ? fillTemplate(bestStreakTpl, vars)
+        : "";
 
     const pbLineTpl = String(end.personalBestLine || "").trim();
     const nearBestTpl = String(end.nearBestLine || "").trim();
@@ -7081,77 +7408,10 @@ ${(() => {
     }
 
 
-    // END recap: mistakes made during RUN / PRACTICE / BONUS (free + premium)
-    let mistakesRecapHtml = "";
-    if (isRun || isPractice || isBonus) {
-      const rawIds = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds : [];
-      const ids = isRun ? rawIds.slice(0, maxChances) : rawIds.slice();
-      const recapW = isBonus ? (bonusW || {}) : (isPractice ? (practiceW || {}) : (end || {}));
-
-      const noneMsg = String(recapW.mistakesNone || end.mistakesNone || "").trim();
-      const toggleTpl = String(recapW.mistakesToggle || end.mistakesToggle || "").trim();
-      const title = String(recapW.mistakesTitle || end.mistakesTitle || "").trim();
-
-      if (!ids.length) {
-        if (noneMsg) {
-          mistakesRecapHtml = `<p class="wt-muted">${escapeHtml(noneMsg)}</p>`;
-        }
-      } else {
-        const labelRaw =
-          toggleTpl
-            ? fillTemplate(toggleTpl, { count: String(ids.length) })
-            : title;
-
-        const label = String(labelRaw || "")
-          .replace(/\(\s*\)/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
-
-        if (!label) {
-          mistakesRecapHtml = "";
-        } else {
-          const items = [];
-          const byId = (this._runtime && this._runtime.contentById && typeof this._runtime.contentById === "object")
-            ? this._runtime.contentById
-            : {};
-
-          for (const rawId of ids) {
-            const id = Number(rawId);
-            if (!Number.isFinite(id)) continue;
-
-            const it = byId[String(id)] || null;
-            const t = extractTermsFromItem(it);
-
-            const en = String(t.termEn || "").trim();
-            if (!en) continue;
-
-            const answerLabel = (t.correctAnswer === true)
-              ? String(ui.trueLabel || "").trim()
-              : (t.correctAnswer === false)
-                ? String(ui.falseLabel || "").trim()
-                : "";
-
-            const expl = String(t.explanationShort || "").trim();
-            const pairHtml = answerLabel
-              ? `<span class="wt-mistake-pair">${escapeHtml(en)} <strong>(${escapeHtml(answerLabel)})</strong></span>`
-              : `<span class="wt-mistake-pair">${escapeHtml(en)}</span>`;
-            const explHtml = expl ? `<span class="wt-mistake-expl">${formatExplanationForDisplay(expl, cfg, en)}</span>` : "";
-
-            items.push(`<div class="wt-mistake-item">${pairHtml}${explHtml}</div>`);
-          }
-
-          const body = items.join("");
-          const openAttr = (vars && Number(vars.backlog) > 0) ? " open" : "";
-
-          mistakesRecapHtml = `
-  <details class="wt-accordion"${openAttr} style="margin-top:10px">
-    <summary class="wt-accordion-toggle">${escapeHtml(label)}</summary>
-    <div class="wt-accordion-content">${body}</div>
-  </details>
-`;
-        }
-      }
-    }
+    const mistakesRecapHtml = buildEndMistakesRecap({
+      isRun, isPractice, isBonus, lastRun, maxChances, bonusW, practiceW, end,
+      runtime: this._runtime, ui, cfg, vars
+    });
 
     const shareEnabled = isRun && !!(cfg.share && cfg.share.enabled);
 
@@ -7218,8 +7478,6 @@ ${(() => {
       console.warn("[WT_UI] Missing required copy: WT_WORDING.secretBonus.ctaByLevel[level]");
     }
 
-    const playAriaRun = String(w.system?.playAria || "").trim();
-
     const practiceCtaRaw = poolCompleteCelebration
       ? String(end.poolCompleteCtaPractice || "").trim()
       : premium
@@ -7246,7 +7504,6 @@ ${(() => {
 
     // Secret chest visibility gate:
     const windowMs = Number(cfg?.secretBonus?.tapWindowMs);
-    const tapsRequired = Number(cfg?.secretBonus?.tapsRequired);
 
     const endAfterRunsRaw = Number(cfg?.secretBonus?.gates?.endAfterRuns);
     const endAfterRuns = (Number.isFinite(endAfterRunsRaw) && endAfterRunsRaw >= 0) ? Math.floor(endAfterRunsRaw) : null;
@@ -7307,73 +7564,10 @@ ${(() => {
   </div>
 `;
 
-    // Micro-lines (RUN-only): keep END sharp, keep status visible (not buried in Stats)
-    const microLines = [];
-
-    // progressHtml: REMOVED (dead code — computed but never injected into HTML).
-    // Seen/poolSize info is now solely in runLensTpl (lens verdict).
-
-    // Category recap (RUN-only): surface the most-missed content tag for this game.
-    if (isRun) {
-      const copyByTag = (end && typeof end.endTagHighlights === "object") ? end.endTagHighlights : null;
-      const runMistakeIds = Array.isArray(this._runtime?.runMistakeIds) ? this._runtime.runMistakeIds : [];
-      const byId = (this._runtime && this._runtime.contentById && typeof this._runtime.contentById === "object")
-        ? this._runtime.contentById
-        : {};
-
-      if (copyByTag && runMistakeIds.length > 0) {
-        const ignored = new Set(["Easy", "Medium", "Hard"]);
-        const counts = Object.create(null);
-
-        for (const rawId of runMistakeIds) {
-          const item = byId[String(rawId)] || byId[rawId] || null;
-          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
-          for (const tag of tags) {
-            counts[tag] = clampInt(Number(counts[tag] || 0) + 1, 0, 9999);
-          }
-        }
-
-        let bestTag = "";
-        let bestCount = 0;
-        let tie = false;
-        for (const tag in counts) {
-          const n = clampInt(Number(counts[tag] || 0), 0, 9999);
-          if (n > bestCount) {
-            bestTag = tag;
-            bestCount = n;
-            tie = false;
-          } else if (n > 0 && n === bestCount) {
-            tie = true;
-          }
-        }
-
-        if (!tie && bestCount >= 1) {
-          const line = String(copyByTag[bestTag] || "").trim();
-          if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
-        }
-      }
-    }
-
-    // Personal best (RUN + premium only)
-    if (pbLine) {
-      microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbLine)}</p>`);
-    }
-
-    // Runs left (FREE + RUN only) — keep existing copy
-    if (isRun && !premium && freeRunMessage) {
-      microLines.push(String(freeRunMessage || ""));
-    }
-    // END "table" layout (mobile-safe) — no icons, no new copy, keeps existing lines/CTA intact
-    const microLinesHtml = microLines.length
-      ? `
-    <div class="wt-end-table">
-      ${microLines.map((line) => `<div class="wt-end-table__row">${line}</div>`).join("")}
-    </div>
-  `
-      : "";
-    // Stats & runs history (END) intentionally removed (too low value, adds density).
-    const statsAccordionHtml = "";
-
+    const microLinesHtml = buildEndMicroLines({
+      isRun, premium, end, runtime: this._runtime, pbLine, bestStreakLine,
+      poolCompleteCelebration, runIdentityTpl, vars, pbPremiumHint, freeRunMessage
+    });
     // Paywall bridge block (FREE exhausted): make it visible, not buried
     const paywallBridgeHtml =
       (runsExhausted && (paywallBridgeTitle || paywallBridgeBody))
@@ -7386,54 +7580,12 @@ ${(() => {
         `
         : "";
 
-    // END stays focused on score, replay, and practice.
-    const moreAccordionHtml = "";
-
-    const shareHtml = shareEnabled ? `
-      ${(() => {
-        const share = w.share || {};
-        const title = String(shareTitle || "").trim();
-        const ctaLabel = String(share.ctaLabel || "").trim();
-        const emailLabel = String(share.emailLabel || "").trim();
-        const emailSubject = String(share.emailSubject || "").trim();
-        const shareAria = String(w.system?.shareAria || "").trim();
-        const text = String(this._getShareText ? this._getShareText() : "").trim();
-
-        const canCopy = !!(ctaLabel && text);
-        const canEmail = !!(emailLabel && emailSubject && text);
-
-        if (!title && !text) return ``;
-        if (!canCopy && !canEmail && !text) return ``;
-
-        return `
-          <details class="wt-accordion" style="margin-top:10px">
-            <summary class="wt-accordion-toggle" aria-label="${escapeHtml(shareAria)}">
-              ${escapeHtml(title)}
-            </summary>
-
-            <div class="wt-accordion-content">
-              ${text ? `<p class="wt-muted" style="white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;">${escapeHtml(text)}</p>` : ``}
-
-              ${(canCopy || canEmail) ? `
-                <div class="wt-actions">
-                  ${canCopy ? `
-                    <button type="button" class="wt-btn wt-btn--secondary" data-action="copy-share">
-                      ${escapeHtml(ctaLabel)}
-                    </button>
-                  ` : ``}
-
-                  ${canEmail ? `
-                    <button type="button" class="wt-btn wt-btn--secondary" data-action="send-share-email">
-                      ${escapeHtml(emailLabel)}
-                    </button>
-                  ` : ``}
-                </div>
-              ` : ``}
-            </div>
-          </details>
-        `;
-      })()}
-    ` : ``;
+    const shareHtml = buildEndShareBlock({
+      shareEnabled,
+      w,
+      shareTitle,
+      getShareText: this._getShareText ? () => this._getShareText() : null
+    });
 
     const shouldPromoteShare =
       isRun && (
@@ -7521,167 +7673,45 @@ ${(() => {
   ${``}
 
   <div class="${endActionsClass}">
-    ${(() => {
-        const postW = w.postCompletion || {};
-
-        const exhausted =
-          !!(this.storage && typeof this.storage.isPoolExhausted === "function" && this.storage.isPoolExhausted() === true);
-
-        const mastered =
-          !!(this.storage && typeof this.storage.isMastered === "function" && this.storage.isMastered() === true);
-
-        // backlog already computed into vars.backlog
-        const hasActiveMistakes = (clampInt(vars.backlog, 0, 99999) > 0);
-
-        // Mastered block (always visible when mastered)
-        const masteredTitle = String(postW.masteredTitle || "").trim();
-        const masteredL1 = String(postW.masteredLine1 || "").trim();
-        const masteredL2 = String(postW.masteredLine2 || "").trim();
-
-        const masteredHtml =
-          (mastered && (masteredTitle || masteredL1 || masteredL2))
-            ? `
-            <div style="margin-top:6px">
-              ${masteredTitle ? `<p class="wt-meta"><strong>${escapeHtml(masteredTitle)}</strong></p>` : ``}
-              ${masteredL1 ? `<p class="wt-muted">${escapeHtml(masteredL1)}</p>` : ``}
-              ${masteredL2 ? `<p class="wt-muted">${escapeHtml(masteredL2)}</p>` : ``}
-            </div>
-          `
-            : ``;
-
-        // Primary/secondary CTAs (KISS)
-        let primaryAction = "";
-        let primaryLabel = "";
-        let secondaryAction = "";
-        let secondaryLabel = "";
-
-        if (mastered) {
-          primaryAction = "start-secret-bonus";
-          primaryLabel = String(postW.masteredCtaBonus || "").trim();
-
-          secondaryAction = "start-run";
-          secondaryLabel = String(postW.masteredCtaReplay || "").trim();
-
-        } else if (exhausted && hasActiveMistakes) {
-          primaryAction = "start-practice";
-          const tpl = premium ? String(end.practiceCtaCountPremium || "").trim() : String(end.practiceCta || "").trim();
-          primaryLabel = tpl ? fillTemplate(tpl, { backlog: String(vars.backlog) }) : "";
-
-          secondaryAction = "start-run";
-          secondaryLabel = String(end.playAgain || "").trim();
-
-        } else {
-          if (isRun) {
-            if (runShouldPromotePractice) {
-              primaryAction = "start-practice";
-              primaryLabel = String(practiceCta || "").trim();
-
-              secondaryAction = runsExhausted ? "open-paywall" : "start-run";
-              secondaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
-
-            } else if (runShouldPromoteBonus) {
-              primaryAction = "start-secret-bonus";
-              primaryLabel = runBonusPrimaryLabel;
-
-              secondaryAction = runsExhausted ? "open-paywall" : "start-run";
-              secondaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
-
-            } else {
-              primaryAction = runsExhausted ? "open-paywall" : "start-run";
-              primaryLabel = runsExhausted ? String(upgradeCta || "").trim() : String(runPlayAgain || "").trim();
-
-              if (canPractice) {
-                secondaryAction = "start-practice";
-                secondaryLabel = String(practiceCta || "").trim();
-              }
-            }
-          } else if (isPractice) {
-            const remaining = Number(vars.remaining);
-            const isZero = (Number.isFinite(remaining) && remaining <= 0);
-
-            if (isZero) {
-              primaryAction = "start-run";
-              primaryLabel = String(end.playAgain || "").trim();
-
-              secondaryAction = "";
-              secondaryLabel = "";
-            } else {
-              primaryAction = "start-practice";
-              primaryLabel = String(practiceAgain || "").trim();
-
-              secondaryAction = "start-run";
-              secondaryLabel = String(end.playAgain || "").trim();
-            }
-          } else if (isBonus) {
-            const expandDeckLabel = String(bonusW?.ctaExpandDeck || "").trim();
-            const shouldExpandDeck =
-              (bonusDeckTier === "small") &&
-              !!expandDeckLabel;
-
-            if (shouldExpandDeck) {
-              primaryAction = "start-run";
-              primaryLabel = expandDeckLabel;
-
-              secondaryAction = "start-secret-bonus";
-              secondaryLabel = String(bonusAgain || "").trim();
-            } else {
-              primaryAction = "start-secret-bonus";
-              primaryLabel = String(bonusAgain || "").trim();
-
-              secondaryAction = "start-run";
-              secondaryLabel = String(end.playAgain || "").trim();
-            }
-          }
-        }
-
-        // Fail-closed: if primaryLabel missing, do not render broken buttons.
-        if (!primaryLabel || !primaryAction) return masteredHtml || ``;
-
-        const primaryBtn = `
-        <button class="wt-btn wt-btn--primary" data-action="${escapeHtml(primaryAction)}" style="width:100%">
-          ${escapeHtml(primaryLabel)}
-        </button>
-      `;
-
-        const secondaryBtn =
-          (secondaryLabel && secondaryAction)
-            ? `
-            <button class="wt-btn wt-btn--secondary" data-action="${escapeHtml(secondaryAction)}" style="width:100%">
-              ${escapeHtml(secondaryLabel)}
-            </button>
-          `
-            : ``;
-
-        const runLensHtml =
-          (isRun && !poolCompleteCelebration && clampInt(seen, 0, poolSize) < poolSize)
-            ? (() => {
-              const lensText = runShouldPromoteBonus && runLensBonusPrimaryTpl
-                ? runLensBonusPrimaryTpl
-                : (runLensTpl ? fillTemplate(runLensTpl, vars) : "");
-              return lensText
-                ? `<p class="wt-muted wt-end-lens">${escapeHtml(lensText)}</p>`
-                : ``;
-            })()
-            : ``;
-
-        return `
-  ${masteredHtml}
-  ${runLensHtml}
-  ${primaryBtn}
-  ${secondaryBtn}
-`;
-      })()}
+    ${buildEndActionsHtml({
+      storage: this.storage,
+      w,
+      vars,
+      premium,
+      end,
+      postW: w.postCompletion || {},
+      isRun,
+      isPractice,
+      isBonus,
+      runShouldPromotePractice,
+      practiceCta,
+      runsExhausted,
+      upgradeCta,
+      runPlayAgain,
+      runShouldPromoteBonus,
+      runBonusPrimaryLabel,
+      canPractice,
+      practiceAgain,
+      bonusW,
+      bonusDeckTier,
+      bonusAgain,
+      poolCompleteCelebration,
+      seen,
+      poolSize,
+      runLensBonusPrimaryTpl,
+      runLensTpl
+    })}
   </div>
 
   ${paywallBridgeHtml}
+
+  ${chestHintText ? `<p class="wt-muted">${escapeHtml(chestHintText)}</p>` : ``}
 
   ${shareBeforeRecapHtml}
 
   ${mistakesRecapHtml}
 
   ${shareAfterRecapHtml}
-
-  ${moreAccordionHtml}
 </div>
 `;
   };

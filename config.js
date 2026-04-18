@@ -330,7 +330,7 @@
 
       // Gesture: single tap (simple, no “secret handshake”)
       tapWindowMs: 900,
-      tapsRequired: 0,
+      tapsRequired: 1,
 
 
 
@@ -998,15 +998,6 @@
       // Definition: longest sequence of consecutive correct answers within the run
       bestStreakLine: "Best streak: {bestStreak} correct in a row.",
 
-      // RUN progress surfacing (RUN only)
-      // Vars: {seen} {poolSize} {remaining}
-      progressLine: "Seen: {seen}/{poolSize}. {remaining} to go.",
-
-      // Coffee myths identified (RUN only)
-      // Definition: distinct items with tag/tags containing "Myths and misconceptions" and correctCount > 0
-      // Vars: {count}
-      falseFriendsIdentifiedLine: "",
-
       endTagHighlights: {
         "Myths and misconceptions": "The coffee myths category was the trickiest this game.",
         "Beverages and drink families": "The coffee drinks category caused the most hesitation this game.",
@@ -1019,13 +1010,6 @@
         "Coffee shop": "The coffee shop category was the toughest this game.",
         "Figures and personalities": "The coffee people and names category was the trickiest this game."
       },
-
-
-      // END secondary content toggles
-      statsToggle: "Stats & games history",
-
-      // Fallback for non-RUN modes (PRACTICE, BONUS)
-      effortLine: "Well played.",
 
       scoreLine: "Score: {score} {fpLong}",
 
