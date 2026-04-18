@@ -36,6 +36,119 @@
     return a;
   }
 
+  function getAnswerPolarity(byId, idNum) {
+    const item = byId ? byId[String(idNum)] : null;
+    return safeBool(item && item.correctAnswer);
+  }
+
+  function canArrangePolarityCounts(trueCount, falseCount, maxSameAnswerStreak) {
+    const limit = Number(maxSameAnswerStreak);
+    if (!Number.isFinite(limit) || Math.floor(limit) < 1) return true;
+
+    const hi = Math.max(Number(trueCount) || 0, Number(falseCount) || 0);
+    const lo = Math.min(Number(trueCount) || 0, Number(falseCount) || 0);
+    return hi <= (Math.floor(limit) * (lo + 1));
+  }
+
+  function rebalanceAnswerStreak(ids, byId, maxSameAnswerStreak) {
+    const limit = Number(maxSameAnswerStreak);
+    if (!Array.isArray(ids) || ids.length <= 1) return Array.isArray(ids) ? ids.slice() : [];
+    if (!Number.isFinite(limit) || Math.floor(limit) < 1) return ids.slice();
+
+    const trueIds = [];
+    const falseIds = [];
+    const otherIds = [];
+
+    for (const rawId of ids) {
+      const idNum = safeIdNum(rawId);
+      if (idNum == null) continue;
+      const polarity = getAnswerPolarity(byId, idNum);
+      if (polarity === true) trueIds.push(idNum);
+      else if (polarity === false) falseIds.push(idNum);
+      else otherIds.push(idNum);
+    }
+
+    const out = [];
+    let lastPolarity = null;
+    let streak = 0;
+
+    while (trueIds.length || falseIds.length || otherIds.length) {
+      const candidates = [];
+
+      if (trueIds.length) {
+        const blocked = (lastPolarity === true && streak >= limit);
+        if (!blocked) {
+          candidates.push({
+            pick: true,
+            feasibleAfterPick: canArrangePolarityCounts(trueIds.length - 1, falseIds.length, limit),
+            remainingAfterPick: trueIds.length - 1
+          });
+        }
+      }
+
+      if (falseIds.length) {
+        const blocked = (lastPolarity === false && streak >= limit);
+        if (!blocked) {
+          candidates.push({
+            pick: false,
+            feasibleAfterPick: canArrangePolarityCounts(trueIds.length, falseIds.length - 1, limit),
+            remainingAfterPick: falseIds.length - 1
+          });
+        }
+      }
+
+      const rankedCandidates = candidates
+        .slice()
+        .sort((a, b) => {
+          if (a.feasibleAfterPick !== b.feasibleAfterPick) {
+            return a.feasibleAfterPick ? -1 : 1;
+          }
+          if (b.remainingAfterPick !== a.remainingAfterPick) {
+            return b.remainingAfterPick - a.remainingAfterPick;
+          }
+          return (Math.random() < 0.5) ? -1 : 1;
+        });
+
+      let pick = rankedCandidates.length ? rankedCandidates[0].pick : null;
+
+      if (pick == null) {
+        if (otherIds.length) {
+          out.push(otherIds.shift());
+          lastPolarity = null;
+          streak = 0;
+          continue;
+        }
+        if (trueIds.length) {
+          pick = true;
+        } else if (falseIds.length) {
+          pick = false;
+        }
+      }
+
+      if (pick === true && trueIds.length) {
+        out.push(trueIds.shift());
+      } else if (pick === false && falseIds.length) {
+        out.push(falseIds.shift());
+      } else if (trueIds.length) {
+        out.push(trueIds.shift());
+        pick = true;
+      } else if (falseIds.length) {
+        out.push(falseIds.shift());
+        pick = false;
+      } else {
+        break;
+      }
+
+      if (pick === lastPolarity) streak += 1;
+      else {
+        lastPolarity = pick;
+        streak = 1;
+      }
+    }
+
+    return out;
+  }
+
   function safeBool(x) {
     return (x === true || x === false) ? x : null;
   }
@@ -168,16 +281,23 @@
         if (seenCount <= 0) unseen.push(idNum);
       }
 
+      const maxSameAnswerStreak = Number(config?.game?.answerShuffle?.maxSameAnswerStreak);
+      const unseenIds = shuffleCopy(unseen);
+      const fallbackIds = shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null));
+
       return {
         ids: unseen.length
-          ? shuffleCopy(unseen)
-          : shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null)),
+          ? rebalanceAnswerStreak(unseenIds, byId, maxSameAnswerStreak)
+          : rebalanceAnswerStreak(fallbackIds, byId, maxSameAnswerStreak),
         byId
       };
     }
 
+    const maxSameAnswerStreak = Number(config?.game?.answerShuffle?.maxSameAnswerStreak);
+    const shuffledIds = shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null));
+
     return {
-      ids: shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null)),
+      ids: rebalanceAnswerStreak(shuffledIds, byId, maxSameAnswerStreak),
       byId
     };
   }
@@ -661,4 +781,3 @@
     GameEngine
   };
 })();
-

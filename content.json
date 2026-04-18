@@ -1,9 +1,9 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "totalItems": 200,
   "breakdown": {
-    "trueItems": 137,
-    "falseItems": 63
+    "trueItems": 112,
+    "falseItems": 88
   },
   "items": [
     {
@@ -20,9 +20,9 @@
     {
       "id": 2,
       "termFr": "",
-      "termEn": "Robusta contains on average more caffeine than arabica.",
-      "correctAnswer": true,
-      "explanationShort": "Robusta has roughly twice the caffeine of arabica.\nThat difference comes from the plant species itself, not from how it is roasted or brewed.\nRobusta or arabica decides, not the roast.",
+      "termEn": "Arabica contains on average more caffeine than robusta.",
+      "correctAnswer": false,
+      "explanationShort": "Robusta has roughly twice the caffeine of arabica.\nThat difference comes from the plant species itself, not from how it is roasted or brewed.\nRobusta, not arabica, is the higher-caffeine bean.",
       "tags": [
         "Myths and misconceptions",
         "Medium"
@@ -75,9 +75,9 @@
     {
       "id": 7,
       "termFr": "",
-      "termEn": "A coffee at 3 PM can still affect sleep at midnight.",
-      "correctAnswer": true,
-      "explanationShort": "In most adults, half the caffeine is still in the body 5 hours after drinking.\nAfter about 10 hours, most of it is finally gone.\nThe clock matters as much as the cup.",
+      "termEn": "A coffee at 3 PM is always out of your system by midnight.",
+      "correctAnswer": false,
+      "explanationShort": "In most adults, half the caffeine is still in the body 5 hours after drinking.\nAfter about 10 hours, most of it is finally gone.\nLate coffee can still echo at midnight.",
       "tags": [
         "Myths and misconceptions",
         "Hard"
@@ -108,9 +108,9 @@
     {
       "id": 10,
       "termFr": "",
-      "termEn": "Most healthy adults can safely drink up to 400 mg of caffeine per day.",
-      "correctAnswer": true,
-      "explanationShort": "400 mg per day is the safety threshold established for most healthy adults.\nAbove that limit, jitters, headaches, or poor sleep become more likely.\nThat is roughly 5 to 6 espressos.",
+      "termEn": "For most healthy adults, the daily caffeine safety limit is 200 mg.",
+      "correctAnswer": false,
+      "explanationShort": "400 mg per day is the safety threshold established for most healthy adults.\nAbove that limit, jitters, headaches, or poor sleep become more likely.\nFor most adults, 400 mg is the upper safe range, not automatically too much.",
       "tags": [
         "Myths and misconceptions",
         "Hard"
@@ -141,9 +141,9 @@
     {
       "id": 13,
       "termFr": "",
-      "termEn": "A cappuccino usually contains less milk than a latte.",
-      "correctAnswer": true,
-      "explanationShort": "A cappuccino uses less milk and more foam than a latte.\nA latte is built with much more steamed milk, which makes it larger and softer in taste.\nLess milk in the cappuccino, more in the latte.",
+      "termEn": "A cappuccino usually contains more milk than a latte.",
+      "correctAnswer": false,
+      "explanationShort": "A cappuccino uses less milk and more foam than a latte.\nA latte is built with much more steamed milk, which makes it larger and softer in taste.\nThe latte is milk-heavier, not the cappuccino.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -185,9 +185,9 @@
     {
       "id": 17,
       "termFr": "",
-      "termEn": "In France, a café means a small espresso.",
-      "correctAnswer": true,
-      "explanationShort": "When you sit down at a French cafe, the default order is a tiny espresso.\nIt is served in a small cup, not a large mug.\nNo filter, no mug, just a shot.",
+      "termEn": "In France, a café usually means a large filter coffee.",
+      "correctAnswer": false,
+      "explanationShort": "When you sit down at a French cafe, the default order is a tiny espresso.\nIt is served in a small cup, not a large mug.\nIn France, un cafe is usually a shot, not a big filter coffee.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -207,9 +207,9 @@
     {
       "id": 19,
       "termFr": "",
-      "termEn": "A single espresso is typically 25–35 ml (about 0.8–1.2 oz).",
-      "correctAnswer": true,
-      "explanationShort": "An espresso is roughly the size of a shot glass, about 25 to 35 ml.\nMost people expect more liquid, but that small size is what makes it so concentrated.\nEspresso is tiny by design.",
+      "termEn": "A single espresso is typically 60–90 ml (about 2–3 oz).",
+      "correctAnswer": false,
+      "explanationShort": "An espresso is roughly the size of a shot glass, about 25 to 35 ml.\nMost people expect more liquid, but that small size is what makes it so concentrated.\nA standard espresso is much smaller than 2 to 3 oz.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -229,9 +229,9 @@
     {
       "id": 21,
       "termFr": "",
-      "termEn": "Most coffee brews best at around 200°F (93°C), give or take a few degrees.",
-      "correctAnswer": true,
-      "explanationShort": "Water around 200°F (93°C) extracts the right balance of flavor from the grounds.\nGo hotter and it scorches the coffee, go cooler and it tastes flat and sour.\nJust off the boil is the sweet spot.",
+      "termEn": "Most coffee brews best with fully boiling water at 212°F (100°C).",
+      "correctAnswer": false,
+      "explanationShort": "Water around 200°F (93°C) extracts the right balance of flavor from the grounds.\nGo hotter and it scorches the coffee, go cooler and it tastes flat and sour.\nJust off the boil is the sweet spot, not a full rolling boil.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -240,9 +240,9 @@
     {
       "id": 22,
       "termFr": "",
-      "termEn": "A burr grinder produces a more consistent grind than a blade grinder.",
-      "correctAnswer": true,
-      "explanationShort": "Blade grinders chop randomly, producing a mix of fine dust and large chunks in the same batch.\nBurr grinders crush at a fixed distance, so every particle comes out a similar size.\nEven grind, better cup.",
+      "termEn": "A blade grinder produces a more consistent grind than a burr grinder.",
+      "correctAnswer": false,
+      "explanationShort": "Blade grinders chop randomly, producing a mix of fine dust and large chunks in the same batch.\nBurr grinders crush at a fixed distance, so every particle comes out a similar size.\nThe burr grinder is the consistency tool, not the blade grinder.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -262,9 +262,9 @@
     {
       "id": 24,
       "termFr": "",
-      "termEn": "Using filtered water in a coffee machine can help reduce limescale buildup.",
-      "correctAnswer": true,
-      "explanationShort": "Filtered water usually contains fewer of the minerals that form limescale when heated.\nThat can slow buildup inside the machine and reduce maintenance problems over time.\nLess mineral load, less scale.",
+      "termEn": "Tap water is the best way to limit limescale buildup in a coffee machine.",
+      "correctAnswer": false,
+      "explanationShort": "Filtered water usually contains fewer of the minerals that form limescale when heated.\nThat can slow buildup inside the machine and reduce maintenance problems over time.\nFiltered water can help because less mineral load usually means less scale.",
       "tags": [
         "Coffee at home",
         "Easy"
@@ -273,7 +273,7 @@
     {
       "id": 25,
       "termFr": "",
-      "termEn": "A weak cup is always a sign that not enough coffee was used.",
+      "termEn": "A weak cup usually comes from using too little coffee.",
       "correctAnswer": false,
       "explanationShort": "More grounds make the drink stronger, but they do not fix the real problem.\nPast the right ratio, extra grounds start pulling bitter compounds instead of good flavor.\nMore grounds fixes nothing, right grind does.",
       "tags": [
@@ -328,9 +328,9 @@
     {
       "id": 30,
       "termFr": "",
-      "termEn": "Whole beans stay fresh longer after opening than ground coffee does.",
-      "correctAnswer": true,
-      "explanationShort": "Every time you open the bag, coffee is exposed to oxygen.\nOxygen slowly breaks down the aromatic compounds inside the bean.\nFrom first opening, the clock is ticking.",
+      "termEn": "Ground coffee stays fresh longer after opening than whole beans do.",
+      "correctAnswer": false,
+      "explanationShort": "Every time you open the bag, coffee is exposed to oxygen.\nGround coffee has far more surface area exposed, so it stales faster than whole beans.\nWhole beans hold flavor longer once the bag is open.",
       "tags": [
         "Coffee at home",
         "Hard"
@@ -372,9 +372,9 @@
     {
       "id": 34,
       "termFr": "",
-      "termEn": "Preheating a coffee cup helps preserve temperature and aroma from the first sip.",
-      "correctAnswer": true,
-      "explanationShort": "A cold cup pulls heat from the coffee the moment it is poured.\nThat temperature drop mutes the aromas before you even take the first sip.\nA cold cup is a flavor trap.",
+      "termEn": "Preheating a coffee cup lowers aroma and temperature from the first sip.",
+      "correctAnswer": false,
+      "explanationShort": "A cold cup pulls heat from the coffee the moment it is poured.\nThat temperature drop mutes the aromas before you even take the first sip.\nPreheating helps because the cup stops stealing heat from the coffee.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -416,9 +416,9 @@
     {
       "id": 38,
       "termFr": "",
-      "termEn": "A one-way valve on a coffee bag lets gas escape without letting air in.",
-      "correctAnswer": true,
-      "explanationShort": "Freshly roasted beans release CO2 for days and need a way to let it out.\nThe one-way valve lets that gas escape without allowing oxygen back in.\nLess oxygen inside, fresher beans longer.",
+      "termEn": "A one-way valve on a coffee bag keeps gas inside and lets air in.",
+      "correctAnswer": false,
+      "explanationShort": "Freshly roasted beans release CO2 for days and need a way to let it out.\nThe one-way valve lets that gas escape without allowing oxygen back in.\nIt vents gas out while blocking air from coming in.",
       "tags": [
         "Grains, roast and coffee basics",
         "Hard"
@@ -460,9 +460,9 @@
     {
       "id": 42,
       "termFr": "",
-      "termEn": "On a home espresso machine, changing the grind changes the taste of every shot.",
-      "correctAnswer": true,
-      "explanationShort": "The grind controls how much flavor the water picks up.\nA finer grind produces a richer, more intense shot.\nChange the grind, change the cup.",
+      "termEn": "On a home espresso machine, grind changes are a minor detail for taste.",
+      "correctAnswer": false,
+      "explanationShort": "The grind controls how much flavor the water picks up.\nA finer grind produces a richer, more intense shot.\nOn espresso, grind changes the cup immediately and dramatically.",
       "tags": [
         "Troubleshooting and maintenance",
         "Medium"
@@ -482,9 +482,9 @@
     {
       "id": 44,
       "termFr": "",
-      "termEn": "Cold brew usually tastes less bitter than hot-brewed coffee.",
-      "correctAnswer": true,
-      "explanationShort": "Cold water extracts fewer of the bitter compounds that hot water pulls out.\nThat is why the long cold steep produces a sweeter, smoother result than hot brewing.\nCold water pulls sweetness, hot water pulls bitterness.",
+      "termEn": "Cold brew usually tastes more bitter than hot-brewed coffee.",
+      "correctAnswer": false,
+      "explanationShort": "Cold water extracts fewer of the bitter compounds that hot water pulls out.\nThat is why the long cold steep produces a sweeter, smoother result than hot brewing.\nCold brew is usually smoother, not more bitter.",
       "tags": [
         "Grains, roast and coffee basics",
         "Hard"
@@ -537,9 +537,9 @@
     {
       "id": 49,
       "termFr": "",
-      "termEn": "Most healthy adults can safely take up to 200 mg of caffeine in one dose.",
-      "correctAnswer": true,
-      "explanationShort": "200 mg per dose is the safety threshold for most healthy adults, roughly one double espresso.\nThat is a safety guideline, not a comfort guarantee.\nOne double espresso, roughly at the safe limit.",
+      "termEn": "For most healthy adults, the safe single-dose caffeine limit is about 100 mg.",
+      "correctAnswer": false,
+      "explanationShort": "200 mg per dose is the safety threshold for most healthy adults, roughly one double espresso.\nThat is a safety guideline, not a comfort guarantee.\n100 mg is not the usual upper safe single-dose reference for healthy adults.",
       "tags": [
         "Myths and misconceptions",
         "Hard"
@@ -724,7 +724,7 @@
     {
       "id": 66,
       "termFr": "",
-      "termEn": "Soy milk never curdles when added to coffee.",
+      "termEn": "Soy milk stays perfectly smooth in hot coffee.",
       "correctAnswer": false,
       "explanationShort": "Soy milk is sensitive to heat and acidity, and espresso delivers both at once.\nWhen the two meet, the acidity destabilizes the soy protein and causes it to split.\nHot acidic espresso and soy do not always mix.",
       "tags": [
@@ -735,7 +735,7 @@
     {
       "id": 67,
       "termFr": "",
-      "termEn": "All plant-based milks have a neutral flavor that does not change coffee's taste.",
+      "termEn": "All plant-based milks leave coffee tasting basically the same.",
       "correctAnswer": false,
       "explanationShort": "Each plant milk has its own flavor profile that it adds to the drink.\nCoconut brings tropical notes, almond adds nuttiness, and oat contributes mild sweetness.\nPlant milk choice changes what the coffee tastes like.",
       "tags": [
@@ -746,9 +746,9 @@
     {
       "id": 68,
       "termFr": "",
-      "termEn": "Ordering a doppio gives you roughly twice the caffeine of a single espresso.",
-      "correctAnswer": true,
-      "explanationShort": "A doppio is two espresso shots pulled together.\nSince each shot contains roughly 60 to 75 mg of caffeine, a doppio doubles that.\nTwo shots deliver roughly 150 mg, more than most energy drinks.",
+      "termEn": "Ordering a doppio gives you about the same caffeine as a single espresso.",
+      "correctAnswer": false,
+      "explanationShort": "A doppio is two espresso shots pulled together.\nSince each shot contains roughly 60 to 75 mg of caffeine, a doppio roughly doubles that.\nA doppio has much more caffeine than a single shot.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -834,9 +834,9 @@
     {
       "id": 76,
       "termFr": "",
-      "termEn": "An americano contains the same caffeine as its espresso base.",
-      "correctAnswer": true,
-      "explanationShort": "An americano is made by adding hot water to an espresso shot to lengthen the drink.\nThe espresso base stays the same, so the caffeine stays the same regardless of cup size.\nSame espresso, more water, same caffeine.",
+      "termEn": "An americano ends up with lower caffeine than its espresso base.",
+      "correctAnswer": false,
+      "explanationShort": "An americano is made by adding hot water to an espresso shot to lengthen the drink.\nThe espresso base stays the same, so the caffeine stays the same regardless of cup size.\nWater changes strength, not total caffeine.",
       "tags": [
         "Beverages and drink families",
         "Easy"
@@ -845,7 +845,7 @@
     {
       "id": 77,
       "termFr": "",
-      "termEn": "Limescale in a coffee machine can only affect taste, not the machine itself.",
+      "termEn": "Limescale in a coffee machine affects flavor but leaves the machine unharmed.",
       "correctAnswer": false,
       "explanationShort": "Heavy limescale restricts water flow and makes the machine work harder.\nOver time, that can damage performance as well as affect taste.\nScale hurts the machine, not just the cup.",
       "tags": [
@@ -977,9 +977,9 @@
     {
       "id": 89,
       "termFr": "",
-      "termEn": "Wild coffee plants still grow naturally in Ethiopia today.",
-      "correctAnswer": true,
-      "explanationShort": "Ethiopia is the only place where coffee grows wild without being planted by humans.\nAll cultivated coffee varieties in the world trace back to those Ethiopian plants.\nEvery cup starts in Ethiopia.",
+      "termEn": "Wild coffee plants are native to South America.",
+      "correctAnswer": false,
+      "explanationShort": "Ethiopia is the only place where coffee grows wild without being planted by humans.\nAll cultivated coffee varieties in the world trace back to those Ethiopian plants.\nWild coffee points back to Ethiopia, not South America.",
       "tags": [
         "Coffee market and origins",
         "Easy"
@@ -1032,9 +1032,9 @@
     {
       "id": 94,
       "termFr": "",
-      "termEn": "Fairtrade focuses on fairer trading conditions for producers.",
-      "correctAnswer": true,
-      "explanationShort": "Fairtrade focuses on the trading relationship between buyers and farmers.\nIts goal is to guarantee fairer prices and more stability for small producers.\nFairtrade changes who gets paid, not the taste.",
+      "termEn": "Fairtrade mainly certifies roast quality and flavor precision.",
+      "correctAnswer": false,
+      "explanationShort": "Fairtrade focuses on the trading relationship between buyers and farmers.\nIts goal is to guarantee fairer prices and more stability for small producers.\nFairtrade is about trading terms for producers, not cup scoring.",
       "tags": [
         "Coffee market and origins",
         "Easy"
@@ -1153,9 +1153,9 @@
     {
       "id": 105,
       "termFr": "",
-      "termEn": "Turkish coffee is served with the grounds still in the cup, unlike espresso.",
-      "correctAnswer": true,
-      "explanationShort": "Turkish coffee is simmered slowly in a small metal pot, then poured directly into the cup.\nBecause it is unfiltered, the grounds settle at the bottom of the cup.\nGrounds in the cup, not filtered out.",
+      "termEn": "Turkish coffee is served as a clear, filtered drink.",
+      "correctAnswer": false,
+      "explanationShort": "Turkish coffee is simmered slowly in a small metal pot, then poured directly into the cup.\nBecause it is unfiltered, the grounds settle at the bottom of the cup.\nTurkish coffee arrives with grounds, not as a clear filtered cup.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -1230,9 +1230,9 @@
     {
       "id": 112,
       "termFr": "",
-      "termEn": "An extra espresso shot adds roughly 75 mg of caffeine to any drink.",
-      "correctAnswer": true,
-      "explanationShort": "Each espresso shot carries roughly 60 to 75 mg of caffeine.\nAdding one more shot adds that same amount directly on top of the existing total.\nMore shots, more caffeine.",
+      "termEn": "An extra espresso shot adds roughly 20 mg of caffeine to any drink.",
+      "correctAnswer": false,
+      "explanationShort": "Each espresso shot carries roughly 60 to 75 mg of caffeine.\nAdding one more shot adds that same amount directly on top of the existing total.\nOne extra shot adds far more than 20 mg.",
       "tags": [
         "Myths and misconceptions",
         "Medium"
@@ -1318,9 +1318,9 @@
     {
       "id": 120,
       "termFr": "",
-      "termEn": "A larger latte does not necessarily contain more caffeine than a smaller one.",
-      "correctAnswer": true,
-      "explanationShort": "The caffeine in a latte comes entirely from the espresso shots, not from the cup size.\nA large and a small latte made with the same number of shots carry exactly the same caffeine.\nCup size adds milk, not caffeine.",
+      "termEn": "A larger latte always contains more caffeine than a smaller one.",
+      "correctAnswer": false,
+      "explanationShort": "The caffeine in a latte comes entirely from the espresso shots, not from the cup size.\nA large and a small latte made with the same number of shots carry exactly the same caffeine.\nIn a latte, cup size adds milk first, not automatic caffeine.",
       "tags": [
         "Myths and misconceptions",
         "Easy"
@@ -1428,9 +1428,9 @@
     {
       "id": 130,
       "termFr": "",
-      "termEn": "How coffee is processed after harvesting can affect its flavor.",
-      "correctAnswer": true,
-      "explanationShort": "After harvesting, the coffee cherry can be removed and dried in different ways: natural, washed, or honey.\nEach method leaves a distinct flavor imprint on the bean before it even reaches the roaster.\nFlavor starts on the farm, not the roaster.",
+      "termEn": "Coffee processing after harvest leaves the flavor basically unchanged.",
+      "correctAnswer": false,
+      "explanationShort": "After harvesting, the coffee cherry can be removed and dried in different ways: natural, washed, or honey.\nEach method leaves a distinct flavor imprint on the bean before it even reaches the roaster.\nProcessing shapes flavor long before roasting.",
       "tags": [
         "Grains, roast and coffee basics",
         "Hard"
@@ -1483,7 +1483,7 @@
     {
       "id": 135,
       "termFr": "",
-      "termEn": "Coffee is the only source of caffeine in a typical American diet.",
+      "termEn": "Coffee accounts for virtually all caffeine in a typical American diet.",
       "correctAnswer": false,
       "explanationShort": "Caffeine also appears in tea, chocolate, soft drinks, and certain medications.\nCoffee may be the dominant source for most adults, but it is far from the only one.\nCoffee leads, but others follow.",
       "tags": [
@@ -1549,9 +1549,9 @@
     {
       "id": 141,
       "termFr": "",
-      "termEn": "If espresso runs much longer than 30 seconds, it can taste more bitter.",
-      "correctAnswer": true,
-      "explanationShort": "A well-pulled espresso finishes in about 20 to 30 seconds.\nWhen extraction runs past that, it starts pulling harsher, more bitter compounds.\nOver 30 seconds and the shot turns harsh.",
+      "termEn": "Espresso that runs well past 30 seconds usually tastes smoother and softer.",
+      "correctAnswer": false,
+      "explanationShort": "A well-pulled espresso finishes in about 20 to 30 seconds.\nWhen extraction runs past that, it starts pulling harsher, more bitter compounds.\nLong extractions usually push espresso toward harshness, not softness.",
       "tags": [
         "Troubleshooting and maintenance",
         "Medium"
@@ -1593,7 +1593,7 @@
     {
       "id": 145,
       "termFr": "",
-      "termEn": "Coffee was immediately accepted everywhere it spread and was never banned.",
+      "termEn": "Coffee spread smoothly everywhere it went and won instant approval.",
       "correctAnswer": false,
       "explanationShort": "In the 16th century, coffee was banned in several cities including Mecca and Cairo.\nAuthorities feared that coffeehouses were becoming centers of political debate and social unrest.\nPopular enough to be banned, too popular to stay banned.",
       "tags": [
@@ -1615,7 +1615,7 @@
     {
       "id": 147,
       "termFr": "",
-      "termEn": "Turkish coffee is only made and drunk in Turkey.",
+      "termEn": "Turkish coffee belongs almost exclusively to Turkey.",
       "correctAnswer": false,
       "explanationShort": "Turkish coffee is finely ground coffee simmered in a small pot and served unfiltered, grounds and all.\nThe method is used across the Middle East, the Balkans, and many other countries.\nSame method, many countries.",
       "tags": [
@@ -1648,7 +1648,7 @@
     {
       "id": 150,
       "termFr": "",
-      "termEn": "A skinny latte has less caffeine than a regular latte.",
+      "termEn": "A skinny latte delivers a lighter caffeine hit than a regular latte.",
       "correctAnswer": false,
       "explanationShort": "Skinny refers to the type of milk used, low-fat or non-fat.\nBecause the number of shots stays the same, the caffeine content is identical to a regular latte.\nLess fat, same caffeine.",
       "tags": [
@@ -1681,9 +1681,9 @@
     {
       "id": 153,
       "termFr": "",
-      "termEn": "Most coffee farmers work on plots smaller than 25 acres.",
-      "correctAnswer": true,
-      "explanationShort": "About 80 percent of the world's coffee is grown on small family farms, most smaller than 25 acres.\nFor most of these families, coffee is their primary source of income.\nSmall plots, global scale.",
+      "termEn": "Most coffee farmers work on estates bigger than 100 acres.",
+      "correctAnswer": false,
+      "explanationShort": "About 80 percent of the world's coffee is grown on small family farms, most smaller than 25 acres.\nFor most of these families, coffee is their primary source of income.\nCoffee is mostly grown on small family plots, not huge estates.",
       "tags": [
         "Coffee market and origins",
         "Hard"
@@ -2055,7 +2055,7 @@
     {
       "id": 187,
       "termFr": "",
-      "termEn": "Shifts in temperature and rainfall are not expected to impact coffee production.",
+      "termEn": "Shifts in temperature and rainfall leave coffee production largely unchanged.",
       "correctAnswer": false,
       "explanationShort": "Coffee depends on stable temperature and rainfall patterns to grow well.\nWhen those conditions shift, yields and quality can both suffer.\nClimate changes the cup long before it changes the map.",
       "tags": [

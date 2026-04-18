@@ -2189,6 +2189,17 @@ void function () {
   UI.prototype.setState = function (next) {
     const prev = this.state;
 
+    try {
+      if (this.config?.debug?.enabled && (prev === STATES.PLAYING || next === STATES.END || prev === STATES.END)) {
+        console.warn("[WT_UI][END_DEBUG] setState", {
+          prev,
+          next,
+          finishingRun: !!this._runtime?.finishingRun,
+          hasGame: !!this.game
+        });
+      }
+    } catch (_) { /* silent */ }
+
     // Fail-closed: never let PLAYING runtime leak into another screen.
     if (prev === STATES.PLAYING && next !== STATES.PLAYING && this._runtime) {
       const keepChanceOverlayVisible = (this._runtime.finishingRun === true);
@@ -4403,6 +4414,20 @@ void function () {
     const mode = String(this._runtime?.runMode || "").trim();
     if (!mode) throw new Error("UI runtime runMode missing in _finishRun");
 
+    try {
+      if (this.config?.debug?.enabled) {
+        console.warn("[WT_UI][END_DEBUG] finishRun:start", {
+          state: this.state,
+          mode,
+          scoreFP,
+          maxChances,
+          chancesLeft,
+          runItemIds: Array.isArray(this._runtime?.runItemIds) ? this._runtime.runItemIds.length : 0,
+          runMistakeIds: Array.isArray(this._runtime?.runMistakeIds) ? this._runtime.runMistakeIds.length : 0
+        });
+      }
+    } catch (_) { /* silent */ }
+
     // Single source of truth: storage.js (V2)
     // - PB + history are handled by StorageManager.recordRunComplete()
 
@@ -4473,6 +4498,19 @@ void function () {
       poolCompleteCelebration: !!this._runtime?.poolCompleteCelebrationPending
     };
 
+    try {
+      if (this.config?.debug?.enabled) {
+        console.warn("[WT_UI][END_DEBUG] finishRun:lastRun", {
+          mode: this._runtime?.lastRun?.mode,
+          scoreFP: this._runtime?.lastRun?.scoreFP,
+          bestScoreFP: this._runtime?.lastRun?.bestScoreFP,
+          mistakeIds: Array.isArray(this._runtime?.lastRun?.mistakeIds) ? this._runtime.lastRun.mistakeIds.length : 0,
+          runItemIds: Array.isArray(this._runtime?.lastRun?.runItemIds) ? this._runtime.lastRun.runItemIds.length : 0,
+          poolCompleteCelebration: !!this._runtime?.lastRun?.poolCompleteCelebration
+        });
+      }
+    } catch (_) { /* silent */ }
+
     // Consume one-shot runtime flag
     if (this._runtime) this._runtime.poolCompleteCelebrationPending = false;
 
@@ -4526,6 +4564,12 @@ void function () {
       app.classList.add("wt-fade");
       app.classList.remove("wt-fade--in");
       app.classList.add("wt-fade--out");
+      if (this.config?.debug?.enabled) {
+        console.warn("[WT_UI][END_DEBUG] finishRun:fadeOutApplied", {
+          className: app.className,
+          inlineOpacity: app.style ? app.style.opacity || "" : ""
+        });
+      }
     } catch (_) {
       if (this._runtime) this._runtime.finishingRun = false;
       this.setState(STATES.END);
@@ -4545,6 +4589,12 @@ void function () {
           a.classList.add("wt-fade");
           a.classList.remove("wt-fade--out");
           a.classList.add("wt-fade--in");
+          if (this.config?.debug?.enabled) {
+            console.warn("[WT_UI][END_DEBUG] finishRun:fadeInApplied", {
+              className: a.className,
+              inlineOpacity: a.style ? a.style.opacity || "" : ""
+            });
+          }
         } catch (_) { }
 
         this._runtime.finishFadeCleanupTimerId = window.setTimeout(() => {
@@ -4556,6 +4606,12 @@ void function () {
             b.classList.remove("wt-fade--out");
             b.classList.remove("wt-fade--in");
             b.classList.remove("transitioning"); // restore interactions
+            if (this.config?.debug?.enabled) {
+              console.warn("[WT_UI][END_DEBUG] finishRun:fadeCleanup", {
+                className: b.className,
+                inlineOpacity: b.style ? b.style.opacity || "" : ""
+              });
+            }
           } catch (_) { }
 
         }, FADE_MS + 40);
@@ -5936,6 +5992,8 @@ void function () {
         }
         if (this.appEl.inert === true) { try { this.appEl.inert = false; } catch (_) { } }
         if (this.appEl.style.pointerEvents === "none") { this.appEl.style.pointerEvents = ""; }
+        this.appEl.classList.remove("wt-fade--out");
+        this.appEl.classList.remove("transitioning");
       } catch (_) { }
     }
 
@@ -7185,6 +7243,21 @@ ${(() => {
     const lastRun = this._runtime?.lastRun || {};
     const mode = String(lastRun.mode || this._runtime?.runMode || "").trim();
     if (!mode) throw new Error("END render mode missing");
+    try {
+      if (cfg.debug?.enabled) {
+        const app = el("app");
+        console.warn("[WT_UI][END_DEBUG] renderEnd:start", {
+          mode,
+          state: this.state,
+          hasLastRun: !!this._runtime?.lastRun,
+          scoreFP: lastRun.scoreFP,
+          mistakeIds: Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds.length : null,
+          runItemIds: Array.isArray(lastRun.runItemIds) ? lastRun.runItemIds.length : null,
+          appClassName: app ? app.className : "",
+          appInlineOpacity: (app && app.style) ? (app.style.opacity || "") : ""
+        });
+      }
+    } catch (_) { /* silent */ }
     const isRun = (mode === MODES.RUN);
     const isPractice = (mode === MODES.PRACTICE);
     const isBonus = (mode === MODES.BONUS);
@@ -7584,7 +7657,7 @@ ${(() => {
       shareEnabled,
       w,
       shareTitle,
-      getShareText: this._getShareText ? () => this._getShareText() : null
+      getShareText: this._getShareText ? this._getShareText.bind(this) : null
     });
 
     const shouldPromoteShare =
