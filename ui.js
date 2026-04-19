@@ -6652,9 +6652,6 @@ void function () {
       return ``;
     })();
 
-    const howToPlayAria = String(w.system?.more || "").trim();
-    const howToPlayTitle = String(w.system?.more || "").trim();
-
     const landingHeaderRowHtml = `
   <div class="wt-landing-header">
     <div class="wt-landing-header__brand">
@@ -6662,12 +6659,6 @@ void function () {
     </div>
    <div class="wt-landing-top-right">
       ${chestHintTextLanding ? `<div class="wt-chest-hint-inline">${escapeHtml(chestHintTextLanding)}</div>` : ``}
-     <button
-        class="wt-btn-icon"
-        data-action="open-howto"
-        aria-label="${escapeHtml(howToPlayAria)}"
-        title="${escapeHtml(howToPlayTitle)}"
-      >${renderIcon("help-circle")}</button>
       ${canShowChest ? `
         <button
           type="button"
@@ -7572,9 +7563,6 @@ ${(() => {
 
     const runsExhausted = (isRun && !premium && Number.isFinite(remaining) && remaining <= 0);
 
-    const howToPlayAria = String(w.system?.more || "").trim();
-    const howToPlayTitle = howToPlayAria;
-
     const homeLabel = String(w.system?.home || "").trim();
     const homeBtnHtml = homeLabel
       ? `
@@ -7695,16 +7683,6 @@ ${(() => {
 
     <div class="wt-row wt-row--tight" style="flex-shrink:0">
       ${homeBtnHtml}
-
-      ${this.state === STATES.LANDING ? `
-        <button
-          type="button"
-          class="wt-btn-icon"
-          data-action="open-howto"
-          aria-label="${escapeHtml(howToPlayAria)}"
-          title="${escapeHtml(howToPlayTitle)}"
-        >${renderIcon("help-circle")}</button>
-      ` : ``}
 
       ${canShowChest ? `
         <button
@@ -8055,12 +8033,19 @@ ${(() => {
       ? Math.max(0, Math.min(mcInt, mcInt - leftInt))
       : 0;
 
-    // Filled circles = mistakes already made
     const mistakesVisual = (mcInt > 0)
-      ? Array(mcInt)
-        .fill(null)
-        .map((_, i) => (i < mistakesCount ? "\u25C9" : "\u25CE"))
-        .join("")
+      ? `
+        <span class="wt-hud-lives" aria-hidden="true">
+          ${Array(mcInt)
+            .fill(null)
+            .map((_, i) => {
+              const isOn = i < mistakesCount;
+              const isLast = isOn && mistakesCount > 0 && i === (mistakesCount - 1);
+              return `<span class="wt-hud-lives__dot${isOn ? "" : " wt-hud-lives__dot--off"}${isLast ? " wt-hud-lives__dot--last" : ""}"></span>`;
+            })
+            .join("")}
+        </span>
+      `
       : "";
 
     // Dynamic color tier
@@ -8096,7 +8081,7 @@ ${(() => {
 	        ${hasChances ? `
 	          <div class="wt-pill wt-pill--chances${mistakeTierClass}${pulseOn ? " wt-pill--danger-pulse" : ""}"
 	           aria-label="${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}">
-	            <span>${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}</span>${mistakeDeltaHtml}<span style="margin-left:4px">${mistakesVisual}</span>
+	            <span>${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}</span>${mistakeDeltaHtml}${mistakesVisual}
 	          </div>
 	        ` : ``}
 	      </div>

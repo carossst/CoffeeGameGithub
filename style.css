@@ -302,6 +302,10 @@ body {
   overscroll-behavior-y: auto;
 }
 
+body.wt-page--doc {
+  background: rgb(var(--bg));
+}
+
 a {
   color: rgb(var(--primary-dark));
   text-underline-offset: 2px;
@@ -1335,6 +1339,8 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 .wt-playing-seenonly {
   margin: -6px 0 12px;
   text-align: center;
+  font-size: var(--fs-xs);
+  line-height: 1.35;
 }
 
 /* Actions: single-column variant */
@@ -1384,8 +1390,8 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: 1px solid rgb(var(--border));
   background: var(--glass-65);
@@ -1795,6 +1801,35 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   color: rgb(var(--text-strong));
   text-align: center;
   font-variant-numeric: tabular-nums;
+}
+
+.wt-hud-lives {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.wt-hud-lives__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgb(var(--danger));
+  box-shadow: 0 0 0 1px rgb(var(--danger) / var(--wt-a-18));
+  display: inline-block;
+}
+
+.wt-hud-lives__dot--off {
+  background: rgb(var(--border));
+  box-shadow: inset 0 0 0 1px rgb(var(--border));
+}
+
+.wt-hud-lives__dot--last {
+  box-shadow:
+    0 0 0 1px rgb(var(--danger) / var(--wt-a-20)),
+    0 0 16px rgb(var(--danger) / var(--wt-a-20));
+  animation: wtPulse var(--wt-anim-pulse) ease-in-out infinite;
 }
 
 @media (max-width: 360px) {
