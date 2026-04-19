@@ -18,30 +18,45 @@
 
   // ── Internal helpers ────────────────────────────────────────────
 
-  /** Decode HTML-entity-obfuscated string (e.g. "a&#64;b&#46;c" → "a@b.c") */
-  function decodeHtmlEntities(str) {
-    const t = document.createElement("textarea");
-    t.innerHTML = str;
-    return t.value;
-  }
-
   /** Sanitize a string for safe use in mailto query params (strip injection vectors) */
   function sanitize(str) {
     return String(str || "").replace(/[\r\n]/g, " ").trim();
   }
 
-  // ── Exported: getSupportEmailDecoded ────────────────────────────
-  // Returns decoded support email from WT_CONFIG.support.emailObfuscated.
-  // Fail-closed: returns "" if anything is missing or invalid.
+  function decodeXorCodes(cipher) {
+    const c = (cipher && typeof cipher === "object") ? cipher : null;
+    const key = Number(c?.key);
+    const codes = Array.isArray(c?.codes) ? c.codes : null;
+    if (!Number.isFinite(key) || !codes || !codes.length) return "";
+
+    try {
+      const out = codes.map((n) => {
+        const code = Number(n);
+        if (!Number.isFinite(code)) throw new Error("bad code");
+        return String.fromCharCode(code ^ key);
+      }).join("").replace(/[\r\n]/g, "").trim();
+
+      return out.includes("@") ? out : "";
+    } catch (_) {
+      return "";
+    }
+  }
 
   function getSupportEmailDecoded() {
     try {
-      const obf = String(window.WT_CONFIG?.support?.emailObfuscated || "").trim();
-      if (!obf) return "";
+      const support = window.WT_CONFIG?.support;
+      const email = decodeXorCodes(support?.emailCipher);
+      return email || "";
+    } catch (_) {
+      return "";
+    }
+  }
 
-      const email = decodeHtmlEntities(obf).replace(/[\r\n]/g, "").trim();
-      if (!email || !email.includes("@")) return "";
-      return email;
+  function getWaitlistEmailDecoded() {
+    try {
+      const waitlist = window.WT_CONFIG?.waitlist;
+      const email = decodeXorCodes(waitlist?.toEmailCipher);
+      return email || "";
     } catch (_) {
       return "";
     }
@@ -57,9 +72,7 @@
     if (!wl?.enabled) return "";
 
     // Decode recipient from config (technical, never displayed)
-    const obf = String(wl.toEmailObfuscated || "").trim();
-    if (!obf) return "";
-    const to = decodeHtmlEntities(obf).replace(/[\r\n]/g, "").trim();
+    const to = getWaitlistEmailDecoded();
     if (!to || !to.includes("@")) return "";
 
     // Subject: prefix from config (technical) + suffix from wording (copy)
@@ -129,29 +142,25 @@
           // Reset previous wiring before re-applying it
           supportLink.onclick = null;
 
-          if (!isAppPage) {
-            supportLink.removeAttribute("href");
-            supportLink.removeAttribute("target");
-            supportLink.removeAttribute("rel");
-          } else {
-            // href: mailto for right-click "copy link address" (UX convenience).
-            // Email is technical plumbing, never shown as text.
-            const email = getSupportEmailDecoded();
-            if (email) {
-              supportLink.href = `mailto:${email}`;
-            } else {
-              supportLink.removeAttribute("href");
-            }
+          // Do not expose a mailto href in the static DOM.
+          supportLink.setAttribute("href", "#");
+          supportLink.removeAttribute("target");
+          supportLink.removeAttribute("rel");
 
-            supportLink.onclick = (e) => {
-              e.preventDefault();
+          supportLink.onclick = (e) => {
+            e.preventDefault();
+
+            if (isAppPage) {
               try {
                 document.dispatchEvent(new CustomEvent("wt-open-support"));
               } catch (_) {
                 // silent
               }
-            };
-          }
+              return;
+            }
+
+            openSupportEmail();
+          };
         }
       }
 
@@ -181,8 +190,8 @@
 
   window.WT_Email = {
     buildMailto,
-    decodeObfuscated: decodeHtmlEntities,
     getSupportEmailDecoded,
+    getWaitlistEmailDecoded,
     initEmailLinks,
     openSupportEmail
   };

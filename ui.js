@@ -351,6 +351,27 @@ void function () {
     `;
   }
 
+  function renderIcon(name, options) {
+    if (!window.WT_ICONS || typeof window.WT_ICONS.renderIcon !== "function") return "";
+    return window.WT_ICONS.renderIcon(name, options);
+  }
+
+  function renderTextWithStrong(value) {
+    const text = String(value || "");
+    if (!text) return "";
+
+    return text
+      .split(/(\*\*[^*]+\*\*)/g)
+      .filter(Boolean)
+      .map((part) => {
+        if (/^\*\*[^*]+\*\*$/.test(part)) {
+          return `<strong>${escapeHtml(part.slice(2, -2))}</strong>`;
+        }
+        return escapeHtml(part);
+      })
+      .join("");
+  }
+
 
 
 
@@ -6503,7 +6524,7 @@ void function () {
               ? `${mistakesLabel}: ${fillTemplate(mistakesTpl, { mistakes })}`
               : "";
 
-          const displayLine = [masteryLine, mistakesLine].filter(Boolean).join(" ");
+          const displayLine = (mistakes > 0) ? mistakesLine : masteryLine;
 
           if (title || displayLine || phaseBadge) {
             welcomeBackHtml = `
@@ -6646,7 +6667,7 @@ void function () {
         data-action="open-howto"
         aria-label="${escapeHtml(howToPlayAria)}"
         title="${escapeHtml(howToPlayTitle)}"
-      >?</button>
+      >${renderIcon("help-circle")}</button>
       ${canShowChest ? `
         <button
           type="button"
@@ -6654,7 +6675,7 @@ void function () {
           class="wt-btn-icon${chestTeaseClass}"
           aria-label="${escapeHtml(chestAria)}"
           title="${escapeHtml(chestAria)}"
-        >⚡</button>
+        >${renderIcon("zap")}</button>
       ` : ``}
     </div>
   </div>
@@ -6668,7 +6689,7 @@ ${landingHeaderRowHtml}
 
    ${landingUrgencyHtml}
 
-        ${tagline ? `<p class="wt-meta wt-tagline">${escapeHtml(tagline)}</p>` : ``}
+        ${tagline ? `<p class="wt-meta wt-tagline">${renderTextWithStrong(tagline)}</p>` : ``}
 
         <p class="wt-sub wt-landing-subtitle">${subtitleHtml}</p>
   ${(() => {
@@ -6998,20 +7019,81 @@ ${(() => {
   function buildEndMicroLines(ctx) {
     const {
       isRun, premium, end, runtime, pbLine, bestStreakLine, poolCompleteCelebration,
-      runIdentityTpl, vars, pbPremiumHint, freeRunMessage
+      runIdentityTpl, vars, pbPremiumHint, freeRunMessage, lastRun
     } = ctx;
 
     const microLines = [];
 
     if (isRun) {
+      const strongestTagTpl = String(end?.strongestTagLine || "").trim();
+      const weakestTagTpl = String(end?.weakestTagLine || "").trim();
       const copyByTag = (end && typeof end.endTagHighlights === "object") ? end.endTagHighlights : null;
-      const runMistakeIds = Array.isArray(runtime?.runMistakeIds) ? runtime.runMistakeIds : [];
+      const runMistakeIds = Array.isArray(lastRun?.mistakeIds) ? lastRun.mistakeIds : [];
+      const runItemIds = Array.isArray(lastRun?.runItemIds) ? lastRun.runItemIds : [];
       const byId = (runtime && runtime.contentById && typeof runtime.contentById === "object")
         ? runtime.contentById
         : {};
+      const ignored = new Set(["Easy", "Medium", "Hard", "Singles", "Doubles", "Tournament", "Both", "Singles only", "Doubles only"]);
+
+      if (runItemIds.length > 0 && (strongestTagTpl || weakestTagTpl)) {
+        const servedCounts = Object.create(null);
+        const mistakeCounts = Object.create(null);
+
+        for (const rawId of runItemIds) {
+          const item = byId[String(rawId)] || byId[rawId] || null;
+          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
+          for (const tag of tags) {
+            servedCounts[tag] = clampInt(Number(servedCounts[tag] || 0) + 1, 0, 9999);
+          }
+        }
+
+        for (const rawId of runMistakeIds) {
+          const item = byId[String(rawId)] || byId[rawId] || null;
+          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
+          for (const tag of tags) {
+            mistakeCounts[tag] = clampInt(Number(mistakeCounts[tag] || 0) + 1, 0, 9999);
+          }
+        }
+
+        let strongestTag = "";
+        let strongestCount = 0;
+        let strongestTie = false;
+        let weakestTag = "";
+        let weakestCount = 0;
+        let weakestTie = false;
+
+        for (const tag in servedCounts) {
+          const served = clampInt(Number(servedCounts[tag] || 0), 0, 9999);
+          const missed = clampInt(Number(mistakeCounts[tag] || 0), 0, 9999);
+          const correct = clampInt(served - missed, 0, 9999);
+
+          if (correct > strongestCount) {
+            strongestTag = tag;
+            strongestCount = correct;
+            strongestTie = false;
+          } else if (correct > 0 && correct === strongestCount) {
+            strongestTie = true;
+          }
+
+          if (missed > weakestCount) {
+            weakestTag = tag;
+            weakestCount = missed;
+            weakestTie = false;
+          } else if (missed > 0 && missed === weakestCount) {
+            weakestTie = true;
+          }
+        }
+
+        if (!strongestTie && strongestCount > 0 && strongestTag && strongestTagTpl) {
+          microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(strongestTagTpl, { tag: strongestTag }))}</p>`);
+        }
+
+        if (!weakestTie && weakestCount > 0 && weakestTag && weakestTagTpl) {
+          microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(weakestTagTpl, { tag: weakestTag }))}</p>`);
+        }
+      }
 
       if (copyByTag && runMistakeIds.length > 0) {
-        const ignored = new Set(["Easy", "Medium", "Hard"]);
         const counts = Object.create(null);
 
         for (const rawId of runMistakeIds) {
@@ -7502,7 +7584,7 @@ ${(() => {
         data-action="go-home"
         aria-label="${escapeHtml(homeLabel)}"
         title="${escapeHtml(homeLabel)}"
-      >\u2302</button>
+      >${renderIcon("home")}</button>
     `
       : ``;
 
@@ -7621,7 +7703,7 @@ ${(() => {
           data-action="open-howto"
           aria-label="${escapeHtml(howToPlayAria)}"
           title="${escapeHtml(howToPlayTitle)}"
-        >?</button>
+        >${renderIcon("help-circle")}</button>
       ` : ``}
 
       ${canShowChest ? `
@@ -7631,14 +7713,14 @@ ${(() => {
           class="wt-btn-icon${chestTeaseClass}"
           aria-label="${escapeHtml(chestAria)}"
           title="${escapeHtml(chestAria)}"
-        >⚡</button>
+        >${renderIcon("zap")}</button>
       ` : ``}
     </div>
   </div>
 `;
 
     const microLinesHtml = buildEndMicroLines({
-      isRun, premium, end, runtime: this._runtime, pbLine, bestStreakLine,
+      isRun, premium, end, runtime: this._runtime, lastRun, pbLine, bestStreakLine,
       poolCompleteCelebration, runIdentityTpl, vars, pbPremiumHint, freeRunMessage
     });
     // Paywall bridge block (FREE exhausted): make it visible, not buried
@@ -8447,7 +8529,7 @@ ${questionPrompt ? `
       const items = arr
         .map(x => String(x || "").trim())
         .filter(Boolean)
-        .map(x => `<li>${escapeHtml(x)}</li>`)
+        .map(x => `<li>${renderTextWithStrong(x)}</li>`)
         .join("");
       return `<ul class="${cls}">${items}</ul>`;
     };
@@ -8567,7 +8649,7 @@ ${questionPrompt ? `
       ${(hasValueSection && hasTrustSection) ? `<div class="wt-divider"></div>` : ``}
 
       ${hasTrustSection ? `
-       ${trustLine ? `<div class="wt-meta wt-meta--strong" style="margin-top:6px">${escapeHtml(trustLine)}</div>` : ``}
+       ${trustLine ? `<div class="wt-meta wt-meta--strong" style="margin-top:6px">${renderTextWithStrong(trustLine)}</div>` : ``}
         ${trustBullets.length ? `<div style="margin-top:var(--gap-1)">${renderBullets(trustBullets, true)}</div>` : ``}
       ` : ``}
 

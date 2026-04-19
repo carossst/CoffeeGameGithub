@@ -68,7 +68,7 @@
       parentUrl: "",
 
       // UI signature icon (in-card). Single source of truth for in-app branding.
-      uiLogoUrl: "./icons/icon512x512-rond.png"
+      uiLogoUrl: "./icons/brand-logo-512.png"
     },
 
     // Storage (single source of truth)
@@ -394,8 +394,11 @@
       minUniqueSeenToShow: 100,
 
 
-      // Obfuscated email (anti-scraping)
-      toEmailObfuscated: "carolestromboni&#64;gmail&#46;com",
+      // Email stored as XOR-obfuscated char codes.
+      toEmailCipher: {
+        key: 23,
+        codes: [116, 118, 101, 120, 123, 114, 100, 99, 101, 120, 122, 117, 120, 121, 126, 87, 112, 122, 118, 126, 123, 57, 116, 120, 122]
+      },
       // IMPORTANT: keep this as a pure prefix (UI/email helpers may append details)
       subjectPrefix: "[Brew or False][Waitlist]"
 
@@ -443,7 +446,10 @@
 
     // Support
     support: {
-      emailObfuscated: "carolestromboni&#64;gmail&#46;com",
+      emailCipher: {
+        key: 23,
+        codes: [116, 118, 101, 120, 123, 114, 100, 99, 101, 120, 122, 117, 120, 121, 126, 87, 112, 122, 118, 126, 123, 57, 116, 120, 122]
+      },
       subjectPrefix: "[Brew or False][Contact]"
     },
 
@@ -598,7 +604,7 @@
     },
     landing: {
       title: "Brew or False",
-      tagline: "Think you know coffee? Prove it.",
+      tagline: "**Think you know coffee? Prove it.**",
       subtitle: "A fast true-or-false coffee game.\n200 questions about drinks, brewing, beans, and myths.",
       microFun: "Quick games · No signup · Free to try",
       microTrust: "Learn fast, replay often, and fix your mistakes as you go.",
@@ -999,6 +1005,9 @@
       // Definition: longest sequence of consecutive correct answers within the run
       bestStreakLine: "Best streak: {bestStreak} correct in a row.",
 
+      strongestTagLine: "Strongest category this game: {tag}.",
+      weakestTagLine: "Most missed category this game: {tag}.",
+
       endTagHighlights: {
         "Myths and misconceptions": "The coffee myths category was the trickiest this game.",
         "Beverages and drink families": "The coffee drinks category caused the most hesitation this game.",
@@ -1058,17 +1067,17 @@
       trustTitle: "Simple unlock",
 
       valueBullets: [
-        "The full set of 200 coffee questions",
-        "Explanations after every answer",
-        "Mistakes Mode for your mistakes",
-        "Rapid Fire Mode and unlimited replays"
+        "**The full set** of 200 coffee questions",
+        "**Explanations after every answer**",
+        "**Mistakes Mode** for your mistakes",
+        "**Rapid Fire Mode** and unlimited replays"
       ],
 
       // Shared bridge copy (LANDING post-paywall + END runs exhausted)
       bridgeTitle: "Keep building your coffee knowledge.",
       bridgeBody: "Unlock all 200 questions, fix your mistakes, and keep replaying with every mode open.",
 
-      trustLine: "One-time unlock",
+      trustLine: "**One-time unlock**",
       trustBullets: [
         "Pay once, no subscription",
         "No account or signup needed",
@@ -1480,14 +1489,14 @@ Thanks!`
 
 
 
-      // Waitlist email (obfuscated)
-      if (cfg.waitlist && cfg.waitlist.enabled && !cfg.waitlist.toEmailObfuscated) {
-        warn("waitlist.enabled true but toEmailObfuscated missing");
+      // Waitlist email (ciphered)
+      if (cfg.waitlist && cfg.waitlist.enabled && !cfg.waitlist.toEmailCipher) {
+        warn("waitlist.enabled true but toEmailCipher missing");
       }
 
-      // Support email (obfuscated)
-      if (cfg.support && !cfg.support.emailObfuscated) {
-        warn("support.emailObfuscated missing");
+      // Support email (ciphered)
+      if (cfg.support && !cfg.support.emailCipher) {
+        warn("support.emailCipher missing");
       }
     }
   }
