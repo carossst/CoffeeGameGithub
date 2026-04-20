@@ -7118,9 +7118,6 @@ ${(() => {
 
     if (pbLine) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbLine)}</p>`);
     if (bestStreakLine) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(bestStreakLine)}</p>`);
-    if (isRun && !poolCompleteCelebration && runIdentityTpl) {
-      microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>`);
-    }
     if (pbPremiumHint) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(pbPremiumHint)}</p>`);
     if (isRun && !premium && freeRunMessage) microLines.push(String(freeRunMessage || ""));
 
@@ -7409,6 +7406,25 @@ ${(() => {
         shown: String(shown)
       });
     })();
+    const bonusStatsLine = (() => {
+      if (!isBonus) return "";
+
+      const shown = clampInt(totalPresented, 0, 99999);
+      if (shown <= 0) return "";
+
+      const cleared = clampInt(scoreFP, 0, shown);
+      const count = clampInt(seen, 0, 99999);
+      const oneTpl = String(bonusW.endStatsLineOne || "").trim();
+      const manyTpl = String(bonusW.endStatsLine || "").trim();
+      const tpl = (count === 1 && oneTpl) ? oneTpl : manyTpl;
+      if (!tpl) return "";
+
+      return fillTemplate(tpl, {
+        cleared: String(cleared),
+        shown: String(shown),
+        count: String(count)
+      });
+    })();
 
     const modeCopy = buildEndModeCopy({
       isRun, isPractice, isBonus,
@@ -7489,6 +7505,14 @@ ${(() => {
     const scoreLine = scoreLineTpl ? fillTemplate(scoreLineTpl, vars) : "";
     const newBestLine = newBestTpl ? fillTemplate(newBestTpl, vars) : "";
     const endLine = endLineTpl ? fillTemplate(endLineTpl, vars) : "";
+    const runStatsLine = (() => {
+      if (!isRun || !!lastRun.poolCompleteCelebration) return "";
+
+      const tpl = String(end.endStatsLine || "").trim();
+      if (!tpl) return "";
+
+      return fillTemplate(tpl, vars);
+    })();
 
     // bonusDecisionLine replaced by bonusRecoLine (computed in bonus tier block above)
     const bonusDecisionLine = isBonus ? bonusRecoLine : "";
@@ -7766,41 +7790,33 @@ ${(() => {
           const repeatLine = practiceRepeatNoteTpl ? fillTemplate(practiceRepeatNoteTpl, vars) : "";
           const practiceStatsHtml = (() => {
             if (!statsLine) return ``;
-
-            const parts = String(statsLine)
-              .split(/(?<=\.)\s+(?=Mistakes remaining:)/)
-              .map((s) => String(s || "").trim())
-              .filter(Boolean);
-
-            if (parts.length < 2) {
-              return `<p class="wt-muted">${escapeHtml(statsLine)}</p>`;
-            }
-
-            return `
-              <div class="wt-muted wt-end-practice-stats">
-                ${parts.map((part) => `<p>${escapeHtml(part)}</p>`).join("")}
-              </div>
-            `;
+            return `<p class="wt-muted">${escapeHtml(statsLine)}</p>`;
           })();
           return [
-            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
             practiceStatsHtml,
+            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
             repeatLine ? `<p class="wt-muted">${escapeHtml(repeatLine)}</p>` : ``
           ].join("");
         }
         if (isBonus) {
-          return endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``;
+          return [
+            bonusStatsLine ? `<p class="wt-muted">${escapeHtml(bonusStatsLine)}</p>` : ``,
+            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
+            bonusDecisionLine ? `<p class="wt-muted">${escapeHtml(bonusDecisionLine)}</p>` : ``
+          ].join("");
+        }
+        if (isRun) {
+          return [
+            runStatsLine ? `<p class="wt-muted">${escapeHtml(runStatsLine)}</p>` : ``,
+            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
+            runIdentityTpl ? `<p class="wt-meta">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>` : ``,
+            runLensTpl ? `<p class="wt-muted">${escapeHtml(fillTemplate(runLensTpl, vars))}</p>` : ``
+          ].join("");
         }
         return endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``;
       })()}
 
     ${(isRun && runPoolCompleteLine2Tpl) ? `<p class="wt-meta">${escapeHtml(fillTemplate(runPoolCompleteLine2Tpl, vars))}</p>` : ``}
-
-  ${(isBonus && bonusIdentityTpl) ? `<p class="wt-muted">${escapeHtml(bonusIdentityTpl)}</p>` : ``}
-  ${(isBonus && bonusLensTpl) ? `<p class="wt-muted">${escapeHtml(bonusLensTpl)}</p>` : ``}
-  ${(isBonus && bonusDeckSizeLine) ? `<p class="wt-muted">${escapeHtml(bonusDeckSizeLine)}</p>` : ``}
-  ${(isBonus && bonusPoolProgressLine) ? `<p class="wt-muted">${escapeHtml(bonusPoolProgressLine)}</p>` : ``}
-  ${(isBonus && bonusDecisionLine) ? `<p class="wt-meta">${escapeHtml(bonusDecisionLine)}</p>` : ``}
   </div>
 
   ${``}
@@ -8006,6 +8022,7 @@ ${(() => {
     const servedSoFar = Array.isArray(this._runtime?.runItemIds) ? this._runtime.runItemIds.length : 0;
 
     let seenProgressHtml = "";
+    const practiceBadge = String(this.wording?.practice?.title || "").trim();
 
     const qHeadingTpl = String(w.questionHeadingTemplate || "").trim();
     const qNum = (this._runtime?.feedbackPending === true) ? servedSoFar : (servedSoFar + 1);
@@ -8082,6 +8099,11 @@ ${(() => {
 	          <div class="wt-pill wt-pill--chances${mistakeTierClass}${pulseOn ? " wt-pill--danger-pulse" : ""}"
 	           aria-label="${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}">
 	            <span>${escapeHtml(mistakesLabel)}: ${mistakesCount}/${mcInt}</span>${mistakeDeltaHtml}${mistakesVisual}
+	          </div>
+	        ` : ``}
+          ${(modeNow === "PRACTICE" && practiceBadge) ? `
+	          <div class="wt-pill" aria-label="${escapeHtml(practiceBadge)}">
+	            <span>${escapeHtml(practiceBadge)}</span>
 	          </div>
 	        ` : ``}
 	      </div>

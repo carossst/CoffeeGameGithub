@@ -1585,9 +1585,9 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 .wt-hud {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: nowrap;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
