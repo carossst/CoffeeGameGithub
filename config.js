@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "2.9",
+    version: "3.1",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -893,7 +893,7 @@
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
       modalTitle: "Rapid Fire Mode",
-      modalBody: "Rapid Fire Mode is faster and more demanding. It uses only questions you've already seen in the game. Test your coffee knowledge under pressure.",
+      modalBody: "Rapid Fire Mode is faster and more demanding.\nIt uses only questions you've already seen in the game.\nTest your coffee knowledge under pressure.",
       modalCta: "Play Rapid Fire Mode"
     },
 
@@ -1142,8 +1142,8 @@
       // If all are empty, nothing is rendered.
       socialProofTitle: "What players say",
       socialProofQuotes: [
-        { quote: "★★★★★\nFast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Maya, home brewer" },
-        { quote: "★★★★★\nThe true or false format makes it easy to keep playing, and Mistakes Mode helped me clean up what I kept missing.", author: "Jon, cafe regular" }
+        { quote: "★★★★★\nFast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Lena, home brewer" },
+        { quote: "★★★★★\nThe true or false format makes it easy to keep playing, and Mistakes Mode helped me clean up what I kept missing.", author: "Marco, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)

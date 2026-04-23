@@ -2047,6 +2047,10 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   margin-bottom: var(--space-4);
 }
 
+.wt-feedback__subline {
+  margin-top: 4px;
+}
+
 /* ============================================
    EXPLANATION (feedback pedagogical block)
    ============================================ */
@@ -2064,6 +2068,10 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 .wt-explanation strong,
 .wt-explanation b {
   font-weight: 500;
+}
+
+.wt-explanation__cite {
+  font-style: italic;
 }
 
 @media (min-height: 741px) {
@@ -2134,6 +2142,21 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
+}
+
+.wt-modal-header .wt-row--spaced {
+  flex-wrap: nowrap;
+  gap: var(--gap-2);
+}
+
+.wt-modal-header .wt-h2 {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.wt-modal-header [data-action="close-modal"] {
+  flex: 0 0 auto;
 }
 
 /* ============================================
@@ -2267,6 +2290,14 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   font-weight: 700;
 }
 
+.wt-chance-overlay__title {
+  font-weight: 700;
+}
+
+.wt-chance-overlay__hint {
+  font-style: italic;
+}
+
 /* Content card */
 .wt-chance-overlay__content {
   position: relative;
@@ -2276,8 +2307,9 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   gap: var(--gap-2);
   padding: var(--gap-4) var(--space-18);
 
-  /* KISS: never full width */
-  width: min(var(--max), 92vw);
+  /* Keep short micro-hints visually compact instead of stretching like a modal card. */
+  width: fit-content;
+  max-width: min(34rem, 92vw);
 
   background: rgb(var(--surface));
   border-radius: var(--r-card);
