@@ -119,7 +119,7 @@
   /* Text */
   --text-strong: 15 23 42;
   --text: 30 41 59;
-  --text-muted: 71 85 105;
+  --text-muted: 51 65 85;
 
   /* Semantic */
   --on-primary: 255 255 255;
@@ -375,6 +375,10 @@ a:hover {
 .wt-main {
   flex: 1 1 auto;
   padding: var(--gap-2) var(--pad) calc(var(--gap-2) + var(--gap-2) + env(safe-area-inset-bottom, 0px));
+}
+
+body.wt-state--end .wt-main {
+  padding-bottom: calc(var(--gap-4) + var(--gap-4) + env(safe-area-inset-bottom, 0px));
 }
 
 body.wt-state--playing .wt-main {
@@ -1648,7 +1652,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 
   position: relative;
   padding-right: 36px;
-  overflow: clip;
+  overflow: visible;
   white-space: nowrap;
 }
 
@@ -1720,10 +1724,14 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-pill__delta {
+  --wt-delta-x: 0;
+  --wt-delta-y-start: calc(-50% + 6px);
+  --wt-delta-y-mid: -50%;
+  --wt-delta-y-end: calc(-50% - 12px);
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translate3d(0, -50%, 0) scale(0.92);
+  transform: translate3d(var(--wt-delta-x), var(--wt-delta-y-mid), 0) scale(0.92);
 
   font-weight: 700;
   font-size: var(--fs-sm);
@@ -1735,6 +1743,17 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   color: rgb(var(--success-dark));
 }
 
+.wt-pill__delta--score {
+  right: auto;
+  left: 50%;
+  top: -8px;
+  --wt-delta-x: -50%;
+  --wt-delta-y-start: 0;
+  --wt-delta-y-mid: -6px;
+  --wt-delta-y-end: -18px;
+  text-shadow: 0 1px 0 rgb(var(--surface) / var(--wt-a-90));
+}
+
 .wt-pill__delta--minus {
   color: rgb(var(--danger-dark));
 }
@@ -1744,8 +1763,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   margin-left: var(--gap-1);
   font-size: var(--fs-xs);
   font-weight: 500;
-  color: rgb(var(--text-muted));
-  opacity: var(--wt-a-92);
+  color: rgb(var(--text-strong) / var(--wt-a-82));
 }
 
 .wt-momentum-wrap {
@@ -1862,17 +1880,17 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 @keyframes wtHudDeltaPop {
   0% {
     opacity: 0;
-    transform: translate3d(0, -50%, 0) translate3d(0, 6px, 0) scale(0.92);
+    transform: translate3d(var(--wt-delta-x), var(--wt-delta-y-start), 0) scale(0.92);
   }
 
   35% {
     opacity: 1;
-    transform: translate3d(0, -50%, 0) translate3d(0, 0, 0) scale(1.08);
+    transform: translate3d(var(--wt-delta-x), var(--wt-delta-y-mid), 0) scale(1.08);
   }
 
   100% {
     opacity: 0;
-    transform: translate3d(0, -50%, 0) translate3d(0, -12px, 0) scale(1);
+    transform: translate3d(var(--wt-delta-x), var(--wt-delta-y-end), 0) scale(1);
   }
 }
 
@@ -1894,11 +1912,18 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
     padding-right: 32px;
     box-shadow: var(--shadow-1);
     letter-spacing: 0.1px;
+    min-width: 132px;
+    justify-content: center;
   }
 
   .wt-pill__delta {
     right: 10px;
     font-size: var(--fs-xs);
+  }
+
+  .wt-pill__delta--score {
+    right: auto;
+    left: 50%;
   }
 }
 
@@ -1910,6 +1935,8 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
     padding: 5px var(--space-6);
     padding-right: 32px;
     letter-spacing: 0.1px;
+    min-width: 132px;
+    justify-content: center;
   }
 
   .wt-pill--bonus {
@@ -2373,6 +2400,19 @@ body.wt-state--playing .wt-footer {
   text-align: center;
 
   background: transparent;
+}
+
+.wt-end-header {
+  row-gap: var(--gap-2);
+  margin-bottom: var(--gap-3);
+}
+
+.wt-end-header__brand {
+  min-width: 0;
+}
+
+.wt-end-header__actions {
+  flex-shrink: 0;
 }
 
 .wt-footer-inner {
@@ -3036,6 +3076,7 @@ arcade" feel; deviation from --fs-* scale is expected. */
 .wt-end-copy p,
 .wt-end-copy .wt-end-practice-stats {
   margin: 0;
+  color: rgb(var(--text-strong));
 }
 
 .wt-end-copy > * + * {
@@ -3080,6 +3121,11 @@ arcade" feel; deviation from --fs-* scale is expected. */
 
   .wt-end-score__label {
     margin-top: 2px;
+  }
+
+  .wt-end-header {
+    row-gap: var(--gap-2);
+    margin-bottom: var(--gap-3);
   }
 
   .wt-end-table {
@@ -3311,7 +3357,7 @@ particle rings"
     --border: 51 65 85;
     --text-strong: 241 245 249;
     --text: 226 232 240;
-    --text-muted: 148 163 184;
+    --text-muted: 165 180 200;
     --shadow-color: 2 6 23;
 
     /* Dark mode accessibility: links + focus rings must pass WCAG AA on --bg */

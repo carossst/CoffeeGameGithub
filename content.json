@@ -2068,7 +2068,7 @@
       "termFr": "",
       "termEn": "Hawaiian coffee ranks among the world's most expensive.",
       "correctAnswer": true,
-      "explanationShort": "Hawaii is the only major coffee-growing region with US labor and land costs.\nThat makes Kona coffee 3 to 5 times more expensive than comparable specialty coffees grown elsewhere.\nSame plant, much higher price tag.",
+      "explanationShort": "Hawaii is the only major coffee-growing region with US labor and land costs.\nThat makes Kona coffee 3 to 5 times more expensive than comparable specialty coffees grown elsewhere.\nSame bean, much higher cost.",
       "tags": [
         "Coffee market and origins",
         "Easy"
@@ -2112,7 +2112,7 @@
       "termFr": "",
       "termEn": "Morning coffee prices are shaped by the same global markets that trade oil and gold.",
       "correctAnswer": true,
-      "explanationShort": "Coffee is traded on global commodity markets, just like other major raw materials.\nA drought in Brazil or frost in Colombia can move coffee prices far beyond the farm.\nGlobal market, local cup.",
+      "explanationShort": "Coffee is traded on global commodity markets, just like other major raw materials.\nA drought in Brazil or frost in Colombia can move coffee prices far beyond the farm.\nGlobal prices shape what ends up in the cup.",
       "tags": [
         "Coffee market and origins",
         "Hard"
@@ -2145,7 +2145,7 @@
       "termFr": "",
       "termEn": "A coffee bag's roast date tells you more about freshness than the expiration date.",
       "correctAnswer": true,
-      "explanationShort": "An expiration date tells you when the product is considered unsafe, not when it stopped tasting good.\nThe roast date tells you exactly when freshness started counting down.\nRoast date is the only date that matters.",
+      "explanationShort": "An expiration date tells you when the product is considered unsafe, not when it stopped tasting good.\nThe roast date tells you exactly when freshness started counting down.\nFor freshness, roast date matters most.",
       "tags": [
         "Buying coffee",
         "Medium"
@@ -2156,7 +2156,7 @@
       "termFr": "",
       "termEn": "Milk residue left on a steam wand for a few hours can affect the next drink.",
       "correctAnswer": true,
-      "explanationShort": "Milk residue dries quickly on the steam wand and can contaminate the next drink.\nIt affects both cleanliness and flavor if it is not wiped off right away.\nWipe now, cleaner drink later.",
+      "explanationShort": "Milk residue dries quickly on the steam wand and can contaminate the next drink.\nIt affects both cleanliness and flavor if it is not wiped off right away.\nLeftover milk can affect the next drink.",
       "tags": [
         "Troubleshooting and maintenance",
         "Easy"
@@ -2200,7 +2200,7 @@
       "termFr": "",
       "termEn": "An extra hot latte has a stronger espresso flavor than a regular latte.",
       "correctAnswer": false,
-      "explanationShort": "Ordering extra hot only changes the milk temperature, not the amount of espresso in the drink.\nIn fact, overheated milk can taste slightly burnt, which masks the espresso flavor instead of strengthening it.\nHotter milk, same espresso, different taste.",
+      "explanationShort": "Ordering extra hot only changes the milk temperature, not the amount of espresso in the drink.\nIn fact, overheated milk can taste slightly burnt, which masks the espresso flavor instead of strengthening it.\nExtra hot changes the milk, not the espresso strength.",
       "tags": [
         "Coffee shop",
         "Medium"

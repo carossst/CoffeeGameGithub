@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "2.8",
+    version: "2.9",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -135,8 +135,6 @@
         legendary: 20
       },
 
-      // END: show best-streak line only if bestStreakNum >= this threshold.
-      bestStreakLineMin: 2
     },
 
     // Personal best (premium history)
@@ -154,7 +152,7 @@
     currency: "USD",
     earlyPriceCents: 499,
     standardPriceCents: 699,
-    earlyPriceWindowMs: 20 * 60 * 1000, // 20 minutes
+    earlyPriceWindowMs: 15 * 60 * 1000, // 15 minutes
     stripeEarlyPaymentUrl: "https://buy.stripe.com/fZu6oJ2Y86pegsjfNt2VG01",
     stripeStandardPaymentUrl: "https://buy.stripe.com/6oUfZj8is00QfofgRx2VG00",
     successRedirectUrl: "./success.html",
@@ -619,9 +617,8 @@
       statsSeenLabel: "Questions seen",
 
       // Before completion (goal gradient) 
-      statsSeenSummaryTemplate: "Seen: {seen}/{poolSize} questions",
-      statsPaceSummaryTemplate: "About {runsLeft} more game{pluralS} to complete the full set.",
-      statsPhaseBadgeDiscovery: "Phase 1/3: Discovery",
+      statsSeenSummaryTemplate: "{seen}/{poolSize} questions seen.",
+      statsPhaseBadgeDiscovery: "Phase 1/3: First pass",
       statsPhaseBadgeCorrection: "Phase 2/3: Fixing mistakes",
       statsPhaseBadgeConsolidation: "Phase 3/3: Locked in",
 
@@ -640,18 +637,29 @@
       postPaywallSbBody: "Rapid Fire Mode is also available from the lightning icon."
     },
     firstRun: {
+      titleRun1: "How to play",
       titleRun2: "Quick reminder",
       titleRun3: "Last tip before you play",
 
-      framingLines: [
-        "You don't need to know everything yet.",
-        "Read carefully and trust what you know.",
-        "Discover 200 coffee questions.",
+      run1Lines: [
+        "Correct answer: +1 point.",
+        "Wrong answer: +1 mistake.",
+        "After {maxChances} mistakes, the game ends.",
+        "Read carefully. Go with what you know.",
+        "Think you know coffee? Prove it."
       ],
-
-      trustLines: [
-        "No ads. No tricks.",
-        "Think you know coffee? Prove it.",
+      run2Lines: [
+        "Correct answer: +1 point.",
+        "Wrong answer: +1 mistake.",
+        "After {maxChances} mistakes, the game ends.",
+        "Read carefully.",
+        "Think you know coffee? Prove it."
+      ],
+      run3Lines: [
+        "Game ends after {maxChances} mistakes.",
+        "Read carefully.",
+        "Go with what you know.",
+        "Think you know coffee? Prove it."
       ],
 
       ctaLabel: "Play"
@@ -689,6 +697,54 @@
       }
     },
 
+    phaseJourney: {
+      discovery: {
+        badge: "Phase 1/3: First pass",
+        landingSummaryTemplate: "{seen}/{poolSize} questions seen.",
+        landingDetailTemplate: "{remaining} questions left to see.",
+        endLens: "You're still on your first pass through the coffee questions.",
+        micropics: {
+          streakStart: "3 in a row. Good read.",
+          streakBuilding: "6 in a row. Good read.",
+          streakStrong: "10 in a row. Clear reads.",
+          streakElite: "15 in a row. You know these.",
+          streakLegendary: "20 in a row. Strong run.",
+          streakAgainTemplate: "{streak} again.",
+          recovery: "There you go."
+        }
+      },
+      correction: {
+        badge: "Phase 2/3: Fixing mistakes",
+        landingSummaryTemplate: "Mistakes left: {mistakes}",
+        landingDetail: "You've seen the full set. Now clear up the coffee questions that still catch you.",
+        endLens: "You've seen the full set. Now clear up the coffee questions that still catch you.",
+        micropics: {
+          streakStart: "3 in a row. Better.",
+          streakBuilding: "6 in a row. Clearing up.",
+          streakStrong: "10 in a row. Better now.",
+          streakElite: "15 in a row. Mistakes fading.",
+          streakLegendary: "20 in a row. Strong correction.",
+          streakAgainTemplate: "{streak} again.",
+          recovery: "Back on it."
+        }
+      },
+      consolidation: {
+        badge: "Phase 3/3: Locked in",
+        landingSummaryTemplate: "{mastered}/{poolSize} questions answered correctly.",
+        landingDetail: "You've cleared the mistakes. Now keep the coffee facts clear.",
+        endLens: "You've cleared the mistakes. Now keep the coffee facts clear.",
+        micropics: {
+          streakStart: "3 in a row. Still clear.",
+          streakBuilding: "6 in a row. Still clear.",
+          streakStrong: "10 in a row. Holding up.",
+          streakElite: "15 in a row. Very clear.",
+          streakLegendary: "20 in a row. Still clear.",
+          streakAgainTemplate: "{streak} again.",
+          recovery: "Back on it."
+        }
+      }
+    },
+
     ui: {
       chancesLabel: "Lives",
       mistakesLabel: "Mistakes",
@@ -718,11 +774,11 @@
 
       // Start-of-run overlay (education)
       // Ligne unique, lien mental avec le HUD
-      startRunChancesOverlay: "Up to {maxChances} mistakes.",
+      startRunChancesOverlay: "Correct: +1 point.\nWrong: +1 mistake.\nGame ends after {maxChances} mistakes.",
       startOverlayTapAnywhere: "Tap anywhere to start",
 
       // Chance state overlays (no \"-1\" text)
-      lastChanceOverlay: "One mistake left. Choose carefully.",
+      lastChanceOverlay: "One mistake left.",
       gameOverOverlay: "Game over.",
 
       // HUD deltas (PLAYING)
@@ -867,6 +923,7 @@
         firm: "That's progress.",
         direct: "You're making progress."
       },
+      allFixedLine: "You cleared them all.",
       endStatsLine: "You fixed {fixed}. You still have {remaining} left.",
 
       // Repeat guidance by tier (selected via WT_CONFIG.routing.practiceRepeatTiers)
@@ -884,7 +941,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Mistakes Mode helps you lock in what you missed.\nUp to 10 questions per game.\nFix one and it leaves the list.\nMiss it again and it comes back.",
+      startRunChancesOverlayPractice: "Only questions you missed.\nUp to 10 per game.\nFix one and it drops out. Miss it again and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -932,7 +989,7 @@
 
       // First time reaching the tier in this game
       streakStart: "3 in a row. You're locked in.",
-      streakBuilding: "6 in a row. The pattern is starting to click.",
+      streakBuilding: "6 in a row. Good read.",
       streakStrong: "10 in a row. Sharp reading.",
       streakElite: "15 in a row. Very little gets past you now.",
       streakLegendary: "20 in a row. You saw it before it landed.",
@@ -954,7 +1011,7 @@
 
       // Pool complete (one-shot celebration when 200/200 reached)
       poolCompleteTitle: "All 200 questions complete.",
-      poolCompleteLine1: "You made it through the full set. Now replay, fix mistakes, and make the answers stick.",
+      poolCompleteLine1: "You made it through the full set. Now replay, fix mistakes, and keep the answers clear.",
       poolCompleteLine2: "Come back later and see what you still remember.",
       poolCompleteScoreLine: "This game: {score} {fpShort}",
       poolCompleteCtaPrimary: "Replay in a new order",
@@ -983,15 +1040,6 @@
         legendary: "You're in control."
       },
 
-      lensByVerdict: {
-        none: "You have {backlog} questions to revisit. One more game will already feel better.",
-        start: "Good start. Aim a little higher next run.",
-        building: "{seen}/{poolSize} questions seen. The patterns are starting to click.",
-        strong: "{seen}/{poolSize} questions seen. More of these answers are becoming automatic.",
-        elite: "{seen}/{poolSize} questions seen. You're close to real mastery now.",
-        legendary: "{seen}/{poolSize} questions seen. Keep replaying and lock it in.",
-      },
-
       lensBonusPrimary: "You're ready for Rapid Fire Mode.",
 
 
@@ -1006,8 +1054,6 @@
 
       // Explicit best sequence surfacing (RUN only)
       // Definition: longest sequence of consecutive correct answers within the run
-      bestStreakLine: "Best streak: {bestStreak} correct in a row.",
-
       strongestTagLine: "Strongest category this game: {tag}.",
       weakestTagLine: "Most missed category this game: {tag}.",
 
@@ -1036,6 +1082,7 @@
       mistakesTitle: "Questions to revisit",
       mistakesNone: "No mistakes.",
       mistakesToggle: "{count} mistakes",
+      directToConsolidationLine: "You finished the full set with no active mistakes, so you move straight to phase 3.",
 
       newBest: "NEW PERSONAL BEST",
       houseAdSummaryLabel: "Keep going with another game",
@@ -1055,10 +1102,10 @@
 
     paywall: {
       // Default headline
-      headline: "Keep going with the full coffee set.",
+      headline: "Unlock the full coffee quiz.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "That was your last free game. Unlock all 200 questions and keep going.",
+      headlineLastFree: "That was your last free game. Unlock the full coffee quiz and keep going.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
@@ -1070,23 +1117,24 @@
       trustTitle: "Simple unlock",
 
       valueBullets: [
-        "**The full set** of 200 coffee questions",
+        "**All 200 coffee questions**",
         "**Explanations after every answer**",
-        "**Mistakes Mode** for your mistakes",
-        "**Rapid Fire Mode** and unlimited replays"
+        "**Mistakes Mode** to fix what you missed",
+        "**Rapid Fire Mode** and unlimited replays",
+        "A mix of easy, intermediate, and hard questions"
       ],
 
       // Shared bridge copy (LANDING post-paywall + END runs exhausted)
-      bridgeTitle: "Keep building your coffee knowledge.",
-      bridgeBody: "Unlock all 200 questions, fix your mistakes, and keep replaying with every mode open.",
+      bridgeTitle: "Know coffee better.",
+      bridgeBody: "Unlock all 200 questions, fix what you missed, and keep playing with every mode open.",
 
       trustLine: "**One-time unlock**",
       trustBullets: [
-        "Pay once, no subscription",
-        "No account or signup needed",
-        "Full access stays on this device",
-        "Works offline after first load",
-        "Secure payment through Stripe"
+        "**Pay once**, no subscription",
+        "**No account** or signup needed",
+        "**Full access** stays on this device",
+        "**Works offline** after first load",
+        "**Secure payment** through Stripe"
       ],
 
 
@@ -1094,8 +1142,8 @@
       // If all are empty, nothing is rendered.
       socialProofTitle: "What players say",
       socialProofQuotes: [
-        { quote: "Fast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Maya, home brewer" },
-        { quote: "The true or false format makes it easy to keep playing, and Mistakes Mode is what made the facts stick.", author: "Jon, cafe regular" }
+        { quote: "★★★★★\nFast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Maya, home brewer" },
+        { quote: "★★★★★\nThe true or false format makes it easy to keep playing, and Mistakes Mode helped me clean up what I kept missing.", author: "Jon, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)

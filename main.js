@@ -3,6 +3,35 @@
 (() => {
   "use strict";
 
+  function buildUpdateReloadUrl() {
+    const url = new URL(window.location.href);
+    url.searchParams.set("wt-refresh", String(Date.now()));
+    return url.toString();
+  }
+
+  function reloadForUpdate() {
+    try { Logger.log("[UPDATE] reloadForUpdate", { href: window.location.href }); } catch (_) { }
+    window.location.assign(buildUpdateReloadUrl());
+  }
+
+  function bindUpdateToastButton() {
+    const node = document.getElementById("update-toast");
+    if (!node) return;
+    const btn = node.querySelector('[data-action="apply-update"]');
+    if (!btn) return;
+    if (btn.getAttribute("data-wt-bound-update-direct") === "1") return;
+    btn.setAttribute("data-wt-bound-update-direct", "1");
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.__WT_APPLY_SW_UPDATE__ === "function") {
+        window.__WT_APPLY_SW_UPDATE__();
+      } else {
+        reloadForUpdate();
+      }
+    });
+  }
+
   function escapeHtmlSafe(str) {
     const s = String(str == null ? "" : str);
     const fn = window.WT_UTILS && typeof window.WT_UTILS.escapeHtml === "function"
@@ -59,7 +88,7 @@
     `;
 
     const btn = document.getElementById("wtFatalReloadBtn");
-    if (btn) btn.addEventListener("click", () => location.reload());
+    if (btn) btn.addEventListener("click", reloadForUpdate);
   }
 
 
@@ -144,8 +173,10 @@
       const text = node.querySelector("[data-wt-update-text]");
       if (text) text.textContent = msg;
 
+      bindUpdateToastButton();
       node.classList.add("wt-toast--visible");
     }
+    bindUpdateToastButton();
 
     function setWaitingWorker(worker) {
       if (!worker) return;
@@ -153,27 +184,74 @@
       window.__WT_SW_UPDATE_READY__ = true;
     }
 
-    window.__WT_APPLY_SW_UPDATE__ = function () {
-      const waiting = window.__WT_SW_WAITING__ || null;
+    async function tryPromoteInstallingWorker(worker) {
+      if (!worker) return false;
+      if (worker.state === "installed") {
+        setWaitingWorker(worker);
+        return true;
+      }
+
+      return await new Promise((resolve) => {
+        let done = false;
+        function finish(ok) {
+          if (done) return;
+          done = true;
+          resolve(ok === true);
+        }
+        worker.addEventListener("statechange", () => {
+          if (worker.state === "installed") {
+            setWaitingWorker(worker);
+            finish(true);
+            return;
+          }
+          if (worker.state === "redundant") finish(false);
+        });
+        window.setTimeout(() => finish(false), 4000);
+      });
+    }
+
+    window.__WT_APPLY_SW_UPDATE__ = async function () {
+      let fallbackTimer = null;
+      function armFallbackReload() {
+        if (fallbackTimer) return;
+        fallbackTimer = window.setTimeout(() => {
+          fallbackTimer = null;
+          reloadForUpdate();
+        }, 2500);
+      }
+
+      const registration = window.__WT_SW_REGISTRATION__ || null;
+      let waiting = window.__WT_SW_WAITING__ || registration?.waiting || null;
+
+      if (!waiting && registration) {
+        try { await registration.update(); } catch (_) { }
+        waiting = registration.waiting || null;
+      }
+
+      if (!waiting && registration?.installing) {
+        const ready = await tryPromoteInstallingWorker(registration.installing);
+        if (ready) waiting = window.__WT_SW_WAITING__ || registration.waiting || null;
+      }
+
       if (!waiting || typeof waiting.postMessage !== "function") {
-        location.reload();
+        reloadForUpdate();
         return;
       }
 
       try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = true; } catch (_) { }
-
       try {
+        armFallbackReload();
         waiting.postMessage({ type: "SKIP_WAITING" });
       } catch (_) {
         try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = false; } catch (_) { }
-        location.reload();
+        reloadForUpdate();
       }
     };
 
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ !== true) return;
       try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = false; } catch (_) { }
-      location.reload();
+      reloadForUpdate();
     });
 
     window.addEventListener("load", () => {
@@ -189,6 +267,7 @@
       navigator.serviceWorker
         .register(swUrl, { scope: "./" })
         .then((registration) => {
+          window.__WT_SW_REGISTRATION__ = registration;
           Logger.log("✅ Service Worker registered:", registration.scope);
 
           // Update already waiting from a previous page session: surface it immediately.
