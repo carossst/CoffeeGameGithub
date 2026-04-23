@@ -1341,7 +1341,9 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-playing-seenonly {
-  margin: -6px 0 12px;
+  max-width: 34ch;
+  margin: -6px auto 12px;
+  padding-inline: var(--gap-2);
   text-align: center;
   font-size: var(--fs-xs);
   line-height: 1.35;
@@ -2098,7 +2100,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-modal {
-  width: min(560px, 92vw);
+  width: min(560px, calc(100vw - 16px));
   max-height: 86vh;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -3093,6 +3095,13 @@ arcade" feel; deviation from --fs-* scale is expected. */
   line-height: 1.35;
 }
 
+.wt-end-table .wt-truncate {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+
 .wt-end-table__cell {
   font-variant-numeric: tabular-nums;
 }
@@ -3115,6 +3124,10 @@ arcade" feel; deviation from --fs-* scale is expected. */
   margin-top: 4px;
 }
 
+.wt-card > .wt-actions--stack + .wt-muted {
+  margin-top: var(--space-10);
+}
+
 .wt-end-practice-stats p {
   margin: 0;
 }
@@ -3135,6 +3148,11 @@ arcade" feel; deviation from --fs-* scale is expected. */
 }
 
 @media (max-width: 480px) {
+  .wt-modal {
+    width: min(560px, calc(100vw - 12px));
+    padding: var(--space-12);
+  }
+
   .wt-end-copy {
     margin-top: 6px;
   }
@@ -3172,6 +3190,21 @@ arcade" feel; deviation from --fs-* scale is expected. */
   .wt-actions--stack {
     gap: var(--gap-1);
     margin-top: var(--gap-2);
+  }
+
+  .wt-card > .wt-actions--stack + .wt-muted {
+    margin-top: var(--space-12);
+  }
+
+  .wt-playing-seenonly {
+    margin: -2px auto 12px;
+    padding-inline: var(--gap-3);
+  }
+
+  .wt-footer {
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-10);
   }
 
   .wt-accordion {

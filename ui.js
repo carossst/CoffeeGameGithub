@@ -1064,7 +1064,14 @@ void function () {
     const bonusLine3 = String(wording?.secretBonus?.startOverlayLine3 || "").trim();
     const bonusLimitLine = String(extra?.bonusLimitLine || "").trim();
     const bonusTapHint = String(wording?.secretBonus?.startOverlayTapAnywhere || "").trim();
-    const bonusLines = [bonusLine1, bonusLine2, bonusLine3, bonusLimitLine, msg, bonusTapHint].filter(Boolean);
+    const bonusLines = [
+      bonusLine1,
+      bonusLine2,
+      bonusLine3,
+      bonusLimitLine,
+      ...msg.split("\n").filter(Boolean),
+      bonusTapHint
+    ].filter(Boolean);
 
     const goalLine1 = String(extra?.goalLine1 || "").trim();
     const goalLine2 = String(extra?.goalLine2 || "").trim();
@@ -2359,15 +2366,13 @@ void function () {
         }
       } catch (_) { /* silent */ }
 
-      // END "Record moment" (RUN+Premium+newBest only): temporarily replace scoreLine with newBest copy.
+      // END celebration moment: new best, all mistakes cleared, or perfect bonus run.
       try {
         const cfg = this.config || {};
         const w = this.wording || {};
         const endW = w.end || {};
-
-        const premium = (this.storage && typeof this.storage.isPremium === "function")
-          ? (this.storage.isPremium() === true)
-          : false;
+        const practiceW = w.practice || {};
+        const bonusW = w.secretBonus || {};
 
         const lastRun = this._runtime?.lastRun || {};
 
@@ -2387,15 +2392,46 @@ void function () {
         const mode = String(lastRun.mode || "").trim();
         const isRun = (mode === "RUN");
         const isBonus = (mode === "BONUS");
+        const isPractice = (mode === "PRACTICE");
         const newBest = (isRun || isBonus) && (lastRun.newBest === true);
+        let practiceAllCleared = false;
+        if (isPractice && this.storage && typeof this.storage.getActiveMistakesCount === "function") {
+          try { practiceAllCleared = clampInt(this.storage.getActiveMistakesCount(), 0, 99999) === 0; } catch (_) { practiceAllCleared = false; }
+        }
+
+        let bonusPerfect = false;
+        if (isBonus) {
+          const shown = Array.isArray(lastRun.runItemIds) ? lastRun.runItemIds.length : 0;
+          const score = clampInt(Number(lastRun.scoreFP || 0), 0, 99999);
+          const accuracy = shown > 0 ? (score / shown) : -1;
+          const tiers = Array.isArray(cfg?.secretBonus?.endTiers) ? cfg.secretBonus.endTiers : [];
+          let bonusLevel = "";
+          for (const t of tiers) {
+            const key = String(t?.key || "").trim();
+            const min = Number(t?.minAccuracy);
+            if (!key || !Number.isFinite(min)) continue;
+            if (accuracy >= min) {
+              bonusLevel = key;
+              break;
+            }
+          }
+          bonusPerfect = (bonusLevel === "perfect");
+        }
 
         const ms = Number(cfg?.ui?.endRecordMomentMs);
 
         const newBestTpl = isBonus
           ? String((w && w.secretBonus && w.secretBonus.newBest) || endW.newBest || "").trim()
           : String(endW.newBest || "").trim();
+        const practiceCelebrateTpl = String(practiceW.celebrationAllCleared || practiceW.endLineAllFixed || "").trim();
+        const bonusCelebrateTpl = String(bonusW.celebrationPerfect || "").trim();
+        const celebrationLabel =
+          newBest ? newBestTpl
+            : practiceAllCleared ? practiceCelebrateTpl
+              : bonusPerfect ? bonusCelebrateTpl
+                : "";
 
-        const enabled = (newBest && newBestTpl && Number.isFinite(ms) && ms > 0);
+        const enabled = (!!celebrationLabel && Number.isFinite(ms) && ms > 0);
         if (enabled) {
           if (!this._runtime) this._runtime = {};
           if (this._runtime.endRecordMomentTimer) {
@@ -5446,7 +5482,7 @@ void function () {
     if (!title || !body || !ctaPrimary) return false;
 
     const html = `
-      <p>${escapeHtml(body)}</p>
+      <p style="white-space:pre-line">${escapeHtml(body)}</p>
       <div class="wt-actions" style="margin-top:14px">
         <button class="wt-btn wt-btn--primary" data-action="${primaryAction}">${escapeHtml(ctaPrimary)}</button>
         <button class="wt-btn wt-btn--ghost" data-action="close-modal">${escapeHtml(ctaSecondary)}</button>
@@ -6874,6 +6910,7 @@ ${(() => {
     } else if (isPractice) {
       let practiceEndLineTpl = String(practiceW.endLine || "").trim();
       const practiceEndStatsTpl = String(practiceW.endStatsLine || "").trim();
+      const practiceEndStatsAllFixedTpl = String(practiceW.endStatsLineAllFixed || "").trim();
       const rawMistakeCount = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds.length : 0;
       const total = clampInt(totalPresented, 0, 99999);
       const mistakeCount = clampInt(rawMistakeCount, 0, total);
@@ -6895,6 +6932,11 @@ ${(() => {
 
       vars.fixed = fixedCount;
       if (remainingBacklog != null) vars.remaining = remainingBacklog;
+
+      if (remainingBacklog === 0) {
+        const allFixedLine = String(practiceW.endLineAllFixed || "").trim();
+        if (allFixedLine) practiceEndLineTpl = allFixedLine;
+      }
 
       let repeatNote = "";
       try {
@@ -6929,7 +6971,10 @@ ${(() => {
       }
 
       endLineTpl = practiceEndLineTpl;
-      practiceStatsLineTpl = (practiceEndStatsTpl && remainingBacklog != null) ? practiceEndStatsTpl : "";
+      practiceStatsLineTpl =
+        (remainingBacklog === 0 && practiceEndStatsAllFixedTpl)
+          ? practiceEndStatsAllFixedTpl
+          : ((practiceEndStatsTpl && remainingBacklog != null) ? practiceEndStatsTpl : "");
       practiceRepeatNoteTpl = repeatNote;
     } else {
       if (isRun && !!lastRun.poolCompleteCelebration) {
@@ -7564,6 +7609,8 @@ ${(() => {
     const scoreLine = scoreLineTpl ? fillTemplate(scoreLineTpl, vars) : "";
     const newBestLine = newBestTpl ? fillTemplate(newBestTpl, vars) : "";
     const endLine = endLineTpl ? fillTemplate(endLineTpl, vars) : "";
+    const practiceCelebrateLine = String(practiceW.celebrationAllCleared || practiceW.endLineAllFixed || "").trim();
+    const bonusCelebrateLine = String(bonusW.celebrationPerfect || "").trim();
     const runStatsLine = (() => {
       if (!isRun || !!lastRun.poolCompleteCelebration) return "";
 
@@ -7578,7 +7625,14 @@ ${(() => {
 
     // END "Record moment" display (visual only): keep score line, but show burst/spark briefly.
     const recordUntil = Number(this._runtime?.endRecordMomentUntil || 0);
-    const recordActive = (newBest && newBestLine) ? (Date.now() < recordUntil) : false;
+    const practiceAllCleared = isPractice && clampInt(vars.remaining, 0, 99999) === 0;
+    const bonusPerfect = isBonus && bonusLevel === "perfect";
+    const celebrationLabel =
+      newBest ? newBestLine
+        : practiceAllCleared ? practiceCelebrateLine
+          : bonusPerfect ? bonusCelebrateLine
+            : "";
+    const recordActive = (!!celebrationLabel) ? (Date.now() < recordUntil) : false;
 
     // Always show the score (requested), never replace it.
     const displayScoreLine = scoreLine;
@@ -7817,7 +7871,7 @@ ${(() => {
         ${escapeHtml(displayScoreLine)}
       </span>
 
-      ${(newBest && newBestLine) ? `<span class="wt-end-score__label">${escapeHtml(newBestLine)}</span>` : ``}
+      ${celebrationLabel ? `<span class="wt-end-score__label">${escapeHtml(celebrationLabel)}</span>` : ``}
 
       ${recordActive ? `
         <span class="wt-end-score__burst" aria-hidden="true"></span>
@@ -7843,9 +7897,7 @@ ${(() => {
           })();
           return [
             practiceStatsHtml,
-            (clampInt(vars.remaining, 0, 99999) === 0 && String(practiceW.allFixedLine || "").trim())
-              ? `<p class="wt-meta">${escapeHtml(String(practiceW.allFixedLine || "").trim())}</p>`
-              : (endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``),
+            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
             repeatLine ? `<p class="wt-muted">${escapeHtml(repeatLine)}</p>` : ``
           ].join("");
         }
@@ -7866,8 +7918,7 @@ ${(() => {
             runStatsLine ? `<p class="wt-muted">${escapeHtml(runStatsLine)}</p>` : ``,
             endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
             directToConsolidationLine ? `<p class="wt-meta">${escapeHtml(directToConsolidationLine)}</p>` : ``,
-            runIdentityTpl ? `<p class="wt-meta">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>` : ``,
-            runLensTpl ? `<p class="wt-muted">${escapeHtml(fillTemplate(runLensTpl, vars))}</p>` : ``
+            runIdentityTpl ? `<p class="wt-meta">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>` : ``
           ].join("");
         }
         return endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``;

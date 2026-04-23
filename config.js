@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.1",
+    version: "3.2",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -528,8 +528,8 @@
       loadingIcon: "☕",
       loadingHint: "Preparing your coffee quiz",
       loadingSlowHint: "Still loading... Check your connection if this takes too long.",
-      updateAvailable: "Update ready. Reload to apply it.",
-      updateNow: "Reload",
+      updateAvailable: "New version available.",
+      updateNow: "Refresh app",
 
       offlinePayment: "Payment requires an internet connection.",
       copied: "Copied",
@@ -815,6 +815,7 @@
 
       // BONUS new best label (END)
       newBest: "NEW BEST SCORE.",
+      celebrationPerfect: "PERFECT RUN",
 
       // END BONUS — cognitive mirror by accuracy tier
       // Contract: arrays MUST contain exactly 2 sentences each. No fallback in UI.
@@ -923,8 +924,11 @@
         firm: "That's progress.",
         direct: "You're making progress."
       },
-      allFixedLine: "You cleared them all.",
+      allFixedLine: "You closed it out.",
+      celebrationAllCleared: "STRONG FINISH",
+      endLineAllFixed: "You closed it out.",
       endStatsLine: "You fixed {fixed}. You still have {remaining} left.",
+      endStatsLineAllFixed: "You fixed {fixed}.",
 
       // Repeat guidance by tier (selected via WT_CONFIG.routing.practiceRepeatTiers)
       // Fail-closed: missing tier key => no note
@@ -935,7 +939,7 @@
         direct: "Stay in Mistakes Mode. These are the questions that need the work."
       },
 
-      scoreLine: "{total} questions reviewed.",
+      scoreLine: "{total} questions reviewed",
 
       // PLAYING: calm progress line (replaces assertion in PRACTICE)
       playingProgressLine: "{current}/{total}",
@@ -1121,7 +1125,7 @@
         "**Explanations after every answer**",
         "**Mistakes Mode** to fix what you missed",
         "**Rapid Fire Mode** and unlimited replays",
-        "A mix of easy, intermediate, and hard questions"
+        "**A mix of easy, intermediate, and hard questions**"
       ],
 
       // Shared bridge copy (LANDING post-paywall + END runs exhausted)
@@ -1305,8 +1309,8 @@ Think you'd get it right?
 
     installPrompt: {
       title: "Keep the game handy",
-      body: "Add Brew or False to your home screen and come back in one tap.",
-      bodyIOS: "This will not install automatically on iPhone. Tap Share, then Add to Home Screen.",
+      body: "Add Brew or False to your home screen.\nCome back in one tap.",
+      bodyIOS: "This will not install automatically on iPhone.\nTap Share, then Add to Home Screen.",
       ctaPrimary: "Add to home screen",
       ctaPrimaryIOS: "Got it",
       ctaSecondary: "Later"
