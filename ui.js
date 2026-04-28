@@ -6942,7 +6942,7 @@ ${(() => {
       try {
         const tiers = Array.isArray(cfg?.routing?.practiceRepeatTiers) ? cfg.routing.practiceRepeatTiers : null;
 
-        if (tiers && remainingBacklog != null && remainingBacklog >= 1) {
+        if (tiers && remainingBacklog != null && remainingBacklog >= 1 && fixedCount >= 1) {
           for (const t of tiers) {
             const key = String(t?.key || "").trim();
             const rawMin = Number(t?.minRemaining);
@@ -7146,39 +7146,41 @@ ${(() => {
           microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(strongestTagTpl, { tag: strongestTag }))}</p>`);
         }
 
+        let weakestLineShown = false;
         if (!weakestTie && weakestCount > 0 && weakestTag && weakestTagTpl) {
           microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(fillTemplate(weakestTagTpl, { tag: weakestTag }))}</p>`);
+          weakestLineShown = true;
         }
-      }
 
-      if (copyByTag && runMistakeIds.length > 0) {
-        const counts = Object.create(null);
+        if (!weakestLineShown && copyByTag && runMistakeIds.length > 0) {
+          const counts = Object.create(null);
 
-        for (const rawId of runMistakeIds) {
-          const item = byId[String(rawId)] || byId[rawId] || null;
-          const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
-          for (const tag of tags) {
-            counts[tag] = clampInt(Number(counts[tag] || 0) + 1, 0, 9999);
+          for (const rawId of runMistakeIds) {
+            const item = byId[String(rawId)] || byId[rawId] || null;
+            const tags = extractTagsFromItem(item).filter((t) => !ignored.has(t));
+            for (const tag of tags) {
+              counts[tag] = clampInt(Number(counts[tag] || 0) + 1, 0, 9999);
+            }
           }
-        }
 
-        let bestTag = "";
-        let bestCount = 0;
-        let tie = false;
-        for (const tag in counts) {
-          const n = clampInt(Number(counts[tag] || 0), 0, 9999);
-          if (n > bestCount) {
-            bestTag = tag;
-            bestCount = n;
-            tie = false;
-          } else if (n > 0 && n === bestCount) {
-            tie = true;
+          let bestTag = "";
+          let bestCount = 0;
+          let tie = false;
+          for (const tag in counts) {
+            const n = clampInt(Number(counts[tag] || 0), 0, 9999);
+            if (n > bestCount) {
+              bestTag = tag;
+              bestCount = n;
+              tie = false;
+            } else if (n > 0 && n === bestCount) {
+              tie = true;
+            }
           }
-        }
 
-        if (!tie && bestCount >= 1) {
-          const line = String(copyByTag[bestTag] || "").trim();
-          if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
+          if (!tie && bestCount >= 1) {
+            const line = String(copyByTag[bestTag] || "").trim();
+            if (line) microLines.push(`<p class="wt-meta wt-truncate">${escapeHtml(line)}</p>`);
+          }
         }
       }
     }
@@ -7847,14 +7849,7 @@ ${(() => {
       getShareText: this._getShareText ? this._getShareText.bind(this) : null
     });
 
-    const shouldPromoteShare =
-      isRun && (
-        newBest ||
-        !!pbLine ||
-        runVerdictKey === "elite" ||
-        runVerdictKey === "legendary" ||
-        poolCompleteCelebration
-      );
+    const shouldPromoteShare = isRun;
 
     const shareBeforeRecapHtml = shouldPromoteShare ? shareHtml : "";
     const shareAfterRecapHtml = shouldPromoteShare ? "" : shareHtml;

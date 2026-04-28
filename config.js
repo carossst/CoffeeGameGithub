@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.2",
+    version: "3.3",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -86,10 +86,7 @@
     game: {
       maxChances: 3,
       poolSize: 200,
-      antiRepetitionUntilExhaustion: true,
-      answerShuffle: {
-        maxSameAnswerStreak: 3
-      }
+      antiRepetitionUntilExhaustion: true
     },
 
     // ============================================
@@ -869,16 +866,16 @@
       ctaExpandDeck: "Expand your deck",
 
       // Start overlay (same component as FREE runs)
-      startOverlayLine1: "Rapid Fire Mode. Faster pace. More pressure.",
-      startOverlayLine2: "Only questions you've already seen in the game.",
-      startOverlayLine3: "Play more games to grow your Rapid Fire pool.",
+      startOverlayLine1: "Rapid Fire Mode.",
+      startOverlayLine2: "Only questions you've already seen.",
+      startOverlayLine3: "Play more games to grow your pool.",
 
       // Teaser premium (filled by ui.js): {remaining}, {limit}
       startOverlayFreeRunsLimitLine: "",
 
       // Block modal when free limit reached
       freeLimitReachedTitle: "That was intense.",
-      freeLimitReachedBody: "You've used your {limit} free Rapid Fire games.\n\nFull access unlocks unlimited Rapid Fire Mode. Same pace. No limits.",
+      freeLimitReachedBody: "You've used your {limit} free Rapid Fire games.\n\nFull access unlocks unlimited Rapid Fire Mode.\nSame pace.\nNo limits.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
       startOverlayTapAnywhere: "Tap anywhere to start",
@@ -916,7 +913,7 @@
 
       // END screen (PRACTICE)
       endTitle: "",
-      endLine: "Good recovery.",
+      endLine: "Keep going.",
       // Tier-aware override (keyed on practiceRepeatTierKey). Fallback: endLine.
       endLineByTier: {
         last: "Nice recovery.",
@@ -1058,8 +1055,8 @@
 
       // Explicit best sequence surfacing (RUN only)
       // Definition: longest sequence of consecutive correct answers within the run
-      strongestTagLine: "Strongest category this game: {tag}.",
-      weakestTagLine: "Most missed category this game: {tag}.",
+      strongestTagLine: "Category you handled best: {tag}.",
+      weakestTagLine: "Category that gave you the most trouble: {tag}.",
 
       endTagHighlights: {
         "Myths and misconceptions": "The coffee myths category was the trickiest this game.",
@@ -1146,8 +1143,8 @@
       // If all are empty, nothing is rendered.
       socialProofTitle: "What players say",
       socialProofQuotes: [
-        { quote: "★★★★★\nFast, clear, and surprisingly useful. I thought I knew coffee, but the explanations kept correcting me.", author: "Lena, home brewer" },
-        { quote: "★★★★★\nThe true or false format makes it easy to keep playing, and Mistakes Mode helped me clean up what I kept missing.", author: "Marco, cafe regular" }
+        { quote: "★★★★★\nI came in overconfident. A few rounds in, I could see exactly where my coffee knowledge was shaky.", author: "Lina, home brewer" },
+        { quote: "★★★★★\nQuick to play, but it really made me notice what I kept getting wrong.", author: "Marco, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)
@@ -1280,8 +1277,8 @@ Thanks!`
 
 
     share: {
-      ctaLabel: "Copy text",
-      emailLabel: "Send email",
+      ctaLabel: "Copy challenge text",
+      emailLabel: "Email challenge",
       emailSubject: "Brew or False",
       previewLabel: "Preview message",
       toastCopied: "Copied.",
