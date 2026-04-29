@@ -7929,19 +7929,19 @@ ${(() => {
           const repeatLine = practiceRepeatNoteTpl ? fillTemplate(practiceRepeatNoteTpl, vars) : "";
           const practiceStatsHtml = (() => {
             if (!statsLine) return ``;
-            return `<p class="wt-muted">${escapeHtml(statsLine)}</p>`;
+            return `<p class="wt-end-copy__stats">${escapeHtml(statsLine)}</p>`;
           })();
           return [
             practiceStatsHtml,
-            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
-            repeatLine ? `<p class="wt-muted">${escapeHtml(repeatLine)}</p>` : ``
+            endLine ? `<p class="wt-end-copy__verdict">${escapeHtml(endLine)}</p>` : ``,
+            repeatLine ? `<p class="wt-end-copy__note">${escapeHtml(repeatLine)}</p>` : ``
           ].join("");
         }
         if (isBonus) {
           return [
-            bonusStatsLine ? `<p class="wt-muted">${escapeHtml(bonusStatsLine)}</p>` : ``,
-            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
-            bonusDecisionLine ? `<p class="wt-muted">${escapeHtml(bonusDecisionLine)}</p>` : ``
+            bonusStatsLine ? `<p class="wt-end-copy__stats">${escapeHtml(bonusStatsLine)}</p>` : ``,
+            endLine ? `<p class="wt-end-copy__verdict">${escapeHtml(endLine)}</p>` : ``,
+            bonusDecisionLine ? `<p class="wt-end-copy__note">${escapeHtml(bonusDecisionLine)}</p>` : ``
           ].join("");
         }
         if (isRun) {
@@ -7951,17 +7951,17 @@ ${(() => {
             ? String(end.directToConsolidationLine || "").trim()
             : "";
           return [
-            runStatsLine ? `<p class="wt-muted">${escapeHtml(runStatsLine)}</p>` : ``,
-            endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``,
-            directToConsolidationLine ? `<p class="wt-meta">${escapeHtml(directToConsolidationLine)}</p>` : ``,
-            runIdentityTpl ? `<p class="wt-meta">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>` : ``,
-            (!premium && freeRunMessage) ? `<p class="wt-muted">${escapeHtml(freeRunMessage)}</p>` : ``
+            runStatsLine ? `<p class="wt-end-copy__stats">${escapeHtml(runStatsLine)}</p>` : ``,
+            endLine ? `<p class="wt-end-copy__verdict">${escapeHtml(endLine)}</p>` : ``,
+            directToConsolidationLine ? `<p class="wt-end-copy__note">${escapeHtml(directToConsolidationLine)}</p>` : ``,
+            runIdentityTpl ? `<p class="wt-end-copy__note">${escapeHtml(fillTemplate(runIdentityTpl, vars))}</p>` : ``,
+            (!premium && freeRunMessage) ? `<p class="wt-end-copy__free">${escapeHtml(freeRunMessage)}</p>` : ``
           ].join("");
         }
-        return endLine ? `<p class="wt-meta">${escapeHtml(endLine)}</p>` : ``;
+        return endLine ? `<p class="wt-end-copy__verdict">${escapeHtml(endLine)}</p>` : ``;
       })()}
 
-    ${(isRun && runPoolCompleteLine2Tpl && !(poolCompleteCelebration && clampInt(vars.backlog, 0, 99999) === 0)) ? `<p class="wt-meta">${escapeHtml(fillTemplate(runPoolCompleteLine2Tpl, vars))}</p>` : ``}
+    ${(isRun && runPoolCompleteLine2Tpl && !(poolCompleteCelebration && clampInt(vars.backlog, 0, 99999) === 0)) ? `<p class="wt-end-copy__note">${escapeHtml(fillTemplate(runPoolCompleteLine2Tpl, vars))}</p>` : ``}
   </div>
 
   ${``}
