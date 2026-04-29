@@ -810,6 +810,9 @@
       endDeckSizeLineOne: "Rapid Fire pool: 1 question.",
       endPoolProgressTemplate: "{cleared} out of {shown} correct this round.",
       endDeckExhaustedToast: "All available questions played.",
+      mistakesTitle: "Questions to revisit",
+      mistakesToggle: "{count} mistakes",
+      mistakesNone: "No mistakes.",
 
       // BONUS new best label (END)
       newBest: "NEW BEST SCORE.",
@@ -1107,7 +1110,7 @@
       headline: "Unlock the full coffee quiz.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "That was your last free game. Unlock the full coffee quiz and keep going.",
+      headlineLastFree: "That was your last free game. Keep going with full access.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
@@ -1144,7 +1147,7 @@
       // If all are empty, nothing is rendered.
       socialProofTitle: "What players say",
       socialProofQuotes: [
-        { quote: "★★★★★\nI came in overconfident. A few rounds in, I could see exactly where my coffee knowledge was shaky.", author: "Lina, home brewer" },
+        { quote: "★★★★★\nI came in overconfident. A few rounds in, I could see exactly where my coffee knowledge was shaky. The explanations are short and really clear.", author: "Lina, home brewer" },
         { quote: "★★★★★\nA few quick games was enough to show me what I only thought I knew.", author: "Marco, cafe regular" }
       ],
 
