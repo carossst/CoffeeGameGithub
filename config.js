@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.3",
+    version: "3.7",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -602,7 +602,7 @@
       tagline: "**Think you know coffee? Prove it.**",
       subtitle: "A fast true-or-false coffee game.\n200 questions about drinks, brewing, beans, and myths.",
       microFun: "Quick games · No signup · Free to try",
-      microTrust: "Learn fast, replay often, and fix your mistakes as you go.",
+      microTrust: "Play a few quick games and see what really holds up.",
 
       runsLabel: "",
       runsFreeMode: "",
@@ -639,10 +639,10 @@
       titleRun3: "Last tip before you play",
 
       run1Lines: [
+        "You'll see coffee rules one by one.\nDecide whether each one is true or false.",
         "Correct answer: +1 point.",
         "Wrong answer: +1 mistake.",
         "After {maxChances} mistakes, the game ends.",
-        "Read carefully. Go with what you know.",
         "Think you know coffee? Prove it."
       ],
       run2Lines: [
@@ -697,9 +697,9 @@
     phaseJourney: {
       discovery: {
         badge: "Phase 1/3: First pass",
-        landingSummaryTemplate: "{seen}/{poolSize} questions seen.",
-        landingDetailTemplate: "{remaining} questions left to see.",
-        endLens: "You're still on your first pass through the coffee questions.",
+        landingSummaryTemplate: "{seen}/{poolSize} questions played.",
+        landingDetailTemplate: "{remaining} still to go in your first pass.",
+        endLens: "You're still on your first pass. Right now the goal is to cover more of the set.",
         micropics: {
           streakStart: "3 in a row. Good read.",
           streakBuilding: "6 in a row. Good read.",
@@ -803,6 +803,7 @@
 
       // END screen (BONUS)
       endTitle: "",
+      scoreLine: "Score: {score}",
       endStatsLine: "You got {cleared} out of {shown} right.",
       endStatsLineOne: "You got {cleared} out of {shown} right.",
       endDeckSizeLine: "Rapid Fire pool: {count} questions.",
@@ -1144,7 +1145,7 @@
       socialProofTitle: "What players say",
       socialProofQuotes: [
         { quote: "★★★★★\nI came in overconfident. A few rounds in, I could see exactly where my coffee knowledge was shaky.", author: "Lina, home brewer" },
-        { quote: "★★★★★\nQuick to play, but it really made me notice what I kept getting wrong.", author: "Marco, cafe regular" }
+        { quote: "★★★★★\nA few quick games was enough to show me what I only thought I knew.", author: "Marco, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)

@@ -1359,6 +1359,13 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 @media (min-width: 481px) {
+  .wt-playing-seenonly {
+    max-width: 52ch;
+    margin: -4px auto 10px;
+    padding-inline: 0;
+    line-height: 1.3;
+  }
+
   .wt-actions--stack {
     grid-template-columns: 1fr;
   }
@@ -3044,16 +3051,17 @@ arcade" feel; deviation from --fs-* scale is expected. */
 
 .wt-end-score {
   position: relative;
-  margin: var(--space-8) 0 0;
+  margin: var(--space-12) 0 0;
   text-align: center;
 }
 
 .wt-end-score__value {
   display: block;
   font-size: var(--fs-3xl);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.0;
+  color: rgb(var(--text-strong));
 }
 
 .wt-end-score--newbest .wt-end-score__value {
@@ -3151,6 +3159,10 @@ arcade" feel; deviation from --fs-* scale is expected. */
   .wt-modal {
     width: min(560px, calc(100vw - 12px));
     padding: var(--space-12);
+  }
+
+  .wt-playing-seenonly {
+    display: none;
   }
 
   .wt-end-copy {
