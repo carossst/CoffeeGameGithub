@@ -3452,53 +3452,68 @@ arcade" feel; deviation from --fs-* scale is expected. */
   position: relative;
   display: grid;
   place-items: center;
-  align-content: center;
-  gap: var(--space-4);
-  width: clamp(220px, 62vw, 280px);
-  max-width: min(100%, 280px);
-  aspect-ratio: 1 / 1;
-  margin: var(--space-16) auto 0;
-  padding: var(--space-18);
+  justify-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: none;
+  margin: var(--space-12) auto 0;
+  padding: 0;
   text-align: center;
-  border: 2px solid rgb(var(--primary-dark) / var(--wt-a-35));
-  border-radius: 50%;
-  background: rgb(var(--surface));
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
+  font: inherit;
+}
+
+.wt-end-score > * {
+  margin: 0;
+}
+
+.wt-end-score__headline {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  font-size: clamp(68px, 18vw, 104px);
+  line-height: 0.92;
 }
 
 .wt-end-score__value {
   display: block;
-  width: 100%;
+  width: auto;
   text-align: center;
-  font-size: clamp(46px, 13vw, 68px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 0.92;
+  font-size: 1em;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
   color: rgb(var(--primary-depth));
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
 .wt-end-score--newbest .wt-end-score__value {
   color: rgb(var(--primary-dark));
-  text-shadow: 0 0 18px rgb(var(--primary) / var(--wt-a-18));
+  text-shadow: none;
 }
 
 .wt-end-score__eyebrow {
   display: block;
-  width: 100%;
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-sm);
+  width: auto;
+  margin: 0;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 1.2px;
   text-align: center;
   text-transform: uppercase;
   color: rgb(var(--text-muted));
+  line-height: 1.1;
 }
 
 .wt-end-score__label {
   display: block;
   width: 100%;
   margin-top: var(--space-4);
-  font-size: var(--fs-md);
+  font-size: var(--fs-body);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-align: center;
@@ -3719,10 +3734,23 @@ arcade" feel; deviation from --fs-* scale is expected. */
   }
 
   .wt-end-score {
-    margin-top: var(--space-8);
-    width: clamp(220px, 72vw, 270px);
-    max-width: min(100%, 270px);
-    padding: var(--space-14);
+    margin-top: var(--space-6);
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .wt-end-score__headline {
+    gap: var(--space-2);
+    font-size: clamp(72px, 24vw, 96px);
+  }
+
+  .wt-end-score__eyebrow {
+    font-size: var(--fs-xs);
+  }
+
+  .wt-end-score__value {
+    font-size: 1em;
   }
 
   .wt-end-summary {

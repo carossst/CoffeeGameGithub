@@ -328,6 +328,7 @@
 
     landingStats: {
       enabled: true,
+      minCompletedRuns: 1,
       paceRunsCount: 4,
       showBeforeFirstRun: false
     },
