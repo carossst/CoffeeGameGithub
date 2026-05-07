@@ -169,6 +169,10 @@
         // Funnel (local-only, aggregated)
         landingViewed: 0,
         landingPlayClicked: 0,
+        landingPracticeClicked: 0,
+        landingNextRunStarted: 0,
+        landingNextRunCompleted: 0,
+        landingTimeTotalMs: 0,
 
         shareClicked: 0,
         installPromptShown: 0,
@@ -205,6 +209,16 @@
         runPaceTotals: {
           runCount: 0,
           totalNewSeen: 0
+        }
+      },
+
+      progression: {
+        currentLevel: 0,
+        unlockedAtByLevel: {
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0
         }
       },
 
@@ -321,6 +335,7 @@
     if (!this.data.waitlist) this.data.waitlist = deepCopy(this.defaultData.waitlist);
     if (!this.data.counters) this.data.counters = deepCopy(this.defaultData.counters);
     if (!this.data.history) this.data.history = deepCopy(this.defaultData.history);
+    if (!this.data.progression) this.data.progression = deepCopy(this.defaultData.progression);
     if (!this.data.statsByItem) this.data.statsByItem = {};
     if (!this.data.personalBest) this.data.personalBest = deepCopy(this.defaultData.personalBest);
     if (!this.data.bonusBest) this.data.bonusBest = deepCopy(this.defaultData.bonusBest);
@@ -329,9 +344,6 @@
     if (!this.data.endgame) this.data.endgame = deepCopy(this.defaultData.endgame);
     if (!this.data.analytics) this.data.analytics = deepCopy(this.defaultData.analytics);
 
-    if (this._migrateUiDeviceFlagsFromLegacyKeys()) {
-      this._save();
-    }
     if (!Number.isFinite(Number(this.data.analytics.statsSharingPromptStage))) {
       this.data.analytics.statsSharingPromptStage = -1;
     } else {
@@ -369,29 +381,6 @@
     } else {
       this.data.analytics.premiumUnlockedAt = Math.floor(Number(this.data.analytics.premiumUnlockedAt));
     }
-
-    // Legacy migration: UI used to bypass StorageManager and write localStorage directly.
-    // Sync once into StorageManager, then delete legacy key to stop drift.
-    if (this._syncLegacyStatsSharingPromptStage()) {
-      this._save();
-    }
-
-    // Stage -> Flags (best-effort, avoids re-prompting existing users)
-    // stage>=1 => 30%, stage>=2 => 50%, stage>=3 => power user (approx)
-    try {
-      const st = Math.floor(Number(this.data.analytics.statsSharingPromptStage));
-      if (Number.isFinite(st) && st > 0) {
-        let f = Math.floor(Number(this.data.analytics.statsSharingPromptFlags));
-        if (!Number.isFinite(f)) f = 0;
-
-        if (st >= 1) f = (f | 1);
-        if (st >= 2) f = (f | 2);
-        if (st >= 3) f = (f | 8);
-
-        this.data.analytics.statsSharingPromptFlags = f;
-      }
-    } catch (_) { /* silent */ }
-
 
     if (!this.data.codes) this.data.codes = deepCopy(this.defaultData.codes);
 
@@ -732,46 +721,6 @@
     return code;
   };
 
-  // Legacy migration: stats sharing prompt stage was previously stored outside StorageManager.
-  // Old key: `${storageKey}:statsSharingPromptStage`
-
-  StorageManager.prototype._syncLegacyStatsSharingPromptStage = function () {
-    if (!this.data) return false;
-
-    const base = String(this.storageKey || "").trim();
-    if (!base) return false;
-
-    const legacyKey = `${base}:statsSharingPromptStage`;
-
-    let raw = null;
-    try { raw = window.localStorage.getItem(legacyKey); } catch (_) { raw = null; }
-    if (raw == null) return false;
-
-    const n = Number(raw);
-    if (Number.isFinite(n)) {
-      if (!this.data.analytics || typeof this.data.analytics !== "object") {
-        this.data.analytics = deepCopy(this.defaultData.analytics);
-      }
-      this.data.analytics.statsSharingPromptStage = Math.floor(n);
-    }
-
-    try { window.localStorage.removeItem(legacyKey); } catch (_) { }
-    return true;
-  };
-
-  StorageManager.prototype._getUiDeviceFlagKey = function (suffix) {
-    const base = String(this.storageKey || "").trim();
-    const s = String(suffix || "").trim();
-    if (!base || !s) return "";
-    return `${base}:${s}`;
-  };
-
-  StorageManager.prototype._readLegacyUiDeviceFlag = function (suffix) {
-    const key = this._getUiDeviceFlagKey(suffix);
-    if (!key) return false;
-    try { return window.localStorage.getItem(key) === "1"; } catch (_) { return false; }
-  };
-
   StorageManager.prototype._readUiDeviceFlag = function (suffix) {
     const s = String(suffix || "").trim();
     if (!s) return false;
@@ -795,39 +744,6 @@
 
     this.data.uiDeviceFlags[s] = true;
     this._save();
-  };
-
-  StorageManager.prototype._migrateUiDeviceFlagsFromLegacyKeys = function () {
-    if (!this.data) return false;
-
-    if (!this.data.uiDeviceFlags || typeof this.data.uiDeviceFlags !== "object") {
-      this.data.uiDeviceFlags = deepCopy(this.defaultData.uiDeviceFlags);
-    }
-
-    const map = [
-      "firstRunFramingSeen",
-      "premiumFirstRunFramingSeen",
-      "secretChestHintSolved",
-      "secretChestWelcomeShown"
-    ];
-
-    let changed = false;
-
-    map.forEach((suffix) => {
-      if (this.data.uiDeviceFlags[suffix] === true) return;
-      if (this._readLegacyUiDeviceFlag(suffix) !== true) return;
-
-      this.data.uiDeviceFlags[suffix] = true;
-      changed = true;
-    });
-
-    map.forEach((suffix) => {
-      const key = this._getUiDeviceFlagKey(suffix);
-      if (!key) return;
-      try { window.localStorage.removeItem(key); } catch (_) { }
-    });
-
-    return changed;
   };
 
   StorageManager.prototype.hasSeenFirstRunFraming = function () {
@@ -867,18 +783,6 @@
 
     this.data.uiDeviceFlags = deepCopy(this.defaultData.uiDeviceFlags);
     this._save();
-
-    const keys = [
-      this._getUiDeviceFlagKey("firstRunFramingSeen"),
-      this._getUiDeviceFlagKey("premiumFirstRunFramingSeen"),
-      this._getUiDeviceFlagKey("secretChestHintSolved"),
-      this._getUiDeviceFlagKey("secretChestWelcomeShown")
-    ];
-
-    keys.forEach((key) => {
-      if (!key) return;
-      try { window.localStorage.removeItem(key); } catch (_) { }
-    });
   };
 
 
@@ -1669,6 +1573,90 @@
     };
   };
 
+  StorageManager.prototype.getLevelState = function () {
+    const p = this.data?.progression || {};
+    const unlockedAtByLevelRaw = p.unlockedAtByLevel || {};
+    return {
+      currentLevel: Math.min(4, clampNonNegativeInt(p.currentLevel)),
+      unlockedAtByLevel: {
+        1: clampNonNegativeInt(unlockedAtByLevelRaw[1]),
+        2: clampNonNegativeInt(unlockedAtByLevelRaw[2]),
+        3: clampNonNegativeInt(unlockedAtByLevelRaw[3]),
+        4: clampNonNegativeInt(unlockedAtByLevelRaw[4])
+      }
+    };
+  };
+
+  StorageManager.prototype.updateLevelProgression = function (meta) {
+    if (!this.data) {
+      return { previousLevel: 0, currentLevel: 0, unlockedLevel: 0, justUnlocked: false };
+    }
+
+    if (!this.data.progression || typeof this.data.progression !== "object") {
+      this.data.progression = deepCopy(this.defaultData.progression);
+    }
+    if (!this.data.progression.unlockedAtByLevel || typeof this.data.progression.unlockedAtByLevel !== "object") {
+      this.data.progression.unlockedAtByLevel = deepCopy(this.defaultData.progression.unlockedAtByLevel);
+    }
+
+    const prevLevel = Math.min(4, clampNonNegativeInt(this.data.progression.currentLevel));
+    let nextLevel = prevLevel;
+
+    const mode = String(meta?.mode || "").trim().toUpperCase();
+    const totalPresented = clampNonNegativeInt(meta?.totalPresented);
+    const scoreFP = clampNonNegativeInt(meta?.scoreFP);
+    const accuracy = totalPresented > 0 ? (scoreFP / totalPresented) : 0;
+
+    const levelsCfg = (this.config?.levels && typeof this.config.levels === "object") ? this.config.levels : {};
+    const level3MinSeen = clampNonNegativeInt(levelsCfg.level3MinSeen);
+    const level4MinSeen = clampNonNegativeInt(levelsCfg.level4MinSeen);
+    const level3MinAccuracy = Number(levelsCfg.level3MinAccuracy);
+    const level4MinAccuracy = Number(levelsCfg.level4MinAccuracy);
+
+    const seenPool = this.getUniqueSeenCount();
+    const activeMistakes = this.getActiveMistakesCount();
+    const mastered = this.isMastered();
+    const exhausted = this.isPoolExhausted();
+
+    if (prevLevel === 0 && exhausted) {
+      nextLevel = 1;
+    } else if (prevLevel === 1 && mastered) {
+      nextLevel = 2;
+    } else if (
+      prevLevel === 2 &&
+      mode === "BONUS" &&
+      mastered &&
+      seenPool >= level3MinSeen &&
+      Number.isFinite(level3MinAccuracy) &&
+      accuracy >= level3MinAccuracy
+    ) {
+      nextLevel = 3;
+    } else if (
+      prevLevel === 3 &&
+      mode === "BONUS" &&
+      mastered &&
+      seenPool >= level4MinSeen &&
+      Number.isFinite(level4MinAccuracy) &&
+      accuracy >= level4MinAccuracy
+    ) {
+      nextLevel = 4;
+    }
+
+    const justUnlocked = nextLevel > prevLevel;
+    if (justUnlocked) {
+      this.data.progression.currentLevel = nextLevel;
+      this.data.progression.unlockedAtByLevel[nextLevel] = now();
+      this._save();
+    }
+
+    return {
+      previousLevel: prevLevel,
+      currentLevel: justUnlocked ? nextLevel : prevLevel,
+      unlockedLevel: justUnlocked ? nextLevel : 0,
+      justUnlocked
+    };
+  };
+
   // ============================================
   // Run completion (V2)
   // ============================================
@@ -1790,6 +1778,32 @@
   StorageManager.prototype.markLandingPlayClicked = function () {
     if (!this.data) return;
     this.data.counters.landingPlayClicked = clampNonNegativeInt(this.data.counters.landingPlayClicked) + 1;
+    this._save();
+  };
+
+  StorageManager.prototype.markLandingPracticeClicked = function () {
+    if (!this.data) return;
+    this.data.counters.landingPracticeClicked = clampNonNegativeInt(this.data.counters.landingPracticeClicked) + 1;
+    this._save();
+  };
+
+  StorageManager.prototype.markLandingNextRunStarted = function () {
+    if (!this.data) return;
+    this.data.counters.landingNextRunStarted = clampNonNegativeInt(this.data.counters.landingNextRunStarted) + 1;
+    this._save();
+  };
+
+  StorageManager.prototype.markLandingNextRunCompleted = function () {
+    if (!this.data) return;
+    this.data.counters.landingNextRunCompleted = clampNonNegativeInt(this.data.counters.landingNextRunCompleted) + 1;
+    this._save();
+  };
+
+  StorageManager.prototype.recordLandingTime = function (ms) {
+    if (!this.data) return;
+    const delta = clampNonNegativeInt(ms);
+    if (delta <= 0) return;
+    this.data.counters.landingTimeTotalMs = clampNonNegativeInt(this.data.counters.landingTimeTotalMs) + delta;
     this._save();
   };
 
@@ -2065,6 +2079,10 @@
       funnel: {
         landingViewed: clampNonNegativeInt(this.data.counters?.landingViewed),
         landingPlayClicked: clampNonNegativeInt(this.data.counters?.landingPlayClicked),
+        landingPracticeClicked: clampNonNegativeInt(this.data.counters?.landingPracticeClicked),
+        landingNextRunStarted: clampNonNegativeInt(this.data.counters?.landingNextRunStarted),
+        landingNextRunCompleted: clampNonNegativeInt(this.data.counters?.landingNextRunCompleted),
+        landingTimeTotalMs: clampNonNegativeInt(this.data.counters?.landingTimeTotalMs),
         paywallShown: clampNonNegativeInt(this.data.counters?.paywallShown),
         paywallShownFromLanding: clampNonNegativeInt(this.data.counters?.paywallShownFromLanding),
         paywallShownFromEnd: clampNonNegativeInt(this.data.counters?.paywallShownFromEnd),

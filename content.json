@@ -1,9 +1,9 @@
 {
-  "version": "1.1",
+  "version": "1.4",
   "totalItems": 200,
   "breakdown": {
-    "trueItems": 112,
-    "falseItems": 88
+    "trueItems": 110,
+    "falseItems": 90
   },
   "items": [
     {
@@ -154,7 +154,7 @@
       "termFr": "",
       "termEn": "A flat white usually contains less milk and less foam than a latte.",
       "correctAnswer": true,
-      "explanationShort": "A flat white is served in a smaller cup, typically around 5 oz, with no foam on top.\nA latte is much larger, around 8 to 12 oz, with more milk and a thin layer of foam.\nFlat white, bold. Latte, creamy.",
+      "explanationShort": "A flat white is served in a smaller cup, typically around 5 oz, with thinner, velvety foam.\nA latte is usually larger, around 8 to 12 oz, with more milk and a softer taste.\nFlat white, bold. Latte, creamy.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -273,9 +273,9 @@
     {
       "id": 25,
       "termFr": "",
-      "termEn": "A weak cup usually comes from using too little coffee.",
-      "correctAnswer": false,
-      "explanationShort": "More grounds make the drink stronger, but they do not fix the real problem.\nPast the right ratio, extra grounds start pulling bitter compounds instead of good flavor.\nMore grounds fixes nothing, right grind does.",
+      "termEn": "A weak cup can come from using too little coffee.",
+      "correctAnswer": true,
+      "explanationShort": "The amount of coffee directly affects strength.\nToo little coffee can make the drink taste thin, even if the brew method is fine.\nToo little coffee, weaker cup.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -407,7 +407,7 @@
       "termFr": "",
       "termEn": "Letting coffee cool for a few minutes can bring out more sweetness and acidity.",
       "correctAnswer": true,
-      "explanationShort": "Temperature affects how taste receptors pick up different flavors.\nAs coffee cools, acidity and sweetness become more noticeable while bitterness softens.\nHot coffee, bitter edge. Cool coffee, more sweet.",
+      "explanationShort": "Temperature affects how taste receptors pick up different flavors.\nAs coffee cools, acidity and sweetness become more noticeable while bitterness softens.\nHot coffee, bitter edge. Cooler coffee, more sweetness.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -462,7 +462,7 @@
       "termFr": "",
       "termEn": "On a home espresso machine, grind changes are a minor detail for taste.",
       "correctAnswer": false,
-      "explanationShort": "The grind controls how much flavor the water picks up.\nA finer grind produces a richer, more intense shot.\nOn espresso, grind changes the cup immediately and dramatically.",
+      "explanationShort": "The grind controls how much flavor the water picks up.\nThe right grind can make a shot richer, sharper, or more balanced.\nOn espresso, grind changes the cup immediately.",
       "tags": [
         "Troubleshooting and maintenance",
         "Medium"
@@ -592,9 +592,9 @@
     {
       "id": 54,
       "termFr": "",
-      "termEn": "A paper filter makes coffee taste cleaner and lighter than a metal filter.",
-      "correctAnswer": true,
-      "explanationShort": "Paper filters absorb the oils that pass freely through a metal filter.\nWithout those oils, the cup tastes cleaner and the finish is lighter on the palate.\nPaper catches what metal lets through.",
+      "termEn": "A metal filter makes coffee taste cleaner and lighter than a paper filter.",
+      "correctAnswer": false,
+      "explanationShort": "Paper filters absorb oils that pass freely through a metal filter.\nWithout those oils, paper-filtered coffee tastes cleaner and lighter.\nPaper catches what metal lets through.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -713,9 +713,9 @@
     {
       "id": 65,
       "termFr": "",
-      "termEn": "Oat milk froths as well as cow's milk under a steam wand.",
+      "termEn": "Regular oat milk froths as easily as cow's milk under a steam wand.",
       "correctAnswer": false,
-      "explanationShort": "Oat milk has less protein than cow's milk, and protein is what holds foam together.\nThat is why oat milk needs more time and technique to build stable microfoam.\nSame drink, different technique.",
+      "explanationShort": "Cow's milk naturally has the proteins that help foam hold together.\nOat milk usually needs a barista formula, more time, or better technique to foam well.\nOat can work beautifully, but not always as easily.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -768,9 +768,9 @@
     {
       "id": 70,
       "termFr": "",
-      "termEn": "Soy milk was the main plant-based milk in US coffee shops before oat milk became popular.",
-      "correctAnswer": true,
-      "explanationShort": "Soy milk was the default plant-based option in many US coffee shops for years.\nOat milk arrived later and then grew quickly in popularity.\nSoy came first, oat came later.",
+      "termEn": "Oat milk was the main plant-based milk in US coffee shops before soy milk became popular.",
+      "correctAnswer": false,
+      "explanationShort": "Soy milk was the default plant-based option in many US coffee shops for years.\nOat milk became popular later because it steams well and tastes creamy.\nSoy came first, oat took over later.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -803,7 +803,7 @@
       "termFr": "",
       "termEn": "Coffee shop prices can be affected by changes in world coffee prices.",
       "correctAnswer": true,
-      "explanationShort": "Coffee shops source their beans through the global commodity market.\nWhen prices rise there, the cost increase flows through roasters and eventually to the counter.\nGlobal price, local cup.",
+      "explanationShort": "Coffee shops buy beans whose prices move with world coffee markets.\nWhen green coffee costs rise, that increase can pass through roasters and eventually to the counter.\nGlobal price, local cup.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -889,9 +889,9 @@
     {
       "id": 81,
       "termFr": "",
-      "termEn": "Cheap espresso blends at coffee shops usually contain arabica.",
+      "termEn": "Cheap espresso blends at coffee shops are usually 100% arabica.",
       "correctAnswer": false,
-      "explanationShort": "Robusta costs far less than arabica, making it the go-to choice for budget blends.\nIt also produces more crema, which is why it is common in commercial espresso blends.\nCheap blend, likely robusta.",
+      "explanationShort": "Budget espresso blends often include robusta because it costs less than arabica.\nRobusta also adds crema and a stronger bitter edge.\nCheap blend, likely not pure arabica.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -1001,7 +1001,7 @@
       "termFr": "",
       "termEn": "Robusta coffee from Indonesia ends up in many espresso blends and instant coffees.",
       "correctAnswer": true,
-      "explanationShort": "Indonesia grows large quantities of robusta, which thrives at lower altitudes and in heat.\nBecause of its availability and low cost, Indonesian robusta is used in many commercial blends and instant coffees.\nIndonesian robusta, in most blends.",
+      "explanationShort": "Indonesia grows large quantities of robusta, which thrives at lower altitudes and in heat.\nBecause it is available and lower-cost, Indonesian robusta is often used in commercial blends and instant coffees.\nIndonesian robusta, often blended.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -1012,7 +1012,7 @@
       "termFr": "",
       "termEn": "Coffee grows in roughly the same climate zone as cocoa and bananas.",
       "correctAnswer": true,
-      "explanationShort": "Coffee plants need consistent warmth, humidity, and no frost to thrive.\nThat combination only exists in the band between the two tropics.\nThe best coffee grows where it is hottest.",
+      "explanationShort": "Coffee plants need consistent warmth, humidity, and no frost to thrive.\nThat combination only exists in the band between the two tropics.\nCoffee needs warmth, humidity, and no frost.",
       "tags": [
         "Coffee market and origins",
         "Easy"
@@ -1087,9 +1087,9 @@
     {
       "id": 99,
       "termFr": "",
-      "termEn": "A mocha at a coffee shop is espresso with chocolate syrup.",
+      "termEn": "A mocha at a coffee shop is espresso with chocolate syrup and milk.",
       "correctAnswer": true,
-      "explanationShort": "A mocha is built like a latte, with espresso and steamed milk, plus chocolate syrup.\nThe name comes from the Yemeni port of Mocha, once the world's main coffee trading hub.\nEspresso plus chocolate, not a special bean.",
+      "explanationShort": "A mocha is built like a latte, with espresso and steamed milk, plus chocolate syrup.\nThe name comes from the Yemeni port of Mocha, once the world's main coffee trading hub.\nMocha is a drink with chocolate, not a special coffee bean.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -1142,9 +1142,9 @@
     {
       "id": 104,
       "termFr": "",
-      "termEn": "Coffee was first consumed as a brewed beverage in Ethiopia.",
-      "correctAnswer": false,
-      "explanationShort": "Coffee plants originate in Ethiopia, but Ethiopians were not the first to brew it.\nIt was in Yemen that coffee was first cultivated and consumed as a beverage.\nPlant from Ethiopia, drink from Yemen.",
+      "termEn": "The clearest early evidence of coffee drinking points to Yemen.",
+      "correctAnswer": true,
+      "explanationShort": "Coffee plants are native to Ethiopia, but the earliest clear drinking culture points to Yemen.\nYemeni Sufi communities used coffee to stay awake during night prayers.\nPlant from Ethiopia, drink culture from Yemen.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -1252,9 +1252,9 @@
     {
       "id": 114,
       "termFr": "",
-      "termEn": "Coffee tastes best in the weeks after the roast date.",
+      "termEn": "Coffee often tastes better after a short rest from the roast date.",
       "correctAnswer": true,
-      "explanationShort": "After roasting, beans release CO2 for a few days and need time to settle.\nAfter that short rest, flavor peaks, then aromas start escaping past a few weeks.\nFresh weeks, not fresh months.",
+      "explanationShort": "Right after roasting, beans release CO2 for a few days.\nAfter that short rest, flavor often becomes more balanced before freshness fades.\nFresh does not always mean same-day fresh.",
       "tags": [
         "Buying coffee",
         "Medium"
@@ -1450,9 +1450,9 @@
     {
       "id": 132,
       "termFr": "",
-      "termEn": "A daily coffee drinker needs more caffeine over time to feel the same effect.",
+      "termEn": "Daily coffee drinkers can build tolerance to caffeine over time.",
       "correctAnswer": true,
-      "explanationShort": "With regular caffeine intake, the body adapts by reducing its sensitivity to the stimulant.\nAfter months of daily drinking, the same cup feels less and less effective.\nDaily drinkers need more to feel the same.",
+      "explanationShort": "With regular use, the body can become less sensitive to caffeine.\nThat means the same cup may feel weaker than it once did.\nSame dose, smaller effect.",
       "tags": [
         "Myths and misconceptions",
         "Hard"
@@ -1747,9 +1747,9 @@
     {
       "id": 159,
       "termFr": "",
-      "termEn": "Starbucks had fewer than 15 stores when it started its global expansion.",
+      "termEn": "Starbucks was still a small Seattle-area company before Howard Schultz expanded it.",
       "correctAnswer": true,
-      "explanationShort": "When Howard Schultz bought Starbucks in 1987, the company had just 11 stores.\nUnder his leadership, it expanded to over 28,000 locations in 80 countries.\n11 stores in 1987, global empire after.",
+      "explanationShort": "Starbucks began as a small coffee retailer in Seattle.\nHoward Schultz later turned it into a much larger coffeehouse chain.\nSmall retailer first, global chain later.",
       "tags": [
         "Figures and personalities",
         "Hard"
@@ -1769,9 +1769,9 @@
     {
       "id": 161,
       "termFr": "",
-      "termEn": "Today's coffee shop format traces back to Italian espresso bars from the 1980s.",
-      "correctAnswer": true,
-      "explanationShort": "In 1983, Howard Schultz visited Milan and was struck by how espresso bars functioned as community hubs.\nHe brought that concept back to the US and built Starbucks around it.\nItalian inspiration, American institution.",
+      "termEn": "American coffee shops copied Italian espresso bars almost exactly.",
+      "correctAnswer": false,
+      "explanationShort": "American coffee shops borrowed ideas from Italian espresso bars, but changed the format significantly.\nDrinks became larger, seating became more central, and the experience was built for people to stay longer.\nItalian inspiration, American format.",
       "tags": [
         "Figures and personalities",
         "Medium"
@@ -1989,9 +1989,9 @@
     {
       "id": 181,
       "termFr": "",
-      "termEn": "World War II soldiers were among the first mass consumers of instant coffee.",
+      "termEn": "Soldiers helped make instant coffee a mass-market habit during the world wars.",
       "correctAnswer": true,
-      "explanationShort": "Instant coffee was invented around 1910 but remained a niche product for decades.\nWWII military rations included it as standard issue, exposing millions of soldiers to it at once.\nWar made instant coffee a habit.",
+      "explanationShort": "Instant coffee became useful because it was light, fast, and easy to prepare.\nMilitary use helped normalize it for large numbers of people.\nWar made instant coffee practical, then familiar.",
       "tags": [
         "Culture and history of coffee",
         "Easy"
@@ -2022,9 +2022,9 @@
     {
       "id": 184,
       "termFr": "",
-      "termEn": "The Coffee Taster's Flavor Wheel was first published by the SCA in 1995.",
-      "correctAnswer": true,
-      "explanationShort": "The Flavor Wheel was first published in 1995 to give the specialty coffee industry a shared vocabulary.\nEvery time a barista or a bag uses words like fruity or chocolatey, those choices trace back to this tool.\nPublished 1995, used worldwide today.",
+      "termEn": "The Coffee Taster's Flavor Wheel was first published by the SCA in 2016.",
+      "correctAnswer": false,
+      "explanationShort": "The Flavor Wheel was first published in 1995, then updated in 2016 with World Coffee Research.\nThe 2016 version made the tasting vocabulary more precise.\nFirst published in 1995, updated in 2016.",
       "tags": [
         "Culture and history of coffee",
         "Medium"
@@ -2044,9 +2044,9 @@
     {
       "id": 186,
       "termFr": "",
-      "termEn": "Seeing Guatemala on a coffee bag usually signals a high-quality arabica.",
+      "termEn": "Seeing Guatemala on a coffee bag often signals arabica grown at altitude.",
       "correctAnswer": true,
-      "explanationShort": "Guatemala grows arabica at high altitude across several distinct growing regions.\nThat combination of elevation and climate makes it one of Central America's top specialty coffee producers.\nHigh altitude, high quality, Guatemala.",
+      "explanationShort": "Guatemala is known for arabica coffees grown in mountainous regions.\nAltitude can support brighter acidity and more layered flavors.\nOrigin helps, but it is not a quality guarantee.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -2121,9 +2121,9 @@
     {
       "id": 193,
       "termFr": "",
-      "termEn": "A 12 oz drip coffee usually contains more caffeine than a single espresso shot.",
+      "termEn": "A 12 oz drip coffee usually contains about the same caffeine as two espresso shots.",
       "correctAnswer": true,
-      "explanationShort": "A single espresso shot carries roughly 75 mg of caffeine in just 1 oz.\nA 12-ounce drip coffee, while milder per sip, typically delivers 120 to 180 mg in total.\nBig cup, more caffeine, almost every time.",
+      "explanationShort": "Two espresso shots usually land around 120 to 150 mg of caffeine combined.\nA 12-ounce drip coffee often falls in the 120 to 180 mg range.\nDifferent drinks, surprisingly similar total caffeine.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -2167,7 +2167,7 @@
       "termFr": "",
       "termEn": "Ordering an extra shot on a two-shot drink adds 50 percent more caffeine.",
       "correctAnswer": true,
-      "explanationShort": "Most standard espresso drinks are made with two shots.\nAdding one more shot to a two-shot drink increases the caffeine by 50 percent, not 100.\nExtra shot means more caffeine, not necessarily twice as much.",
+      "explanationShort": "If a drink starts with two espresso shots, adding one more shot takes it from two to three.\nThat means the espresso caffeine increases by 50 percent, not 100 percent.\nExtra shot means more caffeine, not necessarily twice as much.",
       "tags": [
         "Myths and misconceptions",
         "Medium"
@@ -2176,9 +2176,9 @@
     {
       "id": 198,
       "termFr": "",
-      "termEn": "Specialty coffee costs more partly because farmers get a higher price for their beans.",
+      "termEn": "Specialty coffee often costs more because higher-quality lots are paid at higher prices.",
       "correctAnswer": true,
-      "explanationShort": "Specialty roasters pay above the commodity price to source high-quality beans directly from farms.\nThat extra cost moves through roasting, packaging, and retail before landing in the cup price.\nQuality costs more at every step.",
+      "explanationShort": "Specialty coffee is graded for quality and sold differently from commodity coffee.\nBetter-scoring lots can command higher prices in the supply chain.\nHigher quality often means higher price, but not a perfect guarantee.",
       "tags": [
         "Buying coffee",
         "Medium"

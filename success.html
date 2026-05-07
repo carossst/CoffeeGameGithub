@@ -19,7 +19,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
   <link rel="icon" href="./icons/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" href="./icons/icon-180x180.png">
+  <link rel="apple-touch-icon" href="./icons/brand-logo-512.png">
 
   <title>Premium Access Ready - Brew or False</title>
 
@@ -35,15 +35,15 @@
 
         <!-- Header (landing-like branding) -->
         <div class="wt-card wt-card--hero">
-          <div class="wt-row wt-row--spaced" style="align-items:center; gap:var(--gap-2)">
+          <div class="wt-row wt-row--spaced wt-success-hero-row">
             <a class="wt-branding" href="./index.html" id="wt-success-branding" aria-label="Coffee Game home">
-              <img id="wt-success-logo" src="" alt="" class="wt-branding-logo" style="display:none" />
+              <img id="wt-success-logo" src="" alt="" class="wt-branding-logo wt-hidden" />
               <span id="wt-success-name" class="wt-branding-name"></span>
             </a>
             <div class="wt-badge">ONE DEVICE</div>
           </div>
 
-          <div style="margin-top:var(--space-10)">
+          <div class="wt-success-hero-copy">
             <h1 class="wt-h1" data-wt-wording="success.title"></h1>
             <p class="wt-sub" data-wt-wording="success.subtitle"></p>
           </div>
@@ -59,19 +59,18 @@
             </button>
           </div>
 
-          <div class="wt-code" id="code" style="margin-top:var(--gap-2)">BF-0000-0000</div>
+          <div class="wt-code wt-success-code" id="code">BF-0000-0000</div>
 
-          <div id="copy-status" class="wt-live wt-hidden" role="status" aria-live="polite"
-            style="margin-top:var(--space-10)">
+          <div id="copy-status" class="wt-live wt-hidden wt-success-status" role="status" aria-live="polite">
           </div>
 
           <div class="wt-divider"></div>
 
-          <p class="wt-muted" style="margin-top:0">
+          <p class="wt-muted wt-success-note--tight">
             <span data-wt-wording="success.txtSaveLine"></span>
             <span data-wt-wording="success.txtNoRecoverLine"></span>
           </p>
-          <p class="wt-muted" style="margin-top:var(--space-6)" data-wt-wording="success.clearDataWarning"></p>
+          <p class="wt-muted wt-success-note--follow" data-wt-wording="success.clearDataWarning"></p>
         </div>
 
         <!-- How to activate -->
@@ -145,11 +144,11 @@
 
 
         <!-- Footer note -->
-        <p class="wt-muted" style="text-align:center; margin-top:var(--gap-3)" data-wt-wording="success.thankYouLine">
+        <p class="wt-muted wt-success-center-note" data-wt-wording="success.thankYouLine">
         </p>
 
         <!-- Support (single source of truth via WT_Email / WT_CONFIG.support) -->
-        <p class="wt-muted" style="text-align:center; margin-top:var(--gap-2); font-size:var(--fs-xs)">
+        <p class="wt-muted wt-success-support">
           <span data-wt-wording="success.supportLabel"></span>
           <a href="#" id="wt-success-support-link">Contact us</a>
         </p>
@@ -428,7 +427,7 @@
 
           // Fail-closed: no logo => hide the <img> to avoid broken icon.
           if (!logoUrl) {
-            img.style.display = "none";
+            img.classList.add("wt-hidden");
             img.removeAttribute("src");
             img.setAttribute("alt", "");
             return;
@@ -436,7 +435,7 @@
 
           img.src = logoUrl;
           img.setAttribute("alt", appName || "");
-          img.style.display = "";
+          img.classList.remove("wt-hidden");
         } catch (_) { }
       }
       document.addEventListener("DOMContentLoaded", () => {

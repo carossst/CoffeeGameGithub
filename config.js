@@ -44,11 +44,11 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.8",
+    version: "3.9",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
-    storageSchemaVersion: "2.0.0",
+    storageSchemaVersion: "3.0.0",
 
     // Le cache du Service Worker dérive exclusivement de WT_CONFIG.version via ?v=
     // (source unique de vérité pour le cache)
@@ -132,6 +132,28 @@
         legendary: 20
       },
 
+    },
+
+    // Persistent level system
+    // - No default badge before phase 1 is completed
+    // - Levels are permanent once unlocked
+    // - Unlocks are phase-gated:
+    //   L1: full first pass complete
+    //   L2: all active mistakes cleared
+    //   L3: L2 + Rapid Fire pool >= level3MinSeen + Rapid Fire run >= level3MinAccuracy
+    //   L4: L3 + Rapid Fire pool >= level4MinSeen + Rapid Fire run >= level4MinAccuracy
+    // - Preview is UI-only and fail-closed:
+    //   ?levelPreview=none|level1|level2|level3|level4|unlock1|unlock2|unlock3|unlock4
+    levels: {
+      enabled: true,
+      level3MinSeen: 16,
+      level3MinAccuracy: 0.70,
+      level4MinSeen: 50,
+      level4MinAccuracy: 0.85,
+      preview: {
+        enabled: true,
+        queryParam: "levelPreview"
+      }
     },
 
     // Personal best (premium history)
@@ -600,7 +622,7 @@
     landing: {
       title: "Brew or False",
       tagline: "**Think you know coffee? Prove it.**",
-      subtitle: "A fast true-or-false coffee game.\n200 questions about drinks, brewing, beans, and myths.",
+      subtitle: "A fast true-or-false coffee game.\nQuestions about drinks, brewing, beans, and myths.",
       microFun: "Quick games · No signup · Free to try",
       microTrust: "Play a few quick games and see what really holds up.",
 
@@ -614,7 +636,7 @@
       statsSeenLabel: "Questions seen",
 
       // Before completion (goal gradient) 
-      statsSeenSummaryTemplate: "{seen}/{poolSize} questions seen.",
+      statsSeenSummaryTemplate: "{seen} questions seen.",
       statsPhaseBadgeDiscovery: "Phase 1/3: First pass",
       statsPhaseBadgeCorrection: "Phase 2/3: Fixing mistakes",
       statsPhaseBadgeConsolidation: "Phase 3/3: Locked in",
@@ -623,7 +645,7 @@
       statsSeenCompleteLabel: "Coffee quiz progress",
       statsMistakesLabel: "Mistakes",
       statsMistakesSummaryTemplate: "{mistakes}",
-      statsMasterySummaryTemplate: "{mastered}/{poolSize} questions answered correctly",
+      statsMasterySummaryTemplate: "{mastered} questions answered correctly",
 
       postPaywallTitle: "Free games completed.",
       postPaywallBody: "Unlock all 200 questions, unlimited play, Mistakes Mode, and Rapid Fire Mode on this device.",
@@ -697,7 +719,7 @@
     phaseJourney: {
       discovery: {
         badge: "Phase 1/3: First pass",
-        landingSummaryTemplate: "{seen}/{poolSize} questions played.",
+        landingSummaryTemplate: "{seen} questions played.",
         landingDetailTemplate: "{remaining} still to go in your first pass.",
         endLens: "You're still on your first pass. Right now the goal is to cover more of the set.",
         micropics: {
@@ -727,7 +749,7 @@
       },
       consolidation: {
         badge: "Phase 3/3: Locked in",
-        landingSummaryTemplate: "{mastered}/{poolSize} questions answered correctly.",
+        landingSummaryTemplate: "{mastered} questions answered correctly.",
         landingDetail: "You've cleared the mistakes. Now keep the coffee facts clear.",
         endLens: "You've cleared the mistakes. Now keep the coffee facts clear.",
         micropics: {
@@ -738,6 +760,47 @@
           streakLegendary: "20 in a row. Still clear.",
           streakAgainTemplate: "{streak} again.",
           recovery: "Back on it."
+        }
+      }
+    },
+
+    levels: {
+      modalTitle: "Levels",
+      placeholder: "",
+      openDetailsAria: "Open level details",
+      unlockKicker: "New level",
+      reachedTemplate: "You reached {label}.",
+      currentLabel: "Current",
+      unlockedByLabel: "",
+      nextLabel: "Next",
+      reachItLabel: "",
+      progressionLabel: "Path",
+      noLevelTitle: "Locked",
+      noLevelBody: "Finish your first full pass.",
+      maxLevelBody: "You reached the top level.",
+      currentPill: "Current",
+      unlockedPill: "Unlocked",
+      lockedPill: "Locked",
+      byLevel: {
+        1: {
+          label: "GREEN BEAN",
+          unlock: "Finish your first full pass.",
+          next: ""
+        },
+        2: {
+          label: "COFFEE CURIOUS",
+          unlock: "Clear all active mistakes.",
+          next: ""
+        },
+        3: {
+          label: "CAFE REGULAR",
+          unlock: "Build a Rapid Fire pool of 16+ and post a 70%+ run.",
+          next: ""
+        },
+        4: {
+          label: "COFFEE INSIDER",
+          unlock: "Build a Rapid Fire pool of 50+ and post an 85%+ run.",
+          next: ""
         }
       }
     },
@@ -817,6 +880,12 @@
       // BONUS new best label (END)
       newBest: "NEW BEST SCORE.",
       celebrationPerfect: "PERFECT RUN",
+      labelByTier: {
+        perfect: "BARISTA-LEVEL",
+        high: "HOT STREAK",
+        medium: "GETTING WARMER",
+        low: "STILL STEEPING"
+      },
 
       // END BONUS — cognitive mirror by accuracy tier
       // Contract: arrays MUST contain exactly 2 sentences each. No fallback in UI.
@@ -890,7 +959,7 @@
       questionPrompt: "True or false?",
       dangerLineLabel: "TIMEOUT LINE",
       dangerLineAria: "Timeout line. If the card reaches this line, the item is lost.",
-      seenOnlyLine: "{count} questions in your Rapid Fire pool. Only questions you've already seen in the game.",
+      seenOnlyLine: "{count} seen coffee items in your Rapid Fire pool.",
 
       // End toasts (BONUS ends by returning to END screen)
       // Keep existing (even if you later stop using the modal)
@@ -910,8 +979,8 @@
       valueLine: "Focus on the questions that still need work.",
       descUnlocked: "Only the questions you previously got wrong.",
 
-      freeLimitReachedTitle: "End of Free Games.",
-      freeLimitReachedBody: "You've used your {limit} free mistakes games.\n\nFull access unlocks unlimited Mistakes Mode. Keep fixing your mistakes without limits.",
+      freeLimitReachedTitle: "That helped.",
+      freeLimitReachedBody: "You've used your {limit} free mistakes games.\n\nFull access unlocks unlimited Mistakes Mode.\nKeep fixing what you missed.\nNo limits.",
       freeLimitReachedCta: "Keep playing",
       freeLimitReachedClose: "Not now",
 
@@ -927,6 +996,12 @@
       },
       allFixedLine: "You closed it out.",
       celebrationAllCleared: "STRONG FINISH",
+      labelByTier: {
+        last: "LAST CUP",
+        light: "GOOD RECOVERY",
+        firm: "BACK IN RANGE",
+        direct: "KEEP BREWING"
+      },
       endLineAllFixed: "You closed it out.",
       endStatsLine: "You fixed {fixed}. You still have {remaining} left.",
       endStatsLineAllFixed: "You fixed {fixed}.",
@@ -946,7 +1021,7 @@
       playingProgressLine: "{current}/{total}",
 
       // Start overlay (PRACTICE): explain the mode (2 lines shown via typeLine + msg)
-      startRunChancesOverlayPractice: "Only questions you missed.\nUp to 10 per game.\nFix one and it drops out. Miss it again and it comes back.",
+      startRunChancesOverlayPractice: "Only questions you missed.\nUp to 10 per game.\nFix it and it drops out. Miss it and it comes back.",
       startOverlayTapAnywhere: "Tap anywhere to start",
       // Fallback CTA when no repeat tier is selected
       ctaPracticeAgain: "Practice again",
@@ -1090,6 +1165,14 @@
       directToConsolidationLine: "You finished the full set with no active mistakes, so you move straight to phase 3.",
 
       newBest: "NEW PERSONAL BEST",
+      labelByVerdict: {
+        none: "GREEN BEAN",
+        start: "FIRST POUR",
+        building: "GETTING WARMER",
+        strong: "GOOD EXTRACTION",
+        elite: "BARISTA-LEVEL",
+        legendary: "DIALED IN"
+      },
       houseAdSummaryLabel: "Keep going with another game",
       playAgain: "Play again",
 
@@ -1148,7 +1231,7 @@
       socialProofTitle: "What players say",
       socialProofQuotes: [
         { quote: "★★★★★\nI came in overconfident. A few rounds in, I could see exactly where my coffee knowledge was shaky. The explanations are short and really clear.", author: "Lina, home brewer" },
-        { quote: "★★★★★\nA few quick games was enough to show me what I only thought I knew.", author: "Marco, cafe regular" }
+        { quote: "★★★★★\nA few quick games made it obvious I wanted the full set to see how deep this really goes.", author: "Marco, cafe regular" }
       ],
 
       // EARLY-only conversion bump (no fallback; shown only if template is provided)

@@ -159,6 +159,60 @@
       return;
     }
 
+    function getUpdateToastStorageKey() {
+      try {
+        const storageKey = String(cfg?.storage?.storageKey || "").trim();
+        if (!storageKey) return "";
+        return `wt-sw-update-toast-seen:${storageKey}`;
+      } catch (_) {
+        return "";
+      }
+    }
+
+    function getWaitingWorkerKey(worker) {
+      const w = worker || window.__WT_SW_WAITING__ || null;
+      return String(
+        w?.scriptURL ||
+        w?.state ||
+        "waiting"
+      ).trim();
+    }
+
+    function hasSeenUpdateToast(waitingKey) {
+      const key = String(waitingKey || "").trim();
+      if (!key) return false;
+
+      if (window.__WT_SW_LAST_TOAST_KEY__ === key) return true;
+
+      const storageKey = getUpdateToastStorageKey();
+      if (!storageKey) return false;
+
+      try {
+        return window.localStorage.getItem(storageKey) === key;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function markUpdateToastSeen(waitingKey) {
+      const key = String(waitingKey || "").trim();
+      if (!key) return;
+
+      window.__WT_SW_LAST_TOAST_KEY__ = key;
+
+      const storageKey = getUpdateToastStorageKey();
+      if (!storageKey) return;
+
+      try {
+        window.localStorage.setItem(storageKey, key);
+      } catch (_) { }
+    }
+
+    function hideUpdateToast() {
+      const node = document.getElementById("update-toast");
+      if (node && node.classList) node.classList.remove("wt-toast--visible");
+    }
+
     function showUpdateToast(message) {
       const msg = String(message || "").trim();
       if (!msg) return;
@@ -167,8 +221,20 @@
       const node = document.getElementById("update-toast");
       if (!node) return;
 
-      // Mark update ready so UI can decide when to apply it (user-controlled)
+      const waitingKey = getWaitingWorkerKey(window.__WT_SW_WAITING__ || null);
+      if (!waitingKey) return;
+
+      if (hasSeenUpdateToast(waitingKey)) {
+        window.__WT_SW_UPDATE_READY__ = true;
+        hideUpdateToast();
+        return;
+      }
+
+      // Mark update ready so UI can decide when to apply it (user-controlled).
+      // Persist the seen key immediately. If iOS/PWA keeps the same waiting worker
+      // across reloads, the user is not asked again and again.
       window.__WT_SW_UPDATE_READY__ = true;
+      markUpdateToastSeen(waitingKey);
 
       const text = node.querySelector("[data-wt-update-text]");
       if (text) text.textContent = msg;
@@ -211,6 +277,10 @@
     }
 
     window.__WT_APPLY_SW_UPDATE__ = async function () {
+      if (window.__WT_SW_UPDATE_IN_FLIGHT__ === true) return;
+
+      hideUpdateToast();
+
       let fallbackTimer = null;
       function armFallbackReload() {
         if (fallbackTimer) return;
@@ -239,18 +309,22 @@
       }
 
       try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = true; } catch (_) { }
+      try { window.__WT_SW_UPDATE_IN_FLIGHT__ = true; } catch (_) { }
       try {
         armFallbackReload();
         waiting.postMessage({ type: "SKIP_WAITING" });
       } catch (_) {
         try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = false; } catch (_) { }
+        try { window.__WT_SW_UPDATE_IN_FLIGHT__ = false; } catch (_) { }
         reloadForUpdate();
       }
     };
 
     navigator.serviceWorker.addEventListener("controllerchange", () => {
+      try { Logger.log("[UPDATE] controllerchange"); } catch (_) { }
       if (window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ !== true) return;
       try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = false; } catch (_) { }
+      try { window.__WT_SW_UPDATE_IN_FLIGHT__ = false; } catch (_) { }
       reloadForUpdate();
     });
 
@@ -261,8 +335,15 @@
         return;
       }
 
+      const storageKey = String(cfg?.storage?.storageKey || "").trim();
+      if (!storageKey) {
+        Logger.warn("WT_CONFIG.storage.storageKey missing/empty: skipping Service Worker registration (fail-closed)");
+        return;
+      }
+
       const v = encodeURIComponent(version);
-      const swUrl = `./sw.js?v=${v}`;
+      const appScope = encodeURIComponent(storageKey);
+      const swUrl = `./sw.js?v=${v}&app=${appScope}`;
 
       navigator.serviceWorker
         .register(swUrl, { scope: "./" })

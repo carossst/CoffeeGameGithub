@@ -1,8 +1,8 @@
-WORD TRAPS — PROPRIETARY LICENSE
+BREW OR FALSE - PROPRIETARY LICENSE
 
 All rights reserved.
 
-Copyright © 2026 TYF.
+Copyright (c) 2026 Studio 2034.
 
 This source code, design, structure, content, game mechanics, and related assets
 are the exclusive property of the author.

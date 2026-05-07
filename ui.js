@@ -1064,12 +1064,13 @@ void function () {
     const bonusLine3 = String(wording?.secretBonus?.startOverlayLine3 || "").trim();
     const bonusLimitLine = String(extra?.bonusLimitLine || "").trim();
     const bonusTapHint = String(wording?.secretBonus?.startOverlayTapAnywhere || "").trim();
+    const messageLines = msg.split("\n").map((line) => String(line || "").trim()).filter(Boolean);
     const bonusLines = [
       bonusLine1,
       bonusLine2,
       bonusLine3,
       bonusLimitLine,
-      ...msg.split("\n").filter(Boolean),
+      ...messageLines,
       bonusTapHint
     ].filter(Boolean);
 
@@ -1082,13 +1083,13 @@ void function () {
       <div class="wt-chance-overlay__content">
         <span class="wt-chance-overlay__text">
           ${isBonus
-        ? bonusLines.map(l => `<span>${escapeHtml(l)}</span>`).join("<br>")
+        ? bonusLines.map((line, index) => `<span${index === 0 ? ` class="wt-chance-overlay__title"` : ``}>${escapeHtml(line)}</span>`).join("<br>")
         : `
-                ${typeLine ? `<span>${escapeHtml(typeLine)}</span><br>` : ``}
+                ${typeLine ? `<span class="wt-chance-overlay__title">${escapeHtml(typeLine)}</span><br>` : ``}
                 ${goalLine1 ? `<span class="wt-muted">${escapeHtml(goalLine1)}</span><br>` : ``}
                 ${goalLine2 ? `<span class="wt-muted">${escapeHtml(goalLine2)}</span><br>` : ``}
-             ${msg.split("\n").filter(Boolean).map(l => `<span>${escapeHtml(l)}</span>`).join("<br>")}
-                ${(practiceTapHint || defaultTapHint) ? `<br><span>${escapeHtml(practiceTapHint || defaultTapHint)}</span>` : ``}
+             ${messageLines.map((line, index) => `<span${isPractice && index === 0 ? ` class="wt-chance-overlay__lead"` : ``}>${escapeHtml(line)}</span>`).join("<br>")}
+                ${(practiceTapHint || defaultTapHint) ? `<br><span class="wt-chance-overlay__hint">${escapeHtml(practiceTapHint || defaultTapHint)}</span>` : ``}
               `
       }
         </span>
@@ -1361,6 +1362,10 @@ void function () {
           self.openHowToModal();
           break;
 
+        case "open-level-progress":
+          self.openLevelProgressModal();
+          break;
+
         case "close-modal":
           self.closeModal();
           break;
@@ -1419,6 +1424,11 @@ void function () {
 
 
         case "start-practice":
+          if (self.state === STATES.LANDING) {
+            if (self.storage && typeof self.storage.markLandingPracticeClicked === "function") {
+              self.storage.markLandingPracticeClicked();
+            }
+          }
           self.closeModal();
           self.startRun(true);
           break;
@@ -1661,7 +1671,6 @@ void function () {
           self.applyUpdateToast();
           break;
 
-        case "dismiss-house-ad": // legacy alias
         case "remind-house-ad":
           self.remindHouseAdLater();
           break;
@@ -1987,7 +1996,7 @@ void function () {
 
           if (self._runtime) self._runtime.secretBonusPending = true;
           const html = `
-              <p style="white-space:pre-line">${escapeHtml(body)}</p>
+              <p class="wt-text-preline">${escapeHtml(body)}</p>
               <div class="wt-actions">
                 <button class="wt-btn wt-btn--primary" data-action="enter-secret-bonus">${escapeHtml(cta)}</button>
                 ${notNow ? `<button class="wt-btn wt-btn--secondary" data-action="close-modal">${escapeHtml(notNow)}</button>` : ``}
@@ -2287,6 +2296,13 @@ void function () {
     if (prev === STATES.LANDING && next !== STATES.LANDING && next !== STATES.PAYWALL) {
       this._stopPaywallTicker();
     }
+    if (prev === STATES.LANDING && next !== STATES.LANDING) {
+      const enteredAt = Number(this._runtime?.landingEnteredAt || 0);
+      if (enteredAt > 0 && this.storage && typeof this.storage.recordLandingTime === "function") {
+        try { this.storage.recordLandingTime(Date.now() - enteredAt); } catch (_) { /* silent */ }
+      }
+      if (this._runtime) this._runtime.landingEnteredAt = 0;
+    }
 
     // Remember where PAYWALL was opened from (for "Not now" routing)
     if (next === STATES.PAYWALL && prev !== STATES.PAYWALL) {
@@ -2326,6 +2342,9 @@ void function () {
 
     // Entering LANDING: show the EARLY timer only if the window is active (after PAYWALL)
     if (next === STATES.LANDING && prev !== STATES.LANDING) {
+      if (this._runtime) {
+        this._runtime.landingEnteredAt = Date.now();
+      }
       let ep = null;
       if (this.storage && typeof this.storage.getEarlyPriceState === "function") {
         try { ep = this.storage.getEarlyPriceState() || null; } catch (_) { ep = null; }
@@ -2480,7 +2499,7 @@ void function () {
   // Modal helpers
   // ============================================
 
-  UI.prototype.openModal = function (html, title) {
+  UI.prototype.openModal = function (html, title, opts) {
     if (!this.modalEl || !this.modalContentEl) {
       if (window.WT_CONFIG?.debug?.enabled) console.error("[WT Debug] openModal ABORT: modalEl=", !!this.modalEl, "modalContentEl=", !!this.modalContentEl);
       return;
@@ -2499,6 +2518,15 @@ void function () {
 
     this.modalEl.classList.remove("wt-hidden");
     this.modalEl.setAttribute("aria-hidden", "false");
+
+    const modalClass = String(opts?.modalClass || "").trim();
+    if (this._runtime) this._runtime._modalExtraClass = modalClass;
+    this.modalContentEl.classList.remove("wt-modal--sheet", "wt-modal--levelsheet");
+    if (modalClass) {
+      modalClass.split(/\s+/).filter(Boolean).forEach((cls) => {
+        this.modalContentEl.classList.add(cls);
+      });
+    }
 
     const t = escapeHtml(String(title || "").trim());
     const closeLabel = escapeHtml(String(this.wording?.system?.close || "").trim());
@@ -2591,7 +2619,9 @@ void function () {
 
     this.modalEl.classList.add("wt-hidden");
     this.modalEl.setAttribute("aria-hidden", "true");
+    this.modalContentEl.classList.remove("wt-modal--sheet", "wt-modal--levelsheet");
     this.modalContentEl.innerHTML = "";
+    if (this._runtime) this._runtime._modalExtraClass = "";
 
     // A11Y: re-enable main content
     try {
@@ -2654,7 +2684,7 @@ void function () {
 
       premiumHtml = `
         <div class="wt-divider"></div>
-        <div class="wt-actions" style="gap:8px">
+        <div class="wt-actions wt-actions--compact">
           ${redeemLabel ? `<button class="wt-btn wt-btn--ghost" data-action="redeem-code">${escapeHtml(redeemLabel)}</button>` : ``}
           ${upgradeCta ? `<button class="wt-btn wt-btn--ghost" data-action="open-paywall">${escapeHtml(upgradeCta)}</button>` : ``}
         </div>
@@ -2667,18 +2697,118 @@ void function () {
 
 <div class="wt-divider"></div>
 
-      <p class="wt-question-title" style="margin:0 0 8px 0;">
-        ${escapeHtml(String(how.ruleTitle || "").trim())}
-      </p>
-      <p class="wt-muted" style="margin:0;">
-        ${escapeHtml(fillTemplate(String(how.ruleSentence || "").trim(), vars))}
-      </p>
+      <div class="wt-stack wt-stack--sm">
+        <p class="wt-question-title">
+          ${escapeHtml(String(how.ruleTitle || "").trim())}
+        </p>
+        <p class="wt-muted">
+          ${escapeHtml(fillTemplate(String(how.ruleSentence || "").trim(), vars))}
+        </p>
+      </div>
 
       ${premiumHtml}
     `;
 
 
     this.openModal(html, String(how.title || "").trim());
+  };
+
+  UI.prototype.openLevelProgressModal = function () {
+    const w = this.wording || {};
+    const cfg = this.config || {};
+    const levelsW = (w.levels && typeof w.levels === "object") ? w.levels : {};
+    const model = getCoffeeLevelModel(this.storage, cfg, w);
+    const currentLevel = clampInt(model.state?.currentLevel, 0, 4);
+    const current = model.current;
+    const next = model.next;
+
+    const currentLabel = String(levelsW.currentLabel || "").trim();
+    const unlockedByLabel = String(levelsW.unlockedByLabel || "").trim();
+    const nextLabel = String(levelsW.nextLabel || "").trim();
+    const reachItLabel = String(levelsW.reachItLabel || "").trim();
+    const progressionLabel = String(levelsW.progressionLabel || "").trim();
+    const noLevelTitle = String(levelsW.noLevelTitle || "").trim();
+    const noLevelBody = String(levelsW.noLevelBody || "").trim();
+    const maxLevelBody = String(levelsW.maxLevelBody || "").trim();
+    const currentPill = String(levelsW.currentPill || "").trim();
+    const unlockedPill = String(levelsW.unlockedPill || "").trim();
+    const lockedPill = String(levelsW.lockedPill || "").trim();
+
+    const currentBlockHtml = (() => {
+      if (!current) {
+        return `
+          <div class="wt-level-sheet__section">
+            ${noLevelTitle ? `<p class="wt-level-sheet__eyebrow">${escapeHtml(noLevelTitle)}</p>` : ``}
+            ${noLevelBody ? `<p class="wt-level-sheet__body">${escapeHtml(noLevelBody)}</p>` : ``}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="wt-level-sheet__section">
+          ${currentLabel ? `<p class="wt-level-sheet__eyebrow">${escapeHtml(currentLabel)}</p>` : ``}
+          <div class="wt-level-chip wt-level-chip--static">
+            <span class="wt-level-chip__dot" aria-hidden="true"></span>
+            <span>${escapeHtml(current.label)}</span>
+          </div>
+          ${unlockedByLabel ? `<p class="wt-level-sheet__eyebrow wt-level-sheet__eyebrow--tight">${escapeHtml(unlockedByLabel)}</p>` : ``}
+          ${current.unlock ? `<p class="wt-level-sheet__body">${escapeHtml(current.unlock)}</p>` : ``}
+        </div>
+      `;
+    })();
+
+    const nextBlockHtml = (() => {
+      if (currentLevel >= 4) {
+        return `
+          <div class="wt-level-sheet__section wt-level-sheet__section--soft">
+            ${maxLevelBody ? `<p class="wt-level-sheet__body">${escapeHtml(maxLevelBody)}</p>` : ``}
+          </div>
+        `;
+      }
+      if (!next) return ``;
+
+      return `
+        <div class="wt-level-sheet__section wt-level-sheet__section--soft">
+          ${nextLabel ? `<p class="wt-level-sheet__eyebrow">${escapeHtml(nextLabel)}</p>` : ``}
+          <div class="wt-level-chip wt-level-chip--static wt-level-chip--muted">
+            <span class="wt-level-chip__dot" aria-hidden="true"></span>
+            <span>${escapeHtml(next.label)}</span>
+          </div>
+          ${reachItLabel ? `<p class="wt-level-sheet__eyebrow wt-level-sheet__eyebrow--tight">${escapeHtml(reachItLabel)}</p>` : ``}
+          <p class="wt-level-sheet__body">${escapeHtml(next.unlock || "")}</p>
+        </div>
+      `;
+    })();
+
+    const progressionHtml = model.defs.map((item) => {
+      const pill = item.current ? currentPill : (item.unlocked ? unlockedPill : lockedPill);
+      const stateClass = item.current ? " wt-level-strip__item--current" : (item.unlocked ? " wt-level-strip__item--done" : "");
+      return `
+        <li class="wt-level-strip__item${stateClass}">
+          <div class="wt-level-strip__main">
+            <span class="wt-level-strip__dot" aria-hidden="true"></span>
+            <div class="wt-level-strip__copy">
+              <strong class="wt-level-strip__label">${escapeHtml(item.label)}</strong>
+              <span class="wt-level-strip__meta">${escapeHtml(item.unlock)}</span>
+            </div>
+          </div>
+          ${pill ? `<span class="wt-level-strip__pill">${escapeHtml(pill)}</span>` : ``}
+        </li>
+      `;
+    }).join("");
+
+    const html = `
+      ${currentBlockHtml}
+      ${nextBlockHtml}
+      <div class="wt-level-sheet__section wt-level-sheet__section--progress">
+        ${progressionLabel ? `<p class="wt-level-sheet__eyebrow">${escapeHtml(progressionLabel)}</p>` : ``}
+        <ul class="wt-level-strip" role="list">
+          ${progressionHtml}
+        </ul>
+      </div>
+    `;
+
+    this.openModal(html, String(levelsW.modalTitle || "").trim(), { modalClass: "wt-modal--sheet wt-modal--levelsheet" });
   };
 
 
@@ -3268,6 +3398,7 @@ void function () {
     const cfg = this.config || {};
     const moCfg = cfg.mistakesOnly || {};
     const premium = (this.storage && typeof this.storage.isPremium === "function") ? this.storage.isPremium() : false;
+    const startedFromLanding = (this.state === STATES.LANDING);
 
     // Hook for live stats refresh during run (deck rebuild)
     // Exposed on the UI instance to avoid scope-related ReferenceError.
@@ -3333,6 +3464,14 @@ void function () {
     }
 
     this._runtime.practiceBacklogAtStart = practiceBacklogAtStart;
+    if (startedFromLanding) {
+      if (this.storage && typeof this.storage.markLandingNextRunStarted === "function") {
+        this.storage.markLandingNextRunStarted();
+      }
+      this._runtime.landingRunCompletionPending = true;
+    } else {
+      this._runtime.landingRunCompletionPending = false;
+    }
 
     // Provide a stable function reference to the engine (no free variable)
     const getStatsByItem = this.getStatsByItem;
@@ -3527,7 +3666,7 @@ void function () {
     if (!title || !body || typeof this.openModal !== "function") return false;
 
     const html = `
-      <p style="white-space:pre-line">${escapeHtml(body)}</p>
+      <p class="wt-text-preline">${escapeHtml(body)}</p>
       <div class="wt-actions">
         ${cta ? `<button class="wt-btn wt-btn--primary" data-action="open-paywall">${escapeHtml(cta)}</button>` : ``}
         ${close ? `<button class="wt-btn wt-btn--secondary" data-action="close-modal">${escapeHtml(close)}</button>` : ``}
@@ -4556,6 +4695,7 @@ void function () {
 
     let newBest = false;
     let bestScoreFP = 0;
+    let levelProgress = { previousLevel: 0, currentLevel: 0, unlockedLevel: 0, justUnlocked: false };
 
     if (mode === "RUN" && this.storage && typeof this.storage.recordRunComplete === "function") {
       const prevRunNumber = (typeof this.storage.getRunNumber === "function")
@@ -4607,6 +4747,24 @@ void function () {
       newBest = !!(res && res.newBest);
       bestScoreFP = Number(res && res.bestScoreFP || 0);
     }
+
+    if (this.storage && typeof this.storage.updateLevelProgression === "function") {
+      try {
+        levelProgress = this.storage.updateLevelProgression({
+          mode,
+          scoreFP,
+          totalPresented: Array.isArray(this._runtime?.runItemIds) ? this._runtime.runItemIds.length : 0
+        }) || levelProgress;
+      } catch (_) { /* silent */ }
+    }
+
+    if (this._runtime?.landingRunCompletionPending) {
+      if (mode !== "BONUS" && this.storage && typeof this.storage.markLandingNextRunCompleted === "function") {
+        try { this.storage.markLandingNextRunCompleted(); } catch (_) { /* silent */ }
+      }
+      this._runtime.landingRunCompletionPending = false;
+    }
+
     // Store for END screen
     this._runtime.lastRun = {
       mode,
@@ -4617,7 +4775,8 @@ void function () {
       bestScoreFP,
       mistakeIds: Array.isArray(this._runtime.runMistakeIds) ? this._runtime.runMistakeIds.slice() : [],
       runItemIds: Array.isArray(this._runtime.runItemIds) ? this._runtime.runItemIds.slice() : [],
-      poolCompleteCelebration: !!this._runtime?.poolCompleteCelebrationPending
+      poolCompleteCelebration: !!this._runtime?.poolCompleteCelebrationPending,
+      levelProgress
     };
 
     try {
@@ -5082,13 +5241,13 @@ void function () {
       : "";
 
     const html = `
-      ${scoreLine ? `<p class="wt-hero-kpi" style="margin:0 0 10px 0">${escapeHtml(scoreLine)}</p>` : ``}
+      ${scoreLine ? `<p class="wt-hero-kpi wt-m-0 wt-mb-10">${escapeHtml(scoreLine)}</p>` : ``}
       ${line1 ? `<p>${escapeHtml(line1)}</p>` : ``}
       ${line2 ? `<p class="wt-muted">${escapeHtml(line2)}</p>` : ``}
 
       <div class="wt-divider"></div>
 
-      <div class="wt-actions" style="margin-top:14px">
+      <div class="wt-actions wt-mt-14">
         <button class="wt-btn wt-btn--primary" data-action="close-modal">${escapeHtml(cta)}</button>
       </div>
     `;
@@ -5127,7 +5286,7 @@ void function () {
 
     const bodyHtml = lines.map((s) => {
       const line = String(s || "");
-      if (!line) return `<div style="height:8px"></div>`;
+      if (!line) return `<div class="wt-spacer-8"></div>`;
       return `<p>${escapeHtml(line)}</p>`;
     }).join("");
 
@@ -5136,7 +5295,7 @@ void function () {
 
       <div class="wt-divider"></div>
 
-      <div class="wt-actions" style="margin-top:14px">
+      <div class="wt-actions wt-mt-14">
         <button class="wt-btn wt-btn--primary" data-action="close-modal">${escapeHtml(cta)}</button>
       </div>
     `;
@@ -5186,7 +5345,7 @@ void function () {
       <label class="wt-label" for="wt-waitlist-idea">${escapeHtml(label)}</label>
       <textarea id="wt-waitlist-idea" class="wt-input" rows="3"${phAttr}></textarea>
 
-      <div class="wt-actions" style="margin-top:14px">
+      <div class="wt-actions wt-mt-14">
         <button class="wt-btn wt-btn--primary" data-action="send-waitlist-email">${escapeHtml(cta)}</button>
         <button class="wt-btn wt-btn--ghost" data-action="close-modal">${escapeHtml(String(this.wording?.system?.close || "").trim())}</button>
       </div>
@@ -5323,9 +5482,9 @@ void function () {
       <div class="wt-divider"></div>
 
       <strong class="wt-meta">${escapeHtml(String(ss.previewLabel || "").trim())}</strong>
-      <pre class="wt-code" style="text-align:left; font-size:12px; overflow-x:auto; white-space:pre-wrap; word-break:break-all; max-height:200px;">${escapeHtml(jsonStr)}</pre>
+      <pre class="wt-code wt-code--modal">${escapeHtml(jsonStr)}</pre>
 
-      <div class="wt-actions" style="margin-top:16px">
+      <div class="wt-actions wt-mt-16">
         <button class="wt-btn wt-btn--primary" data-action="send-stats-email">${escapeHtml(String(ss.ctaSend || "").trim())}</button>
         <button class="wt-btn wt-btn--secondary" data-action="copy-stats">${escapeHtml(String(ss.ctaCopy || "").trim())}</button>
         <button class="wt-btn wt-btn--ghost" data-action="snooze-stats">${escapeHtml(String(ss.ctaLater || "").trim())}</button>
@@ -5482,8 +5641,8 @@ void function () {
     if (!title || !body || !ctaPrimary) return false;
 
     const html = `
-      <p style="white-space:pre-line">${escapeHtml(body)}</p>
-      <div class="wt-actions" style="margin-top:14px">
+      <p class="wt-text-preline">${escapeHtml(body)}</p>
+      <div class="wt-actions wt-mt-14">
         <button class="wt-btn wt-btn--primary" data-action="${primaryAction}">${escapeHtml(ctaPrimary)}</button>
         <button class="wt-btn wt-btn--ghost" data-action="close-modal">${escapeHtml(ctaSecondary)}</button>
       </div>
@@ -6436,11 +6595,11 @@ void function () {
         postCompletionHtml = `
           <div class="wt-divider"></div>
           ${title ? `<strong class="wt-meta">${escapeHtml(title)}</strong>` : ``}
-          ${body1 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(body1)}</p>` : ``}
-          ${waitlistEligible && body2 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(body2)}</p>` : ``}
-          ${waitlistEligible && body3 ? `<p class="wt-muted" style="margin-top:4px">${escapeHtml(body3)}</p>` : ``}
+          ${body1 ? `<p class="wt-muted wt-mt-6">${escapeHtml(body1)}</p>` : ``}
+          ${waitlistEligible && body2 ? `<p class="wt-muted wt-mt-6">${escapeHtml(body2)}</p>` : ``}
+          ${waitlistEligible && body3 ? `<p class="wt-muted wt-mt-4">${escapeHtml(body3)}</p>` : ``}
 
-          <div class="wt-actions" style="margin-top:12px">
+          <div class="wt-actions wt-mt-12">
             ${waitlistEligible && waitlistCta ? `
               <button class="wt-btn ${houseAdEligible ? `wt-btn--secondary` : `wt-btn--primary`}" data-action="open-waitlist">${escapeHtml(waitlistCta)}</button>
             ` : ``}
@@ -6450,7 +6609,7 @@ void function () {
             ` : ``}
           </div>
 
-          ${waitlistEligible && waitlistDisclaimer ? `<p class="wt-muted" style="margin-top:10px">${escapeHtml(waitlistDisclaimer)}</p>` : ``}
+          ${waitlistEligible && waitlistDisclaimer ? `<p class="wt-muted wt-mt-10">${escapeHtml(waitlistDisclaimer)}</p>` : ``}
         `;
       }
     } catch (_) { postCompletionHtml = ""; }
@@ -6521,16 +6680,27 @@ void function () {
     const runPlays = Math.max(runCompletes, (c == null ? 0 : c));
 
 
+    const levelModel = getCoffeeLevelModel(this.storage, cfg, w);
+    const levelDetailsAria = String(levelModel.levelsW?.openDetailsAria || "").trim();
+    const landingLevelBadgeHtml = (levelModel.state.currentLevel > 0 && levelModel.current && levelModel.current.label)
+      ? `
+          <div class="wt-landing-stat__badge">
+            <button type="button" class="wt-badge" data-action="open-level-progress" aria-label="${escapeHtml(levelDetailsAria)}">
+              ${escapeHtml(levelModel.current.label)}
+            </button>
+          </div>
+        `
+      : "";
+
     // Returning-user LANDING stats (no greeting; purely contextual)
     // No fallback: requires WT_CONFIG.landingStats + WT_WORDING.landing.* strings.
     try {
       const statsCfg = cfg?.landingStats || {};
       const enabled = (statsCfg?.enabled === true);
 
-      const minRunsRaw = Number(statsCfg?.minCompletedRuns ?? statsCfg?.paceRunsCount);
+      const minRunsRaw = Number(statsCfg?.minCompletedRuns);
       const minRunsToShow = (Number.isFinite(minRunsRaw) && minRunsRaw >= 1 && minRunsRaw <= 999) ? Math.floor(minRunsRaw) : null;
-      if (enabled && minRunsToShow != null && Number.isFinite(runCompletes) && runCompletes >= 1) {
-        const seenTpl = String(landing.statsSeenSummaryTemplate || "").trim();
+      if (enabled && minRunsToShow != null && Number.isFinite(runCompletes) && runCompletes >= minRunsToShow) {
         const poolSizeSafe = clampInt(cfg?.game?.poolSize, 1, 9999);
 
         // Unique seen count
@@ -6576,8 +6746,6 @@ void function () {
         }
 
         const isComplete = (seen >= poolSizeSafe);
-        const remaining = clampInt(poolSizeSafe - seen, 0, poolSizeSafe);
-
         // Progress:
         // - before completion: seen progress
         // - after completion: mastery progress (mastered = poolSize - mistakes)
@@ -6587,35 +6755,21 @@ void function () {
           : 0;
         const progressClass = isComplete ? " wt-progress--mastery" : "";
 
-        const phaseCtx = getRuleKnowledgePhaseContext({
-          w,
-          storage: this.storage,
-          poolSize: poolSizeSafe,
-          seen,
-          mistakes
-        });
-
         let title = "";
         let sub = "";
 
         if (!isComplete) {
-          title = phaseCtx.landingSummaryTemplate
-            ? fillTemplate(phaseCtx.landingSummaryTemplate || seenTpl, { seen, poolSize: poolSizeSafe, remaining, mistakes, mastered })
-            : fillTemplate(seenTpl, { seen, poolSize: poolSizeSafe });
-          sub = phaseCtx.landingDetailTemplate
-            ? fillTemplate(phaseCtx.landingDetailTemplate, { seen, poolSize: poolSizeSafe, remaining, mistakes, mastered })
-            : String(phaseCtx.landingDetail || "").trim();
+          title = `${pct}%`;
+          sub = `${seen} questions played`;
         } else {
-          title = phaseCtx.landingSummaryTemplate
-            ? fillTemplate(phaseCtx.landingSummaryTemplate, { seen, poolSize: poolSizeSafe, remaining, mistakes, mastered })
-            : `${mastered}/${poolSizeSafe} questions answered correctly`;
-          sub = String(phaseCtx.landingDetail || "").trim();
+          title = `${pct}%`;
+          sub = `${mastered} questions answered correctly`;
         }
 
-        if (title || sub || phaseCtx.badge) {
+        if (title || sub || landingLevelBadgeHtml) {
           welcomeBackHtml = `
             <div class="wt-landing-stats">
-              ${phaseCtx.badge ? `<div class="wt-landing-stat__badge"><span class="wt-badge">${escapeHtml(phaseCtx.badge)}</span></div>` : ``}
+              ${landingLevelBadgeHtml}
               <div class="wt-landing-stat">
                 ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
                 ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
@@ -6861,20 +7015,20 @@ ${(() => {
       ${((this._runtime && this._runtime.contentLoading === true)
         ? (() => {
           const msg = String(this.wording?.ui?.contentLoadingToast || "").trim();
-          return msg ? `<p class="wt-muted" style="margin:0">${escapeHtml(msg)}</p>` : ``;
+          return msg ? `<p class="wt-muted wt-m-0">${escapeHtml(msg)}</p>` : ``;
         })()
         : ``)}
     </div>
 
     ${welcomeBackHtml}
 
-    ${((!premium && !isPostPaywallVariant && landing.microFun) ? `<p class="wt-sub wt-muted" style="margin-top:10px">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
+    ${((!premium && !isPostPaywallVariant && landing.microFun) ? `<p class="wt-sub wt-muted wt-mt-10">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
 
     ${postBlock}
 
     ${postCompletionHtml}
 
-    ${(!isPostPaywallVariant && microTrust) ? `<p class="wt-sub wt-muted" style="margin-top:12px">${escapeHtml(microTrust)}</p>` : ``}
+    ${(!isPostPaywallVariant && microTrust) ? `<p class="wt-sub wt-muted wt-mt-12">${escapeHtml(microTrust)}</p>` : ``}
 
 </div>
 `;
@@ -7105,7 +7259,7 @@ ${(() => {
 
     const openAttr = (ctx.vars && Number(ctx.vars.backlog) > 0) ? " open" : "";
     return `
-  <details class="wt-accordion"${openAttr} style="margin-top:10px">
+  <details class="wt-accordion"${openAttr}>
     <summary class="wt-accordion-toggle">${escapeHtml(label)}</summary>
     <div class="wt-accordion-content">${items.join("")}</div>
   </details>
@@ -7126,12 +7280,14 @@ ${(() => {
       const copyByTag = (end && typeof end.endTagHighlights === "object") ? end.endTagHighlights : null;
       const runMistakeIds = Array.isArray(lastRun?.mistakeIds) ? lastRun.mistakeIds : [];
       const runItemIds = Array.isArray(lastRun?.runItemIds) ? lastRun.runItemIds : [];
+      const correctAnswers = clampInt(runItemIds.length - runMistakeIds.length, 0, 99999);
+      const allowCategoryInsights = correctAnswers >= 5;
       const byId = (runtime && runtime.contentById && typeof runtime.contentById === "object")
         ? runtime.contentById
         : {};
       const ignored = new Set(["Easy", "Medium", "Hard", "Singles", "Doubles", "Tournament", "Both", "Singles only", "Doubles only"]);
 
-      if (runItemIds.length > 0 && (strongestTagTpl || weakestTagTpl)) {
+      if (allowCategoryInsights && runItemIds.length > 0 && (strongestTagTpl || weakestTagTpl)) {
         const servedCounts = Object.create(null);
         const mistakeCounts = Object.create(null);
 
@@ -7190,7 +7346,7 @@ ${(() => {
           weakestLineShown = true;
         }
 
-        if (!weakestLineShown && copyByTag && runMistakeIds.length > 0) {
+        if (!weakestLineShown && allowCategoryInsights && copyByTag && runMistakeIds.length > 0) {
           const counts = Object.create(null);
 
           for (const rawId of runMistakeIds) {
@@ -7254,13 +7410,13 @@ ${(() => {
     if (!canCopy && !canEmail && !text) return "";
 
     return `
-      <details class="wt-accordion" style="margin-top:10px">
+      <details class="wt-accordion">
         <summary class="wt-accordion-toggle" aria-label="${escapeHtml(shareAria)}">
           ${escapeHtml(title)}
         </summary>
 
         <div class="wt-accordion-content">
-          ${text ? `<p class="wt-muted" style="white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;">${escapeHtml(text)}</p>` : ``}
+          ${text ? `<p class="wt-muted wt-text-wrap-anywhere">${escapeHtml(text)}</p>` : ``}
 
           ${(canCopy || canEmail) ? `
             <div class="wt-actions">
@@ -7303,7 +7459,7 @@ ${(() => {
     const masteredHtml =
       (mastered && (masteredTitle || masteredL1 || masteredL2))
         ? `
-        <div style="margin-top:6px">
+        <div class="wt-mt-6">
           ${masteredTitle ? `<p class="wt-meta"><strong>${escapeHtml(masteredTitle)}</strong></p>` : ``}
           ${masteredL1 ? `<p class="wt-muted">${escapeHtml(masteredL1)}</p>` : ``}
           ${masteredL2 ? `<p class="wt-muted">${escapeHtml(masteredL2)}</p>` : ``}
@@ -7379,7 +7535,7 @@ ${(() => {
     const secondaryBtn =
       (secondaryLabel && secondaryAction)
         ? `
-        <button class="wt-btn wt-btn--secondary" data-action="${escapeHtml(secondaryAction)}" style="width:100%">
+        <button class="wt-btn wt-btn--secondary" data-action="${escapeHtml(secondaryAction)}">
           ${escapeHtml(secondaryLabel)}
         </button>
       `
@@ -7398,7 +7554,7 @@ ${(() => {
     return `
   ${masteredHtml}
   ${runLensHtml}
-  <button class="wt-btn wt-btn--primary" data-action="${escapeHtml(primaryAction)}" style="width:100%">
+  <button class="wt-btn wt-btn--primary" data-action="${escapeHtml(primaryAction)}">
     ${escapeHtml(primaryLabel)}
   </button>
   ${secondaryBtn}
@@ -7443,6 +7599,88 @@ ${(() => {
       landingDetailTemplate: String(phaseW.landingDetailTemplate || "").trim(),
       endLens: String(phaseW.endLens || "").trim(),
       micropics: (phaseW.micropics && typeof phaseW.micropics === "object") ? phaseW.micropics : {}
+    };
+  }
+
+  function getLevelPreviewState(cfg) {
+    const previewCfg = (cfg?.levels?.preview && typeof cfg.levels.preview === "object") ? cfg.levels.preview : null;
+    if (!previewCfg || previewCfg.enabled !== true) return { currentLevel: null, unlockedLevel: 0, justUnlocked: false };
+
+    const paramName = String(previewCfg.queryParam || "").trim();
+    if (!paramName || typeof window === "undefined" || !window.location) {
+      return { currentLevel: null, unlockedLevel: 0, justUnlocked: false };
+    }
+
+    let raw = "";
+    try {
+      raw = String(new URLSearchParams(window.location.search).get(paramName) || "").trim().toLowerCase();
+    } catch (_) {
+      raw = "";
+    }
+    if (!raw) return { currentLevel: null, unlockedLevel: 0, justUnlocked: false };
+    if (raw === "none") return { currentLevel: 0, unlockedLevel: 0, justUnlocked: false };
+
+    const unlockMatch = raw.match(/^unlock([1-4])$/);
+    if (unlockMatch) {
+      const lvl = clampInt(unlockMatch[1], 0, 4);
+      return { currentLevel: lvl, unlockedLevel: lvl, justUnlocked: true };
+    }
+
+    const levelMatch = raw.match(/^level([1-4])$/);
+    if (levelMatch) {
+      const lvl = clampInt(levelMatch[1], 0, 4);
+      return { currentLevel: lvl, unlockedLevel: 0, justUnlocked: false };
+    }
+
+    return { currentLevel: null, unlockedLevel: 0, justUnlocked: false };
+  }
+
+  function getCoffeeLevelModel(storage, cfg, w) {
+    const levelsW = (w && w.levels && typeof w.levels === "object") ? w.levels : {};
+    const baseState = (storage && typeof storage.getLevelState === "function")
+      ? storage.getLevelState()
+      : { currentLevel: 0, unlockedAtByLevel: { 1: 0, 2: 0, 3: 0, 4: 0 } };
+    const preview = getLevelPreviewState(cfg);
+    const effectiveLevel = (preview.currentLevel == null) ? clampInt(baseState.currentLevel, 0, 4) : clampInt(preview.currentLevel, 0, 4);
+
+    const level3MinSeen = clampInt(cfg?.levels?.level3MinSeen, 0, 99999);
+    const level4MinSeen = clampInt(cfg?.levels?.level4MinSeen, 0, 99999);
+    const level3MinAccuracy = Number(cfg?.levels?.level3MinAccuracy || 0);
+    const level4MinAccuracy = Number(cfg?.levels?.level4MinAccuracy || 0);
+
+    const defs = [1, 2, 3, 4].map((level) => {
+      const raw = (levelsW.byLevel && typeof levelsW.byLevel === "object") ? (levelsW.byLevel[level] || {}) : {};
+      return {
+        level,
+        label: String(raw.label || "").trim(),
+        unlock: String(raw.unlock || "").trim(),
+        next: String(raw.next || "").trim(),
+        unlocked: effectiveLevel >= level,
+        current: effectiveLevel === level
+      };
+    });
+
+    const current = defs.find((item) => item.level === effectiveLevel) || null;
+    const next = defs.find((item) => item.level === (effectiveLevel + 1)) || null;
+
+    const nextRequirementByLevel = {
+      1: "Finish your first full pass.",
+      2: "Clear all active mistakes.",
+      3: `Build a Rapid Fire pool of ${level3MinSeen}+ questions and post a ${Math.round(level3MinAccuracy * 100)}%+ run.`,
+      4: `Build a Rapid Fire pool of ${level4MinSeen}+ questions and post an ${Math.round(level4MinAccuracy * 100)}%+ run.`
+    };
+
+    return {
+      state: {
+        currentLevel: effectiveLevel,
+        unlockedAtByLevel: baseState.unlockedAtByLevel || {}
+      },
+      defs,
+      current,
+      next,
+      levelsW,
+      nextRequirementByLevel,
+      preview
     };
   }
 
@@ -7673,6 +7911,27 @@ ${(() => {
           : bonusPerfect ? bonusCelebrateLine
             : "";
     const recordActive = (!!celebrationLabel) ? (Date.now() < recordUntil) : false;
+    const levelModel = getCoffeeLevelModel(this.storage, cfg, w);
+    const levelProgress = (lastRun && typeof lastRun.levelProgress === "object") ? lastRun.levelProgress : null;
+    const levelPreview = levelModel.preview || { unlockedLevel: 0, justUnlocked: false };
+    const unlockedLevel = levelPreview.justUnlocked
+      ? clampInt(levelPreview.unlockedLevel, 0, 4)
+      : clampInt(levelProgress?.unlockedLevel, 0, 4);
+    const unlockDef = levelModel.defs.find((item) => item.level === unlockedLevel) || null;
+    const levelUnlockHtml = ((levelPreview.justUnlocked || levelProgress?.justUnlocked) && unlockDef)
+      ? `
+        <div class="wt-level-unlock">
+          <p class="wt-level-unlock__kicker">${escapeHtml(String(levelModel.levelsW?.unlockKicker || "").trim())}</p>
+          <div class="wt-level-unlock__card">
+            <button type="button" class="wt-level-chip" data-action="open-level-progress" aria-label="${escapeHtml(String(levelModel.levelsW?.openDetailsAria || "").trim())}">
+              <span class="wt-level-chip__dot" aria-hidden="true"></span>
+              <span>${escapeHtml(unlockDef.label)}</span>
+            </button>
+            <p class="wt-level-unlock__line">${escapeHtml(fillTemplate(String(levelModel.levelsW?.reachedTemplate || "").trim(), { label: unlockDef.label }))}</p>
+          </div>
+        </div>
+      `
+      : "";
 
     // Always show the score (requested), never replace it.
     const displayScoreLine = scoreLine;
@@ -7920,10 +8179,13 @@ ${(() => {
     </p>
   ` : ``}
 
-  ${microLinesHtml}
+  ${levelUnlockHtml}
 
-  <div class="wt-end-copy">
-  ${(() => {
+  <div class="wt-end-summary">
+    ${microLinesHtml}
+
+    <div class="wt-end-copy">
+    ${(() => {
         if (isPractice) {
           const statsLine = practiceStatsLineTpl ? fillTemplate(practiceStatsLineTpl, vars) : "";
           const repeatLine = practiceRepeatNoteTpl ? fillTemplate(practiceRepeatNoteTpl, vars) : "";
@@ -7961,7 +8223,8 @@ ${(() => {
         return endLine ? `<p class="wt-end-copy__verdict">${escapeHtml(endLine)}</p>` : ``;
       })()}
 
-    ${(isRun && runPoolCompleteLine2Tpl && !(poolCompleteCelebration && clampInt(vars.backlog, 0, 99999) === 0)) ? `<p class="wt-end-copy__note">${escapeHtml(fillTemplate(runPoolCompleteLine2Tpl, vars))}</p>` : ``}
+      ${(isRun && runPoolCompleteLine2Tpl && !(poolCompleteCelebration && clampInt(vars.backlog, 0, 99999) === 0)) ? `<p class="wt-end-copy__note">${escapeHtml(fillTemplate(runPoolCompleteLine2Tpl, vars))}</p>` : ``}
+    </div>
   </div>
 
   ${``}
@@ -8178,7 +8441,7 @@ ${(() => {
     const qHeadingTpl = String(w.questionHeadingTemplate || "").trim();
     const qNum = (this._runtime?.feedbackPending === true) ? servedSoFar : (servedSoFar + 1);
     const headingHtml = (qHeadingTpl && Number.isFinite(qNum) && qNum > 0)
-      ? `<p class="wt-muted" style="margin:0 0 4px">${escapeHtml(fillTemplate(qHeadingTpl, { n: qNum }))}</p>`
+      ? `<p class="wt-muted wt-m-0 wt-mb-4">${escapeHtml(fillTemplate(qHeadingTpl, { n: qNum }))}</p>`
       : "";
 
     const showSeenOnlyRule =
@@ -8448,7 +8711,7 @@ ${questionPrompt ? `
 
 
             ${!autoGameOverAfterFeedback ? `
-      <div class="wt-actions" style="margin-top:16px">
+      <div class="wt-actions wt-mt-16">
       <button class="wt-btn wt-btn--primary" data-action="continue">
         ${escapeHtml(continueCta)}
       </button>
@@ -8457,7 +8720,7 @@ ${questionPrompt ? `
 
 
     ${(!autoGameOverAfterFeedback && shouldTapToContinue() && tapToContinue) ? `
-      <p class="wt-muted wt-tap-hint" style="margin-top:8px">
+      <p class="wt-muted wt-tap-hint wt-mt-10">
         ${escapeHtml(tapToContinue)}
       </p>
     ` : ``}
@@ -8713,7 +8976,7 @@ ${questionPrompt ? `
           const qt = String(q?.quote || "").trim();
           const au = String(q?.author || "").trim();
           if (!qt) return "";
-          return `<div style="margin-top:10px"><div style="font-weight:500">&ldquo;${escapeHtml(qt)}&rdquo;</div>${au ? `<div class="wt-muted" style="margin-top:4px">${escapeHtml(au)}</div>` : ``}</div>`;
+          return `<div class="wt-paywall-quote"><div class="wt-paywall-quote-text">&ldquo;${escapeHtml(qt)}&rdquo;</div>${au ? `<div class="wt-muted wt-paywall-quote-author">${escapeHtml(au)}</div>` : ``}</div>`;
         })
         .filter(Boolean)
         .join("");
@@ -8738,7 +9001,7 @@ ${questionPrompt ? `
       return `
         <div class="${cls}" role="status" aria-live="polite">
           <div class="wt-meta">${escapeHtml(label)}</div>
-          <div class="wt-h2${urgencyPulse ? ' wt-pulse' : ''}" style="margin:4px 0 0;color:rgb(var(--primary-dark))">${escapeHtml(timer)}</div>
+          <div class="wt-h2 wt-paywall-timer${urgencyPulse ? ' wt-pulse' : ''}">${escapeHtml(timer)}</div>
         </div>
       `;
     };
@@ -8760,13 +9023,13 @@ ${questionPrompt ? `
       <div class="${wrapClass}">
         <div class="wt-row wt-row--spaced wt-row--top">
           <div>
-            <p class="wt-meta" style="margin:0">
+            <p class="wt-meta wt-paywall-price-value">
               ${escapeHtml(earlyBadge || String(pay.earlyLabel || "").trim())}
             </p>
           </div>
-          <div style="text-align:right">
-            <p class="wt-h2" style="margin:0">${escapeHtml(early)}</p>
-            <p class="wt-muted" style="margin:4px 0 0;text-decoration:line-through">${escapeHtml(standard)}</p>
+          <div class="wt-paywall-price-side">
+            <p class="wt-h2 wt-paywall-price-value">${escapeHtml(early)}</p>
+            <p class="wt-muted wt-paywall-price-note">${escapeHtml(standard)}</p>
           </div>
         </div>
       </div>
@@ -8777,12 +9040,12 @@ ${questionPrompt ? `
       <div class="${wrapClass}">
         <div class="wt-row wt-row--spaced wt-row--top">
           <div>
-            <p class="wt-meta" style="margin:0">${escapeHtml(String(pay.standardLabel || "").trim())}</p>
-            ${post1 ? `<p class="wt-muted" style="margin:4px 0 0">${escapeHtml(post1)}</p>` : ``}
-            ${post2 ? `<p class="wt-muted" style="margin:4px 0 0">${escapeHtml(post2)}</p>` : ``}
+            <p class="wt-meta wt-paywall-price-value">${escapeHtml(String(pay.standardLabel || "").trim())}</p>
+            ${post1 ? `<p class="wt-muted wt-paywall-price-note">${escapeHtml(post1)}</p>` : ``}
+            ${post2 ? `<p class="wt-muted wt-paywall-price-note">${escapeHtml(post2)}</p>` : ``}
           </div>
-          <div style="text-align:right">
-            <p class="wt-h2" style="margin:0">${escapeHtml(standard)}</p>
+          <div class="wt-paywall-price-side">
+            <p class="wt-h2 wt-paywall-price-value">${escapeHtml(standard)}</p>
           </div>
         </div>
       </div>
@@ -8800,19 +9063,19 @@ ${questionPrompt ? `
     <div class="wt-card wt-card--hero">
       <h1 class="wt-h1">${escapeHtml(headline)}</h1>
 
-      ${progressLine1 ? `<p class="wt-muted" style="margin-top:6px">${escapeHtml(progressLine1)}</p>` : ``}
-      ${progressLine2 ? `<p class="wt-muted" style="margin-top:2px">${escapeHtml(progressLine2)}</p>` : ``}
+      ${progressLine1 ? `<p class="wt-muted wt-paywall-progress-line--lead">${escapeHtml(progressLine1)}</p>` : ``}
+      ${progressLine2 ? `<p class="wt-muted wt-paywall-progress-line--follow">${escapeHtml(progressLine2)}</p>` : ``}
 
       ${hasValueSection ? `
-       ${valueTitle ? `<div class="wt-meta wt-meta--strong" style="margin-top:var(--gap-2)">${escapeHtml(valueTitle)}</div>` : ``}
-        ${valueBullets.length ? `<div style="margin-top:var(--gap-1)">${renderBullets(valueBullets, false)}</div>` : ``}
+       ${valueTitle ? `<div class="wt-meta wt-meta--strong wt-paywall-section-title">${escapeHtml(valueTitle)}</div>` : ``}
+        ${valueBullets.length ? `<div class="wt-paywall-list-wrap">${renderBullets(valueBullets, false)}</div>` : ``}
       ` : ``}
 
       ${(hasValueSection && hasTrustSection) ? `<div class="wt-divider"></div>` : ``}
 
       ${hasTrustSection ? `
-       ${trustLine ? `<div class="wt-meta wt-meta--strong" style="margin-top:6px">${renderTextWithStrong(trustLine)}</div>` : ``}
-        ${trustBullets.length ? `<div style="margin-top:var(--gap-1)">${renderBullets(trustBullets, true)}</div>` : ``}
+       ${trustLine ? `<div class="wt-meta wt-meta--strong wt-paywall-trust-line">${renderTextWithStrong(trustLine)}</div>` : ``}
+        ${trustBullets.length ? `<div class="wt-paywall-list-wrap">${renderBullets(trustBullets, true)}</div>` : ``}
       ` : ``}
 
       ${renderSocialProof()}
@@ -8823,7 +9086,7 @@ ${questionPrompt ? `
 
       ${renderPriceBlock()}
 
-      ${savingsLine ? `<p class="wt-muted" style="margin:10px 0 0">${escapeHtml(savingsLine)}</p>` : ``}
+      ${savingsLine ? `<p class="wt-muted wt-paywall-savings">${escapeHtml(savingsLine)}</p>` : ``}
 
       <div class="wt-actions">
         <button
@@ -8837,11 +9100,11 @@ ${questionPrompt ? `
         >${escapeHtml(notNowLabel)}</button>
       </div>
 
-            ${redeemLabel ? `<p class="wt-muted" style="margin-top:10px"><button class="wt-btn wt-btn--ghost" data-action="redeem-code">${escapeHtml(redeemLabel)}</button></p>` : ``}
+            ${redeemLabel ? `<p class="wt-muted wt-paywall-redeem"><button class="wt-btn wt-btn--ghost" data-action="redeem-code">${escapeHtml(redeemLabel)}</button></p>` : ``}
 
     ${"" /* trustLine already rendered above in trust section */}
-    ${checkoutNote ? `<p class="wt-muted" style="margin-top:8px">${escapeHtml(checkoutNote)}</p>` : ``}
-      ${deviceNote ? `<p class="wt-muted" style="margin-top:4px">${escapeHtml(deviceNote)}</p>` : ``}
+    ${checkoutNote ? `<p class="wt-muted wt-paywall-checkout-note">${escapeHtml(checkoutNote)}</p>` : ``}
+      ${deviceNote ? `<p class="wt-muted wt-paywall-device-note">${escapeHtml(deviceNote)}</p>` : ``}
     </div>
     `;
 
