@@ -535,7 +535,7 @@
   window.WT_WORDING = {
     brand: {
       creatorLine: "Carole, creator of Brew or False 🇫🇷",
-      creatorLineHtml: "An indie game by Studio 2034.<br>Created by <a href=\"https://www.linkedin.com/in/carolestromboni/\" target=\"_blank\" rel=\"noopener\">Carole</a>. 🇫🇷"
+      creatorLineHtml: "An indie game by Studio 2034.<br>Created by <a href=\"./press.html\">Carole</a>. 🇫🇷"
     },
 
     system: {
