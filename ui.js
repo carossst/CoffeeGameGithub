@@ -6509,6 +6509,31 @@ void function () {
     }, delayMs);
   };
 
+  function renderLandingStatsCard(opts) {
+    const badgeHtml = String(opts?.badgeHtml || "");
+    const label = String(opts?.label || "").trim();
+    const title = String(opts?.title || "").trim();
+    const sub = String(opts?.sub || "").trim();
+    const pct = clampInt(Number(opts?.pct), 0, 100);
+    const progressClass = String(opts?.progressClass || "");
+
+    if (!badgeHtml && !label && !title && !sub) return "";
+
+    return `
+      <div class="wt-landing-stats">
+        ${badgeHtml}
+        <div class="wt-landing-stat">
+          ${label ? `<div class="wt-landing-stat__kicker">${escapeHtml(label)}</div>` : ``}
+          ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
+          ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
+          <div class="wt-progress${progressClass}" aria-hidden="true">
+            <div class="wt-progress__fill" data-pct="${pct}" style="width:${pct}%"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   UI.prototype._renderLanding = function () {
     const w = this.wording || {};
     const landing = w.landing || {};
@@ -6748,41 +6773,36 @@ void function () {
           mistakes = 0;
         }
 
-        const isComplete = (seen >= poolSizeSafe);
-        // Progress:
-        // - before completion: seen progress
-        // - after completion: mastery progress (mastered = poolSize - mistakes)
-        const mastered = clampInt(poolSizeSafe - mistakes, 0, poolSizeSafe);
+        const phase = getRuleKnowledgePhaseContext({
+          cfg,
+          w,
+          storage: this.storage,
+          poolSize: poolSizeSafe,
+          seen,
+          mistakes
+        });
+
+        const remaining = clampInt(poolSizeSafe - phase.seen, 0, poolSizeSafe);
+        const vars = {
+          seen: phase.seen,
+          poolSize: poolSizeSafe,
+          remaining,
+          mistakes: phase.mistakes,
+          mastered: phase.mastered
+        };
+
+        const progressValue = phase.isComplete ? phase.mastered : phase.seen;
         const pct = poolSizeSafe > 0
-          ? Math.max(0, Math.min(100, Math.round(((isComplete ? mastered : seen) / poolSizeSafe) * 100)))
+          ? Math.max(0, Math.min(100, Math.round((progressValue / poolSizeSafe) * 100)))
           : 0;
-        const progressClass = isComplete ? " wt-progress--mastery" : "";
+        const progressClass = phase.isComplete ? " wt-progress--mastery" : "";
 
-        let title = "";
-        let sub = "";
+        const label = phase.badge;
+        const title = fillTemplate(phase.landingSummaryTemplate, vars);
+        const subTemplate = phase.landingDetailTemplate || phase.landingDetail;
+        const sub = fillTemplate(subTemplate, vars);
 
-        if (!isComplete) {
-          title = `${pct}%`;
-          sub = `${seen} questions played`;
-        } else {
-          title = `${pct}%`;
-          sub = `${mastered} questions answered correctly`;
-        }
-
-        if (title || sub || landingLevelBadgeHtml) {
-          welcomeBackHtml = `
-            <div class="wt-landing-stats">
-              ${landingLevelBadgeHtml}
-              <div class="wt-landing-stat">
-                ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
-                ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
-                <div class="wt-progress${progressClass}" aria-hidden="true">
-                  <div class="wt-progress__fill" data-pct="${pct}" style="width:${pct}%"></div>
-                </div>
-              </div>
-            </div>
-          `;
-        }
+        welcomeBackHtml = renderLandingStatsCard({ badgeHtml: landingLevelBadgeHtml, label, title, sub, pct, progressClass });
 
       }
     } catch (_) { /* silent */ }
