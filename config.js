@@ -1016,7 +1016,7 @@
         direct: "Stay in Mistakes Mode. These are the questions that need the work."
       },
 
-      scoreLine: "{total} questions reviewed",
+      scoreLine: "Score: {score}",
 
       // PLAYING: calm progress line (replaces assertion in PRACTICE)
       playingProgressLine: "{current}/{total}",

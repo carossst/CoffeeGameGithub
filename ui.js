@@ -7958,8 +7958,8 @@ ${(() => {
 
     // Always show the score (requested), never replace it.
     const displayScoreLine = scoreLine;
-    const displayScoreHeading = ((isRun || isBonus) && scoreHeading && scoreFP >= 0) ? scoreHeading : "";
-    const displayScoreValue = ((isRun || isBonus) && scoreLine) ? String(scoreFP) : "";
+    const displayScoreHeading = (scoreHeading && scoreFP >= 0) ? scoreHeading : "";
+    const displayScoreValue = (scoreHeading && scoreFP >= 0) ? String(scoreFP) : "";
 
     const pbLineTpl = String(end.personalBestLine || "").trim();
     const nearBestTpl = String(end.nearBestLine || "").trim();
