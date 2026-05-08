@@ -6772,6 +6772,7 @@ void function () {
           : 0;
         const progressClass = phase.isComplete ? " wt-progress--mastery" : "";
 
+        const label = phase.badge;
         const title = fillTemplate(phase.landingSummaryTemplate, vars);
         const subTemplate = phase.landingDetailTemplate || phase.landingDetail;
         const sub = fillTemplate(subTemplate, vars);
@@ -6780,6 +6781,7 @@ void function () {
             <div class="wt-landing-stats">
               ${landingLevelBadgeHtml}
               <div class="wt-landing-stat">
+                ${label ? `<div class="wt-landing-stat__kicker">${escapeHtml(label)}</div>` : ``}
                 ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
                 ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
                 <div class="wt-progress${progressClass}" aria-hidden="true">

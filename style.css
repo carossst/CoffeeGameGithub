@@ -721,6 +721,16 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   text-align: left;
 }
 
+.wt-landing-stat__kicker {
+  grid-column: 1 / -1;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgb(var(--primary-dark));
+}
+
 .wt-landing-stat__title {
   grid-column: 1 / -1;
   display: block;
