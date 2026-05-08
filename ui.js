@@ -6509,31 +6509,6 @@ void function () {
     }, delayMs);
   };
 
-  function renderLandingStatsCard(opts) {
-    const badgeHtml = String(opts?.badgeHtml || "");
-    const label = String(opts?.label || "").trim();
-    const title = String(opts?.title || "").trim();
-    const sub = String(opts?.sub || "").trim();
-    const pct = clampInt(Number(opts?.pct), 0, 100);
-    const progressClass = String(opts?.progressClass || "");
-
-    if (!badgeHtml && !label && !title && !sub) return "";
-
-    return `
-      <div class="wt-landing-stats">
-        ${badgeHtml}
-        <div class="wt-landing-stat">
-          ${label ? `<div class="wt-landing-stat__kicker">${escapeHtml(label)}</div>` : ``}
-          ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
-          ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
-          <div class="wt-progress${progressClass}" aria-hidden="true">
-            <div class="wt-progress__fill" data-pct="${pct}" style="width:${pct}%"></div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
   UI.prototype._renderLanding = function () {
     const w = this.wording || {};
     const landing = w.landing || {};
@@ -6797,12 +6772,23 @@ void function () {
           : 0;
         const progressClass = phase.isComplete ? " wt-progress--mastery" : "";
 
-        const label = phase.badge;
         const title = fillTemplate(phase.landingSummaryTemplate, vars);
         const subTemplate = phase.landingDetailTemplate || phase.landingDetail;
         const sub = fillTemplate(subTemplate, vars);
-
-        welcomeBackHtml = renderLandingStatsCard({ badgeHtml: landingLevelBadgeHtml, label, title, sub, pct, progressClass });
+        if (title || sub || landingLevelBadgeHtml) {
+          welcomeBackHtml = `
+            <div class="wt-landing-stats">
+              ${landingLevelBadgeHtml}
+              <div class="wt-landing-stat">
+                ${title ? `<div class="wt-landing-stat__title">${escapeHtml(title)}</div>` : ``}
+                ${sub ? `<div class="wt-meta wt-landing-stat__sub">${escapeHtml(sub)}</div>` : ``}
+                <div class="wt-progress${progressClass}" aria-hidden="true">
+                  <div class="wt-progress__fill" data-pct="${pct}" style="width:${pct}%"></div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
 
       }
     } catch (_) { /* silent */ }

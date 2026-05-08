@@ -188,9 +188,9 @@
 
   /* Font scale (single source of truth) */
   --fs-xs: 13px;
-  --fs-sm: 15px;
-  --fs-md: 16px;
-  --fs-base: 16px;
+  --fs-sm: 16px;
+  --fs-md: 17px;
+  --fs-base: 17px;
   --fs-lg: 18px;
   --fs-xl: 20px;
   --fs-2xl: 24px;
@@ -266,8 +266,8 @@
 @media (min-width: 900px) {
   :root {
     --fs-base: 18px;
-    --fs-md: 16px;
-    --fs-sm: 15px;
+    --fs-md: 17px;
+    --fs-sm: 16px;
 
     /* Desktop branding stays visible, but should not overpower gameplay */
     --wt-title-size: 44px;
@@ -721,16 +721,6 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   text-align: left;
 }
 
-.wt-landing-stat__kicker {
-  grid-column: 1 / -1;
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgb(var(--primary-dark));
-}
-
 .wt-landing-stat__title {
   grid-column: 1 / -1;
   display: block;
@@ -866,7 +856,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 
 .wt-sub {
   margin: 0;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-lg);
   line-height: var(--lh-base);
   font-weight: 400;
   color: rgb(var(--text));
@@ -1182,7 +1172,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
   border-radius: var(--r-btn);
   padding: clamp(14px, 2.4vh, 18px) var(--gap-2);
   min-height: 48px;
-  font-size: clamp(16px, 2.6vw, 17px);
+  font-size: clamp(17px, 2.8vw, 18px);
   font-weight: 700;
   color: rgb(var(--text-strong));
   box-shadow: var(--shadow-1);
@@ -1353,11 +1343,13 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-paywall-quote-text {
+  font-size: var(--fs-lg);
   font-weight: 500;
 }
 
 .wt-paywall-quote-author,
 .wt-paywall-price-note {
+  font-size: var(--fs-md);
   margin-top: 4px;
 }
 
@@ -1370,10 +1362,12 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-paywall-progress-line--lead {
+  font-size: var(--fs-lg);
   margin-top: 6px;
 }
 
 .wt-paywall-progress-line--follow {
+  font-size: var(--fs-md);
   margin-top: 2px;
 }
 
@@ -1386,6 +1380,7 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-paywall-trust-line {
+  font-size: var(--fs-md);
   margin-top: 6px;
 }
 
@@ -1398,10 +1393,12 @@ body.wt-state--playing .wt-main .wt-container>.wt-card:last-child {
 }
 
 .wt-paywall-checkout-note {
+  font-size: var(--fs-md);
   margin-top: 8px;
 }
 
 .wt-paywall-device-note {
+  font-size: var(--fs-md);
   margin-top: 4px;
 }
 
@@ -1743,7 +1740,7 @@ button.wt-level-chip {
 
   .wt-choice {
     padding: clamp(12px, 2vh, 14px) var(--gap-2);
-    font-size: clamp(15px, 3.4vw, 17px);
+    font-size: clamp(16px, 3.6vw, 18px);
   }
 }
 
@@ -2223,6 +2220,7 @@ button.wt-level-chip {
   border: 1px solid rgb(var(--border));
   border-left-width: 4px;
   background: rgb(var(--surface-muted));
+  font-size: var(--fs-lg);
   line-height: var(--lh-relaxed);
 }
 
@@ -2241,11 +2239,11 @@ button.wt-level-chip {
 
 @media (min-width: 900px) {
   .wt-feedback {
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg);
   }
 
   .wt-feedback-title {
-    font-size: var(--fs-sm);
+    font-size: var(--fs-md);
   }
 }
 
@@ -2260,6 +2258,7 @@ button.wt-level-chip {
 }
 
 .wt-feedback-title {
+  font-size: var(--fs-md);
   font-weight: 700;
   color: rgb(var(--text-strong));
   margin-bottom: var(--space-4);
@@ -2267,6 +2266,7 @@ button.wt-level-chip {
 
 .wt-feedback__subline {
   margin-top: 4px;
+  font-size: var(--fs-md);
 }
 
 /* ============================================
@@ -2278,7 +2278,7 @@ button.wt-level-chip {
   border-radius: var(--r-md);
   border-left: 3px solid rgb(var(--primary) / var(--wt-a-35));
   background: rgb(var(--primary) / var(--wt-a-08));
-  font-size: var(--fs-base);
+  font-size: var(--fs-lg);
   line-height: var(--lh-relaxed);
   color: rgb(var(--text));
 }
@@ -2295,7 +2295,7 @@ button.wt-level-chip {
 @media (min-height: 741px) {
   .wt-explanation {
     padding: var(--gap-2) var(--space-14);
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg);
   }
 }
 
@@ -2328,7 +2328,7 @@ button.wt-level-chip {
   box-shadow: var(--shadow-2);
 
   /* Readability (50+): bigger rhythm, calmer scan */
-  font-size: var(--fs-base);
+  font-size: var(--fs-lg);
   line-height: 1.55;
 
   padding: var(--space-12) var(--space-12) var(--space-14);
@@ -2429,7 +2429,7 @@ button.wt-level-chip {
 }
 
 .wt-level-sheet__body {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-md);
   line-height: 1.5;
 }
 
@@ -2490,8 +2490,12 @@ button.wt-level-chip {
 
 .wt-level-strip__label {
   color: rgb(var(--text-strong));
-  font-size: var(--fs-sm);
+  font-size: var(--fs-md);
   line-height: 1.25;
+}
+
+.wt-level-strip__meta {
+  font-size: var(--fs-sm);
 }
 
 .wt-level-strip__meta {
@@ -3695,7 +3699,7 @@ arcade" feel; deviation from --fs-* scale is expected. */
 .wt-end-copy__note,
 .wt-end-copy__free {
   margin: 0;
-  font-size: var(--fs-md);
+  font-size: var(--fs-lg);
   line-height: 1.55;
   color: rgb(var(--text));
 }
