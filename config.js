@@ -661,7 +661,7 @@
       statsMasterySummaryTemplate: "{mastered} questions answered correctly",
 
       postPaywallTitle: "Free games completed.",
-      postPaywallBody: "Unlock all 200 questions, unlimited play, Mistakes Mode, and Rapid Fire Mode on this device.",
+      postPaywallBody: "Unlock all 200 questions, unlimited play, Mistakes Mode, and Rapid Fire Mode.",
       practiceCtaTemplate: "Fix your {count} mistake{pluralS}",
       postPaywallCta: "Unlock full access",
 
@@ -1203,7 +1203,7 @@
 
     paywall: {
       // Default headline
-      headline: "Unlock the full coffee quiz.",
+      headline: "Walk into the cafe knowing what you're ordering.",
 
       // LAST FREE RUN - stronger but factual
       headlineLastFree: "That was your last free game. Keep going with full access.",
@@ -1233,7 +1233,7 @@
       trustBullets: [
         "**Pay once**, no subscription",
         "**No account** or signup needed",
-        "**Full access** stays on this device",
+        "**Keep your code** as a backup if you switch device or clear browser data",
         "**Works offline** after first load",
         "**Secure payment** through Stripe"
       ],
@@ -1261,7 +1261,7 @@
       cta: "Get full access",
 
       alreadyHaveCode: "Already have a device unlock code? Use it here.",
-      deviceNote: "One-time unlock for this device. No account needed.",
+      deviceNote: "Instant unlock. No account needed. Keep your code as a backup.",
 
       // PW2: EARLY visual badge (copy visible)
       earlyBadgeLabel: "Early bird",
@@ -1273,7 +1273,7 @@
       timerLabel: "Price increases in:",
 
       postEarlyLine1: "The early price has ended.",
-      postEarlyLine2: "{standardPrice}. One-time unlock for this device."
+      postEarlyLine2: "{standardPrice}. Pay once. Keep your code as a backup."
     },
 
 
@@ -1296,7 +1296,7 @@
       alreadyPremium: "Full access is already enabled on this device.",
       activateTitle: "Use a device unlock code",
       activateLine1: "Already have a device unlock code? Use it here.",
-      activateLine2: "No account needed. This unlock stays on this device.",
+      activateLine2: "No account needed. Keep your code as a backup if you switch device or clear browser data.",
       activationCodeLabel: "Device unlock code",
       activationCodePlaceholder: "BF-0000-0000",
       enterCode: "Enter a code.",
@@ -1385,10 +1385,12 @@ Thanks!`
       template: `Hey!
 I've been playing this coffee game.
 This made me think of you.
-Best score yet: {bestScore}
 {funFact}
+{scoreChallenge}
 Think you'd get it right?
 {url}`,
+      scoreChallengeWithBest: "My best score so far is {bestScore}. What's yours?",
+      scoreChallengeWithoutBest: "What's your best score so far?",
 
       teaserTrap: "Looks obvious... until it isn't.",
       teaserTrue: "Sometimes the obvious answer is right.",

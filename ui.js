@@ -5017,6 +5017,12 @@ void function () {
 
     const scoreFP = clampInt(lastRun.scoreFP, 0, 99999);
     const bestScoreFP = clampInt(lastRun.bestScoreFP, 0, 99999);
+    const scoreChallengeTpl = (bestScoreFP > 10)
+      ? String(share.scoreChallengeWithBest || "").trim()
+      : String(share.scoreChallengeWithoutBest || "").trim();
+    const scoreChallenge = scoreChallengeTpl
+      .replaceAll("{score}", String(scoreFP))
+      .replaceAll("{bestScore}", String(bestScoreFP));
 
     // Curiosity-gap share: "Can you guess?" framing (nudge psychology).
     // Priority: pick a surprising question for maximum curiosity.
@@ -5087,6 +5093,7 @@ void function () {
       .replaceAll("{maxChances}", String(maxChances))
       .replaceAll("{score}", String(scoreFP))
       .replaceAll("{bestScore}", String(bestScoreFP))
+      .replaceAll("{scoreChallenge}", scoreChallenge)
       .replaceAll("{funFact}", funFact);
 
     this._runtime = this._runtime || {};
