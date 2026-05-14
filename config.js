@@ -1203,10 +1203,10 @@
 
     paywall: {
       // Default headline
-      headline: "Walk into the cafe knowing what you're ordering.",
+      headline: "See how far your coffee knowledge really goes.",
 
       // LAST FREE RUN - stronger but factual
-      headlineLastFree: "That was your last free game. Keep going with full access.",
+      headlineLastFree: "Keep the challenge going.",
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
