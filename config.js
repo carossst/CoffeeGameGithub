@@ -96,6 +96,18 @@
       freeRuns: 2
     },
 
+    // Curated free RUN openings
+    // Product goal: make the free trial reveal real coffee traps early,
+    // without changing storage, UI, backend, or the full question pool.
+    curatedFreeRuns: {
+      enabled: true,
+      runCount: 2,
+      cardIdsByRun: {
+        1: [1, 3, 4, 11, 13, 16, 19, 21, 22, 52],
+        2: [2, 7, 10, 30, 40, 44, 46, 49, 57, 58, 62, 193]
+      }
+    },
+
     // Practice mode (Mistakes only)
     // PRODUCT DECISION (kept):
     // - Returns ALL wrong items (variable length) in mistakesOnly mode

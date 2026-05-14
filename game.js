@@ -88,6 +88,67 @@
       .slice(0, poolSize);
   }
 
+  function getCuratedFreeRunOpeningIds(config, byId, statsByItem, runStartNumber) {
+    const cfr = (config?.curatedFreeRuns && typeof config.curatedFreeRuns === "object")
+      ? config.curatedFreeRuns
+      : null;
+
+    if (!cfr || cfr.enabled !== true) return [];
+
+    const runNum = Number(runStartNumber);
+    if (!Number.isFinite(runNum) || Math.floor(runNum) !== runNum || runNum < 1) return [];
+
+    const runCount = Number(cfr.runCount);
+    if (!Number.isFinite(runCount) || Math.floor(runCount) !== runCount || runCount < 1) return [];
+    if (runNum > runCount) return [];
+
+    const byRun = (cfr.cardIdsByRun && typeof cfr.cardIdsByRun === "object")
+      ? cfr.cardIdsByRun
+      : null;
+    if (!byRun) return [];
+
+    const rawIds = Array.isArray(byRun[String(runNum)]) ? byRun[String(runNum)] : [];
+    if (!rawIds.length) return [];
+
+    const ids = [];
+    const seenIds = new Set();
+
+    for (const rawId of rawIds) {
+      const idNum = safeIdNum(rawId);
+      if (idNum == null) continue;
+      if (seenIds.has(idNum)) continue;
+      if (!byId || !byId[String(idNum)]) continue;
+
+      const s = getStats(statsByItem, idNum);
+      const seenCount = Number(s.seenCount) || 0;
+      if (seenCount > 0) continue;
+
+      seenIds.add(idNum);
+      ids.push(idNum);
+    }
+
+    return shuffleCopy(ids);
+  }
+
+  function prependOpeningIds(baseIds, openingIds) {
+    const base = Array.isArray(baseIds) ? baseIds : [];
+    const opening = Array.isArray(openingIds) ? openingIds : [];
+
+    if (!opening.length) return base.slice();
+
+    const openingSet = new Set(opening);
+    const out = opening.slice();
+
+    for (const id of base) {
+      const idNum = safeIdNum(id);
+      if (idNum == null) continue;
+      if (openingSet.has(idNum)) continue;
+      out.push(idNum);
+    }
+
+    return out;
+  }
+
   // ============================================
   // V2 Selection
   // ============================================
@@ -103,7 +164,7 @@
   //   (items are excluded once their latest interaction is a correct answer)
   // - order = most recent wrong first (lastWrongAt desc, id asc)
   // - size = exact active-mistake count, optionally capped by config.mistakesOnly.maxItems
-  function buildDeck({ items, statsByItem, mistakesOnly, config }) {
+  function buildDeck({ items, statsByItem, mistakesOnly, config, runStartNumber }) {
     const normalized = normalizePool(items);
     const poolAll = normalized.pool;
     const byId = normalized.byId;
@@ -168,16 +229,23 @@
         if (seenCount <= 0) unseen.push(idNum);
       }
 
+      const baseIds = unseen.length
+        ? shuffleCopy(unseen)
+        : shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null));
+
+      const openingIds = getCuratedFreeRunOpeningIds(config, byId, statsByItem, runStartNumber);
+
       return {
-        ids: unseen.length
-          ? shuffleCopy(unseen)
-          : shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null)),
+        ids: prependOpeningIds(baseIds, openingIds),
         byId
       };
     }
 
+    const baseIds = shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null));
+    const openingIds = getCuratedFreeRunOpeningIds(config, byId, statsByItem, runStartNumber);
+
     return {
-      ids: shuffleCopy(pool.map((it) => safeIdNum(it && it.id)).filter((n) => n != null)),
+      ids: prependOpeningIds(baseIds, openingIds),
       byId
     };
   }
@@ -319,9 +387,14 @@
         throw new Error("WT_Game.GameEngine.start(): config.game.maxChances must be a positive integer.");
       }
 
+      const runStartNumberRaw = Number(p.runStartNumber);
+      const runStartNumber = (Number.isFinite(runStartNumberRaw) && Math.floor(runStartNumberRaw) === runStartNumberRaw && runStartNumberRaw >= 1)
+        ? runStartNumberRaw
+        : null;
+
       const deck = bonusMode
         ? buildSeenDeck({ items, statsByItem, config })
-        : buildDeck({ items, statsByItem, mistakesOnly, config });
+        : buildDeck({ items, statsByItem, mistakesOnly, config, runStartNumber });
 
       this.run = {
         mode: effectiveMode,
@@ -618,7 +691,8 @@
           items: this.run.items,
           statsByItem: this.run.statsByItem,
           mistakesOnly: false,
-          config: this.run.config
+          config: this.run.config,
+          runStartNumber: null
         });
         this.run.byId = deck.byId || this.run.byId || {};
         this.run.ids = Array.isArray(deck.ids) ? deck.ids.slice() : [];

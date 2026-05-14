@@ -3402,6 +3402,7 @@ void function () {
     const moCfg = cfg.mistakesOnly || {};
     const premium = (this.storage && typeof this.storage.isPremium === "function") ? this.storage.isPremium() : false;
     const startedFromLanding = (this.state === STATES.LANDING);
+    let curatedFreeRunStartNumber = null;
 
     // Hook for live stats refresh during run (deck rebuild)
     // Exposed on the UI instance to avoid scope-related ReferenceError.
@@ -3464,6 +3465,11 @@ void function () {
         this.setState(STATES.PAYWALL);
         return;
       }
+
+      if (this.storage && typeof this.storage.getRunsUsed === "function") {
+        const n = Number(this.storage.getRunsUsed());
+        curatedFreeRunStartNumber = (Number.isFinite(n) && Math.floor(n) === n && n >= 1) ? n : null;
+      }
     }
 
     this._runtime.practiceBacklogAtStart = practiceBacklogAtStart;
@@ -3491,7 +3497,10 @@ void function () {
       config: cfg,
 
       // game.js contract: "RUN" | "PRACTICE" | "BONUS"
-      mode: (mistakesOnly === true) ? MODES.PRACTICE : MODES.RUN
+      mode: (mistakesOnly === true) ? MODES.PRACTICE : MODES.RUN,
+
+      // RUN only: pass free-run number so game.js can prepend curated openings.
+      runStartNumber: (mistakesOnly === true) ? null : curatedFreeRunStartNumber
     });
 
 
