@@ -119,7 +119,7 @@
     {
       "id": 11,
       "termFr": "",
-      "termEn": "Cold brew and iced coffee use the same beans but a completely different brewing method.",
+      "termEn": "Cold brew and iced coffee use different brewing methods.",
       "correctAnswer": true,
       "explanationShort": "Cold brew steeps grounds in cold water for 12 to 24 hours.\nIced coffee is hot-brewed coffee poured over ice.\nSame beans, two different drinks.",
       "tags": [
@@ -174,7 +174,7 @@
     {
       "id": 16,
       "termFr": "",
-      "termEn": "Grind size matters more than machine brand for the taste of an espresso.",
+      "termEn": "Grind size has a major effect on how an espresso tastes.",
       "correctAnswer": true,
       "explanationShort": "The grind determines how much contact time water has with the coffee.\nA precise grind extracts more flavor than any machine upgrade alone.\nGrind first, machine second.",
       "tags": [
@@ -438,7 +438,7 @@
     {
       "id": 40,
       "termFr": "",
-      "termEn": "Using freshly roasted coffee always makes better coffee.",
+      "termEn": "Coffee used immediately after roasting does not always make the best cup.",
       "correctAnswer": false,
       "explanationShort": "Right after roasting, beans release CO2 for several days.\nThat gas pushes water away during brewing, which is why a few days of rest improves the cup.\nRest the beans, then brew.",
       "tags": [
@@ -625,7 +625,7 @@
     {
       "id": 57,
       "termFr": "",
-      "termEn": "Grinding coffee the night before is better than grinding right before brewing.",
+      "termEn": "Grinding coffee right before brewing usually gives a fresher-tasting cup than grinding it the night before.",
       "correctAnswer": false,
       "explanationShort": "Ground coffee has far more surface area exposed to air than whole beans.\nBecause of that, it loses most of its aroma within 15 minutes of grinding.\nNight before grinding means stale grounds by morning.",
       "tags": [
@@ -1285,7 +1285,7 @@
     {
       "id": 117,
       "termFr": "",
-      "termEn": "Roasters who use blends are cutting corners on quality.",
+      "termEn": "Using blends does not mean a roaster is compromising on quality.",
       "correctAnswer": false,
       "explanationShort": "Blending beans from different origins allows roasters to build a specific, consistent flavor profile.\nMany highly regarded espresso roasters use blends deliberately, for their reliability and balance.\nBlend is a choice, not a compromise.",
       "tags": [
