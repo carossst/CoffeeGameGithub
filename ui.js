@@ -6343,13 +6343,18 @@ void function () {
       const prev = prevRenderedState;
       const next = this.state;
 
+      // Record the rendered state BEFORE the counter write.
+      // markLandingViewed() -> _save() -> _emit() re-enters render() synchronously;
+      // recording first makes the nested render see prev === LANDING and skip the
+      // counter (otherwise: infinite recursion until "Maximum call stack size
+      // exceeded" and landingViewed inflated ~40x per page load).
+      if (this._runtime) this._runtime.lastRenderedState = next;
+
       if (next === STATES.LANDING && prev !== STATES.LANDING) {
         if (this.storage && typeof this.storage.markLandingViewed === "function") {
           this.storage.markLandingViewed();
         }
       }
-
-      if (this._runtime) this._runtime.lastRenderedState = next;
     } catch (_) { /* silent */ }
 
     // Preserve footer if it exists inside #app (otherwise leave it alone).
