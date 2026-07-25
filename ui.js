@@ -4402,10 +4402,6 @@ void function () {
           try {
             this._secretBonusFallStartOrSync();
           } catch (_) { /* silent */ }
-
-          try {
-            this._secretBonusFallStartOrSync();
-          } catch (_) { /* silent */ }
         }, feedbackFlashMs);
 
         return;
@@ -5752,6 +5748,19 @@ void function () {
     const ha = cfg.houseAd || {};
     const url = String(ha.url || "").trim();
     if (!url) return;
+
+    // Security: only ever navigate to a well-formed https URL, matching the
+    // defense-in-depth already applied to the Stripe checkout redirect.
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.protocol !== "https:") {
+        console.error("[WT Security] Invalid house ad URL scheme:", urlObj.protocol);
+        return;
+      }
+    } catch (_) {
+      console.error("[WT Security] Invalid house ad URL:", url);
+      return;
+    }
 
     if (this.storage && typeof this.storage.markHouseAdClicked === "function") {
       this.storage.markHouseAdClicked();
