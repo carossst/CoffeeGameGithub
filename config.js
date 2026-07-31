@@ -179,6 +179,14 @@
     premiumCodeRegex: "^BF-[0-9]{4}-[0-9]{4}$",
     acceptCodeOncePerDevice: true,
 
+    // Server-verified admin/guest redeem codes (see redeem-worker/README.md).
+    // Empty apiBaseUrl means the check is skipped and only the local format
+    // check above applies (current default: no Worker deployed yet).
+    redeemApi: {
+      apiBaseUrl: "",
+      requestTimeoutMs: 4000
+    },
+
     // Pricing (Stripe)
     currency: "USD",
     earlyPriceCents: 499,
@@ -1305,6 +1313,7 @@
       codeInvalid: "Invalid code format.",
       codeUsed: "This device already used a code.",
       codeOk: "Full access enabled on this device.",
+      codeChecking: "Checking code...",
 
 
       autoActivateTitle: "Unlock code ready",
