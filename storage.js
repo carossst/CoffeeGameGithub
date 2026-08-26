@@ -405,6 +405,9 @@
     }
 
     if (!this.data.codes) this.data.codes = deepCopy(this.defaultData.codes);
+    if (!this.data.redeem || typeof this.data.redeem !== "object") {
+      this.data.redeem = deepCopy(this.defaultData.redeem);
+    }
 
     // Harden runs (sync with config)
 
