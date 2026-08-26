@@ -247,6 +247,21 @@ function validateIdentifier(value, maxLen, missingMessage, invalidMessage) {
   return { ok: true, value: text };
 }
 
+// Constant-time-ish comparison for the ADMIN_CODE/GUEST_CODE secrets: avoids
+// leaking match-prefix-length via response timing on a plain `===` compare.
+// (Lengths differing is not itself sensitive, so the early length check is
+// fine to short-circuit on.)
+function timingSafeEqual(a, b) {
+  const strA = String(a || "");
+  const strB = String(b || "");
+  if (strA.length !== strB.length) return false;
+  let diff = 0;
+  for (let i = 0; i < strA.length; i += 1) {
+    diff |= strA.charCodeAt(i) ^ strB.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export function resetRateLimitMemoryForTests() {
   RATE_LIMIT_MEMORY.clear();
 }
@@ -300,9 +315,11 @@ export async function handlePostRedeemCode(request, env) {
   const guestCode = String(env?.GUEST_CODE || "").trim();
   const ts = now();
 
-  if (adminCode && code === adminCode) {
+  if (adminCode && timingSafeEqual(code, adminCode)) {
+    // OR IGNORE: a retried/double-submitted request from the same device
+    // would otherwise hit the new unique index below and throw.
     await env.DB.prepare(
-      `INSERT INTO code_redemptions (code_tier, code_value, device_uuid, created_at) VALUES (?1, ?2, ?3, ?4)`
+      `INSERT OR IGNORE INTO code_redemptions (code_tier, code_value, device_uuid, created_at) VALUES (?1, ?2, ?3, ?4)`
     )
       .bind("admin", code, deviceUuid, ts)
       .run();
@@ -314,41 +331,61 @@ export async function handlePostRedeemCode(request, env) {
     return json({ ok: true, tier: "admin" }, undefined, request, env);
   }
 
-  if (guestCode && code === guestCode) {
-    // Atomic check-and-increment: the INSERT only executes its SELECT-guarded
-    // row when fewer than GUEST_CODE_MAX_USES redemptions exist for this code
-    // at the moment this single statement runs, so two concurrent requests
-    // can't both read "9 used" and both insert, exceeding the cap (D1/SQLite
-    // executes one statement at a time, so this can't interleave the way a
-    // separate SELECT-then-INSERT could).
+  if (guestCode && timingSafeEqual(code, guestCode)) {
+    // device_uuid is entirely client-supplied and unauthenticated, so
+    // without per-device dedup a single caller could burn through the whole
+    // GUEST_CODE_MAX_USES allocation by varying device_uuid on each request,
+    // locking out every legitimate guest. The unique index on
+    // (code_tier, code_value, device_uuid) makes re-redeeming with the same
+    // device_uuid idempotent instead of consuming a fresh slot, and the cap
+    // itself is enforced on DISTINCT device_uuid.
+    //
+    // Atomicity: the INSERT only proposes its row when fewer than
+    // GUEST_CODE_MAX_USES distinct devices have redeemed this code at the
+    // moment this single statement runs, so two concurrent requests from
+    // different devices can't both read "under the cap" and both insert
+    // (D1/SQLite executes one statement at a time, so this can't interleave
+    // the way a separate SELECT-then-INSERT could). OR IGNORE makes a
+    // same-device retry a no-op instead of a unique-constraint error.
     const insertResult = await env.DB.prepare(
-      `INSERT INTO code_redemptions (code_tier, code_value, device_uuid, created_at)
+      `INSERT OR IGNORE INTO code_redemptions (code_tier, code_value, device_uuid, created_at)
        SELECT ?1, ?2, ?3, ?4
-       WHERE (SELECT COUNT(*) FROM code_redemptions WHERE code_tier = ?1 AND code_value = ?2) < ?5`
+       WHERE (SELECT COUNT(DISTINCT device_uuid) FROM code_redemptions WHERE code_tier = ?1 AND code_value = ?2) < ?5`
     )
       .bind("guest", code, deviceUuid, ts, GUEST_CODE_MAX_USES)
       .run();
     const inserted = clampNonNegativeInt(insertResult?.meta?.changes) > 0;
 
     if (!inserted) {
-      logWarn("worker.redeem.rejected", {
-        path: new URL(request.url).pathname,
-        reason: "GUEST_CODE_EXHAUSTED"
-      });
-      return json(
-        { ok: false, reason: "GUEST_CODE_EXHAUSTED" },
-        { status: 403 },
-        request,
-        env
-      );
+      // changes === 0 means either the cap was already reached, or this
+      // exact device already redeemed the code earlier (silently no-op'd by
+      // OR IGNORE on the unique-index conflict) — tell those two cases apart
+      // so a repeat visit from the same device isn't rejected as exhausted.
+      const alreadyRedeemedByThisDevice = await env.DB.prepare(
+        `SELECT 1 AS found FROM code_redemptions WHERE code_tier = 'guest' AND code_value = ?1 AND device_uuid = ?2`
+      )
+        .bind(code, deviceUuid)
+        .first();
+
+      if (!alreadyRedeemedByThisDevice) {
+        logWarn("worker.redeem.rejected", {
+          path: new URL(request.url).pathname,
+          reason: "GUEST_CODE_EXHAUSTED"
+        });
+        return json(
+          { ok: false, reason: "GUEST_CODE_EXHAUSTED" },
+          { status: 403 },
+          request,
+          env
+        );
+      }
     }
 
     const usedRow = await env.DB.prepare(
-      `SELECT COUNT(*) AS use_count FROM code_redemptions WHERE code_tier = 'guest' AND code_value = ?1`
+      `SELECT COUNT(DISTINCT device_uuid) AS use_count FROM code_redemptions WHERE code_tier = 'guest' AND code_value = ?1`
     )
       .bind(code)
       .first();
-    // Includes the row just inserted above.
     const useCount = clampNonNegativeInt(usedRow?.use_count);
     const usesRemaining = Math.max(0, GUEST_CODE_MAX_USES - useCount);
 

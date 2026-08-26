@@ -49,9 +49,12 @@ test("POST /redeem-code accepts ADMIN_CODE from any device with no use cap", asy
     ADMIN_CODE: "super-secret-admin",
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
         inserted.push(args);
-        return { success: true };
+        return { success: true, meta: { changes: 1 } };
       }
       throw new Error(`Unexpected query: ${op} ${sql}`);
     })
@@ -81,10 +84,16 @@ test("POST /redeem-code accepts GUEST_CODE and reports remaining uses", async ()
     ADMIN_CODE: "super-secret-admin",
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
         return { success: true, meta: { changes: 1 } };
       }
-      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
+      if (
+        sql.includes("SELECT COUNT(DISTINCT device_uuid) AS use_count") &&
+        op === "first"
+      ) {
         // Includes the row the INSERT above just wrote.
         return { use_count: 4 };
       }
@@ -105,20 +114,27 @@ test("POST /redeem-code accepts GUEST_CODE and reports remaining uses", async ()
   });
 });
 
-test("POST /redeem-code atomically guards the guest-code cap so it can't be raced past 10 uses", async () => {
+test("POST /redeem-code atomically guards the guest-code cap on DISTINCT devices so it can't be raced past 10 uses", async () => {
   let insertArgs = null;
   const env = {
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
         insertArgs = args;
         // The cap check must live inside this single statement (a
         // SELECT-then-INSERT across two round trips would let concurrent
-        // requests both read "under the cap" before either inserts).
-        expect(sql).toMatch(/WHERE\s*\(SELECT COUNT\(\*\)/);
+        // requests both read "under the cap" before either inserts), and it
+        // must count DISTINCT devices, not raw redemption rows.
+        expect(sql).toMatch(/WHERE\s*\(SELECT COUNT\(DISTINCT device_uuid\)/);
         return { success: true, meta: { changes: 1 } };
       }
-      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
+      if (
+        sql.includes("SELECT COUNT(DISTINCT device_uuid) AS use_count") &&
+        op === "first"
+      ) {
         return { use_count: 1 };
       }
       throw new Error(`Unexpected query: ${op} ${sql}`);
@@ -139,15 +155,23 @@ test("POST /redeem-code atomically guards the guest-code cap so it can't be race
   ]);
 });
 
-test("POST /redeem-code rejects GUEST_CODE once the 10-use cap is reached", async () => {
+test("POST /redeem-code rejects GUEST_CODE once the 10-device cap is reached", async () => {
   const env = {
     ADMIN_CODE: "super-secret-admin",
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
         // The WHERE guard inside the statement matched zero rows: the cap
         // was already reached, so nothing was inserted.
         return { success: true, meta: { changes: 0 } };
+      }
+      if (sql.includes("SELECT 1 AS found") && op === "first") {
+        // This device has never redeemed the code, so the zero-changes
+        // outcome above really does mean "exhausted", not "already mine".
+        return null;
       }
       throw new Error(`Unexpected query once the cap is reached: ${op} ${sql}`);
     })
@@ -162,6 +186,44 @@ test("POST /redeem-code rejects GUEST_CODE once the 10-use cap is reached", asyn
   await expect(readJson(response)).resolves.toEqual({
     ok: false,
     reason: "GUEST_CODE_EXHAUSTED"
+  });
+});
+
+test("POST /redeem-code lets the same device re-redeem GUEST_CODE idempotently even once the cap is full", async () => {
+  const env = {
+    GUEST_CODE: "guest-2026",
+    DB: createFakeDb((sql, args, op) => {
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
+        // Same-device retry: unique-index conflict, silently ignored.
+        return { success: true, meta: { changes: 0 } };
+      }
+      if (sql.includes("SELECT 1 AS found") && op === "first") {
+        // This device already has a row for this code.
+        return { found: 1 };
+      }
+      if (
+        sql.includes("SELECT COUNT(DISTINCT device_uuid) AS use_count") &&
+        op === "first"
+      ) {
+        return { use_count: 10 };
+      }
+      throw new Error(`Unexpected query: ${op} ${sql}`);
+    })
+  };
+
+  const response = await workerModule.handlePostRedeemCode(
+    redeemRequest({ code: "guest-2026", device_uuid: "device-already-in" }),
+    env
+  );
+
+  expect(response.status).toBe(200);
+  await expect(readJson(response)).resolves.toEqual({
+    ok: true,
+    tier: "guest",
+    uses_remaining: 0
   });
 });
 
@@ -250,8 +312,11 @@ test("Worker rate limits repeated redeem-code attempts per device", async () => 
   const env = {
     ADMIN_CODE: "super-secret-admin",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
-        return { success: true };
+      if (
+        sql.includes("INSERT OR IGNORE INTO code_redemptions") &&
+        op === "run"
+      ) {
+        return { success: true, meta: { changes: 1 } };
       }
       throw new Error(`Unexpected query: ${op} ${sql}`);
     }),
