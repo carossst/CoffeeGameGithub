@@ -81,11 +81,12 @@ test("POST /redeem-code accepts GUEST_CODE and reports remaining uses", async ()
     ADMIN_CODE: "super-secret-admin",
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
-        return { use_count: 3 };
-      }
       if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
-        return { success: true };
+        return { success: true, meta: { changes: 1 } };
+      }
+      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
+        // Includes the row the INSERT above just wrote.
+        return { use_count: 4 };
       }
       throw new Error(`Unexpected query: ${op} ${sql}`);
     })
@@ -104,17 +105,51 @@ test("POST /redeem-code accepts GUEST_CODE and reports remaining uses", async ()
   });
 });
 
+test("POST /redeem-code atomically guards the guest-code cap so it can't be raced past 10 uses", async () => {
+  let insertArgs = null;
+  const env = {
+    GUEST_CODE: "guest-2026",
+    DB: createFakeDb((sql, args, op) => {
+      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+        insertArgs = args;
+        // The cap check must live inside this single statement (a
+        // SELECT-then-INSERT across two round trips would let concurrent
+        // requests both read "under the cap" before either inserts).
+        expect(sql).toMatch(/WHERE\s*\(SELECT COUNT\(\*\)/);
+        return { success: true, meta: { changes: 1 } };
+      }
+      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
+        return { use_count: 1 };
+      }
+      throw new Error(`Unexpected query: ${op} ${sql}`);
+    })
+  };
+
+  await workerModule.handlePostRedeemCode(
+    redeemRequest({ code: "guest-2026", device_uuid: "device-x" }),
+    env
+  );
+
+  expect(insertArgs).toEqual([
+    "guest",
+    "guest-2026",
+    "device-x",
+    expect.any(Number),
+    10
+  ]);
+});
+
 test("POST /redeem-code rejects GUEST_CODE once the 10-use cap is reached", async () => {
   const env = {
     ADMIN_CODE: "super-secret-admin",
     GUEST_CODE: "guest-2026",
     DB: createFakeDb((sql, args, op) => {
-      if (sql.includes("SELECT COUNT(*) AS use_count") && op === "first") {
-        return { use_count: 10 };
+      if (sql.includes("INSERT INTO code_redemptions") && op === "run") {
+        // The WHERE guard inside the statement matched zero rows: the cap
+        // was already reached, so nothing was inserted.
+        return { success: true, meta: { changes: 0 } };
       }
-      throw new Error(
-        `INSERT should not run once the cap is reached: ${op} ${sql}`
-      );
+      throw new Error(`Unexpected query once the cap is reached: ${op} ${sql}`);
     })
   };
 

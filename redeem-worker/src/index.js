@@ -315,14 +315,22 @@ export async function handlePostRedeemCode(request, env) {
   }
 
   if (guestCode && code === guestCode) {
-    const usedRow = await env.DB.prepare(
-      `SELECT COUNT(*) AS use_count FROM code_redemptions WHERE code_tier = 'guest' AND code_value = ?1`
+    // Atomic check-and-increment: the INSERT only executes its SELECT-guarded
+    // row when fewer than GUEST_CODE_MAX_USES redemptions exist for this code
+    // at the moment this single statement runs, so two concurrent requests
+    // can't both read "9 used" and both insert, exceeding the cap (D1/SQLite
+    // executes one statement at a time, so this can't interleave the way a
+    // separate SELECT-then-INSERT could).
+    const insertResult = await env.DB.prepare(
+      `INSERT INTO code_redemptions (code_tier, code_value, device_uuid, created_at)
+       SELECT ?1, ?2, ?3, ?4
+       WHERE (SELECT COUNT(*) FROM code_redemptions WHERE code_tier = ?1 AND code_value = ?2) < ?5`
     )
-      .bind(code)
-      .first();
-    const useCount = clampNonNegativeInt(usedRow?.use_count);
+      .bind("guest", code, deviceUuid, ts, GUEST_CODE_MAX_USES)
+      .run();
+    const inserted = clampNonNegativeInt(insertResult?.meta?.changes) > 0;
 
-    if (useCount >= GUEST_CODE_MAX_USES) {
+    if (!inserted) {
       logWarn("worker.redeem.rejected", {
         path: new URL(request.url).pathname,
         reason: "GUEST_CODE_EXHAUSTED"
@@ -335,22 +343,25 @@ export async function handlePostRedeemCode(request, env) {
       );
     }
 
-    await env.DB.prepare(
-      `INSERT INTO code_redemptions (code_tier, code_value, device_uuid, created_at) VALUES (?1, ?2, ?3, ?4)`
+    const usedRow = await env.DB.prepare(
+      `SELECT COUNT(*) AS use_count FROM code_redemptions WHERE code_tier = 'guest' AND code_value = ?1`
     )
-      .bind("guest", code, deviceUuid, ts)
-      .run();
+      .bind(code)
+      .first();
+    // Includes the row just inserted above.
+    const useCount = clampNonNegativeInt(usedRow?.use_count);
+    const usesRemaining = Math.max(0, GUEST_CODE_MAX_USES - useCount);
 
     logInfo("worker.redeem.accepted", {
       path: new URL(request.url).pathname,
       tier: "guest",
-      uses_remaining: GUEST_CODE_MAX_USES - useCount - 1
+      uses_remaining: usesRemaining
     });
     return json(
       {
         ok: true,
         tier: "guest",
-        uses_remaining: GUEST_CODE_MAX_USES - useCount - 1
+        uses_remaining: usesRemaining
       },
       undefined,
       request,

@@ -2056,6 +2056,7 @@
     const unlockRes = this.unlockPremium();
     if (!unlockRes || !unlockRes.ok) return { ok: false, reason: "FAILED" };
     if (!this.data.codes || typeof this.data.codes !== "object") { this.data.codes = { redeemedOnce: false, code: "" }; }
+    this.data.codes.redeemedOnce = true;
     this.data.codes.code = code;
     this.data.codes.tier = tier;
     if (this.data.counters) { this.data.counters.codeRedeemed = clampNonNegativeInt(this.data.counters.codeRedeemed) + 1; }
