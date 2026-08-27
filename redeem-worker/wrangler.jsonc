@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bf-redeem",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-13",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bf-redeem",
+      "database_id": "c7b7bd1e-79f0-4436-9c91-924c9287e909"
+    }
+  ]
+}

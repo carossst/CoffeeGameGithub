@@ -181,9 +181,9 @@
 
     // Server-verified admin/guest redeem codes (see redeem-worker/README.md).
     // Empty apiBaseUrl means the check is skipped and only the local format
-    // check above applies (current default: no Worker deployed yet).
+    // check above applies.
     redeemApi: {
-      apiBaseUrl: "",
+      apiBaseUrl: "https://bf-redeem.carolestromboni.workers.dev",
       requestTimeoutMs: 4000
     },
 
