@@ -2940,17 +2940,47 @@ void function () {
   };
 
 
-  UI.prototype._confirmRedeemCode = function () {
+  UI.prototype._confirmRedeemCode = async function () {
     const w = this.wording || {};
     const how = w.howto || {};
 
     const input = this.modalContentEl ? this.modalContentEl.querySelector("#wt-code") : null;
     const msg = this.modalContentEl ? this.modalContentEl.querySelector("#wt-code-msg") : null;
+    const confirmBtn = this.modalContentEl ? this.modalContentEl.querySelector('[data-action="confirm-redeem"]') : null;
 
     const code = String(input && input.value ? input.value : "").trim();
     if (!code) {
       if (msg) msg.textContent = String(how.enterCode || "").trim();
       return;
+    }
+
+    if (this.storage && typeof this.storage.tryRedeemPremiumCodeRemote === "function") {
+      if (confirmBtn) confirmBtn.disabled = true;
+      if (msg) msg.textContent = String(how.codeChecking || "").trim();
+
+      let res = null;
+      try {
+        res = await this.storage.tryRedeemPremiumCodeRemote(code);
+      } catch (_) {
+        res = null;
+      }
+
+      if (confirmBtn) confirmBtn.disabled = false;
+
+      const shouldTryLocalFallback =
+        !res || (res.ok !== true && (res.reason === "REMOTE_UNAVAILABLE" || res.reason === "NOT_FOUND"));
+
+      if (!shouldTryLocalFallback) {
+        if (!res || res.ok !== true) {
+          if (msg) msg.textContent = String(how.codeRejected || "").trim();
+          return;
+        }
+
+        toastNow(this.config, String(how.codeOk || "").trim());
+        this.closeModal();
+        this.render();
+        return;
+      }
     }
 
     const cfg = this.config || {};

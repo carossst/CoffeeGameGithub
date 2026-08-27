@@ -50,6 +50,23 @@
     return JSON.parse(JSON.stringify(obj));
   }
 
+  function generateLocalUuid() {
+    try {
+      if (
+        typeof crypto !== "undefined" &&
+        crypto &&
+        typeof crypto.randomUUID === "function"
+      ) {
+        return String(crypto.randomUUID());
+      }
+    } catch (_) {
+      /* fall through */
+    }
+
+    const rand = Math.random().toString(36).slice(2, 10);
+    return `local-${now().toString(36)}-${rand}`;
+  }
+
   // ============================================
   // StorageManager Constructor (V2 clean, no legacy)
   // ============================================
@@ -112,6 +129,11 @@
       codes: {
         redeemedOnce: false,
         code: ""
+      },
+
+      // Device identity, used only for server-verified admin/guest redeem codes
+      redeem: {
+        deviceUuid: ""
       },
 
       // Economy gate (config-driven: see WT_CONFIG.limits.freeRuns)
@@ -383,6 +405,9 @@
     }
 
     if (!this.data.codes) this.data.codes = deepCopy(this.defaultData.codes);
+    if (!this.data.redeem || typeof this.data.redeem !== "object") {
+      this.data.redeem = deepCopy(this.defaultData.redeem);
+    }
 
     // Harden runs (sync with config)
 
@@ -1985,6 +2010,61 @@
     this._save();
 
     return { ok: false, reason: "FAILED" };
+  };
+
+  StorageManager.prototype.ensureRedeemDeviceUuid = function () {
+    if (!this.data) return "";
+
+    if (!this.data.redeem || typeof this.data.redeem !== "object") {
+      this.data.redeem = deepCopy(this.defaultData.redeem);
+    }
+
+    const existing = String(this.data.redeem.deviceUuid || "").trim();
+    if (existing) return existing;
+
+    const next = generateLocalUuid();
+    this.data.redeem.deviceUuid = next;
+    this._save();
+    return next;
+  };
+
+  StorageManager.prototype.tryRedeemPremiumCodeRemote = async function (codeInput) {
+    if (!this.data) return { ok: false, reason: "NO_DATA" };
+    if (this.isPremium()) return { ok: true, reason: "ALREADY" };
+    const code = String(codeInput || "").trim();
+    if (!code) return { ok: false, reason: "EMPTY" };
+    const cfg = this.config || {};
+    const baseUrl = String(cfg?.redeemApi?.apiBaseUrl || "").trim().replace(/\/+$/, "");
+    if (!baseUrl) return { ok: false, reason: "REMOTE_UNAVAILABLE" };
+    let deviceUuid = "";
+    try { deviceUuid = String(this.ensureRedeemDeviceUuid() || "").trim(); } catch (_) { deviceUuid = ""; }
+    if (!deviceUuid) return { ok: false, reason: "REMOTE_UNAVAILABLE" };
+    const timeoutMs = Math.max(500, Math.min(15000, Number(cfg?.redeemApi?.requestTimeoutMs) || 4000));
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    let timerId = 0; let res = null; let json = null;
+    try {
+      if (controller && timeoutMs > 0) { timerId = window.setTimeout(() => controller.abort(), timeoutMs); }
+      res = await fetch(`${baseUrl}/redeem-code`, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({ code, device_uuid: deviceUuid }),
+        signal: controller ? controller.signal : undefined
+      });
+      json = await res.json().catch(() => null);
+    } catch (_) { return { ok: false, reason: "REMOTE_UNAVAILABLE" }; }
+    finally { if (timerId) window.clearTimeout(timerId); }
+    if (!res || !json) return { ok: false, reason: "REMOTE_UNAVAILABLE" };
+    if (!res.ok || json.ok !== true) return { ok: false, reason: String(json.reason || `HTTP_${res.status}`) };
+    const tier = String(json.tier || "").trim();
+    const unlockRes = this.unlockPremium();
+    if (!unlockRes || !unlockRes.ok) return { ok: false, reason: "FAILED" };
+    if (!this.data.codes || typeof this.data.codes !== "object") { this.data.codes = { redeemedOnce: false, code: "" }; }
+    this.data.codes.redeemedOnce = true;
+    this.data.codes.code = code;
+    this.data.codes.tier = tier;
+    if (this.data.counters) { this.data.counters.codeRedeemed = clampNonNegativeInt(this.data.counters.codeRedeemed) + 1; }
+    this._save();
+    return { ok: true, reason: "UNLOCKED", tier };
   };
 
   // ============================================

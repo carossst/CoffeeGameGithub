@@ -1,6 +1,9 @@
 "use strict";
 
-const { loadBrowserScript } = require("./helpers/browser-loader");
+const {
+  loadBrowserScript,
+  createWindowLike
+} = require("./helpers/browser-loader");
 
 const baseConfig = {
   storageSchemaVersion: "test-v1",
@@ -20,8 +23,9 @@ const baseConfig = {
   }
 };
 
-function createStorageManager(configOverrides) {
-  const context = loadBrowserScript("storage.js");
+function createStorageManager(configOverrides, windowOverrides) {
+  const sharedWindow = createWindowLike(windowOverrides);
+  const context = loadBrowserScript("storage.js", { window: sharedWindow });
   const StorageManager = context.window.WT_StorageManager;
   const cfg = {
     ...baseConfig,
@@ -156,4 +160,118 @@ test("tryRedeemPremiumCode is a no-op once premium is already unlocked", () => {
   const result = storage.tryRedeemPremiumCode("BF-9999-0000");
 
   expect(result).toMatchObject({ ok: true, reason: "ALREADY" });
+});
+
+function mockJsonFetch(status, body) {
+  return () =>
+    Promise.resolve({
+      ok: status >= 200 && status < 300,
+      status,
+      json: () => Promise.resolve(body)
+    });
+}
+
+const redeemApiConfig = {
+  redeemApi: {
+    apiBaseUrl: "https://bf-redeem.example.workers.dev",
+    requestTimeoutMs: 4000
+  }
+};
+
+test("tryRedeemPremiumCodeRemote unlocks premium for a server-verified admin code", async () => {
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: mockJsonFetch(200, { ok: true, tier: "admin" })
+  });
+
+  const result = await storage.tryRedeemPremiumCodeRemote("super-secret-admin");
+
+  expect(result).toMatchObject({ ok: true, reason: "UNLOCKED", tier: "admin" });
+  expect(storage.isPremium()).toBe(true);
+  expect(storage.data.codes.tier).toBe("admin");
+});
+
+test("tryRedeemPremiumCodeRemote unlocks premium for a server-verified guest code", async () => {
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: mockJsonFetch(200, { ok: true, tier: "guest", uses_remaining: 6 })
+  });
+
+  const result = await storage.tryRedeemPremiumCodeRemote("guest-2026");
+
+  expect(result).toMatchObject({ ok: true, reason: "UNLOCKED", tier: "guest" });
+  expect(storage.isPremium()).toBe(true);
+});
+
+test("tryRedeemPremiumCodeRemote does not unlock when the guest code is exhausted", async () => {
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: mockJsonFetch(403, { ok: false, reason: "GUEST_CODE_EXHAUSTED" })
+  });
+
+  const result = await storage.tryRedeemPremiumCodeRemote("guest-2026");
+
+  expect(result).toEqual({ ok: false, reason: "GUEST_CODE_EXHAUSTED" });
+  expect(storage.isPremium()).toBe(false);
+});
+
+test("tryRedeemPremiumCodeRemote reports NOT_FOUND for a code the server does not recognize", async () => {
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: mockJsonFetch(404, { ok: false, reason: "NOT_FOUND" })
+  });
+
+  const result = await storage.tryRedeemPremiumCodeRemote("BF-1234-5678");
+
+  expect(result).toEqual({ ok: false, reason: "NOT_FOUND" });
+  expect(storage.isPremium()).toBe(false);
+});
+
+test("tryRedeemPremiumCodeRemote reports REMOTE_UNAVAILABLE when the network call fails", async () => {
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: () => Promise.reject(new Error("network down"))
+  });
+
+  const result = await storage.tryRedeemPremiumCodeRemote("anything");
+
+  expect(result).toEqual({ ok: false, reason: "REMOTE_UNAVAILABLE" });
+  expect(storage.isPremium()).toBe(false);
+});
+
+test("tryRedeemPremiumCodeRemote reports REMOTE_UNAVAILABLE without a network call when apiBaseUrl is unset", async () => {
+  let called = false;
+  const { storage } = createStorageManager(
+    {},
+    {
+      fetch: () => {
+        called = true;
+        return Promise.resolve();
+      }
+    }
+  );
+
+  const result = await storage.tryRedeemPremiumCodeRemote("anything");
+
+  expect(result).toEqual({ ok: false, reason: "REMOTE_UNAVAILABLE" });
+  expect(called).toBe(false);
+});
+
+test("tryRedeemPremiumCodeRemote short-circuits without a network call once already premium", async () => {
+  let called = false;
+  const { storage } = createStorageManager(redeemApiConfig, {
+    fetch: () => {
+      called = true;
+      return Promise.resolve();
+    }
+  });
+
+  storage.unlockPremium();
+  const result = await storage.tryRedeemPremiumCodeRemote("anything");
+
+  expect(result).toEqual({ ok: true, reason: "ALREADY" });
+  expect(called).toBe(false);
+});
+
+test("tryRedeemPremiumCodeRemote rejects empty input", async () => {
+  const { storage } = createStorageManager(redeemApiConfig);
+
+  const result = await storage.tryRedeemPremiumCodeRemote("");
+
+  expect(result).toEqual({ ok: false, reason: "EMPTY" });
 });
