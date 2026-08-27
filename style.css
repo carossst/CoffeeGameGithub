@@ -4127,3 +4127,80 @@ particle rings"
       rgb(var(--bg));
   }
 }
+
+/* ==========================================================================
+   Public leaderboard (leaderboard.js / leaderboard-worker)
+   Semantic hooks over the existing wt-box / wt-btn / wt-actions system.
+   ========================================================================== */
+.wt-leaderboard-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-2);
+}
+
+.wt-leaderboard-card__sub,
+.wt-leaderboard-card__freshness {
+  margin: var(--space-4) 0 0;
+  color: rgb(var(--text-muted));
+  font-size: 0.9rem;
+}
+
+.wt-leaderboard-list,
+.wt-leaderboard-modal__list {
+  list-style: none;
+  margin: var(--gap-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.wt-leaderboard-list__item,
+.wt-leaderboard-modal__item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: center;
+  gap: var(--gap-2);
+  padding: var(--space-8) var(--gap-2);
+  border: 1px solid rgb(var(--border));
+  border-radius: 10px;
+  background: rgb(var(--surface));
+}
+
+.wt-leaderboard-list__item--player,
+.wt-leaderboard-modal__item--player {
+  border-color: rgb(var(--primary) / var(--wt-a-45));
+  background: rgb(var(--primary) / var(--wt-a-08));
+  font-weight: 600;
+}
+
+.wt-leaderboard-modal__item--gap {
+  border: none;
+  background: none;
+  padding: 0 var(--gap-2);
+  color: rgb(var(--text-muted));
+}
+
+.wt-leaderboard-list__rank,
+.wt-leaderboard-modal__rank {
+  color: rgb(var(--text-muted));
+  font-variant-numeric: tabular-nums;
+}
+
+.wt-leaderboard-list__name,
+.wt-leaderboard-modal__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wt-leaderboard-list__score,
+.wt-leaderboard-modal__score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.wt-leaderboard-modal__tabs {
+  margin-bottom: var(--gap-2);
+}

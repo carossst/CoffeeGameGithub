@@ -82,7 +82,7 @@ URL finale, par exemple : `https://bf-leaderboard.<subdomain>.workers.dev`
 
 ## Étape 5 - Brancher le frontend
 
-Dans `config.js` → `premium`... `leaderboard` :
+Dans `config.js` → `WT_CONFIG.leaderboard` :
 
 ```js
 leaderboard: {

@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.9.1",
+    version: "3.10.0",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -187,7 +187,7 @@
       requestTimeoutMs: 4000
     },
 
-    // Public leaderboard (see leaderboard-worker/README.md).
+    // Public leaderboard — WT_CONFIG.leaderboard (see leaderboard-worker/README.md).
     // - enabled: master switch for all leaderboard UI
     // - submitScores: gate on POST /score; keep false until submissions/rejects
     //   /ranks have been verified against the live Worker
@@ -195,8 +195,8 @@
     //   (LEADERBOARD_CONTENT_VERSION) — enforced by
     //   tests/leaderboard-content-contract.test.js
     leaderboard: {
-      enabled: false,
-      submitScores: false,
+      enabled: true,
+      submitScores: true,
       showAfterRunCompletes: 1,
       topN: 10,
       cardPreviewCount: 3,
@@ -608,6 +608,46 @@
   // If it reinforces flow and continuity -> valid.
   // If it sounds aggressive, ego-heavy, technical, or like "play for streaks" -> reject.
   window.WT_WORDING = {
+    // Public leaderboard (see leaderboard-worker/README.md + leaderboard.js).
+    leaderboard: {
+      cardTitle: "THIS WEEK",
+      cardSubDefault: "Top scores this week.",
+      cardSubJoined: "Top scores this week.",
+      cardCtaJoin: "Choose nickname",
+      cardCtaView: "View leaderboard",
+      cardCtaEdit: "Edit nickname",
+      cardBestScoreLine: "Your best: {score}.",
+      weeklyResetLine: "Weekly reset: {localTime}.",
+      loading: "Loading leaderboard...",
+      empty: "No public scores yet.",
+      modalTitle: "Leaderboard",
+      modalBodyDefault: "Weekly reset every Monday.",
+      modalBodyJoined: "Weekly reset every Monday.",
+      rankingTab: "Leaderboard",
+      profileTab: "My nickname",
+      weeklyTitle: "This week",
+      allTitle: "All-time",
+      nicknameLabel: "Nickname",
+      nicknamePlaceholder: "Choose a nickname",
+      joinCta: "Join leaderboard",
+      endJoinTitle: "Put this score on the leaderboard",
+      endJoinBody: "Choose a nickname to submit this run to the public leaderboard.",
+      updateCta: "Update nickname",
+      editProfileCta: "Edit my nickname",
+      leaveCta: "Leave leaderboard",
+      nicknameRequiredToast: "Add a nickname first.",
+      nicknameTooShortToast: "Nickname must be at least 3 characters.",
+      nicknameInvalidCharsToast:
+        "Use letters, numbers, spaces, hyphens, or underscores only.",
+      saveOkToast: "Nickname saved.",
+      leftToast: "You left the leaderboard on this device.",
+      remoteSaveErrorToast:
+        "Nickname saved on this device. Online sync can be added later.",
+      rankToastWeekly: "This week: #{rank}.",
+      scoreRejectedToast:
+        "This score was not added to the public leaderboard this time."
+    },
+
     brand: {
       creatorLine: "Carole, creator of Brew or False 🇫🇷",
       creatorLineHtml: "An indie game by Studio 2034.<br>Created by <a href=\"./press.html\">Carole</a>. 🇫🇷"

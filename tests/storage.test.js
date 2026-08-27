@@ -275,3 +275,49 @@ test("tryRedeemPremiumCodeRemote rejects empty input", async () => {
 
   expect(result).toEqual({ ok: false, reason: "EMPTY" });
 });
+
+test("leaderboard profile: save opts in, persists nickname + device uuid", () => {
+  const { storage } = createStorageManager();
+
+  const before = storage.getLeaderboardProfile();
+  expect(before).toEqual({
+    deviceUuid: "",
+    nickname: "",
+    optIn: false,
+    updatedAt: 0
+  });
+
+  const saved = storage.saveLeaderboardProfile("RoastNerd", true);
+  expect(saved.ok).toBe(true);
+  expect(saved.nickname).toBe("RoastNerd");
+  expect(saved.optIn).toBe(true);
+  expect(saved.deviceUuid).toMatch(/[0-9a-f-]{8,}/i);
+
+  const after = storage.getLeaderboardProfile();
+  expect(after.nickname).toBe("RoastNerd");
+  expect(after.optIn).toBe(true);
+  expect(after.deviceUuid).toBe(saved.deviceUuid);
+});
+
+test("leaderboard opt-out clears nickname and disables opt-in, keeps device uuid", () => {
+  const { storage } = createStorageManager();
+
+  storage.saveLeaderboardProfile("RoastNerd", true);
+  const uuid = storage.getLeaderboardProfile().deviceUuid;
+  const left = storage.saveLeaderboardProfile("", false);
+
+  expect(left.ok).toBe(true);
+  expect(left.optIn).toBe(false);
+  expect(storage.getLeaderboardProfile().nickname).toBe("");
+  expect(storage.getLeaderboardProfile().optIn).toBe(false);
+  expect(storage.getLeaderboardProfile().deviceUuid).toBe(uuid);
+});
+
+test("ensureLeaderboardDeviceUuid is stable and separate from redeem uuid", () => {
+  const { storage } = createStorageManager();
+
+  const a = storage.ensureLeaderboardDeviceUuid();
+  const b = storage.ensureLeaderboardDeviceUuid();
+  expect(a).toBe(b);
+  expect(a).not.toBe(storage.ensureRedeemDeviceUuid());
+});

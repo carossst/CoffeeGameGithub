@@ -136,6 +136,16 @@
         deviceUuid: ""
       },
 
+      // Public leaderboard profile (device-local). deviceUuid is a separate
+      // identity from `redeem.deviceUuid` on purpose: leaving the leaderboard
+      // must not affect premium redemption and vice versa.
+      leaderboard: {
+        deviceUuid: "",
+        nickname: "",
+        optIn: false,
+        updatedAt: 0
+      },
+
       // Economy gate (config-driven: see WT_CONFIG.limits.freeRuns)
       runs: {
         balance: freeRuns,
@@ -407,6 +417,16 @@
     if (!this.data.codes) this.data.codes = deepCopy(this.defaultData.codes);
     if (!this.data.redeem || typeof this.data.redeem !== "object") {
       this.data.redeem = deepCopy(this.defaultData.redeem);
+    }
+
+    if (!this.data.leaderboard || typeof this.data.leaderboard !== "object") {
+      this.data.leaderboard = deepCopy(this.defaultData.leaderboard);
+    } else {
+      const lb = this.data.leaderboard;
+      if (typeof lb.deviceUuid !== "string") lb.deviceUuid = "";
+      if (typeof lb.nickname !== "string") lb.nickname = "";
+      if (typeof lb.optIn !== "boolean") lb.optIn = false;
+      if (!Number.isFinite(lb.updatedAt)) lb.updatedAt = 0;
     }
 
     // Harden runs (sync with config)
@@ -2065,6 +2085,62 @@
     if (this.data.counters) { this.data.counters.codeRedeemed = clampNonNegativeInt(this.data.counters.codeRedeemed) + 1; }
     this._save();
     return { ok: true, reason: "UNLOCKED", tier };
+  };
+
+  // ============================================
+  // Public leaderboard profile (device-local)
+  // Mirrors the redeem device-uuid pattern; the network calls live in
+  // leaderboard.js (POST /player, DELETE /player, POST /score).
+  // ============================================
+  StorageManager.prototype.getLeaderboardProfile = function () {
+    const lb = (this.data && this.data.leaderboard) || {};
+    return {
+      deviceUuid: String(lb.deviceUuid || "").trim(),
+      nickname: String(lb.nickname || "").trim(),
+      optIn: lb.optIn === true,
+      updatedAt: clampNonNegativeInt(lb.updatedAt)
+    };
+  };
+
+  StorageManager.prototype.ensureLeaderboardDeviceUuid = function () {
+    if (!this.data) return "";
+
+    if (!this.data.leaderboard || typeof this.data.leaderboard !== "object") {
+      this.data.leaderboard = deepCopy(this.defaultData.leaderboard);
+    }
+
+    const existing = String(this.data.leaderboard.deviceUuid || "").trim();
+    if (existing) return existing;
+
+    const next = generateLocalUuid();
+    this.data.leaderboard.deviceUuid = next;
+    this.data.leaderboard.updatedAt = Date.now();
+    this._save();
+    return next;
+  };
+
+  StorageManager.prototype.saveLeaderboardProfile = function (nickname, optIn) {
+    if (!this.data) {
+      return { ok: false, nickname: "", optIn: false, deviceUuid: "" };
+    }
+
+    if (!this.data.leaderboard || typeof this.data.leaderboard !== "object") {
+      this.data.leaderboard = deepCopy(this.defaultData.leaderboard);
+    }
+
+    const nextNickname = String(nickname || "").trim();
+    this.data.leaderboard.deviceUuid = this.ensureLeaderboardDeviceUuid();
+    this.data.leaderboard.nickname = nextNickname;
+    this.data.leaderboard.optIn = optIn === true;
+    this.data.leaderboard.updatedAt = Date.now();
+    this._save();
+
+    return {
+      ok: true,
+      nickname: nextNickname,
+      optIn: this.data.leaderboard.optIn === true,
+      deviceUuid: String(this.data.leaderboard.deviceUuid || "").trim()
+    };
   };
 
   // ============================================

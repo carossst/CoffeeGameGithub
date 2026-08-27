@@ -168,6 +168,30 @@ void function () {
     return out;
   }
 
+  function generateRunUuid() {
+    try {
+      if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+        return String(crypto.randomUUID());
+      }
+    } catch (_) {
+      /* fall through */
+    }
+    const rand = Math.random().toString(36).slice(2, 10);
+    return `run-${Date.now().toString(36)}-${rand}`;
+  }
+
+  // Leaderboard content version: what POST /score is validated against.
+  // Must match leaderboard-worker/src/content-key.js (LEADERBOARD_CONTENT_VERSION)
+  // — enforced by tests/leaderboard-content-contract.test.js.
+  function getLeaderboardContentVersion(cfg) {
+    const contentVersion = String(
+      cfg?.leaderboard?.contentVersion || ""
+    ).trim();
+    if (contentVersion) return contentVersion;
+    const version = String(cfg?.version || "").trim();
+    return version || "unknown";
+  }
+
   function getMomentumMeterState(cfg, streak, modeNow, currentLevel) {
     const mm = (cfg?.ui?.momentumMeter && typeof cfg.ui.momentumMeter === "object")
       ? cfg.ui.momentumMeter
@@ -1192,6 +1216,16 @@ void function () {
     this.wording = wording || {};
     this.state = STATES.LANDING;
 
+    // Shared helpers handed to the leaderboard module (leaderboard.js) so it
+    // does not have to reach into UI internals for toasts / content version.
+    this._leaderboardHelpers = {
+      escapeHtml,
+      toastNow,
+      fillTemplate,
+      clampInt,
+      getLeaderboardContentVersion
+    };
+
     this.appEl = el("app");
     this.modalEl = el("modal");
     this.modalContentEl = el("modal-content");
@@ -1265,6 +1299,13 @@ void function () {
       runItemIds: [],
       runMistakeIds: [],
       runMode: "",
+
+      // leaderboard: per-RUN answer capture for POST /score (see leaderboard.js)
+      currentRunId: "",
+      runStartedAt: 0,
+      currentQuestionShownAt: 0,
+      runAnswerLog: [],
+
       lastAnswer: null,
       feedbackPending: false,
       feedbackReveal: true,
@@ -1364,6 +1405,30 @@ void function () {
 
         case "open-level-progress":
           self.openLevelProgressModal();
+          break;
+
+        case "open-leaderboard":
+          if (typeof self.openLeaderboardModal === "function") self.openLeaderboardModal();
+          break;
+
+        case "open-leaderboard-profile":
+          if (typeof self.openLeaderboardProfileModal === "function") self.openLeaderboardProfileModal();
+          break;
+
+        case "switch-leaderboard-tab": {
+          const t = event && event.target ? event.target : null;
+          const btn = (t && t.closest) ? t.closest("[data-wt-leaderboard-tab]") : null;
+          const tabKey = btn ? String(btn.getAttribute("data-wt-leaderboard-tab") || "").trim() : "";
+          if (tabKey && typeof self.switchLeaderboardTab === "function") self.switchLeaderboardTab(tabKey);
+          break;
+        }
+
+        case "save-leaderboard-profile":
+          if (typeof self.saveLeaderboardProfileFromModal === "function") self.saveLeaderboardProfileFromModal();
+          break;
+
+        case "leave-leaderboard":
+          if (typeof self.leaveLeaderboard === "function") self.leaveLeaderboard();
           break;
 
         case "close-modal":
@@ -2521,6 +2586,7 @@ void function () {
 
     const modalClass = String(opts?.modalClass || "").trim();
     if (this._runtime) this._runtime._modalExtraClass = modalClass;
+    if (this._runtime) this._runtime._modalKey = String(opts?.modalKey || "").trim();
     this.modalContentEl.classList.remove("wt-modal--sheet", "wt-modal--levelsheet");
     if (modalClass) {
       modalClass.split(/\s+/).filter(Boolean).forEach((cls) => {
@@ -2622,6 +2688,7 @@ void function () {
     this.modalContentEl.classList.remove("wt-modal--sheet", "wt-modal--levelsheet");
     this.modalContentEl.innerHTML = "";
     if (this._runtime) this._runtime._modalExtraClass = "";
+    if (this._runtime) this._runtime._modalKey = "";
 
     // A11Y: re-enable main content
     try {
@@ -2638,6 +2705,56 @@ void function () {
         prev.focus();
       }
     } catch (_) { /* silent */ }
+  };
+
+  // ---------------------------------------------------------------------------
+  // Public leaderboard (module: leaderboard.js -> window.WT_UI_Leaderboard)
+  // ---------------------------------------------------------------------------
+  UI.prototype._leaderboardModule = function () {
+    return (window.WT_UI_Leaderboard && typeof window.WT_UI_Leaderboard === "object")
+      ? window.WT_UI_Leaderboard
+      : null;
+  };
+
+  UI.prototype.openLeaderboardModal = function (opts) {
+    const mod = this._leaderboardModule();
+    if (!mod || typeof mod.openModal !== "function") return;
+    return mod.openModal(this, {
+      escapeHtml,
+      toastNow,
+      fillTemplate,
+      clampInt,
+      getLeaderboardContentVersion,
+      initialTab: String(opts?.initialTab || "").trim()
+    });
+  };
+
+  UI.prototype.openLeaderboardProfileModal = function () {
+    return this.openLeaderboardModal({ initialTab: "profile" });
+  };
+
+  UI.prototype.switchLeaderboardTab = function (tabKey) {
+    const mod = this._leaderboardModule();
+    if (!mod || typeof mod.switchModalTab !== "function") return;
+    return mod.switchModalTab(this, String(tabKey || "").trim());
+  };
+
+  UI.prototype.saveLeaderboardProfileFromModal = function () {
+    const mod = this._leaderboardModule();
+    if (!mod || typeof mod.saveProfileFromModal !== "function") return;
+    return mod.saveProfileFromModal(this, {
+      escapeHtml,
+      toastNow,
+      fillTemplate,
+      clampInt,
+      getLeaderboardContentVersion
+    });
+  };
+
+  UI.prototype.leaveLeaderboard = function () {
+    const mod = this._leaderboardModule();
+    if (!mod || typeof mod.leaveFromModal !== "function") return;
+    return mod.leaveFromModal(this);
   };
 
   UI.prototype.openHowToModal = function () {
@@ -3537,6 +3654,13 @@ void function () {
     this._runtime.runItemIds = [];
     this._runtime.runMistakeIds = [];
     this._runtime.runMode = (mistakesOnly === true) ? MODES.PRACTICE : MODES.RUN;
+
+    // Leaderboard: fresh answer capture for this run (RUN only is submitted).
+    this._runtime.currentRunId = generateRunUuid();
+    this._runtime.runStartedAt = Date.now();
+    this._runtime.currentQuestionShownAt = this._runtime.runStartedAt;
+    this._runtime.runAnswerLog = [];
+
     this._runtime.lastAnswer = null;
     this._runtime.feedbackPending = false;
     this._runtime.feedbackReveal = true;
@@ -4203,6 +4327,23 @@ void function () {
       const id = Number(res.itemId);
       this._runtime.runItemIds.push(id);
 
+      // Leaderboard: capture the raw answer + think time for POST /score.
+      // The worker recomputes the score from its own answer key, so `picked`
+      // is what it verifies (not our client-side correctness).
+      if (Array.isArray(this._runtime.runAnswerLog)) {
+        const shownAt = Number(
+          this._runtime.currentQuestionShownAt ||
+          this._runtime.runStartedAt ||
+          Date.now()
+        );
+        this._runtime.runAnswerLog.push({
+          id,
+          answer: picked === true,
+          ms: clampInt(Date.now() - shownAt, 0, 10 * 60 * 1000)
+        });
+      }
+      this._runtime.currentQuestionShownAt = Date.now();
+
       // Track per-run mistakes for END recap (dedup)
       if (res.isCorrect !== true) {
         if (!Array.isArray(this._runtime.runMistakeIds)) this._runtime.runMistakeIds = [];
@@ -4733,6 +4874,7 @@ void function () {
 
     let newBest = false;
     let bestScoreFP = 0;
+    let leaderboardRunNumber = 0;
     let levelProgress = { previousLevel: 0, currentLevel: 0, unlockedLevel: 0, justUnlocked: false };
 
     if (mode === "RUN" && this.storage && typeof this.storage.recordRunComplete === "function") {
@@ -4741,6 +4883,7 @@ void function () {
         : 0;
 
       const nextRunNumber = Math.max(0, Math.floor(prevRunNumber)) + 1;
+      leaderboardRunNumber = nextRunNumber;
 
       let newSeenCount = 0;
       try {
@@ -4814,8 +4957,40 @@ void function () {
       mistakeIds: Array.isArray(this._runtime.runMistakeIds) ? this._runtime.runMistakeIds.slice() : [],
       runItemIds: Array.isArray(this._runtime.runItemIds) ? this._runtime.runItemIds.slice() : [],
       poolCompleteCelebration: !!this._runtime?.poolCompleteCelebrationPending,
-      levelProgress
+      levelProgress,
+
+      // Leaderboard (POST /score) — RUN only; consumed by leaderboard.js
+      runId: String(this._runtime?.currentRunId || "").trim(),
+      runNumber: clampInt(leaderboardRunNumber, 0, 999999999),
+      durationMs: clampInt(
+        Date.now() - Number(this._runtime?.runStartedAt || Date.now()),
+        0,
+        24 * 60 * 60 * 1000
+      ),
+      answerLog: Array.isArray(this._runtime.runAnswerLog)
+        ? this._runtime.runAnswerLog.slice()
+        : []
     };
+
+    // Auto-submit this run to the public leaderboard (no-op unless the player
+    // has opted in and config.leaderboard.submitScores is true).
+    try {
+      if (
+        mode === "RUN" &&
+        window.WT_UI_Leaderboard &&
+        typeof window.WT_UI_Leaderboard.submitRun === "function"
+      ) {
+        const runForSubmit = this._runtime.lastRun;
+        const lbHelpers = this._leaderboardHelpers;
+        void Promise.resolve(
+          window.WT_UI_Leaderboard.submitRun(this, runForSubmit, lbHelpers)
+        ).then((res) => {
+          if (typeof window.WT_UI_Leaderboard.handleSubmitResult === "function") {
+            window.WT_UI_Leaderboard.handleSubmitResult(this, res, lbHelpers);
+          }
+        }).catch(() => { /* silent */ });
+      }
+    } catch (_) { /* silent */ }
 
     try {
       if (this.config?.debug?.enabled) {
@@ -7093,6 +7268,18 @@ ${(() => {
 
     ${welcomeBackHtml}
 
+    ${(() => {
+      try {
+        if (
+          window.WT_UI_Leaderboard &&
+          typeof window.WT_UI_Leaderboard.renderLandingCard === "function"
+        ) {
+          return window.WT_UI_Leaderboard.renderLandingCard(this, { escapeHtml });
+        }
+      } catch (_) { /* silent */ }
+      return ``;
+    })()}
+
     ${((!premium && !isPostPaywallVariant && landing.microFun) ? `<p class="wt-sub wt-muted wt-mt-10">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
 
     ${postBlock}
@@ -8332,6 +8519,55 @@ ${(() => {
       runLensTpl
     })}
   </div>
+
+  ${(() => {
+    try {
+      const lbCfg = (cfg && cfg.leaderboard) || {};
+      if (lbCfg.enabled !== true || !isRun || scoreFP <= 0) return ``;
+
+      const lw = w.leaderboard || {};
+      let joined = false;
+      try {
+        const profile =
+          (this.storage && typeof this.storage.getLeaderboardProfile === "function")
+            ? this.storage.getLeaderboardProfile()
+            : null;
+        joined = profile && profile.optIn === true && !!String(profile.nickname || "").trim();
+      } catch (_) { joined = false; }
+
+      if (joined) {
+        const viewLabel = String(lw.cardCtaView || "").trim();
+        if (!viewLabel) return ``;
+        return `
+          <div class="wt-box wt-box--tinted">
+            <div class="wt-actions wt-actions--compact">
+              <button type="button" class="wt-btn wt-btn--secondary" data-action="open-leaderboard">
+                ${escapeHtml(viewLabel)}
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      const joinTitle = String(lw.endJoinTitle || "").trim();
+      const joinBody = String(lw.endJoinBody || "").trim();
+      const joinCta = String(lw.joinCta || "").trim();
+      if (!joinTitle && !joinBody && !joinCta) return ``;
+      return `
+        <div class="wt-box wt-box--tinted">
+          ${joinTitle ? `<strong class="wt-meta">${escapeHtml(joinTitle)}</strong>` : ``}
+          ${joinBody ? `<p class="wt-muted">${escapeHtml(joinBody)}</p>` : ``}
+          ${joinCta ? `
+            <div class="wt-actions wt-actions--compact">
+              <button type="button" class="wt-btn wt-btn--secondary" data-action="open-leaderboard-profile">
+                ${escapeHtml(joinCta)}
+              </button>
+            </div>
+          ` : ``}
+        </div>
+      `;
+    } catch (_) { return ``; }
+  })()}
 
   ${paywallBridgeHtml}
 
