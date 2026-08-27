@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bf-leaderboard",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-13",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bf-leaderboard",
+      "database_id": "7fa6687f-b9cd-467f-b0b9-5ae021b081e8"
+    }
+  ]
+}

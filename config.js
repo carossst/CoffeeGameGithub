@@ -187,6 +187,60 @@
       requestTimeoutMs: 4000
     },
 
+    // Public leaderboard (see leaderboard-worker/README.md).
+    // - enabled: master switch for all leaderboard UI
+    // - submitScores: gate on POST /score; keep false until submissions/rejects
+    //   /ranks have been verified against the live Worker
+    // - contentVersion: MUST match leaderboard-worker/src/content-key.js
+    //   (LEADERBOARD_CONTENT_VERSION) — enforced by
+    //   tests/leaderboard-content-contract.test.js
+    leaderboard: {
+      enabled: false,
+      submitScores: false,
+      showAfterRunCompletes: 1,
+      topN: 10,
+      cardPreviewCount: 3,
+      cacheTtlMs: 60 * 1000,
+      requestTimeoutMs: 4000,
+      contentVersion: "1.4",
+      nicknameMinLen: 3,
+      nicknameMaxLen: 24,
+      nicknameRegexSource: "^[\\p{L}\\p{N}][\\p{L}\\p{N} _-]{2,23}$",
+      nicknameRegexFlags: "u",
+
+      // Deployed live Worker URL.
+      apiBaseUrl: "https://bf-leaderboard.carolestromboni.workers.dev",
+
+      // Local-only UI test rows (only used when apiBaseUrl is empty or the
+      // fetch fails). Varied nickname lengths to judge wrapping/truncation.
+      seedScores: {
+        weekly: [
+          { nickname: "BrewBoss", scoreFP: 21 },
+          { nickname: "Crema", scoreFP: 19 },
+          { nickname: "RoastNerd", scoreFP: 18 },
+          { nickname: "Two Word Alias", scoreFP: 17 },
+          { nickname: "PourOverPro", scoreFP: 16 },
+          { nickname: "GrindSetter24", scoreFP: 15 },
+          { nickname: "SingleOriginHead", scoreFP: 14 },
+          { nickname: "UnderExtracted77", scoreFP: 13 },
+          { nickname: "TampStationArchitect", scoreFP: 12 },
+          { nickname: "RidiculouslyLongDisplayName12345", scoreFP: 11 }
+        ],
+        all: [
+          { nickname: "BrewBoss", scoreFP: 28 },
+          { nickname: "Crema", scoreFP: 26 },
+          { nickname: "RoastNerd", scoreFP: 24 },
+          { nickname: "Two Word Alias", scoreFP: 23 },
+          { nickname: "PourOverPro", scoreFP: 22 },
+          { nickname: "GrindSetter24", scoreFP: 21 },
+          { nickname: "SingleOriginHead", scoreFP: 20 },
+          { nickname: "UnderExtracted77", scoreFP: 19 },
+          { nickname: "TampStationArchitect", scoreFP: 18 },
+          { nickname: "RidiculouslyLongDisplayName12345", scoreFP: 17 }
+        ]
+      }
+    },
+
     // Pricing (Stripe)
     currency: "USD",
     earlyPriceCents: 499,

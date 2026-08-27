@@ -1,0 +1,15 @@
+{
+  "name": "YOUR_WORKER_NAME",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-13",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bf-leaderboard",
+      "database_id": "YOUR_DATABASE_ID"
+    }
+  ]
+}
