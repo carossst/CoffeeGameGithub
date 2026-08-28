@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.10.2",
+    version: "3.10.3",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -217,30 +217,32 @@
 
       // Local-only UI test rows (only used when apiBaseUrl is empty or the
       // fetch fails). Varied nickname lengths to judge wrapping/truncation.
+      // Shown only until real scores come in (buildWindowRows falls back to
+      // these when the Worker returns an empty top list). Plausible names/scores.
       seedScores: {
         weekly: [
           { nickname: "BrewBoss", scoreFP: 21 },
           { nickname: "Crema", scoreFP: 19 },
           { nickname: "RoastNerd", scoreFP: 18 },
-          { nickname: "Two Word Alias", scoreFP: 17 },
+          { nickname: "KettleZen", scoreFP: 17 },
           { nickname: "PourOverPro", scoreFP: 16 },
           { nickname: "GrindSetter24", scoreFP: 15 },
           { nickname: "SingleOriginHead", scoreFP: 14 },
           { nickname: "UnderExtracted77", scoreFP: 13 },
-          { nickname: "TampStationArchitect", scoreFP: 12 },
-          { nickname: "RidiculouslyLongDisplayName12345", scoreFP: 11 }
+          { nickname: "TampStation", scoreFP: 12 },
+          { nickname: "HalfCafHank", scoreFP: 11 }
         ],
         all: [
           { nickname: "BrewBoss", scoreFP: 28 },
           { nickname: "Crema", scoreFP: 26 },
           { nickname: "RoastNerd", scoreFP: 24 },
-          { nickname: "Two Word Alias", scoreFP: 23 },
+          { nickname: "KettleZen", scoreFP: 23 },
           { nickname: "PourOverPro", scoreFP: 22 },
           { nickname: "GrindSetter24", scoreFP: 21 },
           { nickname: "SingleOriginHead", scoreFP: 20 },
           { nickname: "UnderExtracted77", scoreFP: 19 },
-          { nickname: "TampStationArchitect", scoreFP: 18 },
-          { nickname: "RidiculouslyLongDisplayName12345", scoreFP: 17 }
+          { nickname: "TampStation", scoreFP: 18 },
+          { nickname: "HalfCafHank", scoreFP: 17 }
         ]
       }
     },

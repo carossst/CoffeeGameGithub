@@ -26,6 +26,8 @@
   <!-- Styles -->
   <link rel="preload" href="./style.css" as="style">
   <link rel="stylesheet" href="./style.css">
+
+  <script data-goatcounter="https://caroles.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 
 <body class="wt-page--doc">
@@ -163,6 +165,7 @@
 
   <!-- Scripts: keep config non-defer for inline success logic -->
   <script src="./config.js"></script>
+  <script src="./analytics.js"></script>
   <script src="./email.js"></script>
   <script src="./footer.js"></script>
   <script>
@@ -171,6 +174,12 @@
     (() => {
       const cfg = window.WT_CONFIG;
       if (!cfg || typeof cfg !== "object") return;
+
+      try {
+        if (window.WT_Analytics && typeof window.WT_Analytics.trackFunnel === "function") {
+          window.WT_Analytics.trackFunnel("success_view", window.WT_Analytics.inferPageContext({}));
+        }
+      } catch (_) { /* silent */ }
 
       const rawStorageKey = cfg?.storage?.vanityCodeStorageKey;
 

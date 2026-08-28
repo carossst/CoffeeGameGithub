@@ -58,6 +58,11 @@
   <!-- Styles -->
   <link rel="preload" href="./style.css" as="style">
   <link rel="stylesheet" href="./style.css">
+
+  <!-- Analytics: privacy-friendly funnel tracking (no cookies).
+       TODO: point data-goatcounter at a dedicated site for this app if you
+       prefer separate dashboards; events are namespaced by app slug either way. -->
+  <script data-goatcounter="https://caroles.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 
 <body>
@@ -113,6 +118,7 @@
 
   <!-- Scripts (defer pour performance - spec section 11.1) -->
   <script defer src="./config.js"></script>
+  <script defer src="./analytics.js"></script>
   <script defer src="./storage.js"></script>
   <script defer src="./game.js"></script>
   <script defer src="./icons.js"></script>
