@@ -1,12 +1,22 @@
 # Brew or False - Redeem Worker
 
-Contrairement à Pickleball Rules Quiz et Word Traps, Brew or False n'a pas
-de backend leaderboard. Ce dossier est donc un Worker minimal, dédié
-uniquement à la vérification serveur des codes admin/invité — pas de
-`players`, pas de `score`, pas de leaderboard public.
+Worker minimal dédié uniquement à la vérification serveur des codes
+admin/invité — pas de `players`, pas de `score`, pas de leaderboard.
+(Le leaderboard public de Brew or False vit dans `../leaderboard-worker/`,
+un Worker séparé.)
 
-Ce dossier ne déploie rien tout seul. Il te donne la structure, le schéma
-SQL, le Worker et les commandes à lancer.
+## État actuel — ✅ DÉPLOYÉ ET ACTIF (2026-08-26)
+
+- Worker : `https://bf-redeem.carolestromboni.workers.dev`
+  (`wrangler.jsonc` : name `bf-redeem`)
+- D1 : `bf-redeem` (id dans `wrangler.jsonc`), table `code_redemptions`
+- Secrets `ADMIN_CODE` / `GUEST_CODE` définis via `wrangler secret put`
+  (valeurs dans le `.dev.vars` git-ignoré de ce dossier)
+- Frontend **actif** : `WT_CONFIG.redeemApi.apiBaseUrl` renseigné ;
+  `storage.js: tryRedeemPremiumCodeRemote` appelle d'abord ce endpoint puis
+  retombe sur la vérif locale par format sur `NOT_FOUND` / injoignable
+
+Les étapes ci-dessous sont l'historique de la mise en place.
 
 ## Ce que fait le Worker
 

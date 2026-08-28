@@ -4,6 +4,24 @@ Backend du leaderboard public, calqué sur `leaderboard-worker/` de Pickleball
 Rules Quiz. Séparé du `redeem-worker/` (codes premium) et de l'app statique :
 il peut être déployé, mis à jour ou arrêté sans toucher au jeu.
 
+## État actuel — ✅ DÉPLOYÉ ET ACTIF (2026-08-26)
+
+- Worker : `https://bf-leaderboard.carolestromboni.workers.dev`
+  (`wrangler.jsonc` : name `bf-leaderboard`)
+- D1 : `bf-leaderboard` (id dans `wrangler.jsonc`), tables `players` /
+  `score_submissions` / `leaderboard_best`
+- `src/content-key.js` généré depuis `content.json` :
+  `LEADERBOARD_CONTENT_VERSION = "1.4"` (= `content.json` `version` =
+  `WT_CONFIG.leaderboard.contentVersion`)
+- Frontend **actif** : `WT_CONFIG.leaderboard` a `enabled: true`,
+  `submitScores: true`, `apiBaseUrl` renseigné
+- Les `seedScores` de `config.js` ne s'affichent plus que tant que le
+  classement réel est vide (fallback dans `buildWindowRows`)
+
+Les étapes ci-dessous sont l'historique de la mise en place — pour un
+redéploiement, seul `npx wrangler deploy` (après un éventuel
+`d1 execute ... schema.sql`, idempotent) est nécessaire.
+
 ## Ce que fait le Worker
 
 - `POST /player` — crée ou met à jour le pseudo et l'opt-in

@@ -9,24 +9,31 @@ Static coffee quiz game and installable PWA.
 - `200` coffee questions from [content.json](./content.json)
 - Main game with `3` mistakes allowed
 - `2` free games, then premium upsell
+- Curated opening for the first 2 free games (see `WT_CONFIG.curatedFreeRuns`)
 - `Mistakes Mode` to replay active mistakes
 - `Rapid Fire Mode` for seen-question speed play
+- Public opt-in leaderboard (weekly + all-time), backed by a Cloudflare Worker
 - Local-first progress and premium unlock
 - Installable PWA with service worker caching
 
 ## Main Files
 
 - [index.html](./index.html): main app shell
-- [config.js](./config.js): single source of truth for product config, wording, routing, limits, and identity
+- [config.js](./config.js): single source of truth for product config, wording, routing, limits, identity, curated openings, leaderboard config
 - [content.json](./content.json): question bank
 - [ui.js](./ui.js): rendering, screen routing, CTA logic, modals
-- [game.js](./game.js): game mechanics
-- [storage.js](./storage.js): local storage, counters, progression, analytics payload
+- [game.js](./game.js): game mechanics (deck build, curated openings, answer de-clustering)
+- [storage.js](./storage.js): local storage, counters, progression, leaderboard profile, analytics payload
+- [analytics.js](./analytics.js): GoatCounter funnel tracking (landing / run / paywall / checkout / success)
+- [leaderboard-logic.js](./leaderboard-logic.js) + [leaderboard.js](./leaderboard.js): public leaderboard UI (landing card, ranking/profile modal, score submission)
 - [main.js](./main.js): bootstrap, content loading, service worker registration
 - [style.css](./style.css): full UI styling
 - [sw.js](./sw.js): service worker
 - [manifest.json](./manifest.json): PWA manifest
 - [success.html](./success.html): post-checkout success / unlock page
+- [leaderboard-worker/](./leaderboard-worker/): Cloudflare Worker + D1 for the public leaderboard (deployed)
+- [redeem-worker/](./redeem-worker/): Cloudflare Worker + D1 for server-verified admin/guest premium codes (deployed)
+- [tests/](./tests/): vitest suite (run with `npm test`; CI in `.github/workflows/test.yml`)
 
 ## Run Locally
 
@@ -106,27 +113,34 @@ Important values:
 
 ## Storage And Analytics
 
-All user progress is stored locally in the browser by [storage.js](./storage.js).
+All user progress is stored locally in the browser by [storage.js](./storage.js):
+seen questions, active mistakes, run counters, premium unlock state, leaderboard
+profile (nickname + device uuid, opt-in), local counters, anonymous stats payload.
 
-This includes:
+There is no required account system in the core game flow. The public leaderboard
+is opt-in (the player picks a nickname) and can be left at any time.
 
-- seen questions
-- active mistakes
-- run counters
-- premium unlock state
-- local analytics counters
-- anonymous stats payload generation
+Funnel analytics: [analytics.js](./analytics.js) sends a small set of events to
+GoatCounter (`breworfalse.goatcounter.com`, no cookies): `landing_view`,
+`run_start`, `run_complete`, `paywall_view`, `checkout_click`, `success_view`.
+Event paths are namespaced (`/event/brew-or-false/...`).
 
-There is no required account system in the core game flow.
+## Backends
 
-## Notes
+Two small Cloudflare Workers (each with its own D1 database), independent of the
+static app and of each other:
 
-- this repo has no build step
-- this repo currently has no automated test suite
-- syntax checks can be done with commands like:
+- [leaderboard-worker/](./leaderboard-worker/): public leaderboard — recomputes
+  each score server-side from its own answer key.
+- [redeem-worker/](./redeem-worker/): server-verified `ADMIN_CODE` / `GUEST_CODE`.
 
-```bash
-node --check config.js
-node --check ui.js
-node --check storage.js
-```
+If `content.json` answers change: bump `WT_CONFIG.leaderboard.contentVersion`,
+regenerate `leaderboard-worker/src/content-key.js`, redeploy that Worker (a
+contract test guards the alignment).
+
+## Development
+
+- no build step
+- `npm install` then `npm test` runs the vitest suite; `npm run format:check`
+  runs prettier. CI runs both on every push / PR (`.github/workflows/test.yml`).
+- quick syntax checks: `node --check config.js ui.js storage.js game.js`
