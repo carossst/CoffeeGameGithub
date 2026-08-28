@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install --no-audit --no-fund
+      # vitest 4 pulls platform-specific native bindings; a committed lock from
+      # another OS trips an npm optional-deps bug. Resolve fresh for this runner.
+      - run: rm -f package-lock.json && npm install --no-audit --no-fund
       - run: npm test
       - run: npm run format:check
