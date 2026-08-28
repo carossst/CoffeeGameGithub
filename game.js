@@ -127,7 +127,10 @@
       ids.push(idNum);
     }
 
-    return shuffleCopy(ids);
+    // Keep the configured order: config.curatedFreeRuns.cardIdsByRun lists are
+    // hand-ordered so true/false alternates (see config.js). declusterByAnswer
+    // later protects this prefix while de-clustering the random tail.
+    return ids;
   }
 
   function prependOpeningIds(baseIds, openingIds) {
@@ -147,6 +150,51 @@
     }
 
     return out;
+  }
+
+  // Reorder a deck so no more than `maxRun` consecutive questions share the same
+  // correctAnswer (true/false), when the remaining answers allow it. Greedy and
+  // stable: the shuffled order is kept except at a cap boundary, where the
+  // nearest item with a different answer is pulled forward. The first
+  // `lockFirst` positions (curated opening) are never moved, only used to seed
+  // the run state so the opening -> shuffle seam is de-clustered too.
+  function declusterByAnswer(ids, byId, maxRun, lockFirst) {
+    const list = Array.isArray(ids) ? ids.slice() : [];
+    const cap = (Number.isFinite(maxRun) && maxRun >= 1) ? Math.floor(maxRun) : 0;
+    if (cap <= 0 || list.length <= cap + 1) return list;
+
+    const ansOf = (id) => {
+      const it = byId ? byId[String(id)] : null;
+      if (it && it.correctAnswer === true) return true;
+      if (it && it.correctAnswer === false) return false;
+      return null;
+    };
+
+    const lock = Math.max(0, Math.min(list.length, Math.floor(Number(lockFirst) || 0)));
+    const result = list.slice(0, lock);
+
+    let runVal = null;
+    let runLen = 0;
+    for (const id of result) {
+      const a = ansOf(id);
+      if (a === runVal) runLen += 1;
+      else { runVal = a; runLen = 1; }
+    }
+
+    const pending = list.slice(lock);
+    while (pending.length) {
+      let pick = 0;
+      if (runLen >= cap) {
+        const alt = pending.findIndex((id) => ansOf(id) !== runVal);
+        if (alt !== -1) pick = alt;
+      }
+      const chosen = pending.splice(pick, 1)[0];
+      result.push(chosen);
+      const a = ansOf(chosen);
+      if (a === runVal) runLen += 1;
+      else { runVal = a; runLen = 1; }
+    }
+    return result;
   }
 
   // ============================================
@@ -236,7 +284,12 @@
       const openingIds = getCuratedFreeRunOpeningIds(config, byId, statsByItem, runStartNumber);
 
       return {
-        ids: prependOpeningIds(baseIds, openingIds),
+        ids: declusterByAnswer(
+          prependOpeningIds(baseIds, openingIds),
+          byId,
+          3,
+          Array.isArray(openingIds) ? openingIds.length : 0
+        ),
         byId
       };
     }
@@ -245,7 +298,12 @@
     const openingIds = getCuratedFreeRunOpeningIds(config, byId, statsByItem, runStartNumber);
 
     return {
-      ids: prependOpeningIds(baseIds, openingIds),
+      ids: declusterByAnswer(
+        prependOpeningIds(baseIds, openingIds),
+        byId,
+        3,
+        Array.isArray(openingIds) ? openingIds.length : 0
+      ),
       byId
     };
   }

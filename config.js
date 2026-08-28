@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.10.0",
+    version: "3.10.1",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -102,9 +102,11 @@
     curatedFreeRuns: {
       enabled: true,
       runCount: 2,
+      // Same curated question set per run, ordered so true/false alternates
+      // (no more than 2 identical answers in a row within the opening).
       cardIdsByRun: {
-        1: [1, 3, 4, 11, 13, 16, 19, 21, 22, 52],
-        2: [2, 10, 30, 40, 44, 46, 57, 58, 62, 193, 55, 117]
+        1: [1, 3, 11, 4, 13, 16, 19, 21, 52, 22],
+        2: [2, 10, 46, 30, 40, 58, 44, 57, 193, 62, 55, 117]
       }
     },
 
