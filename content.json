@@ -1,5 +1,5 @@
 {
-  "version": "1.4",
+  "version": "1.5",
   "totalItems": 200,
   "breakdown": {
     "trueItems": 110,
@@ -231,7 +231,7 @@
       "termFr": "",
       "termEn": "Most coffee brews best with fully boiling water at 212°F (100°C).",
       "correctAnswer": false,
-      "explanationShort": "Water around 200°F (93°C) extracts the right balance of flavor from the grounds.\nGo hotter and it scorches the coffee, go cooler and it tastes flat and sour.\nJust off the boil is the sweet spot, not a full rolling boil.",
+      "explanationShort": "A common reference range for brewed coffee is about 195–205°F (90–96°C).\\nA full rolling boil is hotter than that target, and temperature mainly changes extraction rate.\\nJust off the boil is a useful starting point.",
       "tags": [
         "Coffee at home",
         "Medium"
@@ -770,7 +770,7 @@
       "termFr": "",
       "termEn": "Oat milk was the main plant-based milk in US coffee shops before soy milk became popular.",
       "correctAnswer": false,
-      "explanationShort": "Soy milk was the default plant-based option in many US coffee shops for years.\nOat milk became popular later because it steams well and tastes creamy.\nSoy came first, oat took over later.",
+      "explanationShort": "Soy milk appeared in US coffee shops well before oat milk's recent rise.\\nOat milk became popular later, especially in espresso drinks because of its creamy texture.\\nSoy came first; oat came later.",
       "tags": [
         "Beverages and drink families",
         "Medium"
@@ -1472,9 +1472,9 @@
     {
       "id": 134,
       "termFr": "",
-      "termEn": "A bag labeled specialty coffee has been formally scored and passed a quality threshold.",
+      "termEn": "The SCA's current definition of specialty coffee is broader than an 80-point score.",
       "correctAnswer": true,
-      "explanationShort": "Specialty coffee is defined as beans that score 80 or above on a standardized 100-point evaluation.\nThat score covers flavor, aroma, balance, and defect count.\nSpecialty is a score, not just a style.",
+      "explanationShort": "The SCA now defines specialty coffee through distinctive attributes and significant extra value in the marketplace.\\nAn 80-point score is an important historical convention, but it is not the whole current definition.\\nSpecialty is broader than one number.",
       "tags": [
         "Buying coffee",
         "Hard"
@@ -2044,9 +2044,9 @@
     {
       "id": 186,
       "termFr": "",
-      "termEn": "Seeing Guatemala on a coffee bag often signals arabica grown at altitude.",
+      "termEn": "Many coffees from Guatemala are arabica grown at high elevations.",
       "correctAnswer": true,
-      "explanationShort": "Guatemala is known for arabica coffees grown in mountainous regions.\nAltitude can support brighter acidity and more layered flavors.\nOrigin helps, but it is not a quality guarantee.",
+      "explanationShort": "Guatemala is known for arabica production in mountainous growing regions.\\nHigher elevations can shape how coffee cherries mature and how the cup tastes.\\nOrigin can suggest growing conditions, but it does not guarantee quality.",
       "tags": [
         "Coffee market and origins",
         "Medium"
@@ -2134,7 +2134,7 @@
       "termFr": "",
       "termEn": "Cold brew concentrate is typically stronger and higher in caffeine than drip coffee.",
       "correctAnswer": true,
-      "explanationShort": "Cold brew is made by steeping coffee at a high ratio for 12 to 24 hours.\nThat long extraction pulls more caffeine into the liquid than a standard hot brew.\nConcentrated cold brew hits harder before dilution.",
+      "explanationShort": "Cold brew concentrate uses a high coffee-to-water ratio, so it can contain more caffeine per ounce before dilution.\\nLong steeping is part of the method, but caffeine extraction can level off well before 12 to 24 hours.\\nThe recipe ratio matters more than steep time alone.",
       "tags": [
         "Beverages and drink families",
         "Hard"
@@ -2145,7 +2145,7 @@
       "termFr": "",
       "termEn": "A coffee bag's roast date tells you more about freshness than the expiration date.",
       "correctAnswer": true,
-      "explanationShort": "An expiration date tells you when the product is considered unsafe, not when it stopped tasting good.\nThe roast date tells you exactly when freshness started counting down.\nFor freshness, roast date matters most.",
+      "explanationShort": "Date labels on shelf-stable foods generally describe quality, not the moment a product becomes unsafe.\\nA roast date tells you when the coffee was roasted, which is more useful for judging freshness.\\nFor freshness, roast date matters most.",
       "tags": [
         "Buying coffee",
         "Medium"
@@ -2207,4 +2207,4 @@
       ]
     }
   ]
-}
+}\n
