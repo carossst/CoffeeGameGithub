@@ -17,4 +17,6 @@ jobs:
       # another OS trips an npm optional-deps bug. Resolve fresh for this runner.
       - run: rm -f package-lock.json && npm install --no-audit --no-fund
       - run: npm test
+      - run: npm run content:check
+      - run: npm run syntax:check
       - run: npm run format:check
