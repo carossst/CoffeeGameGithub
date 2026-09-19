@@ -13,8 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      # vitest 4 pulls platform-specific native bindings; a committed lock from
-      # another OS trips an npm optional-deps bug. Resolve fresh for this runner.
+      # npm 10.9.8 has a known Arborist edgesOut install failure on Node 22.
+      # Pin a known-working npm 11 release before resolving dependencies fresh.
+      - run: npm install --global npm@11.6.0
       - run: rm -f package-lock.json && npm install --no-audit --no-fund
       - run: npm test
       - run: npm run content:check
