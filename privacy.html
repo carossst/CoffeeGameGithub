@@ -44,13 +44,14 @@
 
                     <h2 class="wt-h2">2. Data stored on your device</h2>
                     <p>
-                        Brew or False stores game data <strong>only in your browser's localStorage</strong> to make the game work.
+                        Brew or False stores core game data <strong>in your browser's localStorage</strong> to make the game work.
                         This includes progress, scores, mistakes, run history, feature states, and device-local premium activation data.
+                        Data is sent to our services only when you use an optional server-backed feature described below.
                     </p>
                     <p>This data:</p>
                     <ul>
-                        <li>never leaves your device automatically</li>
-                        <li>is not sent to our servers</li>
+                        <li>stays on your device by default</li>
+                        <li>is shared with our services only when you use an optional server-backed feature described below</li>
                         <li>can be deleted at any time by clearing your browser storage</li>
                     </ul>
                     <p class="wt-muted">
@@ -98,10 +99,32 @@
                         Legal basis: your consent (Article 6.1.a GDPR).
                     </p>
 
+                    <h2 class="wt-h2">5A. Optional public leaderboard</h2>
+                    <p>
+                        If you choose to join the public leaderboard, Brew or False creates a separate device identifier and sends
+                        your chosen nickname and opt-in status to our leaderboard service hosted on <strong>Cloudflare</strong>.
+                        When score submission is enabled, completed RUN games may also send a run identifier, run number,
+                        content version, run duration, your answers and answer timings so the server can recalculate the score
+                        and protect the leaderboard against cheating.
+                    </p>
+                    <p>
+                        The public leaderboard displays your nickname, rank and score. Your device identifier, individual answers
+                        and timings are not displayed publicly.
+                    </p>
+                    <p>
+                        You can leave the leaderboard from the game. The service then deletes your leaderboard profile,
+                        submitted runs and saved best scores associated with that leaderboard device identifier.
+                    </p>
+                    <p class="wt-muted">
+                        Legal basis: your consent (Article 6.1.a GDPR). Cloudflare processes the service requests and may process
+                        your IP address for security and rate limiting under its own privacy policy.
+                    </p>
+
                     <h2 class="wt-h2">6. Data retention</h2>
                     <p>
                         Game data stored in your browser remains until you delete it.
                         Device-unlock-code redemption records (Section 3) are kept indefinitely; contact us to request deletion.
+                        Optional leaderboard records remain until you leave the leaderboard or request deletion.
                         Emails are kept only as long as necessary to handle your request.
                     </p>
 
