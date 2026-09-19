@@ -117,7 +117,7 @@ test("POST /score rejects unknown answer ids fail-closed", async () => {
       device_uuid: "dev-2",
       run_id: "run-2",
       run_number: 2,
-      content_version: "1.4",
+      content_version: workerModule.LEADERBOARD_CONTENT_VERSION,
       run_mode: "RUN",
       duration_ms: 5000,
       answers: [{ id: 999999, answer: false, ms: 10 }]
@@ -160,7 +160,7 @@ test("POST /score rejects duplicate answer ids fail-closed", async () => {
       device_uuid: "dev-dup-answers",
       run_id: "run-dup-answers",
       run_number: 2,
-      content_version: "1.4",
+      content_version: workerModule.LEADERBOARD_CONTENT_VERSION,
       run_mode: "RUN",
       duration_ms: 5000,
       answers: [
@@ -206,7 +206,7 @@ test("POST /score is idempotent for duplicate run_id", async () => {
       device_uuid: "dev-3",
       run_id: "run-dup",
       run_number: 3,
-      content_version: "1.4",
+      content_version: workerModule.LEADERBOARD_CONTENT_VERSION,
       run_mode: "RUN",
       duration_ms: 6400,
       answers: [{ id: 1, answer: false, ms: 10 }]
@@ -486,7 +486,7 @@ test("POST /score rejects implausibly fast runs", async () => {
       device_uuid: "dev-fast-run",
       run_id: "run-fast-run",
       run_number: 3,
-      content_version: "1.4",
+      content_version: workerModule.LEADERBOARD_CONTENT_VERSION,
       run_mode: "RUN",
       duration_ms: 200,
       answers: [{ id: 1, answer: false, ms: 10 }]
