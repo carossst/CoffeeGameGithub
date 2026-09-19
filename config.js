@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.10.3",
+    version: "3.11.0",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -78,7 +78,7 @@
     },
 
     // Content
-    contentUrl: "./content.json",
+    contentUrl: "./content.json?v=1.5",
 
     // ============================================
     // V2 GAME - continuous RUN (no fixed sessions)
@@ -782,7 +782,7 @@
       titleRun3: "Last tip before you play",
 
       run1Lines: [
-        "You'll see coffee rules one by one.\nDecide whether each one is true or false.",
+        "You'll see coffee statements one by one.\nDecide whether each one is true or false.",
         "Correct answer: +1 point.",
         "Wrong answer: +1 mistake.",
         "After {maxChances} mistakes, the game ends.",
@@ -904,12 +904,12 @@
       lockedPill: "Locked",
       byLevel: {
         1: {
-          label: "GREEN BEAN",
+          label: "COFFEE CURIOUS",
           unlock: "Finish your first full pass.",
           next: ""
         },
         2: {
-          label: "COFFEE CURIOUS",
+          label: "COFFEE SAVVY",
           unlock: "Clear all active mistakes.",
           next: ""
         },
