@@ -1458,6 +1458,22 @@ void function () {
           const startedFromModal =
             !!(self.modalEl && !self.modalEl.classList.contains("wt-hidden"));
 
+          // Track the first LANDING play intent before any optional framing modal.
+          // This separates CTA interest from an actual run_start and exposes modal friction.
+          if (self.state === STATES.LANDING && !startedFromModal) {
+            if (self.storage && typeof self.storage.markLandingPlayClicked === "function") {
+              self.storage.markLandingPlayClicked();
+            }
+            try {
+              if (window.WT_Analytics && typeof window.WT_Analytics.trackFunnel === "function") {
+                window.WT_Analytics.trackFunnel(
+                  "landing_play_click",
+                  window.WT_Analytics.inferUiContext(self, {})
+                );
+              }
+            } catch (_) { /* silent */ }
+          }
+
           // First-run framing must open only from the LANDING screen itself.
           // If the click already comes from the first-run modal CTA, we must start the run.
           // Mobile-first safeguard: on touch devices, start directly instead of routing through
@@ -1473,13 +1489,6 @@ void function () {
             break;
           }
 
-          // Funnel counter: only when starting from LANDING
-          if (self.state === STATES.LANDING) {
-            if (self.storage && typeof self.storage.markLandingPlayClicked === "function") {
-              self.storage.markLandingPlayClicked();
-            }
-          }
-
           // CTA inside modal: close first to avoid overlay sticking.
           self.closeModal();
           self.startRun(false);
@@ -1493,6 +1502,14 @@ void function () {
             if (self.storage && typeof self.storage.markLandingPracticeClicked === "function") {
               self.storage.markLandingPracticeClicked();
             }
+            try {
+              if (window.WT_Analytics && typeof window.WT_Analytics.trackFunnel === "function") {
+                window.WT_Analytics.trackFunnel(
+                  "landing_practice_click",
+                  window.WT_Analytics.inferUiContext(self, {})
+                );
+              }
+            } catch (_) { /* silent */ }
           }
           self.closeModal();
           self.startRun(true);
