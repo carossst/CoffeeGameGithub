@@ -4,8 +4,10 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "format:check": "prettier --check package.json vitest.config.cjs .prettierrc.json \"tests/**/*.js\"",
-    "format:write": "prettier --write package.json vitest.config.cjs .prettierrc.json \"tests/**/*.js\""
+    "format:check": "prettier --check package.json vitest.config.cjs .prettierrc.json \"tests/**/*.js\" \"scripts/**/*.mjs\"",
+    "format:write": "prettier --write package.json vitest.config.cjs .prettierrc.json \"tests/**/*.js\"",
+    "content:check": "node scripts/validate-content.mjs",
+    "syntax:check": "node --check config.js && node --check storage.js && node --check game.js && node --check ui.js && node --check pwa.js && node --check email.js && node --check footer.js && node --check analytics.js && node --check leaderboard-logic.js && node --check leaderboard.js && node --check main.js && node --check sw.js"
   },
   "devDependencies": {
     "prettier": "^3.8.3",
