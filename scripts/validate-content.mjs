@@ -1,6 +1,9 @@
 import fs from "node:fs";
 
-const raw = fs.readFileSync(new URL("../content.json", import.meta.url), "utf8");
+const raw = fs.readFileSync(
+  new URL("../content.json", import.meta.url),
+  "utf8",
+);
 const content = JSON.parse(raw);
 const items = Array.isArray(content.items) ? content.items : null;
 const expectedSize = 200;
@@ -11,7 +14,9 @@ function fail(message) {
 }
 
 if (!items) fail("items must be an array");
-if (items.length !== expectedSize) fail(`expected ${expectedSize} items, got ${items.length}`);
+if (items.length !== expectedSize) {
+  fail(`expected ${expectedSize} items, got ${items.length}`);
+}
 if (Number(content.totalItems) !== items.length) {
   fail(`totalItems says ${content.totalItems}, actual count is ${items.length}`);
 }
@@ -21,7 +26,9 @@ let trueItems = 0;
 let falseItems = 0;
 
 for (const [index, item] of items.entries()) {
-  if (!item || typeof item !== "object") fail(`item ${index + 1} is not an object`);
+  if (!item || typeof item !== "object") {
+    fail(`item ${index + 1} is not an object`);
+  }
 
   const id = Number(item.id);
   if (!Number.isInteger(id) || id < 1 || id > expectedSize) {
@@ -36,12 +43,17 @@ for (const [index, item] of items.entries()) {
   if (item.correctAnswer !== true && item.correctAnswer !== false) {
     fail(`question ${id} has a non-boolean correctAnswer`);
   }
-  if (typeof item.explanationShort !== "string" || !item.explanationShort.trim()) {
+  if (
+    typeof item.explanationShort !== "string" ||
+    !item.explanationShort.trim()
+  ) {
     fail(`question ${id} has an empty explanationShort`);
   }
 
   const tags = Array.isArray(item.tags) ? item.tags : [];
-  const difficultyCount = tags.filter((tag) => difficulties.has(String(tag))).length;
+  const difficultyCount = tags.filter((tag) =>
+    difficulties.has(String(tag)),
+  ).length;
   if (difficultyCount !== 1) {
     fail(`question ${id} must have exactly one difficulty tag`);
   }
@@ -55,12 +67,16 @@ for (let id = 1; id <= expectedSize; id += 1) {
 }
 
 if (Number(content?.breakdown?.trueItems) !== trueItems) {
-  fail(`trueItems says ${content?.breakdown?.trueItems}, actual count is ${trueItems}`);
+  fail(
+    `trueItems says ${content?.breakdown?.trueItems}, actual count is ${trueItems}`,
+  );
 }
 if (Number(content?.breakdown?.falseItems) !== falseItems) {
-  fail(`falseItems says ${content?.breakdown?.falseItems}, actual count is ${falseItems}`);
+  fail(
+    `falseItems says ${content?.breakdown?.falseItems}, actual count is ${falseItems}`,
+  );
 }
 
 console.log(
-  `content.json OK: ${items.length} questions, ${trueItems} TRUE, ${falseItems} FALSE`
+  `content.json OK: ${items.length} questions, ${trueItems} TRUE, ${falseItems} FALSE`,
 );
