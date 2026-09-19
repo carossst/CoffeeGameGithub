@@ -1,25 +1,28 @@
 # Action Plan
 
-This file tracks only the Coffee work that still remains after the current alignment pass.
+This file tracks only the Brew or False work still open after the 19 September 2026 non-payment audit.
 
-## Still To Do
+## Next
 
-### Reliability
+### Leaderboard deployment
 
-- verify manually in Stripe that both Payment Links redirect to the hosted `success.html`
-- document clearly that the early-price timer is local UX, not server-verified
-- decide later whether the static unlock flow is acceptable as-is or whether a server-verified or signed return is needed
+- deploy `leaderboard-worker/src/content-key.js` v1.6 to the existing Cloudflare Worker
+- verify one accepted RUN, one rejected wrong content version, and weekly/all-time rank responses
+- only then set `WT_CONFIG.leaderboard.submitScores` back to `true`
 
 ### UX QA
 
-- run one more mobile QA pass on:
-  - update toast -> refresh path on Android and iPhone
-  - install prompt layout
-  - END wrap behavior for long category names
-  - CTA wrap and footer fit on smaller screens
+- verify the update-toast refresh path on Android and iPhone
+- verify install-prompt layout
+- verify END wrapping with long category names
+- verify CTA and footer fit on very small screens
 
-### Content And Conversion
+### Content maintenance
 
-- do a final explanation pass where L2 still answers too indirectly
-- re-check paywall/testimonials copy for naturalness after the latest UI changes
-- decide whether the current early-price duration should stay as-is or be tightened further later
+- keep `content.json`, `WT_CONFIG.leaderboard.contentVersion`, and the leaderboard Worker answer key aligned
+- run `npm run content:check` after every question edit
+- source new or changed factual claims according to `EDITORIAL_RULES.md`
+
+## Payment
+
+Payment and post-checkout entitlement work is intentionally deferred until the items above are complete.
