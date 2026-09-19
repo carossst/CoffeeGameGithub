@@ -12,7 +12,7 @@ Static coffee quiz game and installable PWA.
 - Curated opening for the first 2 free games (see `WT_CONFIG.curatedFreeRuns`)
 - `Mistakes Mode` to replay active mistakes
 - `Rapid Fire Mode` for seen-question speed play
-- Public opt-in leaderboard (weekly + all-time), backed by a Cloudflare Worker
+- Public opt-in leaderboard (weekly + all-time), backed by a Cloudflare Worker; score submission is temporarily paused while Worker v1.6 awaits redeployment
 - Local-first progress and premium unlock
 - Installable PWA with service worker caching
 
@@ -73,6 +73,8 @@ Each item uses this shape:
 
 Guidelines:
 
+- follow [EDITORIAL_RULES.md](./EDITORIAL_RULES.md)
+- run `npm run content:check` after every content edit
 - keep statements clear and answerable as true/false
 - avoid time-sensitive or shop-specific facts unless clearly framed
 - keep `explanationShort` short, direct, and readable on mobile
@@ -135,12 +137,15 @@ static app and of each other:
 - [redeem-worker/](./redeem-worker/): server-verified `ADMIN_CODE` / `GUEST_CODE`.
 
 If `content.json` answers change: bump `WT_CONFIG.leaderboard.contentVersion`,
-regenerate `leaderboard-worker/src/content-key.js`, redeploy that Worker (a
-contract test guards the alignment).
+regenerate `leaderboard-worker/src/content-key.js`, set `submitScores: false`,
+redeploy and verify that Worker, then re-enable score submissions. Contract tests
+guard the frontend/content/answer-key alignment.
 
 ## Development
 
 - no build step
-- `npm install` then `npm test` runs the vitest suite; `npm run format:check`
-  runs prettier. CI runs both on every push / PR (`.github/workflows/test.yml`).
-- quick syntax checks: `node --check config.js ui.js storage.js game.js`
+- `npm install` then `npm test` runs the vitest suite.
+- `npm run content:check` validates all 200 questions and declared answer totals.
+- `npm run syntax:check` checks production JavaScript, including the leaderboard Worker.
+- `npm run format:check` runs Prettier checks.
+- CI runs all four checks on every push / PR (`.github/workflows/test.yml`).
