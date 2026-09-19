@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.11.0",
+    version: "3.12.0",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -78,7 +78,7 @@
     },
 
     // Content
-    contentUrl: "./content.json?v=1.5",
+    contentUrl: "./content.json?v=1.6",
 
     // ============================================
     // V2 GAME - continuous RUN (no fixed sessions)
