@@ -143,6 +143,84 @@
     return await res.json();
   }
 
+  function validateContentPayload(content, config) {
+    if (!content || typeof content !== "object") {
+      throw new Error("Content payload must be an object.");
+    }
+
+    const items = Array.isArray(content.items) ? content.items : null;
+    if (!items || items.length === 0) {
+      throw new Error("Content payload has no items.");
+    }
+
+    const expectedSize = Number(config?.game?.poolSize);
+    if (!Number.isInteger(expectedSize) || expectedSize <= 0) {
+      throw new Error("config.game.poolSize must be a positive integer.");
+    }
+
+    if (items.length !== expectedSize) {
+      throw new Error(`Content item count mismatch: expected ${expectedSize}, got ${items.length}.`);
+    }
+
+    if (Number(content.totalItems) !== items.length) {
+      throw new Error(`content.totalItems mismatch: declared ${content.totalItems}, actual ${items.length}.`);
+    }
+
+    const seenIds = new Set();
+    let trueItems = 0;
+    let falseItems = 0;
+    const difficultyTags = new Set(["Easy", "Medium", "Hard"]);
+
+    for (let index = 0; index < items.length; index += 1) {
+      const item = items[index];
+      if (!item || typeof item !== "object") {
+        throw new Error(`Content item at index ${index} is invalid.`);
+      }
+
+      const id = Number(item.id);
+      if (!Number.isInteger(id) || id < 1 || id > expectedSize) {
+        throw new Error(`Invalid content id at index ${index}: ${item.id}.`);
+      }
+      if (seenIds.has(id)) {
+        throw new Error(`Duplicate content id: ${id}.`);
+      }
+      seenIds.add(id);
+
+      if (typeof item.termEn !== "string" || !item.termEn.trim()) {
+        throw new Error(`Question ${id} has an empty statement.`);
+      }
+      if (item.correctAnswer !== true && item.correctAnswer !== false) {
+        throw new Error(`Question ${id} has a non-boolean answer.`);
+      }
+      if (typeof item.explanationShort !== "string" || !item.explanationShort.trim()) {
+        throw new Error(`Question ${id} has an empty explanation.`);
+      }
+
+      const tags = Array.isArray(item.tags) ? item.tags : [];
+      const difficultyCount = tags.filter((tag) => difficultyTags.has(String(tag))).length;
+      if (difficultyCount !== 1) {
+        throw new Error(`Question ${id} must have exactly one difficulty tag.`);
+      }
+
+      if (item.correctAnswer === true) trueItems += 1;
+      else falseItems += 1;
+    }
+
+    for (let id = 1; id <= expectedSize; id += 1) {
+      if (!seenIds.has(id)) throw new Error(`Missing content id: ${id}.`);
+    }
+
+    const declaredTrue = Number(content?.breakdown?.trueItems);
+    const declaredFalse = Number(content?.breakdown?.falseItems);
+    if (declaredTrue !== trueItems || declaredFalse !== falseItems) {
+      throw new Error(
+        `Content breakdown mismatch: declared ${declaredTrue}/${declaredFalse}, actual ${trueItems}/${falseItems}.`
+      );
+    }
+
+    return items;
+  }
+
 
 
   // ============================================
@@ -577,13 +655,7 @@
         .then((content) => {
           clearTimeout(slowLoadTimer);
 
-          const items = Array.isArray(content.items) ? content.items : [];
-
-          if (!items.length) {
-            if (ui && typeof ui.setContentLoading === "function") ui.setContentLoading(false);
-            showFatal("Content not available. Please check your connection and reload.");
-            return;
-          }
+          const items = validateContentPayload(content, config);
 
           ui.setContent(items);
           if (ui && typeof ui.setContentLoading === "function") ui.setContentLoading(false);
