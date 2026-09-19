@@ -200,13 +200,13 @@
     //   tests/leaderboard-content-contract.test.js
     leaderboard: {
       enabled: true,
-      submitScores: true,
+      submitScores: false,
       showAfterRunCompletes: 1,
       topN: 10,
       cardPreviewCount: 3,
       cacheTtlMs: 60 * 1000,
       requestTimeoutMs: 4000,
-      contentVersion: "1.4",
+      contentVersion: "1.6",
       nicknameMinLen: 3,
       nicknameMaxLen: 24,
       nicknameRegexSource: "^[\\p{L}\\p{N}][\\p{L}\\p{N} _-]{2,23}$",
