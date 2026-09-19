@@ -4,17 +4,16 @@ Backend du leaderboard public, calqué sur `leaderboard-worker/` de Pickleball
 Rules Quiz. Séparé du `redeem-worker/` (codes premium) et de l'app statique :
 il peut être déployé, mis à jour ou arrêté sans toucher au jeu.
 
-## État actuel — ✅ DÉPLOYÉ ET ACTIF (2026-08-26)
+## État actuel — source v1.6 prête, redéploiement requis
 
 - Worker : `https://bf-leaderboard.carolestromboni.workers.dev`
   (`wrangler.jsonc` : name `bf-leaderboard`)
 - D1 : `bf-leaderboard` (id dans `wrangler.jsonc`), tables `players` /
   `score_submissions` / `leaderboard_best`
-- `src/content-key.js` généré depuis `content.json` :
-  `LEADERBOARD_CONTENT_VERSION = "1.4"` (= `content.json` `version` =
-  `WT_CONFIG.leaderboard.contentVersion`)
-- Frontend **actif** : `WT_CONFIG.leaderboard` a `enabled: true`,
-  `submitScores: true`, `apiBaseUrl` renseigné
+- `src/content-key.js` est synchronisé avec `content.json` v1.6.
+- `WT_CONFIG.leaderboard.contentVersion` est également à `1.6`.
+- Le frontend garde le classement visible mais `submitScores: false` tant que le Worker v1.6
+  n'a pas été redéployé et vérifié. Cela évite d'envoyer des runs à une clé serveur obsolète.
 - Les `seedScores` de `config.js` ne s'affichent plus que tant que le
   classement réel est vide (fallback dans `buildWindowRows`)
 
@@ -107,7 +106,7 @@ leaderboard: {
   enabled: true,
   apiBaseUrl: "https://bf-leaderboard.<subdomain>.workers.dev",
   submitScores: false, // passer à true après vérif des soumissions/rejets/rangs
-  contentVersion: "1.4"
+  contentVersion: "1.6"
 }
 ```
 
@@ -132,7 +131,7 @@ destructif — filtre sur `week_key` (`2026-W35`). À expliquer aux users :
   "device_uuid": "uuid-local",
   "run_id": "uuid-run",
   "run_number": 7,
-  "content_version": "1.4",
+  "content_version": "1.6",
   "run_mode": "RUN",
   "duration_ms": 84231,
   "answers": [
