@@ -1,5 +1,5 @@
 /* global self, caches */
-/* sw.js - Service Worker v2.1 */
+/* sw.js - Service Worker v2.2 */
 /* Spec section 8: PWA / Offline / Service Worker */
 /**
  * Single source of truth for version:
@@ -107,12 +107,15 @@ self.addEventListener("install", (event) => {
         }
       }
       const criticalOk = CRITICAL_ASSETS.every((u) => okByUrl.get(u) === true);
-      if (criticalOk) {
-        await self.skipWaiting();
+      if (!criticalOk) {
+        await caches.delete(CACHE_NAME);
+        throw new Error("Critical app-shell assets could not be cached.");
       }
-    })().catch(() => {
-      // Fail-closed: don't block the existing SW.
-    })
+
+      // Do not call skipWaiting() here.
+      // On an update, the new worker must remain waiting until the user
+      // explicitly applies it from the in-app update notification.
+    })()
   );
 });
 
