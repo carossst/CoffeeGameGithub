@@ -515,6 +515,7 @@ void function () {
     } catch (_) { /* silent */ }
 
     if (ui && ui._runtime) {
+      clearFeedbackAutoAdvance(ui);
       if (ui._runtime.feedbackRevealTimerId) {
         try { window.clearTimeout(ui._runtime.feedbackRevealTimerId); } catch (_) { }
         ui._runtime.feedbackRevealTimerId = null;
@@ -622,6 +623,67 @@ void function () {
     if (!Number.isFinite(durationMs) || durationMs < UI_TIMING_LIMITS.durationMsMin || durationMs > UI_TIMING_LIMITS.durationMsMax) return null;
 
     return { delayMs: Math.floor(delayMs), durationMs: Math.floor(durationMs) };
+  }
+
+  function trackUiFunnelEvent(ui, name, extras) {
+    try {
+      if (
+        window.WT_Analytics &&
+        typeof window.WT_Analytics.trackFunnel === "function" &&
+        typeof window.WT_Analytics.inferUiContext === "function"
+      ) {
+        window.WT_Analytics.trackFunnel(name, window.WT_Analytics.inferUiContext(ui, extras || {}));
+      }
+    } catch (_) { /* analytics must never interrupt gameplay */ }
+  }
+
+  // Anonymous referral token: short non-reversible hash of the device UUID.
+  function getReferralToken(value) {
+    const input = String(value || "");
+    let hash = 2166136261;
+    for (let i = 0; i < input.length; i += 1) {
+      hash ^= input.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(36).slice(0, 10);
+  }
+
+  function getChallengeIdsFromUrl() {
+    try {
+      const value = new URLSearchParams(window.location.search).get("challenge") || "";
+      return value.split(".").filter(Boolean).map((item) => Number(item)).filter((id) => Number.isInteger(id) && id >= 0).slice(0, 50);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function clearFeedbackAutoAdvance(ui) {
+    if (ui && ui._runtime && ui._runtime.feedbackAutoAdvanceTimerId) {
+      try { window.clearTimeout(ui._runtime.feedbackAutoAdvanceTimerId); } catch (_) { }
+      ui._runtime.feedbackAutoAdvanceTimerId = null;
+    }
+  }
+
+  // Feedback stays readable, then advances without a second tap (Next stays available).
+  function scheduleFeedbackAutoAdvance(ui) {
+    if (!ui || !ui._runtime || ui._runtime.feedbackPending !== true) return;
+    if (ui._runtime.autoGameOverAfterFeedback === true) return;
+    clearFeedbackAutoAdvance(ui);
+
+    const uiCfg = ui.config?.ui || {};
+    const introRaw = Number(uiCfg.feedbackAutoAdvanceIntroCount);
+    const introCount = (Number.isFinite(introRaw) && introRaw >= 1 && introRaw <= 99) ? Math.floor(introRaw) : 3;
+    const answered = Array.isArray(ui._runtime.runItemIds) ? ui._runtime.runItemIds.length : 0;
+    const msRaw = Number(answered <= introCount ? uiCfg.feedbackAutoAdvanceMs : uiCfg.feedbackAutoAdvanceAfterIntroMs);
+    // Fail-closed: no valid config => no auto-advance.
+    if (!Number.isFinite(msRaw) || msRaw < 1800 || msRaw > 10000) return;
+
+    ui._runtime.feedbackAutoAdvanceTimerId = window.setTimeout(() => {
+      if (!ui._runtime) return;
+      ui._runtime.feedbackAutoAdvanceTimerId = null;
+      if (ui._runtime.feedbackPending !== true) return;
+      ui.continueAfterFeedback();
+    }, Math.floor(msRaw));
   }
 
   function toastNow(cfg, message, opts) {
@@ -1392,7 +1454,27 @@ void function () {
     const pointerEvt = ("PointerEvent" in window) ? "pointerup" : "click";
 
 
+    const trackedEndActions = new Set([
+      "start-run", "play-again", "start-practice", "open-paywall",
+      "copy-share", "share-native", "send-share-email",
+      "open-leaderboard-profile", "start-secret-bonus"
+    ]);
+
+    function trackEndActionClick(action) {
+      if (self.state !== STATES.END) return;
+      if (!trackedEndActions.has(String(action || ""))) return;
+      const lastRun = self._runtime?.lastRun || {};
+      trackUiFunnelEvent(self, "end_action_click", {
+        action,
+        mode: String(lastRun.mode || self._runtime?.runMode || "").trim(),
+        mistakes_count: Array.isArray(lastRun.mistakeIds) ? clampInt(lastRun.mistakeIds.length, 0, 999) : 0,
+        score: clampInt(lastRun.scoreFP, 0, 99999)
+      });
+    }
+
     function dispatchAction(action, event) {
+      trackEndActionClick(action);
+
       switch (action) {
         case "continue":
           self.continueAfterFeedback();
@@ -1685,6 +1767,10 @@ void function () {
           self.copyShareText();
           break;
 
+        case "share-native":
+          void self.shareNative();
+          break;
+
         case "send-share-email":
           self.sendShareViaEmail();
           break;
@@ -1776,6 +1862,9 @@ void function () {
           }
 
           if (self.state === STATES.PAYWALL) {
+            trackUiFunnelEvent(self, "paywall_dismiss", {
+              from_state: String(self._nav?.paywallFromState || "").trim().toLowerCase() || "other"
+            });
             if (self._nav) self._nav.landingVariant = "POST_PAYWALL";
             self.setState(STATES.LANDING);
             break;
@@ -2315,6 +2404,20 @@ void function () {
 
   UI.prototype.setState = function (next) {
     const prev = this.state;
+
+    // A waiting service-worker update must never cover an active run: hide the
+    // toast outside LANDING and surface a deferred one when coming back.
+    try {
+      window.__WT_UI_STATE__ = next;
+      if (next !== STATES.LANDING) {
+        const updateToast = document.getElementById("update-toast");
+        if (updateToast) updateToast.classList.remove("wt-toast--visible");
+      } else if (typeof window.__WT_SHOW_PENDING_UPDATE__ === "function") {
+        window.setTimeout(() => {
+          try { window.__WT_SHOW_PENDING_UPDATE__(); } catch (_) { /* silent */ }
+        }, 0);
+      }
+    } catch (_) { /* silent */ }
 
     try {
       if (this.config?.debug?.enabled && (prev === STATES.PLAYING || next === STATES.END || prev === STATES.END)) {
@@ -3664,11 +3767,22 @@ void function () {
     const srcItems = Array.isArray(this._runtime?.contentItems) ? this._runtime.contentItems : [];
     const eligible = srcItems.slice();
 
+    // Friend challenge (?challenge=1.2.3): first RUN of this visit replays the shared cards.
+    const challengeIds = (mistakesOnly === true || this._runtime.challengeConsumed === true)
+      ? []
+      : getChallengeIdsFromUrl();
+    const fixedIds = challengeIds.length >= 2 ? challengeIds : [];
+    if (fixedIds.length) {
+      this._runtime.challengeConsumed = true;
+      trackUiFunnelEvent(this, "challenge_start", { challenge_size: fixedIds.length });
+    }
+
     const state = this.game.start({
       items: eligible,
       statsByItem,
       getStatsByItem,
       config: cfg,
+      fixedIds,
 
       // game.js contract: "RUN" | "PRACTICE" | "BONUS"
       mode: (mistakesOnly === true) ? MODES.PRACTICE : MODES.RUN,
@@ -4691,6 +4805,7 @@ void function () {
         this._runtime.feedbackReveal = true;
         this.render();
         scheduleFatalGameOver();
+        scheduleFeedbackAutoAdvance(this);
       }, Math.floor(focusMs));
 
       return;
@@ -4699,6 +4814,7 @@ void function () {
     this._runtime.feedbackReveal = true;
     this.render();
     scheduleFatalGameOver();
+    scheduleFeedbackAutoAdvance(this);
 
     try {
       const normalFlashClass = (res.isCorrect === true)
@@ -4736,6 +4852,8 @@ void function () {
     }
 
     const shouldFinish = (this._runtime.finishAfterFeedback === true);
+
+    clearFeedbackAutoAdvance(this);
 
     // leaving feedback: cancel any pending (not-yet-shown) toast to avoid cross-state surprises
     cancelScheduledToast();
@@ -5272,12 +5390,32 @@ void function () {
 
     const identity = cfg.identity || {};
     const appName = String(identity.appName || "").trim();
-    const url = String(identity.appUrl || "").trim();
+    const lastRun = (this._runtime && this._runtime.lastRun) ? this._runtime.lastRun : {};
+
+    // Growth loop: the shared link carries its source, an anonymous referral token
+    // and the exact cards of this run so the friend plays the same challenge.
+    let url = String(identity.appUrl || "").trim();
+    try {
+      if (url) {
+        const shareUrl = new URL(url);
+        shareUrl.searchParams.set("wt-source", "share");
+        const referralParam = String(shareCfg.referralParam || "").trim();
+        const deviceUuid = (this.storage && typeof this.storage.ensureLeaderboardDeviceUuid === "function")
+          ? String(this.storage.ensureLeaderboardDeviceUuid() || "").trim()
+          : "";
+        if (referralParam && deviceUuid) {
+          shareUrl.searchParams.set(referralParam, getReferralToken(deviceUuid));
+        }
+        const challengeIds = Array.isArray(lastRun.runItemIds)
+          ? lastRun.runItemIds.map((id) => Number(id)).filter((id) => Number.isInteger(id) && id >= 0).slice(0, 50)
+          : [];
+        if (challengeIds.length >= 2) shareUrl.searchParams.set("challenge", challengeIds.join("."));
+        url = shareUrl.toString();
+      }
+    } catch (_) { /* keep the plain app URL */ }
 
     const poolSize = clampInt(cfg?.game?.poolSize, 1, 9999);
     const maxChances = clampInt(cfg?.game?.maxChances, 1, 99);
-
-    const lastRun = (this._runtime && this._runtime.lastRun) ? this._runtime.lastRun : {};
 
     // Share is RUN-only to avoid mixing score semantics (BONUS/PRACTICE).
     if (String(lastRun.mode || "RUN").trim() !== "RUN") return "";
@@ -5367,6 +5505,27 @@ void function () {
     this._runtime.lastShareText = text;
 
     return text;
+  };
+
+  UI.prototype.shareNative = async function () {
+    if (typeof navigator === "undefined" || typeof navigator.share !== "function") return;
+    const text = String(this._getShareText() || "").trim();
+    if (!text) return;
+
+    try {
+      await navigator.share({
+        title: String(this.config?.identity?.appName || "").trim(),
+        text
+      });
+      if (this.storage && typeof this.storage.markShareClicked === "function") {
+        this.storage.markShareClicked();
+      }
+      trackUiFunnelEvent(this, "share_native", { share_channel: "native" });
+      const msg = String(this.wording?.share?.toastShared || "").trim();
+      if (msg) toastNow(this.config, msg);
+    } catch (_) {
+      /* cancelled or unavailable */
+    }
   };
 
   UI.prototype.copyShareText = async function () {
@@ -7589,7 +7748,9 @@ ${(() => {
       items.push(`<div class="wt-mistake-item">${pairHtml}${explHtml}</div>`);
     }
 
-    const openAttr = (ctx.vars && Number(ctx.vars.backlog) > 0) ? " open" : "";
+    // The end screen is the natural review moment: keep the missed questions
+    // and their explanations visible instead of making users discover them.
+    const openAttr = " open";
     return `
   <details class="wt-accordion"${openAttr}>
     <summary class="wt-accordion-toggle">${escapeHtml(label)}</summary>
@@ -7737,9 +7898,11 @@ ${(() => {
 
     const canCopy = !!(ctaLabel && text);
     const canEmail = !!(emailLabel && emailSubject && text);
+    const nativeLabel = String(share.nativeLabel || "").trim();
+    const canNative = !!(nativeLabel && text && typeof navigator !== "undefined" && typeof navigator.share === "function");
 
     if (!title && !text) return "";
-    if (!canCopy && !canEmail && !text) return "";
+    if (!canCopy && !canNative && !canEmail && !text) return "";
 
     return `
       <details class="wt-accordion">
@@ -7750,8 +7913,14 @@ ${(() => {
         <div class="wt-accordion-content">
           ${text ? `<p class="wt-muted wt-text-wrap-anywhere">${escapeHtml(text)}</p>` : ``}
 
-          ${(canCopy || canEmail) ? `
+          ${(canCopy || canNative || canEmail) ? `
             <div class="wt-actions">
+              ${canNative ? `
+                <button type="button" class="wt-btn wt-btn--primary" data-action="share-native">
+                  ${escapeHtml(nativeLabel)}
+                </button>
+              ` : ``}
+
               ${canCopy ? `
                 <button type="button" class="wt-btn wt-btn--secondary" data-action="copy-share">
                   ${escapeHtml(ctaLabel)}

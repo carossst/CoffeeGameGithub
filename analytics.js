@@ -65,6 +65,15 @@
     return "direct";
   }
 
+  function hasReferral() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return Boolean(String(params.get("ref") || "").trim());
+    } catch (_) {
+      return false;
+    }
+  }
+
   function isPremium(storage) {
     try {
       if (storage && typeof storage.isPremium === "function") {
@@ -101,6 +110,11 @@
       const fromState = slugify(p.from_state);
       if (fromState) parts.push(`from-${fromState}`);
     }
+    if (p.action) {
+      const action = slugify(p.action);
+      if (action) parts.push(`action-${action}`);
+    }
+
     if (p.price_key) {
       const priceKey = slugify(p.price_key);
       if (priceKey) parts.push(`price-${priceKey}`);
@@ -188,7 +202,8 @@
     const out = {
       lang: getLocale(),
       entry_source: getEntrySource(),
-      premium: isPremium(storage)
+      premium: isPremium(storage),
+      referral: hasReferral() ? "present" : "none"
     };
     const freeRunsUsed = getFreeRunsUsed(storage);
     if (freeRunsUsed != null) out.free_runs_used = freeRunsUsed;
@@ -220,6 +235,7 @@
     buildEventPath,
     buildEventTitle,
     getEntrySource,
+    hasReferral,
     getLocale,
     inferPageContext,
     inferUiContext,

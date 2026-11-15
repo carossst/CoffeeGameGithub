@@ -292,8 +292,16 @@
     }
 
     function showUpdateToast(message) {
-      const msg = String(message || "").trim();
+      const msg = String(message || window.WT_WORDING?.system?.updateAvailable || "").trim();
       if (!msg) return;
+
+      // Never interrupt an active question, END or PAYWALL screen. When the UI state
+      // is not known yet, stay silent as well; the landing screen surfaces it later.
+      if (String(window.__WT_UI_STATE__ || "").trim() !== "LANDING") {
+        window.__WT_SW_PENDING_UPDATE_TOAST__ = true;
+        return;
+      }
+      window.__WT_SW_PENDING_UPDATE_TOAST__ = false;
 
       // KISS: reuse the existing #update-toast shell from index.html
       const node = document.getElementById("update-toast");
@@ -309,10 +317,9 @@
       }
 
       // Mark update ready so UI can decide when to apply it (user-controlled).
-      // Persist the seen key immediately. If iOS/PWA keeps the same waiting worker
-      // across reloads, the user is not asked again and again.
+      // The seen key is persisted only when the user applies the update. If the
+      // toast is ignored, it must remain discoverable on the next visit.
       window.__WT_SW_UPDATE_READY__ = true;
-      markUpdateToastSeen(waitingKey);
 
       const text = node.querySelector("[data-wt-update-text]");
       if (text) text.textContent = msg;
@@ -320,6 +327,12 @@
       bindUpdateToastButton();
       node.classList.add("wt-toast--visible");
     }
+
+    // A notification discovered during a run is deferred until the player
+    // returns to the landing screen (called by UI.setState).
+    window.__WT_SHOW_PENDING_UPDATE__ = function () {
+      if (window.__WT_SW_PENDING_UPDATE_TOAST__ === true) showUpdateToast();
+    };
     bindUpdateToastButton();
 
     function setWaitingWorker(worker) {
@@ -390,6 +403,7 @@
       try { window.__WT_SW_UPDATE_IN_FLIGHT__ = true; } catch (_) { }
       try {
         armFallbackReload();
+        markUpdateToastSeen(getWaitingWorkerKey(waiting));
         waiting.postMessage({ type: "SKIP_WAITING" });
       } catch (_) {
         try { window.__WT_SW_RELOAD_ON_CONTROLLERCHANGE__ = false; } catch (_) { }

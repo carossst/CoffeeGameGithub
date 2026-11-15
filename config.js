@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.12.2",
+    version: "3.13.0",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -204,6 +204,8 @@
       showAfterRunCompletes: 1,
       topN: 10,
       cardPreviewCount: 3,
+      // Landing card stays hidden until this many scores exist this week
+      landingCardMinRows: 3,
       cacheTtlMs: 60 * 1000,
       requestTimeoutMs: 4000,
       contentVersion: "1.6",
@@ -351,6 +353,12 @@
       // - runStartOverlayMs: start-of-run + BONUS rules
       chanceLostOverlayMs: 1800,
       runStartOverlayMs: 3000,
+
+      // Feedback stays readable, then advances without requiring a second tap.
+      // The visible Next button remains available immediately for fast play.
+      feedbackAutoAdvanceMs: 4000,
+      feedbackAutoAdvanceAfterIntroMs: 3200,
+      feedbackAutoAdvanceIntroCount: 3,
 
 
       // Pulses (HUD) + extension window for last-chance overlay
@@ -560,6 +568,7 @@
 
     // Share
     share: {
+      referralParam: "ref",
       enabled: true,
 
     },
@@ -1486,6 +1495,8 @@ Thanks!`
 
 
     share: {
+      nativeLabel: "Challenge a friend",
+      toastShared: "Challenge sent.",
       ctaLabel: "Copy challenge text",
       emailLabel: "Email challenge",
       emailSubject: "Brew or False",

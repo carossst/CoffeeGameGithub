@@ -450,7 +450,20 @@
         ? runStartNumberRaw
         : null;
 
-      const deck = bonusMode
+      // Shared challenge: a friend link can pin the exact list of cards (RUN only).
+      const fixedIds = Array.isArray(p.fixedIds)
+        ? p.fixedIds.map(safeIdNum).filter((id) => id != null)
+        : [];
+      const fixedDeck = !bonusMode && !mistakesOnly && fixedIds.length > 0;
+      const deck = fixedDeck
+        ? (() => {
+            const normalized = normalizePool(items);
+            return {
+              ids: fixedIds.filter((id, index) => fixedIds.indexOf(id) === index && normalized.byId[String(id)]),
+              byId: normalized.byId
+            };
+          })()
+        : bonusMode
         ? buildSeenDeck({ items, statsByItem, config })
         : buildDeck({ items, statsByItem, mistakesOnly, config, runStartNumber });
 
@@ -460,6 +473,7 @@
         statsByItem,
         getStatsByItem,
         config,
+        fixedDeck,
 
 
         byId: deck.byId || {},
@@ -733,6 +747,10 @@
 
       // RUN: rebuild a fresh deck at the end (reshuffle)
       if (this.run.mode === MODES.RUN) {
+        if (this.run.fixedDeck === true) {
+          this.run.done = true;
+          return;
+        }
         if (typeof this.run.getStatsByItem !== "function") {
           throw new Error("WT_Game.GameEngine._advanceAfterAnswer(): getStatsByItem is missing.");
         }

@@ -341,6 +341,10 @@
     ensureFresh(ui);
 
     const previewCount = clampInt(cfg?.cardPreviewCount, 1, 10);
+    // A near-empty board is anti-social proof: hide the landing card until the week has enough scores.
+    const minRows = clampInt(cfg?.landingCardMinRows, 0, 50);
+    const weeklyCount = Array.isArray(bucket?.weekly) ? bucket.weekly.length : 0;
+    if (minRows > 0 && weeklyCount < minRows) return null;
     const profile =
       ui?.storage && typeof ui.storage.getLeaderboardProfile === "function"
         ? ui.storage.getLeaderboardProfile()
