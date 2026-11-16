@@ -106,7 +106,7 @@ leaderboard: {
   enabled: true,
   apiBaseUrl: "https://bf-leaderboard.<subdomain>.workers.dev",
   submitScores: false, // passer à true après vérif des soumissions/rejets/rangs
-  contentVersion: "1.6"
+  contentVersion: "1.7-combo4"
 }
 ```
 
@@ -131,7 +131,7 @@ destructif — filtre sur `week_key` (`2026-W35`). À expliquer aux users :
   "device_uuid": "uuid-local",
   "run_id": "uuid-run",
   "run_number": 7,
-  "content_version": "1.6",
+  "content_version": "1.7-combo4",
   "run_mode": "RUN",
   "duration_ms": 84231,
   "answers": [

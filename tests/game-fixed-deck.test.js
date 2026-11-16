@@ -52,3 +52,37 @@ describe("shared challenge fixed deck", () => {
     expect(state.done).toBe(true);
   });
 });
+
+describe("RUN combo scoring", () => {
+  it("awards double points after four correct answers in a row, reset by a mistake", () => {
+    const w = loadGame();
+    const engine = new w.WT_Game.GameEngine();
+    const statsByItem = {};
+    let state = engine.start({
+      items: makeItems(40),
+      statsByItem,
+      getStatsByItem: () => statsByItem,
+      config: w.WT_CONFIG,
+      mode: "RUN"
+    });
+
+    const answerRight = () =>
+      engine.answer(engine.getCurrent().correctAnswer).state;
+    const answerWrong = () =>
+      engine.answer(!engine.getCurrent().correctAnswer).state;
+
+    for (let i = 0; i < 4; i += 1) state = answerRight();
+    expect(state.scoreFP).toBe(4);
+    expect(state.comboActivations).toBe(1);
+
+    state = answerRight();
+    state = answerRight();
+    expect(state.scoreFP).toBe(8);
+    expect(state.bonusPoints).toBe(2);
+
+    state = answerWrong();
+    expect(state.correctStreak).toBe(0);
+    state = answerRight();
+    expect(state.scoreFP).toBe(9);
+  });
+});

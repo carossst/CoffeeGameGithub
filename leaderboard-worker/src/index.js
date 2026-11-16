@@ -263,7 +263,8 @@ function getPlausibilityRejectReason(answers, durationMs, scoreFpServer) {
   const minTotalMs = count * 250;
   if (durationMs < minTotalMs) return "IMPROBABLE_DURATION_MS";
 
-  if (scoreFpServer === count && count >= 10 && durationMs < count * 450) {
+  const perfectScore = count + Math.max(0, count - 4);
+  if (scoreFpServer === perfectScore && count >= 10 && durationMs < count * 450) {
     return "IMPROBABLE_PERFECT_RUN";
   }
 

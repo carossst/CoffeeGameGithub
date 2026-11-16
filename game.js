@@ -570,6 +570,11 @@
         mode: this.run.mode,
         done: !!this.run.done,
         scoreFP: Number.isFinite(this.run.scoreFP) ? Number(this.run.scoreFP) : 0,
+        correctCount: Number(this.run.correctCount || 0),
+        bonusPoints: Number(this.run.bonusPoints || 0),
+        comboActivations: Number(this.run.comboActivations || 0),
+        correctStreak: Number(this.run.correctStreak || 0),
+        scoreMultiplier: this.run.mode === MODES.RUN && Number(this.run.correctStreak || 0) >= 4 ? 2 : 1,
         chancesLeft: (this.run.chancesLeft == null) ? null : Number(this.run.chancesLeft || 0),
         maxChances: (this.run.maxChances == null) ? null : Number(this.run.maxChances),
         idx,
@@ -610,6 +615,7 @@
       // Fail-closed: content bug should not corrupt the run.
       // Treat as a wrong answer: consume 1 chance, and end if it hits 0.
       if (idNum == null || correct == null) {
+        this.run.correctStreak = 0;
         if (this.run.chancesLeft != null) {
           const left = Number(this.run.chancesLeft || 0);
           this.run.chancesLeft = Math.max(0, left - 1);
@@ -668,8 +674,18 @@
 
       // scoring commun à tous les modes (BONUS / RUN / PRACTICE)
       if (isCorrect) {
-        this.run.scoreFP = Number(this.run.scoreFP || 0) + 1;
+        // RUN combo: 4 correct answers in a row charge the meter; the next correct answers
+        // are worth double until the next mistake. Must mirror leaderboard-worker computeServerScore.
+        const points = this.run.mode === MODES.RUN && Number(this.run.correctStreak || 0) >= 4 ? 2 : 1;
+        this.run.correctStreak = Number(this.run.correctStreak || 0) + 1;
+        if (this.run.mode === MODES.RUN && this.run.correctStreak === 4) {
+          this.run.comboActivations = Number(this.run.comboActivations || 0) + 1;
+        }
+        this.run.correctCount = Number(this.run.correctCount || 0) + 1;
+        this.run.bonusPoints = Number(this.run.bonusPoints || 0) + points - 1;
+        this.run.scoreFP = Number(this.run.scoreFP || 0) + points;
       } else {
+        this.run.correctStreak = 0;
         // Track mistake for this run (END screen)
         try {
           if (idNum != null && Array.isArray(this.run.runMistakeIds) && !this.run.runMistakeIds.includes(idNum)) this.run.runMistakeIds.push(idNum);

@@ -57,3 +57,30 @@ test("worker score is recomputed from answer truth, not client score", () => {
   }));
   expect(scoreUtils.computeServerScore(answers, key)).toBe(2);
 });
+
+test("worker score doubles points after four correct answers in a row", () => {
+  const sample = contentKey.ANSWER_KEY_ENTRIES.slice(0, 8);
+  const correct = (idx) => ({
+    id: sample[idx][0],
+    answer: sample[idx][1] === true,
+    ms: 10
+  });
+  const wrong = (idx) => ({
+    id: sample[idx][0],
+    answer: sample[idx][1] !== true,
+    ms: 10
+  });
+
+  // 4 correct (4 pts) + 2 correct at double (4 pts) = 8
+  const run = [0, 1, 2, 3, 4, 5].map(correct);
+  expect(scoreUtils.computeServerScore(run, key)).toBe(8);
+
+  // A mistake resets the streak: 4 + 0 + 1 + 1 = 6
+  const withMistake = [
+    ...[0, 1, 2, 3].map(correct),
+    wrong(4),
+    correct(5),
+    correct(6)
+  ];
+  expect(scoreUtils.computeServerScore(withMistake, key)).toBe(6);
+});

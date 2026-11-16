@@ -67,11 +67,16 @@ export function validateSubmittedAnswers(rawAnswers, answerKey) {
 export function computeServerScore(answers, answerKey) {
   if (!Array.isArray(answers) || !(answerKey instanceof Map)) return 0;
 
+  // Mirrors game.js: 4 correct in a row unlock double points until the next mistake.
   let score = 0;
+  let streak = 0;
   for (const row of answers) {
     const correctAnswer = answerKey.get(clampNonNegativeInt(row?.id));
     if (row?.answer === correctAnswer) {
-      score += 1;
+      score += streak >= 4 ? 2 : 1;
+      streak += 1;
+    } else {
+      streak = 0;
     }
   }
   return score;

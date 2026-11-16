@@ -201,7 +201,7 @@ void function () {
     if (String(mm.mode || "").trim() !== String(modeNow || "").trim()) return null;
 
     const segments = Number(mm.segments);
-    if (!Number.isFinite(segments) || Math.floor(segments) !== 6) return null;
+    if (!Number.isFinite(segments) || Math.floor(segments) !== 4) return null;
 
     const th = (mm.thresholds && typeof mm.thresholds === "object") ? mm.thresholds : null;
     if (!th) return null;
@@ -210,36 +210,31 @@ void function () {
     const s2 = Number(th.s2);
     const s3 = Number(th.s3);
     const s4 = Number(th.s4);
-    const s5 = Number(th.s5);
-    const s6 = Number(th.s6);
 
     const ok =
       Number.isFinite(s1) &&
       Number.isFinite(s2) &&
       Number.isFinite(s3) &&
-      Number.isFinite(s4) &&
-      Number.isFinite(s5) &&
-      Number.isFinite(s6);
+      Number.isFinite(s4);
 
     if (!ok) return null;
 
     const safeStreak = clampInt(streak, 0, 9999);
-    const safeLevel = clampInt(currentLevel, 0, 6);
+    const safeLevel = clampInt(currentLevel, 0, 4);
 
     let target = 0;
     if (safeStreak >= s1) target = 1;
     if (safeStreak >= s2) target = 2;
     if (safeStreak >= s3) target = 3;
     if (safeStreak >= s4) target = 4;
-    if (safeStreak >= s5) target = 5;
-    if (safeStreak >= s6) target = 6;
+
 
     return {
       target,
       filled: Math.max(target, safeLevel),
-      segments: 6,
+      segments: 4,
       streak: safeStreak,
-      overflow: Math.max(0, safeStreak - 6)
+      overflow: Math.max(0, safeStreak - 4)
     };
   }
 
@@ -3415,31 +3410,20 @@ void function () {
 
       const momentumState = getMomentumMeterState(cfg, mp.correctStreak, runMode, mp.momentumLevel);
       if (momentumState) {
-        const current = clampInt(mp.momentumLevel, 0, 6);
-        const target = clampInt(momentumState.target, 0, 6);
+        const current = clampInt(mp.momentumLevel, 0, 4);
+        const target = clampInt(momentumState.target, 0, 4);
 
         // Recovery must feel immediate:
         // after a loss, each correct answer rebuilds +1 visible segment
         // instead of waiting for the new streak to "catch up".
-        mp.momentumLevel = Math.min(6, Math.max(target, current + 1));
+        mp.momentumLevel = Math.min(4, Math.max(target, current + 1));
       }
     } else {
-      const currentLevel = clampInt(mp.momentumLevel, 0, 6);
-
       mp.correctStreak = 0;
       mp.flowTierShown = 0;
 
-      // Progressive drop:
-      // 1-3 -> 0
-      // 4-5 -> 2
-      // 6+  -> 3
-      if (currentLevel >= 6) {
-        mp.momentumLevel = 3;
-      } else if (currentLevel >= 4) {
-        mp.momentumLevel = 2;
-      } else {
-        mp.momentumLevel = 0;
-      }
+      // Any mistake loses the double-points charge.
+      mp.momentumLevel = 0;
     }
 
     // Danger overlays are handled centrally (no micro-pic overlay on chance loss)
@@ -4248,6 +4232,16 @@ void function () {
 
     const picked = (choiceBool === true);
     const res = (this.game && typeof this.game.answer === "function") ? this.game.answer(picked) : null;
+    try {
+      if (res?.isCorrect === true && res.state?.mode === MODES.RUN && res.state.correctStreak === 4) {
+        trackUiFunnelEvent(this, "combo_unlocked", {
+          mode: MODES.RUN,
+          combo_activations: res.state.comboActivations,
+          bonus_points: res.state.bonusPoints,
+          score: res.state.scoreFP
+        });
+      }
+    } catch (_) { /* analytics must not interrupt gameplay */ }
     // Flag a short-lived pulse when a chance is lost (CSS owns the actual animation)
     let chanceLost = false;
     let nowChancesLeft = null;
@@ -5107,6 +5101,9 @@ void function () {
     this._runtime.lastRun = {
       mode,
       scoreFP,
+      correctCount: Number(gameState.correctCount || 0),
+      bonusPoints: Number(gameState.bonusPoints || 0),
+      comboActivations: Number(gameState.comboActivations || 0),
       maxChances,
       chancesLeft,
       newBest,
@@ -5139,7 +5136,12 @@ void function () {
           "run_complete",
           window.WT_Analytics.inferUiContext(this, {
             mode,
-            run_type: this._runtime.lastRun.runType || this._runtime?.runType || ""
+            run_type: this._runtime.lastRun.runType || this._runtime?.runType || "",
+            ...(mode === MODES.RUN ? {
+              combo_reached: Number(gameState.comboActivations || 0) > 0,
+              combo_activations: Number(gameState.comboActivations || 0),
+              bonus_points: Number(gameState.bonusPoints || 0)
+            } : {})
           })
         );
       }
@@ -8940,7 +8942,8 @@ ${(() => {
 
     // HUD deltas (arcade): +1 on score flash, +1 mistake on mistake pulse
     // Copy visible => WT_WORDING.ui (pas WT_CONFIG)
-    const scoreDeltaText = String(ui?.scoreGainedDeltaText || "").trim();
+    const comboActiveNow = modeNow === "RUN" && Number(gameState.correctStreak || 0) > 4;
+    const scoreDeltaText = String((comboActiveNow && ui?.scoreGainedComboDeltaText) || ui?.scoreGainedDeltaText || "").trim();
     const scoreDeltaHtml = (scoreFlashOn && scoreDeltaText)
       ? `<span class="wt-pill__delta wt-pill__delta--score" aria-hidden="true">${escapeHtml(scoreDeltaText)}</span>`
       : "";
@@ -9052,19 +9055,19 @@ ${(() => {
     }
 
     const correctStreak = clampInt(this._runtime?.microPics?.correctStreak, 0, 9999);
-    const momentumLevel = clampInt(this._runtime?.microPics?.momentumLevel, 0, 6);
+    const momentumLevel = clampInt(this._runtime?.microPics?.momentumLevel, 0, 4);
     const momentumState = getMomentumMeterState(cfg, correctStreak, modeNow, momentumLevel);
 
     const momentumHtml = momentumState
       ? `
         <div class="wt-momentum-wrap">
-          <div class="wt-momentum" aria-label="Momentum ${momentumState.filled}/${momentumState.segments}">
+          <div class="wt-momentum" title="${escapeHtml(String(this.wording?.system?.comboRule || ""))}" aria-label="${escapeHtml(String(this.wording?.system?.momentumAria || "Double points progress {filled}/{segments}").replace("{filled}", String(momentumState.filled)).replace("{segments}", String(momentumState.segments)))}">
             ${Array(momentumState.segments).fill(null).map((_, i) => `
               <span class="wt-momentum__seg${i < momentumState.filled ? " wt-momentum__seg--on" : ""}${momentumState.filled === momentumState.segments && i === momentumState.segments - 1 ? " wt-momentum__seg--max" : ""}" aria-hidden="true"></span>
             `).join("")}
           </div>
-          ${momentumState.streak > momentumState.segments ? `
-            <span class="wt-momentum__combo" aria-hidden="true">${momentumState.streak}</span>
+          ${momentumState.streak >= momentumState.segments ? `
+            <span class="wt-momentum__combo" aria-label="${escapeHtml(String(this.wording?.system?.doublePoints || ""))}">\u00d72</span>
           ` : ``}
         </div>
       `
