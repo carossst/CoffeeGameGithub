@@ -754,6 +754,8 @@
       tagline: "**Think you know coffee? Prove it.**",
       subtitle: "A fast true-or-false coffee game.\nQuestions about drinks, brewing, beans, and myths.",
       microFun: "Quick games · No signup · Free to try",
+      // Proof line under the main CTA (rules of the game in one glance)
+      proofLine: "200 questions · 3 mistakes end the run · Practice what you miss",
       microTrust: "Play a few quick games and see what really holds up.",
 
       runsLabel: "",
@@ -1327,7 +1329,11 @@
 
       // Projection personnalisée (PAYWALL only)
       // Vars: {seen} {poolSize} {remaining}
-      progressLine1: "You've already seen {seen} questions. {remaining} more are still waiting in the full set.",
+      progressLine1: "You've already seen {seen} {questionWord}. {remaining} more are still waiting in the full set.",
+
+      // Personalised when the last run had mistakes. Vars: {mistakes} {pluralS}
+      mistakeHeadlineTemplate: "Fix the {mistakes} mistake{pluralS} you just made.",
+      mistakeLineTemplate: "You missed {mistakes} question{pluralS}. Mistakes Mode turns them into focused practice.",
       progressLine2: "",
 
       // Section headers (anti “mur de mots”)

@@ -5344,9 +5344,19 @@ void function () {
       if (window.WT_Analytics && typeof window.WT_Analytics.trackFunnel === "function") {
         window.WT_Analytics.trackFunnel(
           "checkout_click",
-          window.WT_Analytics.inferUiContext(this, {
-            price_key: String(priceKey || "").toUpperCase()
-          })
+          window.WT_Analytics.inferUiContext(this, (() => {
+            // Context that explains WHY the player went to checkout.
+            const extras = { price_key: String(priceKey || "").toUpperCase() };
+            const fromState = String(this._nav?.paywallFromState || "").trim().toLowerCase();
+            if (fromState) extras.from_state = fromState;
+            const lr = this._runtime?.lastRun || {};
+            if (Array.isArray(lr.mistakeIds)) extras.mistakes_count = clampInt(lr.mistakeIds.length, 0, 999);
+            try {
+              const seen = this.storage?.getSeenItemIds?.();
+              if (Array.isArray(seen)) extras.seen_count = clampInt(seen.length, 0, 99999);
+            } catch (_) { /* silent */ }
+            return extras;
+          })())
         );
       }
     } catch (_) { /* silent */ }
@@ -7396,8 +7406,6 @@ void function () {
 
 ${landingHeaderRowHtml}
 
-   ${landingUrgencyHtml}
-
         ${tagline ? `<p class="wt-meta wt-tagline">${renderTextWithStrong(tagline)}</p>` : ``}
 
         <p class="wt-sub wt-landing-subtitle">${subtitleHtml}</p>
@@ -7514,6 +7522,10 @@ ${(() => {
     })()}
 
     ${((!premium && !isPostPaywallVariant && landing.microFun) ? `<p class="wt-sub wt-muted wt-mt-10">${escapeHtml(String(landing.microFun || "").trim())}</p>` : ``)}
+
+    ${(!premium && !isPostPaywallVariant && String(landing.proofLine || "").trim()) ? `<p class="wt-landing-proof">${escapeHtml(String(landing.proofLine).trim())}</p>` : ``}
+
+    ${isPostPaywallVariant ? `` : landingUrgencyHtml}
 
     ${postBlock}
 
@@ -9395,10 +9407,25 @@ ${questionPrompt ? `
       (Number.isFinite(runsBalance) && runsBalance <= 0) ||
       (this._runtime && this._runtime.runType === "LAST_FREE");
 
-    const headline =
+    const baseHeadline =
       isLastFree && pay.headlineLastFree
         ? String(pay.headlineLastFree).trim()
         : String(pay.headline || "").trim();
+
+    // Personalised hook: what the player just got wrong is the strongest reason to continue.
+    const payLastRun = this._runtime?.lastRun || {};
+    const payMistakeCount = Array.isArray(payLastRun.mistakeIds)
+      ? clampInt(payLastRun.mistakeIds.length, 0, 999)
+      : 0;
+    const mistakeVars = { mistakes: String(payMistakeCount), pluralS: payMistakeCount === 1 ? "" : "s" };
+    const mistakeHeadlineTpl = String(pay.mistakeHeadlineTemplate || "").trim();
+    const mistakeLineTpl = String(pay.mistakeLineTemplate || "").trim();
+    const headline = (payMistakeCount > 0 && mistakeHeadlineTpl)
+      ? fillTemplate(mistakeHeadlineTpl, mistakeVars)
+      : baseHeadline;
+    const mistakeLine = (payMistakeCount > 0 && mistakeLineTpl)
+      ? fillTemplate(mistakeLineTpl, mistakeVars)
+      : "";
 
 
 
@@ -9453,13 +9480,13 @@ ${questionPrompt ? `
 
     const progressLine1 =
       (progressLine1Tpl && Number.isFinite(payRunCount))
-        ? fillTemplate(progressLine1Tpl, { seen, poolSize, remaining, score: lastRunScore, runs: payRunCount })
+        ? fillTemplate(progressLine1Tpl, { seen, poolSize, remaining, score: lastRunScore, runs: payRunCount, questionWord: seen === 1 ? "question" : "questions" })
         : "";
 
-    const progressLine2Raw =
-      (progressLine2Tpl && Number.isFinite(remaining))
+    const progressLine2Raw = mistakeLine ||
+      ((progressLine2Tpl && Number.isFinite(remaining))
         ? fillTemplate(progressLine2Tpl, { remaining })
-        : "";
+        : "");
 
     // Defensive de-duplication (handles accidental repeated sentence separated by blank lines / newlines)
     const progressLine2 = (() => {
@@ -9607,6 +9634,11 @@ ${questionPrompt ? `
 
 
 
+    // First screen stays short: the three strongest benefits only; the full list sits below the CTA.
+    const summaryBullets = valueBullets
+      .slice(0, 3)
+      .map((item) => String(item || "").trim())
+      .filter(Boolean);
     const hasValueSection = (valueTitle || valueBullets.length);
     const hasTrustSection = (trustTitle || trustLine || trustBullets.length);
 
@@ -9617,6 +9649,29 @@ ${questionPrompt ? `
 
       ${progressLine1 ? `<p class="wt-muted wt-paywall-progress-line--lead">${escapeHtml(progressLine1)}</p>` : ``}
       ${progressLine2 ? `<p class="wt-muted wt-paywall-progress-line--follow">${escapeHtml(progressLine2)}</p>` : ``}
+
+      ${summaryBullets.length ? `
+      <div class="wt-paywall-summary">
+        ${summaryBullets.map((item) => `<div class="wt-paywall-summary__item">${renderTextWithStrong(item)}</div>`).join("")}
+      </div>` : ``}
+
+      ${renderUrgencyBanner()}
+
+      ${renderPriceBlock()}
+
+      ${savingsLine ? `<p class="wt-muted wt-paywall-savings">${escapeHtml(savingsLine)}</p>` : ``}
+
+      <div class="wt-actions">
+        <button
+          class="wt-btn wt-btn--primary"
+          data-action="${isEarly ? "checkout-early" : "checkout-standard"}"
+        >${escapeHtml(primaryCta)}</button>
+      </div>
+
+      ${notNowLabel ? `<p class="wt-paywall-linkline"><button class="wt-text-action" data-action="go-home">${escapeHtml(notNowLabel)}</button></p>` : ``}
+      ${redeemLabel ? `<p class="wt-muted wt-paywall-redeem"><button class="wt-text-action wt-paywall-redeem__button" data-action="redeem-code">${escapeHtml(redeemLabel)}</button></p>` : ``}
+
+      <div class="wt-divider"></div>
 
       ${hasValueSection ? `
        ${valueTitle ? `<div class="wt-meta wt-meta--strong wt-paywall-section-title">${escapeHtml(valueTitle)}</div>` : ``}
@@ -9631,28 +9686,6 @@ ${questionPrompt ? `
       ` : ``}
 
       ${renderSocialProof()}
-
-      <div class="wt-divider"></div>
-
-      ${renderUrgencyBanner()}
-
-      ${renderPriceBlock()}
-
-      ${savingsLine ? `<p class="wt-muted wt-paywall-savings">${escapeHtml(savingsLine)}</p>` : ``}
-
-      <div class="wt-actions">
-        <button
-          class="wt-btn wt-btn--primary"
-          data-action="${isEarly ? "checkout-early" : "checkout-standard"}"
-        >${escapeHtml(primaryCta)}</button>
-
-       <button
-          class="wt-btn wt-btn--secondary"
-          data-action="go-home"
-        >${escapeHtml(notNowLabel)}</button>
-      </div>
-
-            ${redeemLabel ? `<p class="wt-muted wt-paywall-redeem"><button class="wt-btn wt-btn--ghost" data-action="redeem-code">${escapeHtml(redeemLabel)}</button></p>` : ``}
 
     ${"" /* trustLine already rendered above in trust section */}
     ${checkoutNote ? `<p class="wt-muted wt-paywall-checkout-note">${escapeHtml(checkoutNote)}</p>` : ``}

@@ -4357,3 +4357,55 @@ body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt
     opacity: 0.7;
   }
 }
+
+/* Paywall: short first screen, quiet secondary actions */
+.wt-paywall-summary {
+  display: grid;
+  gap: 8px;
+  margin: var(--gap-2) 0;
+  padding: var(--gap-2);
+  border-radius: var(--r-card);
+  background: rgb(var(--primary) / var(--wt-a-08));
+}
+
+.wt-paywall-summary__item {
+  font-size: var(--fs-md, 16px);
+  line-height: 1.35;
+}
+
+.wt-paywall-linkline {
+  margin: var(--gap-2) 0 0;
+  text-align: center;
+}
+
+.wt-text-action {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 10px 12px;
+  min-height: 44px;
+  font: inherit;
+  font-weight: 600;
+  color: rgb(var(--primary-dark));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.wt-paywall-redeem {
+  text-align: center;
+}
+
+.wt-paywall-redeem__button {
+  font-weight: 500;
+  color: rgb(var(--text-muted));
+}
+
+/* Landing: one-line proof under the main CTA */
+.wt-landing-proof {
+  margin: var(--gap-1) 0 0;
+  font-size: var(--fs-sm, 14px);
+  font-weight: 600;
+  color: rgb(var(--text-muted));
+  text-align: center;
+}
