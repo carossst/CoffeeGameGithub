@@ -4204,3 +4204,156 @@ particle rings"
 .wt-leaderboard-modal__tabs {
   margin-bottom: var(--gap-2);
 }
+
+/* ==========================================
+   CAFÉ SKIN
+   Visual layer only: makes the landing and the question screen read as a
+   game played at a coffee counter. No markup or behavior depends on it.
+============================================ */
+:root {
+  --cafe-espresso: 62 39 28;
+  --cafe-wood: 124 77 46;
+  --cafe-crema: 222 184 135;
+  --cafe-cream: 255 247 237;
+  --cafe-slate: 38 33 31;
+}
+
+/* Landing: coffee counter banner at the top of the card */
+.wt-card--landing::before {
+  content: "";
+  display: block;
+  flex: 0 0 auto;
+  height: 104px;
+  margin-bottom: var(--gap-2);
+  border-radius: calc(var(--r-card) - 6px);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 104' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='400' height='104' fill='%233e271c'/%3E%3Ccircle cx='200' cy='40' r='70' fill='%23deb887' opacity='.10'/%3E%3Crect y='78' width='400' height='26' fill='%237c4d2e'/%3E%3Crect y='78' width='400' height='3' fill='%23deb887' opacity='.55'/%3E%3Cg fill='%232a1a12'%3E%3Cellipse cx='92' cy='91' rx='8' ry='5' transform='rotate(-20 92 91)'/%3E%3Cellipse cx='112' cy='94' rx='7' ry='4.5' transform='rotate(25 112 94)'/%3E%3Cellipse cx='298' cy='92' rx='8' ry='5' transform='rotate(15 298 92)'/%3E%3C/g%3E%3Cellipse cx='200' cy='82' rx='46' ry='6' fill='%23fff7ed'/%3E%3Cpath d='M170 44h60v18a22 22 0 0 1-22 22h-16a22 22 0 0 1-22-22z' fill='%23fff7ed'/%3E%3Cpath d='M230 50h6a10 10 0 0 1 0 20h-8' fill='none' stroke='%23fff7ed' stroke-width='5'/%3E%3Cellipse cx='200' cy='45' rx='27' ry='5' fill='%236b3f26'/%3E%3C/svg%3E")
+    center / cover no-repeat,
+    rgb(var(--cafe-espresso));
+}
+
+/* Landing: steam rising from the cup */
+.wt-card--landing::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--gap-3) + 6px);
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
+  background:
+    radial-gradient(ellipse 4px 12px at 20% 60%, rgb(var(--cafe-cream) / 0.75), transparent 100%),
+    radial-gradient(ellipse 4px 14px at 50% 45%, rgb(var(--cafe-cream) / 0.85), transparent 100%),
+    radial-gradient(ellipse 4px 12px at 80% 60%, rgb(var(--cafe-cream) / 0.75), transparent 100%);
+  filter: blur(1.5px);
+  pointer-events: none;
+  animation: wt-cafe-steam 2.6s ease-in-out infinite;
+}
+
+@keyframes wt-cafe-steam {
+  0% { transform: translateY(8px) scaleX(0.9); opacity: 0; }
+  35% { opacity: 0.9; }
+  100% { transform: translateY(-8px) scaleX(1.15); opacity: 0; }
+}
+
+.wt-card--landing .wt-actions .wt-btn--primary {
+  min-height: 60px;
+  font-size: 20px;
+  box-shadow: 0 5px 0 rgb(var(--primary-dark) / 0.55), 0 12px 24px rgb(var(--primary-dark) / 0.25);
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+
+.wt-card--landing .wt-actions .wt-btn--primary:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgb(var(--primary-dark) / 0.55);
+}
+
+/* Question: the statement is chalked on the café slate */
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-terms-box:not(.wt-terms-box--successflash):not(.wt-terms-box--mistakeflash) {
+  background: rgb(var(--cafe-slate));
+  border: 3px solid rgb(var(--cafe-wood));
+  box-shadow: 0 0 0 3px rgb(var(--cafe-crema) / 0.55), 0 14px 28px rgb(var(--cafe-espresso) / 0.25);
+  margin: var(--gap-2) 4px var(--gap-3);
+  padding: var(--gap-3);
+  text-align: center;
+  animation: wt-cafe-serve 260ms ease-out;
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-terms-box .wt-term-word {
+  color: rgb(var(--cafe-cream));
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-terms-box--mistakeflash {
+  background: rgb(var(--danger-dark));
+  box-shadow: 0 0 0 6px rgb(var(--danger) / 0.45);
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-terms-box--successflash {
+  background: rgb(var(--success-dark));
+  box-shadow: 0 0 0 6px rgb(var(--success) / 0.45);
+}
+
+@keyframes wt-cafe-serve {
+  from { transform: translateY(10px) scale(0.97); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* Answers: two big cups side by side */
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-2);
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice:not(.wt-choice--flash-ok):not(.wt-choice--flash-bad) {
+  min-height: 76px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0;
+  border-radius: 16px 16px 30px 30px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  transition: transform 80ms ease, box-shadow 80ms ease, filter 80ms ease;
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice--same:not(.wt-choice--flash-ok):not(.wt-choice--flash-bad) {
+  background: rgb(var(--success-dark));
+  box-shadow: 0 5px 0 rgb(15 90 43);
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice--diff:not(.wt-choice--flash-ok):not(.wt-choice--flash-bad) {
+  background: rgb(var(--danger-dark));
+  box-shadow: 0 5px 0 rgb(127 20 20);
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice .wt-choice-icon,
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice * {
+  color: #fff;
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice:hover {
+    filter: brightness(1.08);
+  }
+}
+
+body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt-choice:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wt-card--landing::after,
+  body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-terms-box {
+    animation: none;
+  }
+
+  .wt-card--landing::after {
+    opacity: 0.7;
+  }
+}
