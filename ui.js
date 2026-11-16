@@ -1471,6 +1471,10 @@ void function () {
       trackEndActionClick(action);
 
       switch (action) {
+        case "review-feedback":
+          self.reviewLastFeedback();
+          break;
+
         case "continue":
           self.continueAfterFeedback();
           break;
@@ -3785,6 +3789,8 @@ void function () {
     this._runtime.runStartedAt = Date.now();
     this._runtime.currentQuestionShownAt = this._runtime.runStartedAt;
     this._runtime.runAnswerLog = [];
+    this._runtime.lastFeedbackReview = null;
+    this._runtime.reviewingFeedback = false;
 
     this._runtime.lastAnswer = null;
     this._runtime.feedbackPending = false;
@@ -4829,6 +4835,22 @@ void function () {
 
 
 
+  UI.prototype.reviewLastFeedback = function () {
+    if (this.state !== STATES.PLAYING) return;
+    const review = this._runtime?.lastFeedbackReview;
+    if (!review || !review.item || !review.answer) return;
+    if (this._runtime.feedbackPending === true || this._runtime.answerLocked === true) return;
+
+    clearFeedbackAutoAdvance(this);
+    this._runtime.reviewingFeedback = true;
+    this._runtime.feedbackPending = true;
+    this._runtime.feedbackReveal = true;
+    this._runtime.frozenItem = review.item;
+    this._runtime.lastAnswer = { ...review.answer };
+    this._runtime.answerLocked = true;
+    this.render();
+  };
+
   UI.prototype.continueAfterFeedback = function () {
     if (this.state !== STATES.PLAYING) return;
     if (!this._runtime || !this._runtime.feedbackPending) return;
@@ -4845,7 +4867,27 @@ void function () {
       return;
     }
 
+    // Leaving a review: restore the current question without advancing.
+    if (this._runtime.reviewingFeedback === true) {
+      clearFeedbackAutoAdvance(this);
+      this._runtime.feedbackPending = false;
+      this._runtime.feedbackReveal = true;
+      this._runtime.reviewingFeedback = false;
+      this._runtime.lastAnswer = null;
+      this._runtime.frozenItem = null;
+      this._runtime.answerLocked = false;
+      this.render();
+      return;
+    }
+
     const shouldFinish = (this._runtime.finishAfterFeedback === true);
+
+    if (!shouldFinish && this._runtime.frozenItem && this._runtime.lastAnswer) {
+      this._runtime.lastFeedbackReview = {
+        item: this._runtime.frozenItem,
+        answer: { ...this._runtime.lastAnswer }
+      };
+    }
 
     clearFeedbackAutoAdvance(this);
 
@@ -9336,7 +9378,13 @@ ${questionPrompt ? `
   </button>
 </div>
 
-
+      ${(() => {
+        // Let the player re-read the explanation of the previous answer (RUN/PRACTICE only).
+        const label = String(this.wording?.system?.reviewLastFeedback || "").trim();
+        const mode = String(this._runtime?.runMode || "").trim();
+        if (!label || mode === "BONUS" || !this._runtime?.lastFeedbackReview) return "";
+        return `<button type="button" class="wt-btn wt-btn--ghost wt-review-feedback" data-action="review-feedback">${escapeHtml(label)}</button>`;
+      })()}
 
     </div>
   `);

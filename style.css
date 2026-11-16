@@ -4409,3 +4409,10 @@ body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt
   color: rgb(var(--text-muted));
   text-align: center;
 }
+
+/* Gameplay: review the previous answer without leaving the run */
+.wt-review-feedback {
+  width: 100%;
+  margin-top: var(--gap-2);
+  min-height: 44px;
+}

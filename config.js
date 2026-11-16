@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.15.0",
+    version: "3.15.1",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -668,6 +668,7 @@
     },
 
     system: {
+      reviewLastFeedback: "Review last answer",
       momentumAria: "Double points progress {filled}/{segments}",
       doublePoints: "Double points active until your next mistake",
       comboRule: "4 correct answers in a row unlock double points until your next mistake.",
