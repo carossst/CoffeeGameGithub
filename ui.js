@@ -5434,7 +5434,9 @@ void function () {
   // (deleted) legacy share-clicked event removed per spec
 
   // Single source of truth for share text (used by preview + copy)
-  UI.prototype._getShareText = function () {
+  // channel: "copy" | "native" | "email". The shared link carries wt-source=share-<channel>,
+  // so GoatCounter shows which sharing action brought each visitor (src-share-copy, ...).
+  UI.prototype._getShareText = function (channel) {
     const cfg = this.config || {};
     const shareCfg = cfg.share || {};
     if (!shareCfg.enabled) return "";
@@ -5452,7 +5454,8 @@ void function () {
     try {
       if (url) {
         const shareUrl = new URL(url);
-        shareUrl.searchParams.set("wt-source", "share");
+        const channelSlug = String(channel || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "");
+        shareUrl.searchParams.set("wt-source", channelSlug ? `share-${channelSlug}` : "share");
         const referralParam = String(shareCfg.referralParam || "").trim();
         const deviceUuid = (this.storage && typeof this.storage.ensureLeaderboardDeviceUuid === "function")
           ? String(this.storage.ensureLeaderboardDeviceUuid() || "").trim()
@@ -5563,7 +5566,7 @@ void function () {
 
   UI.prototype.shareNative = async function () {
     if (typeof navigator === "undefined" || typeof navigator.share !== "function") return;
-    const text = String(this._getShareText() || "").trim();
+    const text = String(this._getShareText("native") || "").trim();
     if (!text) return;
 
     try {
@@ -5583,7 +5586,7 @@ void function () {
   };
 
   UI.prototype.copyShareText = async function () {
-    const text = String(this._getShareText() || "").trim();
+    const text = String(this._getShareText("copy") || "").trim();
     if (!text) return;
 
     const w = this.wording || {};
@@ -5608,7 +5611,7 @@ void function () {
     const subjectRaw = String(share.emailSubject || "").trim();
     if (!subjectRaw) return;
 
-    const text = String(this._getShareText() || "").trim();
+    const text = String(this._getShareText("email") || "").trim();
     if (!text) return;
 
     const subject = encodeURIComponent(subjectRaw);
@@ -8702,7 +8705,7 @@ ${(() => {
       shareEnabled,
       w,
       shareTitle,
-      getShareText: this._getShareText ? this._getShareText.bind(this) : null
+      getShareText: this._getShareText ? () => this._getShareText("copy") : null
     });
 
     const shouldPromoteShare = true;
