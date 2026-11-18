@@ -30,7 +30,7 @@ Every link you publish should carry `?wt-source=<tag>`. The game reads it on arr
 Set automatically by the app (do not reuse by hand):
 
 - `seo-<slug>`: the play button on each `/answers/<slug>/` page.
-- `share-copy`, `share-native`, `share-email`: links inside challenge texts sent from the end screen. They tell you which sharing action the sender used, not which app the friend opened it in.
+- `share-copy`, `share-native`, `share-email`, `share-card`: links inside challenge texts and score-card shares sent from the end screen. They tell you which sharing action the sender used, not which app the friend opened it in.
 
 ## Reading it in GoatCounter
 

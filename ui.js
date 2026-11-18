@@ -5612,7 +5612,7 @@ void function () {
         score: clampInt(lastRun.scoreFP, 0, 99999),
         correct,
         total,
-        text: String(this._getShareText() || "").trim()
+        text: String(this._getShareText("card") || "").trim()
       });
       if (result === "cancelled") return;
       if (this.storage && typeof this.storage.markShareClicked === "function") {
