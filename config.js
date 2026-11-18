@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.16.0",
+    version: "3.16.1",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -279,7 +279,7 @@
     // Paste the Kit form's HTML embed action, e.g. "https://app.kit.com/forms/<id>/subscriptions".
     // Double opt-in must be enabled on the Kit form (Kit sends the confirmation email).
     newsletter: {
-      formAction: { en: "" },
+      formAction: { en: "https://app.kit.com/forms/10206829/subscriptions" },
       // Field names used by the Kit embed form; change only if the embed code differs.
       fieldNames: { email: "email_address", firstName: "fields[first_name]" }
     },
