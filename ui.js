@@ -1452,7 +1452,7 @@ void function () {
     const trackedEndActions = new Set([
       "start-run", "play-again", "start-practice", "open-paywall",
       "copy-share", "share-native", "send-share-email",
-      "open-leaderboard-profile", "start-secret-bonus"
+      "open-leaderboard-profile", "start-secret-bonus", "open-newsletter"
     ]);
 
     function trackEndActionClick(action) {
@@ -1802,6 +1802,14 @@ void function () {
 
         case "open-waitlist":
           self.openWaitlistModal();
+          break;
+
+        case "open-newsletter":
+          if (window.WT_UI_Newsletter) window.WT_UI_Newsletter.open(self);
+          break;
+
+        case "confirm-newsletter":
+          if (window.WT_UI_Newsletter) void window.WT_UI_Newsletter.submit(self);
           break;
 
         case "send-waitlist-email":
@@ -7575,6 +7583,13 @@ ${(() => {
 
     ${postCompletionHtml}
 
+    ${(!postCompletionHtml && !isPostPaywallVariant && (() => {
+      try {
+        const ids = (this.storage && typeof this.storage.getSeenItemIds === "function") ? this.storage.getSeenItemIds() : [];
+        return Array.isArray(ids) && ids.length >= 5;
+      } catch (_) { return false; }
+    })()) ? buildNewsletterCard(this, "landing") : ``}
+
     ${(!isPostPaywallVariant && microTrust) ? `<p class="wt-sub wt-muted wt-mt-12">${escapeHtml(microTrust)}</p>` : ``}
 
 </div>
@@ -7938,6 +7953,27 @@ ${(() => {
     </div>
   `
       : "";
+  }
+
+  // Compact newsletter card (END and LANDING). Empty unless the Kit form is configured
+  // and this device has not subscribed yet.
+  function buildNewsletterCard(ui, variant) {
+    const NL = window.WT_Newsletter;
+    const n = (ui && ui.wording && ui.wording.newsletter) || {};
+    if (!NL || !ui || !NL.shouldOffer(ui.config)) return "";
+    const title = String(n.title || "").trim();
+    const line = String(variant === "landing" ? n.landingLine : n.endLine || "").trim();
+    const cta = String(n.cardCta || "").trim();
+    if (!cta) return "";
+    return `
+      <div class="wt-box wt-box--tinted wt-newsletter-card">
+        ${title ? `<strong class="wt-meta">${escapeHtml(title)}</strong>` : ``}
+        ${line ? `<p class="wt-muted">${escapeHtml(line)}</p>` : ``}
+        <div class="wt-actions wt-actions--compact">
+          <button type="button" class="wt-btn wt-btn--secondary" data-action="open-newsletter">${escapeHtml(cta)}</button>
+        </div>
+      </div>
+    `;
   }
 
   function buildEndShareBlock(ctx) {
@@ -8867,6 +8903,8 @@ ${(() => {
       `;
     } catch (_) { return ``; }
   })()}
+
+  ${(isRun && scoreFP >= 3) ? buildNewsletterCard(this, "end") : ``}
 
   ${paywallBridgeHtml}
 
