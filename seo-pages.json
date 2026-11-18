@@ -1,0 +1,272 @@
+{
+  "site": { "origin": "https://breworfalse.com", "name": "Brew or False" },
+  "defaults": { "minWordCount": 300 },
+  "staticPages": [
+    { "path": "/", "lastmod": "2026-09-19" },
+    { "path": "/privacy.html", "lastmod": "2026-09-19" },
+    { "path": "/terms.html", "lastmod": "2026-05-07" },
+    { "path": "/press.html", "lastmod": "2026-09-19" }
+  ],
+  "pages": [
+    {
+      "slug": "does-dark-roast-have-more-caffeine",
+      "status": "ready",
+      "questionId": 1,
+      "updated": "2026-11-17",
+      "title": "Does Dark Roast Have More Caffeine Than Light Roast? | Brew or False",
+      "metaDescription": "No, not by default. A 2024 lab study found dark roast brews generally had lower caffeine concentrations than light and medium roasts under identical brewing conditions.",
+      "h1": "Does dark roast coffee have more caffeine than light roast?",
+      "lead": "<strong>No, not by default.</strong> In a 2024 lab study of filter brews, dark roasts generally had lower caffeine concentrations than light and medium roasts when everything else was held the same.",
+      "sections": [
+        {
+          "h2": "What the study measured",
+          "paragraphs": [
+            "Researchers at Berry College and Drexel University tested 30 combinations of green coffee variety, degree of roast, and brew time. They brewed each sample with an AeroPress at a 15:1 mass ratio of water to ground coffee.",
+            "They measured extraction yield with refractometry and caffeine content with HPLC, a standard laboratory method. They also used scanning electron microscopy to measure the porosity of the roasted beans."
+          ]
+        },
+        {
+          "h2": "What it found",
+          "paragraphs": [
+            "Under identical brewing conditions, caffeine concentrations in the brews were generally lower for dark roasts than for light and medium roasts.",
+            "However, when the comparison was made at identical extraction yields, dark roasts generally showed higher caffeine concentrations than lighter roasts. The authors suggest that two effects compete: soluble compounds are lost or broken down during roasting, while roasting also makes the bean more porous.",
+            "Extraction yields generally dropped for roast batches that lost more than about 12 to 14 percent of their mass in the roaster."
+          ]
+        },
+        {
+          "h2": "Why the question is tricky",
+          "paragraphs": [
+            "The statement mixes up two different things: how much caffeine is in the bean and how much ends up in the cup. Roast level changes how easily the bean gives up what it holds, so there is no simple rule that darker always means more caffeine.",
+            "The study measured caffeine directly in the brew. It did not measure how strong the coffee tastes, which is a separate question."
+          ]
+        },
+        {
+          "h2": "What this page does not claim",
+          "paragraphs": [
+            "This is one study of AeroPress-style filter brews at one ratio. Other brewing methods and recipes can behave differently, and the study does not give a single number that applies to every cup."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does dark roast coffee have more caffeine than light roast?",
+          "a": "Not by default. In a 2024 study of filter brews under identical brewing conditions, dark roasts generally had lower caffeine concentrations than light and medium roasts."
+        },
+        {
+          "q": "Why can the same study find both results?",
+          "a": "Because it compared two things. Under identical brewing conditions dark roasts were generally lower, but at identical extraction yields dark roasts were generally higher. Roast level changes how much caffeine reaches the cup."
+        },
+        {
+          "q": "Does roasting destroy caffeine?",
+          "a": "This page does not claim that. The study measured caffeine in the brew, not in the bean, so it cannot say how much caffeine the roast itself removes."
+        }
+      ],
+      "cardIds": [5, 9, 6],
+      "sources": [
+        {
+          "label": "Caffeine content in filter coffee brews as a function of degree of roast and extraction yield, Scientific Reports 14, 29126 (2024)",
+          "url": "https://www.nature.com/articles/s41598-024-80385-3",
+          "note": "peer-reviewed study, abstract read on 17 November 2026"
+        }
+      ],
+      "note": "Independent quiz site. Not affiliated with the study's authors or institutions."
+    },
+    {
+      "slug": "espresso-vs-drip-coffee-caffeine",
+      "status": "ready",
+      "questionId": 4,
+      "updated": "2026-11-17",
+      "title": "Espresso vs Drip Coffee: Which Has More Caffeine? | Brew or False",
+      "metaDescription": "Espresso has more caffeine per ounce, but a regular 8-ounce cup of drip coffee has more in total than a single shot. USDA figures, worked out.",
+      "h1": "Does espresso have more caffeine than a cup of drip coffee?",
+      "lead": "<strong>Usually not per serving.</strong> Espresso has far more caffeine per ounce, but a standard 8-ounce cup of drip coffee holds more in total than a single 1-ounce espresso shot.",
+      "sections": [
+        {
+          "h2": "The USDA numbers",
+          "paragraphs": [
+            "USDA FoodData Central lists brewed coffee prepared with tap water at 40 mg of caffeine per 100 g, and restaurant-prepared espresso at 212 mg per 100 g. The same database gives the weight of common portions: 1 fluid ounce is 29.6 g and an 8-fluid-ounce cup is 237 g.",
+            "Worked out from those figures, per fluid ounce that is about 12 mg for drip coffee and about 63 mg for espresso. Espresso is roughly five times more concentrated."
+          ]
+        },
+        {
+          "h2": "Per serving, the order flips",
+          "paragraphs": [
+            "An 8-ounce cup of drip coffee comes to about 95 mg of caffeine. A single 1-ounce shot of espresso comes to about 63 mg, and a double shot (2 ounces) to about 125 mg.",
+            "So a single shot has less caffeine than a regular cup of drip, while a double shot has somewhat more. What you compare, per ounce or per serving, decides the answer."
+          ]
+        },
+        {
+          "h2": "Why players get this wrong",
+          "paragraphs": [
+            "Espresso tastes stronger, so it feels like it should carry more caffeine. Taste intensity and total caffeine are different things: the cup size matters as much as the concentration."
+          ]
+        },
+        {
+          "h2": "Limits of these figures",
+          "paragraphs": [
+            "These are USDA averages worked out by simple multiplication. A real cup depends on the coffee, the dose, the recipe and the size of the serving, so treat the numbers as a guide rather than a measurement of your own cup."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does espresso have more caffeine than drip coffee?",
+          "a": "Per ounce, yes: about 63 mg for espresso against about 12 mg for drip, using USDA averages. Per typical serving, a single shot (about 63 mg) has less than an 8-ounce cup of drip (about 95 mg)."
+        },
+        {
+          "q": "How much caffeine is in a double espresso?",
+          "a": "About 125 mg for 2 fluid ounces, worked out from the USDA figure of 212 mg per 100 g. Real shots vary with the coffee and the recipe."
+        },
+        {
+          "q": "Is the taste of espresso a sign of more caffeine?",
+          "a": "No. Taste intensity and caffeine content are different measurements. Total caffeine depends on concentration and on how much you drink."
+        }
+      ],
+      "cardIds": [3, 5, 19],
+      "sources": [
+        {
+          "label": "USDA FoodData Central: Beverages, coffee, brewed, prepared with tap water (FDC ID 171890)",
+          "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171890/nutrients",
+          "note": "SR Legacy entry, 40 mg caffeine per 100 g; portions 29.6 g per fl oz and 237 g per 8 fl oz cup"
+        },
+        {
+          "label": "USDA FoodData Central: Beverages, coffee, brewed, espresso, restaurant-prepared (FDC ID 171891)",
+          "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171891/nutrients",
+          "note": "SR Legacy entry, 212 mg caffeine per 100 g; portion 29.6 g per fl oz"
+        }
+      ],
+      "note": "Per-serving values are calculated from USDA per-100 g figures and are rounded. Independent quiz site."
+    },
+    {
+      "slug": "does-decaf-coffee-have-caffeine",
+      "status": "ready",
+      "questionId": 3,
+      "updated": "2026-11-17",
+      "title": "Does Decaf Coffee Have Caffeine? | Brew or False",
+      "metaDescription": "Yes. Decaf is not caffeine-free: USDA data lists about 2 mg of caffeine in an 8-ounce cup, against about 95 mg for regular brewed coffee.",
+      "h1": "Does decaf coffee contain any caffeine?",
+      "lead": "<strong>Yes, a small amount.</strong> Decaf is not caffeine-free: USDA data puts brewed decaf at about 2 mg of caffeine in an 8-ounce cup, against about 95 mg for regular brewed coffee.",
+      "sections": [
+        {
+          "h2": "What the USDA data says",
+          "paragraphs": [
+            "USDA FoodData Central lists brewed decaffeinated coffee at 1 mg of caffeine per 100 g, and regular brewed coffee at 40 mg per 100 g. An 8-fluid-ounce cup weighs 237 g in the same database.",
+            "Worked out from those figures, a cup of decaf holds about 2.4 mg of caffeine and a cup of regular coffee about 95 mg. Decaf is therefore roughly 2.5 percent of the regular figure, small but not zero."
+          ]
+        },
+        {
+          "h2": "Decaf espresso too",
+          "paragraphs": [
+            "The USDA also lists restaurant-prepared decaf espresso at 1 mg of caffeine per 100 g. With 29.6 g in a fluid ounce, a 1-ounce shot comes to about 0.3 mg."
+          ]
+        },
+        {
+          "h2": "Why players get this wrong",
+          "paragraphs": [
+            "The word decaffeinated sounds absolute, and many people read it as zero. The USDA values show something different: most caffeine is gone, but a trace remains."
+          ]
+        },
+        {
+          "h2": "Limits of these figures",
+          "paragraphs": [
+            "These are database averages worked out by simple multiplication. A real cup of decaf depends on the coffee, the decaffeination process and the size of the serving, and other published measurements can be higher or lower. If you must avoid caffeine entirely, ask your doctor rather than rely on this page."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does decaf coffee have caffeine?",
+          "a": "Yes, a small amount. USDA FoodData Central lists brewed decaf at 1 mg of caffeine per 100 g, which is about 2.4 mg in an 8-ounce cup."
+        },
+        {
+          "q": "How much less caffeine is in decaf than in regular coffee?",
+          "a": "Using USDA averages, about 2.4 mg per 8-ounce cup of decaf against about 95 mg for regular brewed coffee, so decaf is roughly 2.5 percent of the regular amount."
+        },
+        {
+          "q": "Is decaf espresso caffeine-free?",
+          "a": "No. The USDA lists restaurant-prepared decaf espresso at 1 mg of caffeine per 100 g, about 0.3 mg in a 1-ounce shot."
+        }
+      ],
+      "cardIds": [1, 4, 6],
+      "sources": [
+        {
+          "label": "USDA FoodData Central: Beverages, coffee, brewed, prepared with tap water, decaffeinated (FDC ID 171889)",
+          "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171889/nutrients",
+          "note": "SR Legacy entry, 1 mg caffeine per 100 g"
+        },
+        {
+          "label": "USDA FoodData Central: Beverages, coffee, brewed, prepared with tap water (FDC ID 171890)",
+          "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171890/nutrients",
+          "note": "SR Legacy entry, 40 mg caffeine per 100 g; 237 g per 8 fl oz cup"
+        },
+        {
+          "label": "USDA FoodData Central: Beverages, coffee, brewed, espresso, restaurant-prepared, decaffeinated (FDC ID 174125)",
+          "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/174125/nutrients",
+          "note": "SR Legacy entry, 1 mg caffeine per 100 g"
+        }
+      ],
+      "note": "Per-cup values are calculated from USDA per-100 g figures and are rounded. Independent quiz site."
+    },
+    {
+      "slug": "how-much-caffeine-is-too-much",
+      "status": "ready",
+      "questionId": 10,
+      "updated": "2026-11-17",
+      "title": "How Much Caffeine Is Too Much? The FDA's 400 mg Figure | Brew or False",
+      "metaDescription": "For most adults the FDA cites 400 mg of caffeine a day, about two to three 12-ounce cups of coffee, as an amount not generally associated with negative effects.",
+      "h1": "What is the daily caffeine limit for most healthy adults?",
+      "lead": "<strong>About 400 mg a day, not 200 mg.</strong> For most adults, the FDA has cited 400 milligrams a day, about two to three 12-fluid-ounce cups of coffee, as an amount not generally associated with negative effects.",
+      "sections": [
+        {
+          "h2": "What the FDA says",
+          "paragraphs": [
+            "The FDA's consumer page on caffeine states that for most adults 400 milligrams a day is an amount not generally associated with negative effects. It translates that into roughly two to three 12-fluid-ounce cups of coffee.",
+            "The FDA adds that a 2017 systematic review of health outcomes, by the Institute for the Advancement of Food and Nutrition Sciences, confirmed the safety of the 400 milligrams a day level for most adults."
+          ]
+        },
+        {
+          "h2": "A reference, not a personal target",
+          "paragraphs": [
+            "The FDA is clear that there is wide variation in both how sensitive people are to the effects of caffeine and how fast they eliminate it from the body. It also notes that what counts as too much can vary with body weight, medications, medical conditions and individual sensitivity.",
+            "So 400 mg is a reference for most adults. It is not a goal to reach, and it does not guarantee that every adult will feel fine at that amount."
+          ]
+        },
+        {
+          "h2": "Why players get this wrong",
+          "paragraphs": [
+            "A lower figure such as 200 mg sounds plausible, which makes it a common wrong answer. The FDA's daily figure for most adults is 400 mg."
+          ]
+        },
+        {
+          "h2": "What this page does not cover",
+          "paragraphs": [
+            "This page covers the general adult figure only. It does not give advice for pregnancy, for children, or for people with medical conditions or medications that affect how they handle caffeine. For those situations, ask a doctor."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "How much caffeine can most healthy adults have per day?",
+          "a": "The FDA has cited 400 milligrams a day, about two to three 12-fluid-ounce cups of coffee, as an amount not generally associated with negative effects for most adults."
+        },
+        {
+          "q": "Is 200 mg the daily caffeine limit?",
+          "a": "No. The FDA's cited daily figure for most adults is 400 mg, not 200 mg."
+        },
+        {
+          "q": "Is caffeine sensitivity the same for everyone?",
+          "a": "No. The FDA notes wide variation in both how sensitive people are to caffeine and how fast they eliminate it, so the right amount differs from person to person."
+        }
+      ],
+      "cardIds": [6, 7, 49],
+      "sources": [
+        {
+          "label": "FDA consumer update: Spilling the Beans: How Much Caffeine Is Too Much?",
+          "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much",
+          "note": "page marked as current as of 28 August 2024, read on 17 November 2026"
+        }
+      ],
+      "note": "General information, not medical advice. Independent quiz site, not affiliated with the FDA."
+    }
+  ]
+}
