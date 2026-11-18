@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.16.1",
+    version: "3.16.5",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -1526,7 +1526,7 @@ Thanks!`
     newsletter: {
       title: "Brew or False news",
       endLine: "Get news and new questions from Brew or False by email.",
-      landingLine: "Get news and new questions from Brew or False by email.",
+      link: "Get new coffee questions by email",
       cardCta: "Get the news by email",
       intro: "Get news and new questions from Brew or False by email.",
       emailLabel: "Email",

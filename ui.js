@@ -7995,8 +7995,14 @@ ${(() => {
     const NL = window.WT_Newsletter;
     const n = (ui && ui.wording && ui.wording.newsletter) || {};
     if (!NL || !ui || !NL.shouldOffer(ui.config)) return "";
+    // LANDING: one discreet link only (the home screen keeps a single main action).
+    if (variant === "landing") {
+      const link = String(n.link || "").trim();
+      if (!link) return "";
+      return `<p class="wt-paywall-linkline wt-landing-newsletter-link"><button type="button" class="wt-text-action" data-action="open-newsletter">${escapeHtml(link)}</button></p>`;
+    }
     const title = String(n.title || "").trim();
-    const line = String(variant === "landing" ? n.landingLine : n.endLine || "").trim();
+    const line = String(n.endLine || "").trim();
     const cta = String(n.cardCta || "").trim();
     if (!cta) return "";
     return `
