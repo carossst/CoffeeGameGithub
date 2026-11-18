@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.15.1",
+    version: "3.16.0",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -671,6 +671,8 @@
       reviewLastFeedback: "Review last answer",
       momentumAria: "Double points progress {filled}/{segments}",
       doublePoints: "Double points active until your next mistake",
+      sfxOn: "Sound effects on",
+      sfxOff: "Sound effects off",
       comboRule: "4 correct answers in a row unlock double points until your next mistake.",
       close: "Close",
       home: "Home",
@@ -1224,6 +1226,14 @@
     end: {
       title: "",
 
+      // Result tier shown under the score (perfect = every answer right, good = solid game)
+      tier: {
+        perfect: "Perfect brew!",
+        good: "Strong brew!",
+        keep: "Keep brewing!",
+        pipsAria: "{correct} correct answers out of {total}"
+      },
+
 
       // Pool complete (one-shot celebration when 200/200 reached)
       poolCompleteTitle: "All 200 questions complete.",
@@ -1240,7 +1250,7 @@
 
       // No redundancy: do not mention chances on END (player already knows).
       endLine: "",
-      endStatsLine: "You got {score} out of {total} right. You've now seen {seen}/{poolSize} questions.",
+      endStatsLine: "You got {correct} out of {total} right. You've now seen {seen}/{poolSize} questions.",
 
 
       // (verdict grid removed — identityByVerdict is now the primary END signal)
@@ -1506,6 +1516,7 @@ Thanks!`
 
     share: {
       nativeLabel: "Challenge a friend",
+      scoreCardLabel: "Share score card",
       toastShared: "Challenge sent.",
       ctaLabel: "Copy challenge text",
       emailLabel: "Email challenge",
