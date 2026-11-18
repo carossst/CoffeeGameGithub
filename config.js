@@ -275,6 +275,15 @@
       }
     },
 
+    // Newsletter signup (Kit form). Fail-closed: nothing is shown until the form action URL is set.
+    // Paste the Kit form's HTML embed action, e.g. "https://app.kit.com/forms/<id>/subscriptions".
+    // Double opt-in must be enabled on the Kit form (Kit sends the confirmation email).
+    newsletter: {
+      formAction: { en: "" },
+      // Field names used by the Kit embed form; change only if the embed code differs.
+      fieldNames: { email: "email_address", firstName: "fields[first_name]" }
+    },
+
 
 
     houseAd: {
@@ -671,6 +680,8 @@
       reviewLastFeedback: "Review last answer",
       momentumAria: "Double points progress {filled}/{segments}",
       doublePoints: "Double points active until your next mistake",
+      sfxOn: "Sound effects on",
+      sfxOff: "Sound effects off",
       comboRule: "4 correct answers in a row unlock double points until your next mistake.",
       close: "Close",
       home: "Home",
@@ -1224,6 +1235,14 @@
     end: {
       title: "",
 
+      // Result tier shown under the score (perfect = every answer right, good = solid game)
+      tier: {
+        perfect: "Perfect brew!",
+        good: "Strong brew!",
+        keep: "Keep brewing!",
+        pipsAria: "{correct} correct answers out of {total}"
+      },
+
 
       // Pool complete (one-shot celebration when 200/200 reached)
       poolCompleteTitle: "All 200 questions complete.",
@@ -1240,7 +1259,7 @@
 
       // No redundancy: do not mention chances on END (player already knows).
       endLine: "",
-      endStatsLine: "You got {score} out of {total} right. You've now seen {seen}/{poolSize} questions.",
+      endStatsLine: "You got {correct} out of {total} right. You've now seen {seen}/{poolSize} questions.",
 
 
       // (verdict grid removed — identityByVerdict is now the primary END signal)
@@ -1504,8 +1523,25 @@ Thanks!`
 
 
 
+    newsletter: {
+      title: "Brew or False news",
+      endLine: "Get news and new questions from Brew or False by email.",
+      landingLine: "Get news and new questions from Brew or False by email.",
+      cardCta: "Get the news by email",
+      intro: "Get news and new questions from Brew or False by email.",
+      emailLabel: "Email",
+      firstNameLabel: "First name (optional)",
+      consent: "By subscribing you agree to receive emails from Brew or False. You can unsubscribe at any time.",
+      privacyLink: "Privacy policy",
+      cta: "Subscribe",
+      thanks: "Almost done: check your inbox to confirm your subscription.",
+      errorEmail: "Please enter a valid email address.",
+      errorNetwork: "Something went wrong. Please try again."
+    },
+
     share: {
       nativeLabel: "Challenge a friend",
+      scoreCardLabel: "Share score card",
       toastShared: "Challenge sent.",
       ctaLabel: "Copy challenge text",
       emailLabel: "Email challenge",

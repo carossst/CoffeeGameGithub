@@ -1451,8 +1451,8 @@ void function () {
 
     const trackedEndActions = new Set([
       "start-run", "play-again", "start-practice", "open-paywall",
-      "copy-share", "share-native", "send-share-email",
-      "open-leaderboard-profile", "start-secret-bonus"
+      "copy-share", "share-native", "share-score-card", "send-share-email",
+      "open-leaderboard-profile", "start-secret-bonus", "open-newsletter"
     ]);
 
     function trackEndActionClick(action) {
@@ -1770,6 +1770,10 @@ void function () {
           void self.shareNative();
           break;
 
+        case "share-score-card":
+          void self.shareScoreCard();
+          break;
+
         case "send-share-email":
           self.sendShareViaEmail();
           break;
@@ -1802,6 +1806,14 @@ void function () {
 
         case "open-waitlist":
           self.openWaitlistModal();
+          break;
+
+        case "open-newsletter":
+          if (window.WT_UI_Newsletter) window.WT_UI_Newsletter.open(self);
+          break;
+
+        case "confirm-newsletter":
+          if (window.WT_UI_Newsletter) void window.WT_UI_Newsletter.submit(self);
           break;
 
         case "send-waitlist-email":
@@ -4239,6 +4251,9 @@ void function () {
     const picked = (choiceBool === true);
     const res = (this.game && typeof this.game.answer === "function") ? this.game.answer(picked) : null;
     try {
+      if (res && window.WT_SFX) window.WT_SFX.play(res.isCorrect === true ? "correct" : "wrong");
+    } catch (_) { /* sound must not interrupt gameplay */ }
+    try {
       if (res?.isCorrect === true && res.state?.mode === MODES.RUN && res.state.correctStreak === 4) {
         trackUiFunnelEvent(this, "combo_unlocked", {
           mode: MODES.RUN,
@@ -5582,6 +5597,30 @@ void function () {
       if (msg) toastNow(this.config, msg);
     } catch (_) {
       /* cancelled or unavailable */
+    }
+  };
+
+  UI.prototype.shareScoreCard = async function () {
+    if (!window.WT_ScoreCard || typeof window.WT_ScoreCard.share !== "function") return;
+    const lastRun = this._runtime?.lastRun || {};
+    const ids = Array.isArray(lastRun.runItemIds) ? lastRun.runItemIds : [];
+    const mistakes = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds : [];
+    const total = ids.length;
+    const correct = ids.filter((id) => mistakes.indexOf(id) === -1).length;
+    try {
+      const result = await window.WT_ScoreCard.share({
+        score: clampInt(lastRun.scoreFP, 0, 99999),
+        correct,
+        total,
+        text: String(this._getShareText() || "").trim()
+      });
+      if (result === "cancelled") return;
+      if (this.storage && typeof this.storage.markShareClicked === "function") {
+        this.storage.markShareClicked();
+      }
+      trackUiFunnelEvent(this, "share_score_card", { share_channel: result });
+    } catch (_) {
+      /* canvas or share unavailable */
     }
   };
 
@@ -7578,6 +7617,13 @@ ${(() => {
 
     ${postCompletionHtml}
 
+    ${(!postCompletionHtml && !isPostPaywallVariant && (() => {
+      try {
+        const ids = (this.storage && typeof this.storage.getSeenItemIds === "function") ? this.storage.getSeenItemIds() : [];
+        return Array.isArray(ids) && ids.length >= 5;
+      } catch (_) { return false; }
+    })()) ? buildNewsletterCard(this, "landing") : ``}
+
     ${(!isPostPaywallVariant && microTrust) ? `<p class="wt-sub wt-muted wt-mt-12">${escapeHtml(microTrust)}</p>` : ``}
 
 </div>
@@ -7943,6 +7989,27 @@ ${(() => {
       : "";
   }
 
+  // Compact newsletter card (END and LANDING). Empty unless the Kit form is configured
+  // and this device has not subscribed yet.
+  function buildNewsletterCard(ui, variant) {
+    const NL = window.WT_Newsletter;
+    const n = (ui && ui.wording && ui.wording.newsletter) || {};
+    if (!NL || !ui || !NL.shouldOffer(ui.config)) return "";
+    const title = String(n.title || "").trim();
+    const line = String(variant === "landing" ? n.landingLine : n.endLine || "").trim();
+    const cta = String(n.cardCta || "").trim();
+    if (!cta) return "";
+    return `
+      <div class="wt-box wt-box--tinted wt-newsletter-card">
+        ${title ? `<strong class="wt-meta">${escapeHtml(title)}</strong>` : ``}
+        ${line ? `<p class="wt-muted">${escapeHtml(line)}</p>` : ``}
+        <div class="wt-actions wt-actions--compact">
+          <button type="button" class="wt-btn wt-btn--secondary" data-action="open-newsletter">${escapeHtml(cta)}</button>
+        </div>
+      </div>
+    `;
+  }
+
   function buildEndShareBlock(ctx) {
     const { shareEnabled, w, shareTitle, getShareText } = ctx;
     if (!shareEnabled) return "";
@@ -8295,6 +8362,10 @@ ${(() => {
 
     const vars = {
       score: scoreFP,
+      // Correct answers (not points: with double points the score can exceed the number of cards)
+      correct: Array.isArray(lastRun.runItemIds)
+        ? lastRun.runItemIds.filter((id) => !(Array.isArray(lastRun.mistakeIds) && lastRun.mistakeIds.indexOf(id) !== -1)).length
+        : scoreFP,
       total: clampInt(totalPresented, 0, 99999),
       best: clampInt(lastRun.bestScoreFP, 0, 99999),
 
@@ -8497,6 +8568,25 @@ ${(() => {
     const displayScoreLine = scoreLine;
     const displayScoreHeading = (scoreHeading && scoreFP >= 0) ? scoreHeading : "";
     const displayScoreValue = (scoreHeading && scoreFP >= 0) ? String(scoreFP) : "";
+
+    // Result tier, one pip per answer, and the score-card button (RUN only).
+    const tierW = (w.end && w.end.tier) || {};
+    const endRunIds = Array.isArray(lastRun.runItemIds) ? lastRun.runItemIds : [];
+    const endMistakeIds = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds : [];
+    const endOutcomes = endRunIds.map((id) => endMistakeIds.indexOf(id) === -1);
+    const endCorrect = endOutcomes.filter(Boolean).length;
+    const endTier = (isRun && endOutcomes.length > 0 && window.WT_EndFx)
+      ? window.WT_EndFx.tier(endCorrect, endOutcomes.length, scoreFP)
+      : "";
+    const tierLabel = endTier ? String(tierW[endTier] || "").trim() : "";
+    const pipsLabel = fillTemplate(String(tierW.pipsAria || "").trim(), { correct: endCorrect, total: endOutcomes.length });
+    const pipsHtml = (isRun && endOutcomes.length > 0 && endOutcomes.length <= 15)
+      ? `<div class="wt-end-pips" role="img" aria-label="${escapeHtml(pipsLabel)}">${endOutcomes.map((ok, i) => `<span class="wt-end-pip ${ok ? "wt-end-pip--ok" : "wt-end-pip--ko"}" style="--i:${i}" aria-hidden="true">${ok ? "\u2713" : "\u2715"}</span>`).join("")}</div>`
+      : "";
+    const scoreCardLabel = String(w.share?.scoreCardLabel || "").trim();
+    const scoreCardHtml = (isRun && endCorrect >= 3 && scoreCardLabel && window.WT_ScoreCard)
+      ? `<div class="wt-end-sharerow"><button type="button" class="wt-btn wt-btn--secondary" data-action="share-score-card">${escapeHtml(scoreCardLabel)}</button></div>`
+      : "";
 
     const pbLineTpl = String(end.personalBestLine || "").trim();
     const nearBestTpl = String(end.nearBestLine || "").trim();
@@ -8723,10 +8813,12 @@ ${(() => {
     <div class="wt-end-score${newBest ? " wt-end-score--newbest" : ""}" role="group" aria-label="${escapeHtml(displayScoreLine)}">
       <div class="wt-end-score__headline">
         ${displayScoreHeading ? `<span class="wt-end-score__eyebrow">${escapeHtml(displayScoreHeading)}</span>` : ``}
-        <span class="wt-end-score__value">
+        <span class="wt-end-score__value"${(isRun && endTier && displayScoreValue) ? ` data-count="${scoreFP}" data-tier="${escapeHtml(endTier)}"` : ``}>
           ${escapeHtml(displayScoreValue || displayScoreLine)}
         </span>
       </div>
+
+      ${tierLabel ? `<span class="wt-end-tier wt-end-tier--${endTier}">${escapeHtml(tierLabel)}</span>` : ``}
 
       ${celebrationLabel ? `<span class="wt-end-score__label">${escapeHtml(celebrationLabel)}</span>` : ``}
 
@@ -8741,7 +8833,11 @@ ${(() => {
     </div>
   ` : ``}
 
+  ${pipsHtml}
+
   ${levelUnlockHtml}
+
+  ${scoreCardHtml}
 
   <div class="wt-end-summary">
     ${microLinesHtml}
@@ -8870,6 +8966,8 @@ ${(() => {
       `;
     } catch (_) { return ``; }
   })()}
+
+  ${(isRun && scoreFP >= 3) ? buildNewsletterCard(this, "end") : ``}
 
   ${paywallBridgeHtml}
 
