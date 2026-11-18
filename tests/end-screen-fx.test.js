@@ -30,6 +30,20 @@ describe("end screen result tier", () => {
   it("ignores garbage input", () => {
     expect(fx.tier(undefined, null, "x")).toBe("keep");
   });
+
+  it("celebrates a Rapid Fire record (3+) or a solid score (5+), nothing below", () => {
+    expect(fx.bonusTier(3, true)).toBe("record");
+    expect(fx.bonusTier(2, true)).toBe("");
+    expect(fx.bonusTier(5, false)).toBe("good");
+    expect(fx.bonusTier(4, false)).toBe("");
+    expect(fx.bonusTier(undefined, undefined)).toBe("");
+  });
+
+  it("celebrates practice only when every mistake is cleared", () => {
+    expect(fx.practiceTier(true)).toBe("perfect");
+    expect(fx.practiceTier(false)).toBe("");
+    expect(fx.practiceTier(undefined)).toBe("");
+  });
 });
 
 describe("score card", () => {

@@ -4533,3 +4533,57 @@ body.wt-state--playing .wt-container:not([data-wt-bonus="fall"]) .wt-choices .wt
     display: none;
   }
 }
+
+/* ── END SCREEN: confetti for a great result (decoration only, see end-fx.js) ── */
+.wt-card:has(> .wt-end-confetti) {
+  position: relative;
+}
+
+.wt-end-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.wt-end-confetti i {
+  position: absolute;
+  top: -16px;
+  left: calc(var(--i) * 7.2%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f3d9b1 0 16%, #8a5a2b 18% 100%);
+  box-shadow: inset 0 0 0 1px rgba(60, 30, 0, 0.35);
+  opacity: 0;
+  animation: wt-end-fall 2.4s ease-in calc(var(--i) * 110ms) 1 both;
+}
+
+.wt-end-confetti i:nth-child(3n) {
+  background: #1f9d55;
+  box-shadow: none;
+}
+
+.wt-end-confetti i:nth-child(3n + 1) {
+  width: 9px;
+  height: 9px;
+}
+
+@keyframes wt-end-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(520px) rotate(300deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wt-end-confetti {
+    display: none !important;
+  }
+}
