@@ -4254,6 +4254,14 @@ void function () {
       if (res && window.WT_SFX) window.WT_SFX.play(res.isCorrect === true ? "correct" : "wrong");
     } catch (_) { /* sound must not interrupt gameplay */ }
     try {
+      if (res && window.WT_PlayFx) {
+        window.WT_PlayFx.note({
+          correct: res.isCorrect === true,
+          streak: Number(res.state?.correctStreak || 0)
+        });
+      }
+    } catch (_) { /* decoration only */ }
+    try {
       if (res?.isCorrect === true && res.state?.mode === MODES.RUN && res.state.correctStreak === 4) {
         trackUiFunnelEvent(this, "combo_unlocked", {
           mode: MODES.RUN,
@@ -8581,10 +8589,20 @@ ${(() => {
     const endMistakeIds = Array.isArray(lastRun.mistakeIds) ? lastRun.mistakeIds : [];
     const endOutcomes = endRunIds.map((id) => endMistakeIds.indexOf(id) === -1);
     const endCorrect = endOutcomes.filter(Boolean).length;
+    // Rapid Fire / practice get confetti + the win sound only: their text celebration already exists.
+    const bonusEndTier = (isBonus && window.WT_EndFx && window.WT_EndFx.bonusTier)
+      ? window.WT_EndFx.bonusTier(scoreFP, lastRun.newBest === true)
+      : "";
+    const practiceEndTier = (isPractice && window.WT_EndFx && window.WT_EndFx.practiceTier)
+      ? window.WT_EndFx.practiceTier(isPractice && clampInt(vars.remaining, 0, 99999) === 0)
+      : "";
     const endTier = (isRun && endOutcomes.length > 0 && window.WT_EndFx)
       ? window.WT_EndFx.tier(endCorrect, endOutcomes.length, scoreFP)
+      : (bonusEndTier || practiceEndTier);
+    const tierLabel = (isRun && endTier) ? String(tierW[endTier] || "").trim() : "";
+    const confettiHtml = (endTier === "perfect" || endTier === "good" || endTier === "record")
+      ? `<div class="wt-end-confetti" aria-hidden="true">${Array.from({ length: 14 }, (_, i) => `<i style="--i:${i}"></i>`).join("")}</div>`
       : "";
-    const tierLabel = endTier ? String(tierW[endTier] || "").trim() : "";
     const pipsLabel = fillTemplate(String(tierW.pipsAria || "").trim(), { correct: endCorrect, total: endOutcomes.length });
     const pipsHtml = (isRun && endOutcomes.length > 0 && endOutcomes.length <= 15)
       ? `<div class="wt-end-pips" role="img" aria-label="${escapeHtml(pipsLabel)}">${endOutcomes.map((ok, i) => `<span class="wt-end-pip ${ok ? "wt-end-pip--ok" : "wt-end-pip--ko"}" style="--i:${i}" aria-hidden="true">${ok ? "\u2713" : "\u2715"}</span>`).join("")}</div>`
@@ -8811,6 +8829,7 @@ ${(() => {
 
     return `
 <div class="wt-card">
+  ${confettiHtml}
   ${endHeaderRowHtml}
 
   ${endTitle ? `<p class="wt-h1">${escapeHtml(endTitle)}</p>` : ``}
@@ -8819,7 +8838,7 @@ ${(() => {
     <div class="wt-end-score${newBest ? " wt-end-score--newbest" : ""}" role="group" aria-label="${escapeHtml(displayScoreLine)}">
       <div class="wt-end-score__headline">
         ${displayScoreHeading ? `<span class="wt-end-score__eyebrow">${escapeHtml(displayScoreHeading)}</span>` : ``}
-        <span class="wt-end-score__value"${(isRun && endTier && displayScoreValue) ? ` data-count="${scoreFP}" data-tier="${escapeHtml(endTier)}"` : ``}>
+        <span class="wt-end-score__value"${(endTier && displayScoreValue) ? ` data-count="${scoreFP}" data-tier="${escapeHtml(endTier)}"` : ``}>
           ${escapeHtml(displayScoreValue || displayScoreLine)}
         </span>
       </div>

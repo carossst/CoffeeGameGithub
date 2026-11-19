@@ -13,6 +13,18 @@
     return "keep";
   }
 
+  // Rapid Fire: a new best of 3+ is a record, 5+ is a solid game, below that no fuss.
+  function bonusTier(score, newBest) {
+    const s = Number(score) || 0;
+    if (newBest === true && s >= 3) return "record";
+    return s >= 5 ? "good" : "";
+  }
+
+  // Practice (replaying mistakes): only a clean sweep (all mistakes cleared) is celebrated.
+  function practiceTier(allCleared) {
+    return allCleared === true ? "perfect" : "";
+  }
+
   const reduced = () =>
     Boolean(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -42,7 +54,7 @@
     const target = Number(node.getAttribute("data-count")) || 0;
     if (String(node.textContent).trim() === String(target)) countUp(node, target);
     const t = node.getAttribute("data-tier");
-    if ((t === "perfect" || t === "good") && window.WT_SFX) window.WT_SFX.play("win");
+    if ((t === "perfect" || t === "good" || t === "record") && window.WT_SFX) window.WT_SFX.play("win");
   }
 
   function start() {
@@ -51,7 +63,7 @@
     enhance();
   }
 
-  window.WT_EndFx = { tier, enhance };
+  window.WT_EndFx = { tier, bonusTier, practiceTier, enhance };
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", start, { once: true });
   } else {

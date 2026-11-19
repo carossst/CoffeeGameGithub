@@ -662,3 +662,35 @@ test("leaderboard handleSubmitResult shows rejection toast for non-skipped failu
     }
   ]);
 });
+
+test("with a real API, an empty or failed response is never padded with seed rows", () => {
+  const windowLike = createWindowLike({
+    WT_LeaderboardLogic: LeaderboardLogic
+  });
+  const context = loadBrowserScript("leaderboard.js", {
+    window: windowLike,
+    document: createDocumentLike({})
+  });
+  const build = context.window.WT_UI_Leaderboard_Testing.buildWindowRows;
+  const seeds = { weekly: [{ nickname: "SeedOne", scoreFP: 21 }], all: [] };
+  const withApi = {
+    config: {
+      leaderboard: {
+        apiBaseUrl: "https://example.test",
+        topN: 10,
+        seedScores: seeds
+      }
+    },
+    storage: {}
+  };
+  expect(build(withApi, "weekly", [])).toEqual([]);
+  expect(build(withApi, "weekly", null)).toEqual([]);
+
+  const localOnly = {
+    config: { leaderboard: { apiBaseUrl: "", topN: 10, seedScores: seeds } },
+    storage: {}
+  };
+  expect(build(localOnly, "weekly", null).map((r) => r.nickname)).toEqual([
+    "SeedOne"
+  ]);
+});

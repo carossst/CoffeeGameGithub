@@ -123,8 +123,11 @@
     return w && typeof w === "object" ? w : {};
   }
 
+  // Fake rows exist only for local UI testing (no API configured). With a real API, an empty
+  // or failed response must never be padded with invented players.
   function getSeedRows(ui, windowType) {
     const cfg = getCfg(ui);
+    if (getBaseUrl(cfg)) return [];
     const raw = cfg?.seedScores?.[windowType];
     return normalizeRows(raw, clampInt(cfg?.topN, 1, 100));
   }
@@ -970,6 +973,7 @@
     compileNicknameRegex: (cfg) => compileNicknameRegex(cfg),
     normalizeRows,
     mergeLocalPlayer,
+    buildWindowRows,
     getNextWeeklyResetUtcMs
   };
 })();
