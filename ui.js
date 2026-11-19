@@ -4254,6 +4254,14 @@ void function () {
       if (res && window.WT_SFX) window.WT_SFX.play(res.isCorrect === true ? "correct" : "wrong");
     } catch (_) { /* sound must not interrupt gameplay */ }
     try {
+      if (res && window.WT_PlayFx) {
+        window.WT_PlayFx.note({
+          correct: res.isCorrect === true,
+          streak: Number(res.state?.correctStreak || 0)
+        });
+      }
+    } catch (_) { /* decoration only */ }
+    try {
       if (res?.isCorrect === true && res.state?.mode === MODES.RUN && res.state.correctStreak === 4) {
         trackUiFunnelEvent(this, "combo_unlocked", {
           mode: MODES.RUN,
