@@ -44,7 +44,7 @@
   window.WT_CONFIG = {
 
     // Product version (UI display, logs)
-    version: "3.16.3",
+    version: "3.16.4",
 
     // Storage schema version (localStorage).
     // Change ONLY if you accept a migration/wipe.
@@ -217,10 +217,9 @@
       // Deployed live Worker URL.
       apiBaseUrl: "https://bf-leaderboard.carolestromboni.workers.dev",
 
-      // Local-only UI test rows (only used when apiBaseUrl is empty or the
-      // fetch fails). Varied nickname lengths to judge wrapping/truncation.
-      // Shown only until real scores come in (buildWindowRows falls back to
-      // these when the Worker returns an empty top list). Plausible names/scores.
+      // Local-only UI test rows, used ONLY when apiBaseUrl is empty (no API).
+      // With a real apiBaseUrl they are never shown: an empty or failed response must not
+      // be padded with invented players. Varied nickname lengths to judge wrapping/truncation.
       seedScores: {
         weekly: [
           { nickname: "BrewBoss", scoreFP: 21 },

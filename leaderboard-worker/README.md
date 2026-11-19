@@ -14,8 +14,9 @@ il peut être déployé, mis à jour ou arrêté sans toucher au jeu.
 - `WT_CONFIG.leaderboard.contentVersion` est également à `1.6`.
 - Le frontend garde le classement visible mais `submitScores: false` tant que le Worker v1.6
   n'a pas été redéployé et vérifié. Cela évite d'envoyer des runs à une clé serveur obsolète.
-- Les `seedScores` de `config.js` ne s'affichent plus que tant que le
-  classement réel est vide (fallback dans `buildWindowRows`)
+- Les `seedScores` de `config.js` ne servent plus qu'aux tests locaux (`apiBaseUrl` vide) :
+  avec une vraie API, un classement vide reste vide (la carte de l'accueil est masquée
+  sous 3 scores réels).
 
 Les étapes ci-dessous sont l'historique de la mise en place — pour un
 redéploiement, seul `npx wrangler deploy` (après un éventuel
